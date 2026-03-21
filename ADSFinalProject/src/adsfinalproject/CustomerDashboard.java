@@ -184,7 +184,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         pnlPayment = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
-        jLabel49 = new javax.swing.JLabel();
+        lblEPayMethod = new javax.swing.JLabel();
         lblChange1 = new javax.swing.JLabel();
         lblTotal2 = new javax.swing.JLabel();
         lblOrderNum2 = new javax.swing.JLabel();
@@ -200,7 +200,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
-        jLabel51 = new javax.swing.JLabel();
+        lblCcPay = new javax.swing.JLabel();
         lblChange = new javax.swing.JLabel();
         lblTotal1 = new javax.swing.JLabel();
         lblOrderNum1 = new javax.swing.JLabel();
@@ -226,6 +226,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jTextField1 = new javax.swing.JTextField();
         btnProceedPayment = new javax.swing.JButton();
+        lblOrderType = new javax.swing.JLabel();
+        lblPayMethod = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         pnlDish = new javax.swing.JPanel();
         btnCart = new javax.swing.JButton();
@@ -303,8 +305,10 @@ public class CustomerDashboard extends javax.swing.JFrame {
         menuRice = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         ss15 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
         ss14 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
         ss13 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
@@ -445,10 +449,10 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel49.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel49.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel49.setText("payment method");
-        jPanel11.add(jLabel49, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 200, 50));
+        lblEPayMethod.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblEPayMethod.setForeground(new java.awt.Color(0, 0, 0));
+        lblEPayMethod.setText("payment method");
+        jPanel11.add(lblEPayMethod, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 200, 50));
 
         lblChange1.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
         lblChange1.setForeground(new java.awt.Color(0, 0, 0));
@@ -561,10 +565,10 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         jPanel10.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 440, 330, 220));
 
-        jLabel51.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel51.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel51.setText("payment method");
-        jPanel10.add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 200, 50));
+        lblCcPay.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblCcPay.setForeground(new java.awt.Color(0, 0, 0));
+        lblCcPay.setText("payment method");
+        jPanel10.add(lblCcPay, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 200, 50));
 
         lblChange.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
         lblChange.setForeground(new java.awt.Color(0, 0, 0));
@@ -744,6 +748,18 @@ public class CustomerDashboard extends javax.swing.JFrame {
             }
         });
         pnlOrders.add(btnProceedPayment, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 710, 420, 60));
+
+        lblOrderType.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblOrderType.setForeground(new java.awt.Color(0, 0, 0));
+        lblOrderType.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblOrderType.setText("-");
+        pnlOrders.add(lblOrderType, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 710, 210, 60));
+
+        lblPayMethod.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblPayMethod.setForeground(new java.awt.Color(0, 0, 0));
+        lblPayMethod.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblPayMethod.setText("-");
+        pnlOrders.add(lblPayMethod, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 710, 200, 60));
 
         jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Order.png"))); // NOI18N
         pnlOrders.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1340, 800));
@@ -1371,42 +1387,40 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jPanel2.setLayout(new java.awt.GridLayout(0, 3, 20, 20));
 
         ss15.setBackground(new java.awt.Color(255, 255, 255));
+        ss15.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(0, 0, 0));
+        jButton1.setText("+");
+        jButton1.setBorder(null);
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        ss15.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss15Layout = new javax.swing.GroupLayout(ss15);
-        ss15.setLayout(ss15Layout);
-        ss15Layout.setHorizontalGroup(
-            ss15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel19)
-        );
-        ss15Layout.setVerticalGroup(
-            ss15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel19)
-        );
+        ss15.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss15);
 
         ss14.setBackground(new java.awt.Color(255, 255, 255));
+        ss14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(0, 0, 0));
+        jButton2.setText("+");
+        jButton2.setBorder(null);
+        jButton2.setBorderPainted(false);
+        jButton2.setContentAreaFilled(false);
+        ss14.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
-        javax.swing.GroupLayout ss14Layout = new javax.swing.GroupLayout(ss14);
-        ss14.setLayout(ss14Layout);
-        ss14Layout.setHorizontalGroup(
-            ss14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel18)
-        );
-        ss14Layout.setVerticalGroup(
-            ss14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel18)
-        );
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish1.png"))); // NOI18N
+        ss14.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss14);
 
         ss13.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish9.png"))); // NOI18N
 
         javax.swing.GroupLayout ss13Layout = new javax.swing.GroupLayout(ss13);
         ss13.setLayout(ss13Layout);
@@ -1423,7 +1437,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         ss12.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish8.png"))); // NOI18N
 
         javax.swing.GroupLayout ss12Layout = new javax.swing.GroupLayout(ss12);
         ss12.setLayout(ss12Layout);
@@ -1440,7 +1454,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         ss11.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish7.png"))); // NOI18N
 
         javax.swing.GroupLayout ss11Layout = new javax.swing.GroupLayout(ss11);
         ss11.setLayout(ss11Layout);
@@ -1457,7 +1471,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         ss10.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish6.png"))); // NOI18N
 
         javax.swing.GroupLayout ss10Layout = new javax.swing.GroupLayout(ss10);
         ss10.setLayout(ss10Layout);
@@ -1474,7 +1488,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         ss9.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish5.png"))); // NOI18N
 
         javax.swing.GroupLayout ss9Layout = new javax.swing.GroupLayout(ss9);
         ss9.setLayout(ss9Layout);
@@ -1491,7 +1505,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         ss8.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish4.png"))); // NOI18N
 
         javax.swing.GroupLayout ss8Layout = new javax.swing.GroupLayout(ss8);
         ss8.setLayout(ss8Layout);
@@ -1508,7 +1522,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         ss7.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish3.png"))); // NOI18N
 
         javax.swing.GroupLayout ss7Layout = new javax.swing.GroupLayout(ss7);
         ss7.setLayout(ss7Layout);
@@ -1525,7 +1539,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         ss6.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish2.png"))); // NOI18N
 
         javax.swing.GroupLayout ss6Layout = new javax.swing.GroupLayout(ss6);
         ss6.setLayout(ss6Layout);
@@ -1542,7 +1556,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         ss5.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish15.png"))); // NOI18N
 
         javax.swing.GroupLayout ss5Layout = new javax.swing.GroupLayout(ss5);
         ss5.setLayout(ss5Layout);
@@ -1559,7 +1573,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         ss4.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish14.png"))); // NOI18N
 
         javax.swing.GroupLayout ss4Layout = new javax.swing.GroupLayout(ss4);
         ss4.setLayout(ss4Layout);
@@ -1576,7 +1590,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         ss3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish13.png"))); // NOI18N
 
         javax.swing.GroupLayout ss3Layout = new javax.swing.GroupLayout(ss3);
         ss3.setLayout(ss3Layout);
@@ -1593,7 +1607,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         ss2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish12.png"))); // NOI18N
 
         javax.swing.GroupLayout ss2Layout = new javax.swing.GroupLayout(ss2);
         ss2.setLayout(ss2Layout);
@@ -1610,7 +1624,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         ss1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish11.png"))); // NOI18N
 
         javax.swing.GroupLayout ss1Layout = new javax.swing.GroupLayout(ss1);
         ss1.setLayout(ss1Layout);
@@ -1627,7 +1641,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         ss.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish10.png"))); // NOI18N
 
         javax.swing.GroupLayout ssLayout = new javax.swing.GroupLayout(ss);
         ss.setLayout(ssLayout);
@@ -1723,15 +1737,12 @@ public class CustomerDashboard extends javax.swing.JFrame {
         btnCart.setIcon(darkIcon);
         if(cartClicked){
             btnCart.setIcon(lightIcon);
-            jPanel3.setVisible(false);
             pnlCart.setVisible(true);
             cartClicked = false;
         }else{
             btnCart.setIcon(darkIcon);
             pnlCart.setVisible(false);
             cartClicked = true;
-            
-          
         }
        
     }//GEN-LAST:event_btnCartActionPerformed
@@ -1854,29 +1865,32 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
     private void btnCashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCashActionPerformed
         selectedPayment = "cash";
+        lblPayMethod.setText("Cash");
         btnCash.setBorder(BorderFactory.createLineBorder(Color.red, 2));
     }//GEN-LAST:event_btnCashActionPerformed
 
     private void btnCCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCCActionPerformed
         selectedPayment = "credit card";
+        lblPayMethod.setText("Credit Card");
         btnCC.setBorder(BorderFactory.createLineBorder(Color.red, 2));
     }//GEN-LAST:event_btnCCActionPerformed
 
     private void btnEWalletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEWalletActionPerformed
         selectedPayment = "e-wallet";
+        lblPayMethod.setText("e-Wallet");
         btnEWallet.setBorder(BorderFactory.createLineBorder(Color.red, 2));
     }//GEN-LAST:event_btnEWalletActionPerformed
 
     private void btnPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlaceOrderActionPerformed
        lblOrderStat.setText("PENDING");
-        pnlOrders.setVisible(true);
-       pnlDish.setVisible(false);
+        CardLayout cl = (CardLayout)(jPanel1.getLayout());
+            cl.show(jPanel1, "orders");
     }//GEN-LAST:event_btnPlaceOrderActionPerformed
 
     private void btnProceedPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProceedPaymentActionPerformed
         lblOrderStat2.setText("PENDING");
-        pnlPayment.setVisible(true);
-        pnlOrders.setVisible(false);
+        CardLayout cl = (CardLayout)(jPanel1.getLayout());
+            cl.show(jPanel1, "pay");
    
     }//GEN-LAST:event_btnProceedPaymentActionPerformed
 
@@ -1939,6 +1953,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnTakeOut;
     private javax.swing.JButton btneWalletPay;
     private javax.swing.JScrollPane drinks;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1982,10 +1998,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
-    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
-    private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -2021,17 +2035,21 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JLabel lblCcPay;
     private javax.swing.JLabel lblChange;
     private javax.swing.JLabel lblChange1;
     private javax.swing.JLabel lblDateTime;
     private javax.swing.JLabel lblDateTime1;
     private javax.swing.JLabel lblDateTime2;
+    private javax.swing.JLabel lblEPayMethod;
     private javax.swing.JLabel lblOrderNum;
     private javax.swing.JLabel lblOrderNum1;
     private javax.swing.JLabel lblOrderNum2;
     private javax.swing.JLabel lblOrderStat;
     private javax.swing.JLabel lblOrderStat1;
     private javax.swing.JLabel lblOrderStat2;
+    private javax.swing.JLabel lblOrderType;
+    private javax.swing.JLabel lblPayMethod;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JLabel lblTotal1;
     private javax.swing.JLabel lblTotal2;
