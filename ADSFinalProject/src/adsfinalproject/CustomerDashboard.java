@@ -246,97 +246,177 @@ public class CustomerDashboard extends javax.swing.JFrame {
         snacks = new javax.swing.JScrollPane();
         jPanel8 = new javax.swing.JPanel();
         ss43 = new javax.swing.JPanel();
+        jButton36 = new javax.swing.JButton();
+        jLabel34 = new javax.swing.JLabel();
         jLabel46 = new javax.swing.JLabel();
         ss42 = new javax.swing.JPanel();
+        jButton37 = new javax.swing.JButton();
+        jLabel35 = new javax.swing.JLabel();
         jLabel45 = new javax.swing.JLabel();
         ss41 = new javax.swing.JPanel();
+        jButton38 = new javax.swing.JButton();
+        jLabel36 = new javax.swing.JLabel();
         jLabel44 = new javax.swing.JLabel();
         ss40 = new javax.swing.JPanel();
+        jButton39 = new javax.swing.JButton();
+        jLabel37 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
         ss39 = new javax.swing.JPanel();
+        jButton40 = new javax.swing.JButton();
+        jLabel38 = new javax.swing.JLabel();
         jLabel42 = new javax.swing.JLabel();
         ss38 = new javax.swing.JPanel();
+        jButton41 = new javax.swing.JButton();
+        jLabel39 = new javax.swing.JLabel();
         jLabel41 = new javax.swing.JLabel();
         drinks = new javax.swing.JScrollPane();
         jPanel7 = new javax.swing.JPanel();
-        ss37 = new javax.swing.JPanel();
+        ss44 = new javax.swing.JPanel();
+        jButton29 = new javax.swing.JButton();
         jLabel40 = new javax.swing.JLabel();
-        ss36 = new javax.swing.JPanel();
-        jLabel39 = new javax.swing.JLabel();
-        ss35 = new javax.swing.JPanel();
-        jLabel38 = new javax.swing.JLabel();
-        ss34 = new javax.swing.JPanel();
-        jLabel37 = new javax.swing.JLabel();
-        ss33 = new javax.swing.JPanel();
-        jLabel36 = new javax.swing.JLabel();
-        ss32 = new javax.swing.JPanel();
-        jLabel35 = new javax.swing.JLabel();
-        ss31 = new javax.swing.JPanel();
-        jLabel34 = new javax.swing.JLabel();
+        jLabel49 = new javax.swing.JLabel();
+        ss45 = new javax.swing.JPanel();
+        jButton30 = new javax.swing.JButton();
+        jLabel57 = new javax.swing.JLabel();
+        jLabel51 = new javax.swing.JLabel();
+        ss46 = new javax.swing.JPanel();
+        jButton31 = new javax.swing.JButton();
+        jLabel58 = new javax.swing.JLabel();
+        jLabel52 = new javax.swing.JLabel();
+        ss47 = new javax.swing.JPanel();
+        jButton32 = new javax.swing.JButton();
+        jLabel59 = new javax.swing.JLabel();
+        jLabel53 = new javax.swing.JLabel();
+        ss48 = new javax.swing.JPanel();
+        jButton33 = new javax.swing.JButton();
+        jLabel60 = new javax.swing.JLabel();
+        jLabel54 = new javax.swing.JLabel();
+        ss49 = new javax.swing.JPanel();
+        jButton34 = new javax.swing.JButton();
+        jLabel61 = new javax.swing.JLabel();
+        jLabel55 = new javax.swing.JLabel();
+        ss50 = new javax.swing.JPanel();
+        jButton35 = new javax.swing.JButton();
+        jLabel62 = new javax.swing.JLabel();
+        jLabel56 = new javax.swing.JLabel();
         noodles = new javax.swing.JScrollPane();
         jPanel6 = new javax.swing.JPanel();
         ss30 = new javax.swing.JPanel();
+        jButton23 = new javax.swing.JButton();
+        jLabel63 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
         ss29 = new javax.swing.JPanel();
+        jButton24 = new javax.swing.JButton();
+        jLabel64 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         ss28 = new javax.swing.JPanel();
+        jButton25 = new javax.swing.JButton();
+        jLabel65 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         ss27 = new javax.swing.JPanel();
+        jButton26 = new javax.swing.JButton();
+        jLabel66 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         ss26 = new javax.swing.JPanel();
+        jButton27 = new javax.swing.JButton();
+        jLabel67 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
         ss25 = new javax.swing.JPanel();
+        jButton28 = new javax.swing.JButton();
+        jLabel68 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         bfMeals = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
         ss22 = new javax.swing.JPanel();
         ss23 = new javax.swing.JPanel();
+        jButton17 = new javax.swing.JButton();
+        jLabel69 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         ss20 = new javax.swing.JPanel();
+        jButton18 = new javax.swing.JButton();
+        jLabel70 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         ss19 = new javax.swing.JPanel();
+        jButton19 = new javax.swing.JButton();
+        jLabel71 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         ss18 = new javax.swing.JPanel();
+        jButton20 = new javax.swing.JButton();
+        jLabel72 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         ss17 = new javax.swing.JPanel();
+        jButton21 = new javax.swing.JButton();
+        jLabel73 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         ss16 = new javax.swing.JPanel();
+        jButton22 = new javax.swing.JButton();
+        jLabel74 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         menuRice = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         ss15 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jLabel75 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         ss14 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
+        jLabel76 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         ss13 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
+        jLabel77 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         ss12 = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
+        jLabel78 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         ss11 = new javax.swing.JPanel();
+        jButton5 = new javax.swing.JButton();
+        jLabel79 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         ss10 = new javax.swing.JPanel();
+        jButton6 = new javax.swing.JButton();
+        jLabel80 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         ss9 = new javax.swing.JPanel();
+        jButton7 = new javax.swing.JButton();
+        jLabel81 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         ss8 = new javax.swing.JPanel();
+        jButton8 = new javax.swing.JButton();
+        jLabel82 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         ss7 = new javax.swing.JPanel();
+        jButton9 = new javax.swing.JButton();
+        jLabel83 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         ss6 = new javax.swing.JPanel();
+        jButton10 = new javax.swing.JButton();
+        jLabel84 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         ss5 = new javax.swing.JPanel();
+        jButton11 = new javax.swing.JButton();
+        jLabel85 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         ss4 = new javax.swing.JPanel();
+        jButton12 = new javax.swing.JButton();
+        jLabel86 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         ss3 = new javax.swing.JPanel();
+        jButton13 = new javax.swing.JButton();
+        jLabel87 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         ss2 = new javax.swing.JPanel();
+        jButton14 = new javax.swing.JButton();
+        jLabel88 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         ss1 = new javax.swing.JPanel();
+        jButton15 = new javax.swing.JButton();
+        jLabel89 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         ss = new javax.swing.JPanel();
+        jButton16 = new javax.swing.JButton();
+        jLabel90 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         btnDrinks = new javax.swing.JButton();
@@ -895,104 +975,128 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jPanel8.setLayout(new java.awt.GridLayout(0, 3, 20, 20));
 
         ss43.setBackground(new java.awt.Color(255, 255, 255));
+        ss43.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel46.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 6.png"))); // NOI18N
+        jButton36.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton36.setForeground(new java.awt.Color(0, 0, 0));
+        jButton36.setText("+");
+        jButton36.setBorder(null);
+        jButton36.setBorderPainted(false);
+        jButton36.setContentAreaFilled(false);
+        ss43.add(jButton36, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
-        javax.swing.GroupLayout ss43Layout = new javax.swing.GroupLayout(ss43);
-        ss43.setLayout(ss43Layout);
-        ss43Layout.setHorizontalGroup(
-            ss43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel46)
-        );
-        ss43Layout.setVerticalGroup(
-            ss43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel46)
-        );
+        jLabel34.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel34.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel34.setText("₱ 35");
+        ss43.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
+
+        jLabel46.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 1.png"))); // NOI18N
+        ss43.add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel8.add(ss43);
 
         ss42.setBackground(new java.awt.Color(255, 255, 255));
+        ss42.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel45.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 5.png"))); // NOI18N
+        jButton37.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton37.setForeground(new java.awt.Color(0, 0, 0));
+        jButton37.setText("+");
+        jButton37.setBorder(null);
+        jButton37.setBorderPainted(false);
+        jButton37.setContentAreaFilled(false);
+        ss42.add(jButton37, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
-        javax.swing.GroupLayout ss42Layout = new javax.swing.GroupLayout(ss42);
-        ss42.setLayout(ss42Layout);
-        ss42Layout.setHorizontalGroup(
-            ss42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel45)
-        );
-        ss42Layout.setVerticalGroup(
-            ss42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel45)
-        );
+        jLabel35.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel35.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel35.setText("₱ 25");
+        ss42.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
+
+        jLabel45.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 2.png"))); // NOI18N
+        ss42.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel8.add(ss42);
 
         ss41.setBackground(new java.awt.Color(255, 255, 255));
+        ss41.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel44.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 4.png"))); // NOI18N
+        jButton38.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton38.setForeground(new java.awt.Color(0, 0, 0));
+        jButton38.setText("+");
+        jButton38.setBorder(null);
+        jButton38.setBorderPainted(false);
+        jButton38.setContentAreaFilled(false);
+        ss41.add(jButton38, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
-        javax.swing.GroupLayout ss41Layout = new javax.swing.GroupLayout(ss41);
-        ss41.setLayout(ss41Layout);
-        ss41Layout.setHorizontalGroup(
-            ss41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel44)
-        );
-        ss41Layout.setVerticalGroup(
-            ss41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel44)
-        );
+        jLabel36.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel36.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel36.setText("₱ 20");
+        ss41.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
+
+        jLabel44.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 3.png"))); // NOI18N
+        ss41.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel8.add(ss41);
 
         ss40.setBackground(new java.awt.Color(255, 255, 255));
+        ss40.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel43.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 3.png"))); // NOI18N
+        jButton39.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton39.setForeground(new java.awt.Color(0, 0, 0));
+        jButton39.setText("+");
+        jButton39.setBorder(null);
+        jButton39.setBorderPainted(false);
+        jButton39.setContentAreaFilled(false);
+        ss40.add(jButton39, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
-        javax.swing.GroupLayout ss40Layout = new javax.swing.GroupLayout(ss40);
-        ss40.setLayout(ss40Layout);
-        ss40Layout.setHorizontalGroup(
-            ss40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel43)
-        );
-        ss40Layout.setVerticalGroup(
-            ss40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel43)
-        );
+        jLabel37.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel37.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel37.setText("₱ 20");
+        ss40.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
+
+        jLabel43.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 4.png"))); // NOI18N
+        ss40.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel8.add(ss40);
 
         ss39.setBackground(new java.awt.Color(255, 255, 255));
+        ss39.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel42.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 2.png"))); // NOI18N
+        jButton40.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton40.setForeground(new java.awt.Color(0, 0, 0));
+        jButton40.setText("+");
+        jButton40.setBorder(null);
+        jButton40.setBorderPainted(false);
+        jButton40.setContentAreaFilled(false);
+        ss39.add(jButton40, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
-        javax.swing.GroupLayout ss39Layout = new javax.swing.GroupLayout(ss39);
-        ss39.setLayout(ss39Layout);
-        ss39Layout.setHorizontalGroup(
-            ss39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel42)
-        );
-        ss39Layout.setVerticalGroup(
-            ss39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel42)
-        );
+        jLabel38.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel38.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel38.setText("₱ 30");
+        ss39.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
+
+        jLabel42.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 5.png"))); // NOI18N
+        ss39.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel8.add(ss39);
 
         ss38.setBackground(new java.awt.Color(255, 255, 255));
+        ss38.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel41.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 1.png"))); // NOI18N
+        jButton41.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton41.setForeground(new java.awt.Color(0, 0, 0));
+        jButton41.setText("+");
+        jButton41.setBorder(null);
+        jButton41.setBorderPainted(false);
+        jButton41.setContentAreaFilled(false);
+        ss38.add(jButton41, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
-        javax.swing.GroupLayout ss38Layout = new javax.swing.GroupLayout(ss38);
-        ss38.setLayout(ss38Layout);
-        ss38Layout.setHorizontalGroup(
-            ss38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel41)
-        );
-        ss38Layout.setVerticalGroup(
-            ss38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel41)
-        );
+        jLabel39.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel39.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel39.setText("₱ 35");
+        ss38.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
+
+        jLabel41.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 6.png"))); // NOI18N
+        ss38.add(jLabel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel8.add(ss38);
 
@@ -1007,124 +1111,152 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new java.awt.GridLayout(0, 3, 20, 20));
 
-        ss37.setBackground(new java.awt.Color(255, 255, 255));
+        ss44.setBackground(new java.awt.Color(255, 255, 255));
+        ss44.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel40.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 7.png"))); // NOI18N
+        jButton29.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton29.setForeground(new java.awt.Color(0, 0, 0));
+        jButton29.setText("+");
+        jButton29.setBorder(null);
+        jButton29.setBorderPainted(false);
+        jButton29.setContentAreaFilled(false);
+        ss44.add(jButton29, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
-        javax.swing.GroupLayout ss37Layout = new javax.swing.GroupLayout(ss37);
-        ss37.setLayout(ss37Layout);
-        ss37Layout.setHorizontalGroup(
-            ss37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel40)
-        );
-        ss37Layout.setVerticalGroup(
-            ss37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel40)
-        );
+        jLabel40.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel40.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel40.setText("₱ 20");
+        ss44.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jPanel7.add(ss37);
+        jLabel49.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 1.png"))); // NOI18N
+        ss44.add(jLabel49, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        ss36.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.add(ss44);
 
-        jLabel39.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 6.png"))); // NOI18N
+        ss45.setBackground(new java.awt.Color(255, 255, 255));
+        ss45.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout ss36Layout = new javax.swing.GroupLayout(ss36);
-        ss36.setLayout(ss36Layout);
-        ss36Layout.setHorizontalGroup(
-            ss36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel39)
-        );
-        ss36Layout.setVerticalGroup(
-            ss36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel39)
-        );
+        jButton30.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton30.setForeground(new java.awt.Color(0, 0, 0));
+        jButton30.setText("+");
+        jButton30.setBorder(null);
+        jButton30.setBorderPainted(false);
+        jButton30.setContentAreaFilled(false);
+        ss45.add(jButton30, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
-        jPanel7.add(ss36);
+        jLabel57.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel57.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel57.setText("₱ 25");
+        ss45.add(jLabel57, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        ss35.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel51.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 2.png"))); // NOI18N
+        ss45.add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        jLabel38.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 5.png"))); // NOI18N
+        jPanel7.add(ss45);
 
-        javax.swing.GroupLayout ss35Layout = new javax.swing.GroupLayout(ss35);
-        ss35.setLayout(ss35Layout);
-        ss35Layout.setHorizontalGroup(
-            ss35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel38)
-        );
-        ss35Layout.setVerticalGroup(
-            ss35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel38)
-        );
+        ss46.setBackground(new java.awt.Color(255, 255, 255));
+        ss46.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel7.add(ss35);
+        jButton31.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton31.setForeground(new java.awt.Color(0, 0, 0));
+        jButton31.setText("+");
+        jButton31.setBorder(null);
+        jButton31.setBorderPainted(false);
+        jButton31.setContentAreaFilled(false);
+        ss46.add(jButton31, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
-        ss34.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel58.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel58.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel58.setText("₱ 25");
+        ss46.add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 4.png"))); // NOI18N
+        jLabel52.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 3.png"))); // NOI18N
+        ss46.add(jLabel52, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        javax.swing.GroupLayout ss34Layout = new javax.swing.GroupLayout(ss34);
-        ss34.setLayout(ss34Layout);
-        ss34Layout.setHorizontalGroup(
-            ss34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel37)
-        );
-        ss34Layout.setVerticalGroup(
-            ss34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel37)
-        );
+        jPanel7.add(ss46);
 
-        jPanel7.add(ss34);
+        ss47.setBackground(new java.awt.Color(255, 255, 255));
+        ss47.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        ss33.setBackground(new java.awt.Color(255, 255, 255));
+        jButton32.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton32.setForeground(new java.awt.Color(0, 0, 0));
+        jButton32.setText("+");
+        jButton32.setBorder(null);
+        jButton32.setBorderPainted(false);
+        jButton32.setContentAreaFilled(false);
+        ss47.add(jButton32, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
-        jLabel36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 3.png"))); // NOI18N
+        jLabel59.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel59.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel59.setText("₱ 25");
+        ss47.add(jLabel59, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        javax.swing.GroupLayout ss33Layout = new javax.swing.GroupLayout(ss33);
-        ss33.setLayout(ss33Layout);
-        ss33Layout.setHorizontalGroup(
-            ss33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel36)
-        );
-        ss33Layout.setVerticalGroup(
-            ss33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel36)
-        );
+        jLabel53.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 4.png"))); // NOI18N
+        ss47.add(jLabel53, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        jPanel7.add(ss33);
+        jPanel7.add(ss47);
 
-        ss32.setBackground(new java.awt.Color(255, 255, 255));
+        ss48.setBackground(new java.awt.Color(255, 255, 255));
+        ss48.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel35.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 2.png"))); // NOI18N
+        jButton33.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton33.setForeground(new java.awt.Color(0, 0, 0));
+        jButton33.setText("+");
+        jButton33.setBorder(null);
+        jButton33.setBorderPainted(false);
+        jButton33.setContentAreaFilled(false);
+        ss48.add(jButton33, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
-        javax.swing.GroupLayout ss32Layout = new javax.swing.GroupLayout(ss32);
-        ss32.setLayout(ss32Layout);
-        ss32Layout.setHorizontalGroup(
-            ss32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel35)
-        );
-        ss32Layout.setVerticalGroup(
-            ss32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel35)
-        );
+        jLabel60.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel60.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel60.setText("₱ 75");
+        ss48.add(jLabel60, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jPanel7.add(ss32);
+        jLabel54.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 5.png"))); // NOI18N
+        ss48.add(jLabel54, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        ss31.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.add(ss48);
 
-        jLabel34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 1.png"))); // NOI18N
+        ss49.setBackground(new java.awt.Color(255, 255, 255));
+        ss49.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout ss31Layout = new javax.swing.GroupLayout(ss31);
-        ss31.setLayout(ss31Layout);
-        ss31Layout.setHorizontalGroup(
-            ss31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel34)
-        );
-        ss31Layout.setVerticalGroup(
-            ss31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel34)
-        );
+        jButton34.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton34.setForeground(new java.awt.Color(0, 0, 0));
+        jButton34.setText("+");
+        jButton34.setBorder(null);
+        jButton34.setBorderPainted(false);
+        jButton34.setContentAreaFilled(false);
+        ss49.add(jButton34, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
-        jPanel7.add(ss31);
+        jLabel61.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel61.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel61.setText("₱ 85");
+        ss49.add(jLabel61, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
+
+        jLabel55.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 6.png"))); // NOI18N
+        ss49.add(jLabel55, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        jPanel7.add(ss49);
+
+        ss50.setBackground(new java.awt.Color(255, 255, 255));
+        ss50.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton35.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton35.setForeground(new java.awt.Color(0, 0, 0));
+        jButton35.setText("+");
+        jButton35.setBorder(null);
+        jButton35.setBorderPainted(false);
+        jButton35.setContentAreaFilled(false);
+        ss50.add(jButton35, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel62.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel62.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel62.setText("₱ 75");
+        ss50.add(jLabel62, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
+
+        jLabel56.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 7.png"))); // NOI18N
+        ss50.add(jLabel56, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        jPanel7.add(ss50);
 
         drinks.setViewportView(jPanel7);
 
@@ -1139,104 +1271,128 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jPanel6.setLayout(new java.awt.GridLayout(0, 3, 20, 20));
 
         ss30.setBackground(new java.awt.Color(255, 255, 255));
+        ss30.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton23.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton23.setForeground(new java.awt.Color(0, 0, 0));
+        jButton23.setText("+");
+        jButton23.setBorder(null);
+        jButton23.setBorderPainted(false);
+        jButton23.setContentAreaFilled(false);
+        ss30.add(jButton23, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel63.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel63.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel63.setText("₱ 30");
+        ss30.add(jLabel63, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
         jLabel33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 29.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss30Layout = new javax.swing.GroupLayout(ss30);
-        ss30.setLayout(ss30Layout);
-        ss30Layout.setHorizontalGroup(
-            ss30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel33)
-        );
-        ss30Layout.setVerticalGroup(
-            ss30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel33)
-        );
+        ss30.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel6.add(ss30);
 
         ss29.setBackground(new java.awt.Color(255, 255, 255));
+        ss29.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton24.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton24.setForeground(new java.awt.Color(0, 0, 0));
+        jButton24.setText("+");
+        jButton24.setBorder(null);
+        jButton24.setBorderPainted(false);
+        jButton24.setContentAreaFilled(false);
+        ss29.add(jButton24, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel64.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel64.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel64.setText("₱ 30");
+        ss29.add(jLabel64, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
         jLabel32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 28.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss29Layout = new javax.swing.GroupLayout(ss29);
-        ss29.setLayout(ss29Layout);
-        ss29Layout.setHorizontalGroup(
-            ss29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel32)
-        );
-        ss29Layout.setVerticalGroup(
-            ss29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel32)
-        );
+        ss29.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel6.add(ss29);
 
         ss28.setBackground(new java.awt.Color(255, 255, 255));
+        ss28.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton25.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton25.setForeground(new java.awt.Color(0, 0, 0));
+        jButton25.setText("+");
+        jButton25.setBorder(null);
+        jButton25.setBorderPainted(false);
+        jButton25.setContentAreaFilled(false);
+        ss28.add(jButton25, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel65.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel65.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel65.setText("₱ 30");
+        ss28.add(jLabel65, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
         jLabel31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 27.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss28Layout = new javax.swing.GroupLayout(ss28);
-        ss28.setLayout(ss28Layout);
-        ss28Layout.setHorizontalGroup(
-            ss28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel31)
-        );
-        ss28Layout.setVerticalGroup(
-            ss28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel31)
-        );
+        ss28.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel6.add(ss28);
 
         ss27.setBackground(new java.awt.Color(255, 255, 255));
+        ss27.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton26.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton26.setForeground(new java.awt.Color(0, 0, 0));
+        jButton26.setText("+");
+        jButton26.setBorder(null);
+        jButton26.setBorderPainted(false);
+        jButton26.setContentAreaFilled(false);
+        ss27.add(jButton26, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel66.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel66.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel66.setText("₱ 45");
+        ss27.add(jLabel66, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
         jLabel30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 26.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss27Layout = new javax.swing.GroupLayout(ss27);
-        ss27.setLayout(ss27Layout);
-        ss27Layout.setHorizontalGroup(
-            ss27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel30)
-        );
-        ss27Layout.setVerticalGroup(
-            ss27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel30)
-        );
+        ss27.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel6.add(ss27);
 
         ss26.setBackground(new java.awt.Color(255, 255, 255));
+        ss26.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton27.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton27.setForeground(new java.awt.Color(0, 0, 0));
+        jButton27.setText("+");
+        jButton27.setBorder(null);
+        jButton27.setBorderPainted(false);
+        jButton27.setContentAreaFilled(false);
+        ss26.add(jButton27, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel67.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel67.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel67.setText("₱ 30");
+        ss26.add(jLabel67, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
         jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 25.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss26Layout = new javax.swing.GroupLayout(ss26);
-        ss26.setLayout(ss26Layout);
-        ss26Layout.setHorizontalGroup(
-            ss26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel29)
-        );
-        ss26Layout.setVerticalGroup(
-            ss26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel29)
-        );
+        ss26.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel6.add(ss26);
 
         ss25.setBackground(new java.awt.Color(255, 255, 255));
+        ss25.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton28.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton28.setForeground(new java.awt.Color(0, 0, 0));
+        jButton28.setText("+");
+        jButton28.setBorder(null);
+        jButton28.setBorderPainted(false);
+        jButton28.setContentAreaFilled(false);
+        ss25.add(jButton28, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel68.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel68.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel68.setText("₱ 35");
+        ss25.add(jLabel68, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, 60, 40));
 
         jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 24.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss25Layout = new javax.swing.GroupLayout(ss25);
-        ss25.setLayout(ss25Layout);
-        ss25Layout.setHorizontalGroup(
-            ss25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel28)
-        );
-        ss25Layout.setVerticalGroup(
-            ss25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel28)
-        );
+        ss25.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel6.add(ss25);
 
@@ -1255,19 +1411,23 @@ public class CustomerDashboard extends javax.swing.JFrame {
         ss22.setBackground(new java.awt.Color(255, 255, 255));
 
         ss23.setBackground(new java.awt.Color(255, 255, 255));
+        ss23.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton17.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton17.setForeground(new java.awt.Color(0, 0, 0));
+        jButton17.setText("+");
+        jButton17.setBorder(null);
+        jButton17.setBorderPainted(false);
+        jButton17.setContentAreaFilled(false);
+        ss23.add(jButton17, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel69.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel69.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel69.setText("₱ 55");
+        ss23.add(jLabel69, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
         jLabel27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 23.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss23Layout = new javax.swing.GroupLayout(ss23);
-        ss23.setLayout(ss23Layout);
-        ss23Layout.setHorizontalGroup(
-            ss23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel27)
-        );
-        ss23Layout.setVerticalGroup(
-            ss23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel27)
-        );
+        ss23.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout ss22Layout = new javax.swing.GroupLayout(ss22);
         ss22.setLayout(ss22Layout);
@@ -1289,87 +1449,107 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jPanel4.add(ss22);
 
         ss20.setBackground(new java.awt.Color(255, 255, 255));
+        ss20.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton18.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton18.setForeground(new java.awt.Color(0, 0, 0));
+        jButton18.setText("+");
+        jButton18.setBorder(null);
+        jButton18.setBorderPainted(false);
+        jButton18.setContentAreaFilled(false);
+        ss20.add(jButton18, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel70.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel70.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel70.setText("₱ 30");
+        ss20.add(jLabel70, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 21.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss20Layout = new javax.swing.GroupLayout(ss20);
-        ss20.setLayout(ss20Layout);
-        ss20Layout.setHorizontalGroup(
-            ss20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel24)
-        );
-        ss20Layout.setVerticalGroup(
-            ss20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel24)
-        );
+        ss20.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel4.add(ss20);
 
         ss19.setBackground(new java.awt.Color(255, 255, 255));
+        ss19.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton19.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton19.setForeground(new java.awt.Color(0, 0, 0));
+        jButton19.setText("+");
+        jButton19.setBorder(null);
+        jButton19.setBorderPainted(false);
+        jButton19.setContentAreaFilled(false);
+        ss19.add(jButton19, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel71.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel71.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel71.setText("₱ 60");
+        ss19.add(jLabel71, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
         jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 20.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss19Layout = new javax.swing.GroupLayout(ss19);
-        ss19.setLayout(ss19Layout);
-        ss19Layout.setHorizontalGroup(
-            ss19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel23)
-        );
-        ss19Layout.setVerticalGroup(
-            ss19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel23)
-        );
+        ss19.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel4.add(ss19);
 
         ss18.setBackground(new java.awt.Color(255, 255, 255));
+        ss18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton20.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton20.setForeground(new java.awt.Color(0, 0, 0));
+        jButton20.setText("+");
+        jButton20.setBorder(null);
+        jButton20.setBorderPainted(false);
+        jButton20.setContentAreaFilled(false);
+        ss18.add(jButton20, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel72.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel72.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel72.setText("₱ 40");
+        ss18.add(jLabel72, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, 60, 40));
 
         jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 19.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss18Layout = new javax.swing.GroupLayout(ss18);
-        ss18.setLayout(ss18Layout);
-        ss18Layout.setHorizontalGroup(
-            ss18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel22)
-        );
-        ss18Layout.setVerticalGroup(
-            ss18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel22)
-        );
+        ss18.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, -1));
 
         jPanel4.add(ss18);
 
         ss17.setBackground(new java.awt.Color(255, 255, 255));
+        ss17.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton21.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton21.setForeground(new java.awt.Color(0, 0, 0));
+        jButton21.setText("+");
+        jButton21.setBorder(null);
+        jButton21.setBorderPainted(false);
+        jButton21.setContentAreaFilled(false);
+        ss17.add(jButton21, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel73.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel73.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel73.setText("₱ 30");
+        ss17.add(jLabel73, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 18.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss17Layout = new javax.swing.GroupLayout(ss17);
-        ss17.setLayout(ss17Layout);
-        ss17Layout.setHorizontalGroup(
-            ss17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel21)
-        );
-        ss17Layout.setVerticalGroup(
-            ss17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel21)
-        );
+        ss17.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel4.add(ss17);
 
         ss16.setBackground(new java.awt.Color(255, 255, 255));
+        ss16.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton22.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton22.setForeground(new java.awt.Color(0, 0, 0));
+        jButton22.setText("+");
+        jButton22.setBorder(null);
+        jButton22.setBorderPainted(false);
+        jButton22.setContentAreaFilled(false);
+        ss16.add(jButton22, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel74.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel74.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel74.setText("₱ 70");
+        ss16.add(jLabel74, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
         jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 17.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss16Layout = new javax.swing.GroupLayout(ss16);
-        ss16.setLayout(ss16Layout);
-        ss16Layout.setHorizontalGroup(
-            ss16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel20)
-        );
-        ss16Layout.setVerticalGroup(
-            ss16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel20)
-        );
+        ss16.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel4.add(ss16);
 
@@ -1397,6 +1577,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton1.setContentAreaFilled(false);
         ss15.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
+        jLabel75.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel75.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel75.setText("₱ 55");
+        ss15.add(jLabel75, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 60, 50));
+
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
         ss15.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -1413,246 +1598,307 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton2.setContentAreaFilled(false);
         ss14.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
+        jLabel76.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel76.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel76.setText("₱ 45");
+        ss14.add(jLabel76, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
+
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish1.png"))); // NOI18N
         ss14.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss14);
 
         ss13.setBackground(new java.awt.Color(255, 255, 255));
+        ss13.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(0, 0, 0));
+        jButton3.setText("+");
+        jButton3.setBorder(null);
+        jButton3.setBorderPainted(false);
+        jButton3.setContentAreaFilled(false);
+        ss13.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel77.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel77.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel77.setText("₱ 60");
+        ss13.add(jLabel77, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 50));
 
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish9.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss13Layout = new javax.swing.GroupLayout(ss13);
-        ss13.setLayout(ss13Layout);
-        ss13Layout.setHorizontalGroup(
-            ss13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel17)
-        );
-        ss13Layout.setVerticalGroup(
-            ss13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel17)
-        );
+        ss13.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss13);
 
         ss12.setBackground(new java.awt.Color(255, 255, 255));
+        ss12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(0, 0, 0));
+        jButton4.setText("+");
+        jButton4.setBorder(null);
+        jButton4.setBorderPainted(false);
+        jButton4.setContentAreaFilled(false);
+        ss12.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel78.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel78.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel78.setText("₱ 70");
+        ss12.add(jLabel78, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish8.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss12Layout = new javax.swing.GroupLayout(ss12);
-        ss12.setLayout(ss12Layout);
-        ss12Layout.setHorizontalGroup(
-            ss12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel16)
-        );
-        ss12Layout.setVerticalGroup(
-            ss12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel16)
-        );
+        ss12.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss12);
 
         ss11.setBackground(new java.awt.Color(255, 255, 255));
+        ss11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(0, 0, 0));
+        jButton5.setText("+");
+        jButton5.setBorder(null);
+        jButton5.setBorderPainted(false);
+        jButton5.setContentAreaFilled(false);
+        ss11.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel79.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel79.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel79.setText("₱ 60");
+        ss11.add(jLabel79, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish7.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss11Layout = new javax.swing.GroupLayout(ss11);
-        ss11.setLayout(ss11Layout);
-        ss11Layout.setHorizontalGroup(
-            ss11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel15)
-        );
-        ss11Layout.setVerticalGroup(
-            ss11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel15)
-        );
+        ss11.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss11);
 
         ss10.setBackground(new java.awt.Color(255, 255, 255));
+        ss10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(0, 0, 0));
+        jButton6.setText("+");
+        jButton6.setBorder(null);
+        jButton6.setBorderPainted(false);
+        jButton6.setContentAreaFilled(false);
+        ss10.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel80.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel80.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel80.setText("₱ 60");
+        ss10.add(jLabel80, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish6.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss10Layout = new javax.swing.GroupLayout(ss10);
-        ss10.setLayout(ss10Layout);
-        ss10Layout.setHorizontalGroup(
-            ss10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel14)
-        );
-        ss10Layout.setVerticalGroup(
-            ss10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel14)
-        );
+        ss10.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss10);
 
         ss9.setBackground(new java.awt.Color(255, 255, 255));
+        ss9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton7.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton7.setForeground(new java.awt.Color(0, 0, 0));
+        jButton7.setText("+");
+        jButton7.setBorder(null);
+        jButton7.setBorderPainted(false);
+        jButton7.setContentAreaFilled(false);
+        ss9.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel81.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel81.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel81.setText("₱ 65");
+        ss9.add(jLabel81, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 250, 60, 40));
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish5.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss9Layout = new javax.swing.GroupLayout(ss9);
-        ss9.setLayout(ss9Layout);
-        ss9Layout.setHorizontalGroup(
-            ss9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel13)
-        );
-        ss9Layout.setVerticalGroup(
-            ss9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel13)
-        );
+        ss9.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss9);
 
         ss8.setBackground(new java.awt.Color(255, 255, 255));
+        ss8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton8.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton8.setForeground(new java.awt.Color(0, 0, 0));
+        jButton8.setText("+");
+        jButton8.setBorder(null);
+        jButton8.setBorderPainted(false);
+        jButton8.setContentAreaFilled(false);
+        ss8.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel82.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel82.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel82.setText("₱ 65");
+        ss8.add(jLabel82, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish4.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss8Layout = new javax.swing.GroupLayout(ss8);
-        ss8.setLayout(ss8Layout);
-        ss8Layout.setHorizontalGroup(
-            ss8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel12)
-        );
-        ss8Layout.setVerticalGroup(
-            ss8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel12)
-        );
+        ss8.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss8);
 
         ss7.setBackground(new java.awt.Color(255, 255, 255));
+        ss7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton9.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton9.setForeground(new java.awt.Color(0, 0, 0));
+        jButton9.setText("+");
+        jButton9.setBorder(null);
+        jButton9.setBorderPainted(false);
+        jButton9.setContentAreaFilled(false);
+        ss7.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel83.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel83.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel83.setText("₱ 70");
+        ss7.add(jLabel83, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish3.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss7Layout = new javax.swing.GroupLayout(ss7);
-        ss7.setLayout(ss7Layout);
-        ss7Layout.setHorizontalGroup(
-            ss7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel11)
-        );
-        ss7Layout.setVerticalGroup(
-            ss7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel11)
-        );
+        ss7.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss7);
 
         ss6.setBackground(new java.awt.Color(255, 255, 255));
+        ss6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton10.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton10.setForeground(new java.awt.Color(0, 0, 0));
+        jButton10.setText("+");
+        jButton10.setBorder(null);
+        jButton10.setBorderPainted(false);
+        jButton10.setContentAreaFilled(false);
+        ss6.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel84.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel84.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel84.setText("₱ 75");
+        ss6.add(jLabel84, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish2.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss6Layout = new javax.swing.GroupLayout(ss6);
-        ss6.setLayout(ss6Layout);
-        ss6Layout.setHorizontalGroup(
-            ss6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel10)
-        );
-        ss6Layout.setVerticalGroup(
-            ss6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel10)
-        );
+        ss6.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss6);
 
         ss5.setBackground(new java.awt.Color(255, 255, 255));
+        ss5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton11.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton11.setForeground(new java.awt.Color(0, 0, 0));
+        jButton11.setText("+");
+        jButton11.setBorder(null);
+        jButton11.setBorderPainted(false);
+        jButton11.setContentAreaFilled(false);
+        ss5.add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel85.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel85.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel85.setText("₱ 55");
+        ss5.add(jLabel85, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, 50, 40));
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish15.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss5Layout = new javax.swing.GroupLayout(ss5);
-        ss5.setLayout(ss5Layout);
-        ss5Layout.setHorizontalGroup(
-            ss5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel9)
-        );
-        ss5Layout.setVerticalGroup(
-            ss5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel9)
-        );
+        ss5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss5);
 
         ss4.setBackground(new java.awt.Color(255, 255, 255));
+        ss4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton12.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton12.setForeground(new java.awt.Color(0, 0, 0));
+        jButton12.setText("+");
+        jButton12.setBorder(null);
+        jButton12.setBorderPainted(false);
+        jButton12.setContentAreaFilled(false);
+        ss4.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel86.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel86.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel86.setText("₱ 50");
+        ss4.add(jLabel86, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish14.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss4Layout = new javax.swing.GroupLayout(ss4);
-        ss4.setLayout(ss4Layout);
-        ss4Layout.setHorizontalGroup(
-            ss4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel8)
-        );
-        ss4Layout.setVerticalGroup(
-            ss4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel8)
-        );
+        ss4.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss4);
 
         ss3.setBackground(new java.awt.Color(255, 255, 255));
+        ss3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton13.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton13.setForeground(new java.awt.Color(0, 0, 0));
+        jButton13.setText("+");
+        jButton13.setBorder(null);
+        jButton13.setBorderPainted(false);
+        jButton13.setContentAreaFilled(false);
+        ss3.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel87.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel87.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel87.setText("₱ 65");
+        ss3.add(jLabel87, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish13.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss3Layout = new javax.swing.GroupLayout(ss3);
-        ss3.setLayout(ss3Layout);
-        ss3Layout.setHorizontalGroup(
-            ss3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7)
-        );
-        ss3Layout.setVerticalGroup(
-            ss3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7)
-        );
+        ss3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss3);
 
         ss2.setBackground(new java.awt.Color(255, 255, 255));
+        ss2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton14.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton14.setForeground(new java.awt.Color(0, 0, 0));
+        jButton14.setText("+");
+        jButton14.setBorder(null);
+        jButton14.setBorderPainted(false);
+        jButton14.setContentAreaFilled(false);
+        ss2.add(jButton14, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel88.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel88.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel88.setText("₱ 65");
+        ss2.add(jLabel88, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish12.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss2Layout = new javax.swing.GroupLayout(ss2);
-        ss2.setLayout(ss2Layout);
-        ss2Layout.setHorizontalGroup(
-            ss2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel6)
-        );
-        ss2Layout.setVerticalGroup(
-            ss2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel6)
-        );
+        ss2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss2);
 
         ss1.setBackground(new java.awt.Color(255, 255, 255));
+        ss1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton15.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton15.setForeground(new java.awt.Color(0, 0, 0));
+        jButton15.setText("+");
+        jButton15.setBorder(null);
+        jButton15.setBorderPainted(false);
+        jButton15.setContentAreaFilled(false);
+        ss1.add(jButton15, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel89.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel89.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel89.setText("₱ 55");
+        ss1.add(jLabel89, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish11.png"))); // NOI18N
-
-        javax.swing.GroupLayout ss1Layout = new javax.swing.GroupLayout(ss1);
-        ss1.setLayout(ss1Layout);
-        ss1Layout.setHorizontalGroup(
-            ss1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5)
-        );
-        ss1Layout.setVerticalGroup(
-            ss1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5)
-        );
+        ss1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss1);
 
         ss.setBackground(new java.awt.Color(255, 255, 255));
+        ss.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton16.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jButton16.setForeground(new java.awt.Color(0, 0, 0));
+        jButton16.setText("+");
+        jButton16.setBorder(null);
+        jButton16.setBorderPainted(false);
+        jButton16.setContentAreaFilled(false);
+        ss.add(jButton16, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
+
+        jLabel90.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        jLabel90.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel90.setText("₱ 50");
+        ss.add(jLabel90, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish10.png"))); // NOI18N
-
-        javax.swing.GroupLayout ssLayout = new javax.swing.GroupLayout(ss);
-        ss.setLayout(ssLayout);
-        ssLayout.setHorizontalGroup(
-            ssLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4)
-        );
-        ssLayout.setVerticalGroup(
-            ssLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4)
-        );
+        ss.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss);
 
@@ -1954,7 +2200,46 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btneWalletPay;
     private javax.swing.JScrollPane drinks;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
+    private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton20;
+    private javax.swing.JButton jButton21;
+    private javax.swing.JButton jButton22;
+    private javax.swing.JButton jButton23;
+    private javax.swing.JButton jButton24;
+    private javax.swing.JButton jButton25;
+    private javax.swing.JButton jButton26;
+    private javax.swing.JButton jButton27;
+    private javax.swing.JButton jButton28;
+    private javax.swing.JButton jButton29;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton30;
+    private javax.swing.JButton jButton31;
+    private javax.swing.JButton jButton32;
+    private javax.swing.JButton jButton33;
+    private javax.swing.JButton jButton34;
+    private javax.swing.JButton jButton35;
+    private javax.swing.JButton jButton36;
+    private javax.swing.JButton jButton37;
+    private javax.swing.JButton jButton38;
+    private javax.swing.JButton jButton39;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton40;
+    private javax.swing.JButton jButton41;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1998,12 +2283,53 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
+    private javax.swing.JLabel jLabel52;
+    private javax.swing.JLabel jLabel53;
+    private javax.swing.JLabel jLabel54;
+    private javax.swing.JLabel jLabel55;
+    private javax.swing.JLabel jLabel56;
+    private javax.swing.JLabel jLabel57;
+    private javax.swing.JLabel jLabel58;
+    private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel60;
+    private javax.swing.JLabel jLabel61;
+    private javax.swing.JLabel jLabel62;
+    private javax.swing.JLabel jLabel63;
+    private javax.swing.JLabel jLabel64;
+    private javax.swing.JLabel jLabel65;
+    private javax.swing.JLabel jLabel66;
+    private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel68;
+    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel70;
+    private javax.swing.JLabel jLabel71;
+    private javax.swing.JLabel jLabel72;
+    private javax.swing.JLabel jLabel73;
+    private javax.swing.JLabel jLabel74;
+    private javax.swing.JLabel jLabel75;
+    private javax.swing.JLabel jLabel76;
+    private javax.swing.JLabel jLabel77;
+    private javax.swing.JLabel jLabel78;
+    private javax.swing.JLabel jLabel79;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel80;
+    private javax.swing.JLabel jLabel81;
+    private javax.swing.JLabel jLabel82;
+    private javax.swing.JLabel jLabel83;
+    private javax.swing.JLabel jLabel84;
+    private javax.swing.JLabel jLabel85;
+    private javax.swing.JLabel jLabel86;
+    private javax.swing.JLabel jLabel87;
+    private javax.swing.JLabel jLabel88;
+    private javax.swing.JLabel jLabel89;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel90;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -2085,13 +2411,6 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel ss29;
     private javax.swing.JPanel ss3;
     private javax.swing.JPanel ss30;
-    private javax.swing.JPanel ss31;
-    private javax.swing.JPanel ss32;
-    private javax.swing.JPanel ss33;
-    private javax.swing.JPanel ss34;
-    private javax.swing.JPanel ss35;
-    private javax.swing.JPanel ss36;
-    private javax.swing.JPanel ss37;
     private javax.swing.JPanel ss38;
     private javax.swing.JPanel ss39;
     private javax.swing.JPanel ss4;
@@ -2099,7 +2418,14 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel ss41;
     private javax.swing.JPanel ss42;
     private javax.swing.JPanel ss43;
+    private javax.swing.JPanel ss44;
+    private javax.swing.JPanel ss45;
+    private javax.swing.JPanel ss46;
+    private javax.swing.JPanel ss47;
+    private javax.swing.JPanel ss48;
+    private javax.swing.JPanel ss49;
     private javax.swing.JPanel ss5;
+    private javax.swing.JPanel ss50;
     private javax.swing.JPanel ss6;
     private javax.swing.JPanel ss7;
     private javax.swing.JPanel ss8;
