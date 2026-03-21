@@ -185,6 +185,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         pnlPayment = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
+        jLabel49 = new javax.swing.JLabel();
         lblChange1 = new javax.swing.JLabel();
         lblTotal2 = new javax.swing.JLabel();
         lblOrderNum2 = new javax.swing.JLabel();
@@ -200,6 +201,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
+        jLabel51 = new javax.swing.JLabel();
         lblChange = new javax.swing.JLabel();
         lblTotal1 = new javax.swing.JLabel();
         lblOrderNum1 = new javax.swing.JLabel();
@@ -444,6 +446,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel49.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel49.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel49.setText("payment method");
+        jPanel11.add(jLabel49, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 200, 50));
+
         lblChange1.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
         lblChange1.setForeground(new java.awt.Color(0, 0, 0));
         lblChange1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -549,6 +556,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jScrollPane4.setViewportView(jTable3);
 
         jPanel10.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 440, 330, 220));
+
+        jLabel51.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel51.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel51.setText("payment method");
+        jPanel10.add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 200, 50));
 
         lblChange.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
         lblChange.setForeground(new java.awt.Color(0, 0, 0));
@@ -1926,8 +1938,10 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
