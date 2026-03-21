@@ -5,6 +5,8 @@
 package adsfinalproject;
 
 import java.awt.CardLayout;
+import java.awt.Color;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -158,9 +160,6 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 orderType = "Delivery";
             }
         }
-            private void setOrderDeets(String type, String payment, String dateTime, int orderNo){
-               
-            }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -194,9 +193,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jTextField11 = new javax.swing.JTextField();
         jTextField13 = new javax.swing.JTextField();
         jTextField14 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
+        btneWalletPay = new javax.swing.JButton();
         jLabel48 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -212,7 +211,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jTextField7 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnCcPay = new javax.swing.JButton();
         jLabel47 = new javax.swing.JLabel();
         pnlOrders = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -226,6 +225,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jTextField1 = new javax.swing.JTextField();
+        btnProceedPayment = new javax.swing.JButton();
         jLabel26 = new javax.swing.JLabel();
         pnlDish = new javax.swing.JPanel();
         btnCart = new javax.swing.JButton();
@@ -343,7 +343,6 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1400, 912));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(23, 29, 37));
@@ -508,12 +507,6 @@ public class CustomerDashboard extends javax.swing.JFrame {
         });
         jPanel11.add(jTextField14, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 390, 390, 30));
 
-        jButton2.setText("-");
-        jButton2.setBorder(null);
-        jButton2.setBorderPainted(false);
-        jButton2.setContentAreaFilled(false);
-        jPanel11.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 713, 420, 60));
-
         jScrollPane5.setBackground(new java.awt.Color(255, 255, 255));
 
         jTable4.setBackground(new java.awt.Color(255, 255, 255));
@@ -531,6 +524,17 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jScrollPane5.setViewportView(jTable4);
 
         jPanel11.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 440, 330, 220));
+
+        btneWalletPay.setText("-");
+        btneWalletPay.setBorder(null);
+        btneWalletPay.setBorderPainted(false);
+        btneWalletPay.setContentAreaFilled(false);
+        btneWalletPay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btneWalletPayActionPerformed(evt);
+            }
+        });
+        jPanel11.add(btneWalletPay, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 710, 420, 60));
 
         jLabel48.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/e-wallet Payment.png"))); // NOI18N
         jPanel11.add(jLabel48, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -637,11 +641,16 @@ public class CustomerDashboard extends javax.swing.JFrame {
         });
         jPanel10.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 430, 390, 30));
 
-        jButton1.setText("-");
-        jButton1.setBorder(null);
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jPanel10.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 713, 420, 60));
+        btnCcPay.setText("-");
+        btnCcPay.setBorder(null);
+        btnCcPay.setBorderPainted(false);
+        btnCcPay.setContentAreaFilled(false);
+        btnCcPay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCcPayActionPerformed(evt);
+            }
+        });
+        jPanel10.add(btnCcPay, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 713, 420, 60));
 
         jLabel47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/CC Payment.png"))); // NOI18N
         jPanel10.add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -724,6 +733,17 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jTextField1.setBackground(new java.awt.Color(255, 255, 255));
         jTextField1.setForeground(new java.awt.Color(0, 0, 0));
         pnlOrders.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 520, 410, 30));
+
+        btnProceedPayment.setText("-");
+        btnProceedPayment.setBorder(null);
+        btnProceedPayment.setBorderPainted(false);
+        btnProceedPayment.setContentAreaFilled(false);
+        btnProceedPayment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProceedPaymentActionPerformed(evt);
+            }
+        });
+        pnlOrders.add(btnProceedPayment, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 710, 420, 60));
 
         jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Order.png"))); // NOI18N
         pnlOrders.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1340, 800));
@@ -1703,12 +1723,15 @@ public class CustomerDashboard extends javax.swing.JFrame {
         btnCart.setIcon(darkIcon);
         if(cartClicked){
             btnCart.setIcon(lightIcon);
+            jPanel3.setVisible(false);
             pnlCart.setVisible(true);
             cartClicked = false;
         }else{
             btnCart.setIcon(darkIcon);
             pnlCart.setVisible(false);
             cartClicked = true;
+            
+          
         }
        
     }//GEN-LAST:event_btnCartActionPerformed
@@ -1831,19 +1854,39 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
     private void btnCashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCashActionPerformed
         selectedPayment = "cash";
+        btnCash.setBorder(BorderFactory.createLineBorder(Color.red, 2));
     }//GEN-LAST:event_btnCashActionPerformed
 
     private void btnCCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCCActionPerformed
         selectedPayment = "credit card";
+        btnCC.setBorder(BorderFactory.createLineBorder(Color.red, 2));
     }//GEN-LAST:event_btnCCActionPerformed
 
     private void btnEWalletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEWalletActionPerformed
         selectedPayment = "e-wallet";
+        btnEWallet.setBorder(BorderFactory.createLineBorder(Color.red, 2));
     }//GEN-LAST:event_btnEWalletActionPerformed
 
     private void btnPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlaceOrderActionPerformed
-       
+       lblOrderStat.setText("PENDING");
+        pnlOrders.setVisible(true);
+       pnlDish.setVisible(false);
     }//GEN-LAST:event_btnPlaceOrderActionPerformed
+
+    private void btnProceedPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProceedPaymentActionPerformed
+        lblOrderStat2.setText("PENDING");
+        pnlPayment.setVisible(true);
+        pnlOrders.setVisible(false);
+   
+    }//GEN-LAST:event_btnProceedPaymentActionPerformed
+
+    private void btneWalletPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneWalletPayActionPerformed
+        lblOrderStat2.setText("PREPARING");
+    }//GEN-LAST:event_btneWalletPayActionPerformed
+
+    private void btnCcPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCcPayActionPerformed
+        lblOrderStat2.setText("PREPARING");
+    }//GEN-LAST:event_btnCcPayActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1878,6 +1921,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnCC;
     private javax.swing.JButton btnCart;
     private javax.swing.JButton btnCash;
+    private javax.swing.JButton btnCcPay;
     private javax.swing.JButton btnDelivery;
     private javax.swing.JButton btnDine;
     private javax.swing.JButton btnDish;
@@ -1889,12 +1933,12 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnOrder;
     private javax.swing.JButton btnPayment;
     private javax.swing.JButton btnPlaceOrder;
+    private javax.swing.JButton btnProceedPayment;
     private javax.swing.JButton btnRice;
     private javax.swing.JButton btnSnacks;
     private javax.swing.JButton btnTakeOut;
+    private javax.swing.JButton btneWalletPay;
     private javax.swing.JScrollPane drinks;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
