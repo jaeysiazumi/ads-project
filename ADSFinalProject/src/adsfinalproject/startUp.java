@@ -79,10 +79,15 @@ public class startUp extends javax.swing.JFrame {
         pnlLog = new javax.swing.JPanel();
         btnBackLog = new javax.swing.JButton();
         btnNext = new javax.swing.JButton();
+        lblLogEmail = new javax.swing.JTextField();
+        lblLogPass = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         pnlReg = new javax.swing.JPanel();
         btnRegConfirm = new javax.swing.JButton();
         btnBackReg = new javax.swing.JButton();
+        lblRegPass = new javax.swing.JTextField();
+        lblRegEmail = new javax.swing.JTextField();
+        lblRegFName = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         log1 = new javax.swing.JPanel();
         btnRegister = new javax.swing.JButton();
@@ -97,7 +102,6 @@ public class startUp extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1300, 800));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(1300, 800));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -126,6 +130,16 @@ public class startUp extends javax.swing.JFrame {
             }
         });
         pnlLog.add(btnNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 513, 220, 70));
+
+        lblLogEmail.setBackground(new java.awt.Color(255, 255, 255));
+        lblLogEmail.setForeground(new java.awt.Color(0, 0, 0));
+        lblLogEmail.setBorder(null);
+        pnlLog.add(lblLogEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 330, 410, 40));
+
+        lblLogPass.setBackground(new java.awt.Color(255, 255, 255));
+        lblLogPass.setForeground(new java.awt.Color(0, 0, 0));
+        lblLogPass.setBorder(null);
+        pnlLog.add(lblLogPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 400, 410, 40));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Login 2.png"))); // NOI18N
         jLabel2.setToolTipText("");
@@ -158,6 +172,21 @@ public class startUp extends javax.swing.JFrame {
             }
         });
         pnlReg.add(btnBackReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 660, 80, 60));
+
+        lblRegPass.setBackground(new java.awt.Color(255, 255, 255));
+        lblRegPass.setForeground(new java.awt.Color(0, 0, 0));
+        lblRegPass.setBorder(null);
+        pnlReg.add(lblRegPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 440, 410, 40));
+
+        lblRegEmail.setBackground(new java.awt.Color(255, 255, 255));
+        lblRegEmail.setForeground(new java.awt.Color(0, 0, 0));
+        lblRegEmail.setBorder(null);
+        pnlReg.add(lblRegEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 380, 410, 30));
+
+        lblRegFName.setBackground(new java.awt.Color(255, 255, 255));
+        lblRegFName.setForeground(new java.awt.Color(0, 0, 0));
+        lblRegFName.setBorder(null);
+        pnlReg.add(lblRegFName, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 312, 410, 40));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Register.png"))); // NOI18N
         pnlReg.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -371,6 +400,11 @@ public class startUp extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField lblLogEmail;
+    private javax.swing.JTextField lblLogPass;
+    private javax.swing.JTextField lblRegEmail;
+    private javax.swing.JTextField lblRegFName;
+    private javax.swing.JTextField lblRegPass;
     private javax.swing.JPanel log1;
     private javax.swing.JPanel pnlLog;
     private javax.swing.JPanel pnlReg;

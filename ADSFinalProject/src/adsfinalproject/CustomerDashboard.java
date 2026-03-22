@@ -28,7 +28,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
      */
     public CustomerDashboard() {
         initComponents();
-        setSize(1300, 800);
+        setSize(1318, 847);
         setLocationRelativeTo(null);        
         menuRice.setBorder(null);
         btnCart.setIcon(darkIcon);

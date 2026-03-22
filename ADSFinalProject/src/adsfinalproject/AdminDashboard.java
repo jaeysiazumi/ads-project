@@ -22,7 +22,8 @@ public class AdminDashboard extends javax.swing.JFrame {
      */
     public AdminDashboard() {
         initComponents();
-        setSize(1300, 800);
+        setSize(1318, 847);
+        jPanel1.setVisible(true);
         setLocationRelativeTo(null);
         
         
@@ -116,6 +117,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setOpaque(false);
         jPanel1.setPreferredSize(new java.awt.Dimension(285, 800));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -123,7 +125,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnLogout.setBorder(null);
         btnLogout.setBorderPainted(false);
         btnLogout.setContentAreaFilled(false);
-        jPanel1.add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 700, 280, 50));
+        jPanel1.add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, 700, 300, 50));
 
         btnReports.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/reports.png"))); // NOI18N
         btnReports.setBorder(null);
@@ -192,9 +194,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         jPanel1.add(btnDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, 300, 70));
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/admindasd.png"))); // NOI18N
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, -1));
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 847));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -3, 230, 850));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new java.awt.CardLayout());
@@ -202,7 +204,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         pnlReports.setBackground(new java.awt.Color(255, 255, 255));
         pnlReports.setPreferredSize(new java.awt.Dimension(1300, 800));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Reportsda.png"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/reports.png"))); // NOI18N
 
         javax.swing.GroupLayout pnlReportsLayout = new javax.swing.GroupLayout(pnlReports);
         pnlReports.setLayout(pnlReportsLayout);
@@ -244,7 +246,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.RIGHT);
         jTabbedPane1.setToolTipText("");
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Ordersda.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/orders.png"))); // NOI18N
         jTabbedPane1.addTab("Order", jLabel4);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Payment.png"))); // NOI18N
@@ -257,7 +259,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         pnlUsers.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Usersda.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/users.png"))); // NOI18N
 
         javax.swing.GroupLayout pnlUsersLayout = new javax.swing.GroupLayout(pnlUsers);
         pnlUsers.setLayout(pnlUsersLayout);
@@ -276,7 +278,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         pnlDashboard.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Admindash.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/admin.png"))); // NOI18N
 
         javax.swing.GroupLayout pnlDashboardLayout = new javax.swing.GroupLayout(pnlDashboard);
         pnlDashboard.setLayout(pnlDashboardLayout);
@@ -295,7 +297,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         pnlProduct.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Productda.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Product.png"))); // NOI18N
 
         javax.swing.GroupLayout pnlProductLayout = new javax.swing.GroupLayout(pnlProduct);
         pnlProduct.setLayout(pnlProductLayout);
