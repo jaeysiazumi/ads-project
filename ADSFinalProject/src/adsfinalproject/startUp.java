@@ -225,7 +225,7 @@ public class startUp extends javax.swing.JFrame {
         pnlUserChoice.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnLogAdmin.setForeground(new java.awt.Color(0, 0, 0));
-        btnLogAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/admin.png"))); // NOI18N
+        btnLogAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/logadmin.png"))); // NOI18N
         btnLogAdmin.setText("-");
         btnLogAdmin.setBorder(null);
         btnLogAdmin.setBorderPainted(false);
