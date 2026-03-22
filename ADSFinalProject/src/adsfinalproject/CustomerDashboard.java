@@ -427,6 +427,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1318, 847));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(23, 29, 37));
@@ -500,10 +501,12 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jPanel3.add(btnHome, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, -20, 60, 80));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/menu.png"))); // NOI18N
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-220, -22, -1, -1));
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-220, -22, 1320, -1));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, 1050, 50));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, 1060, 50));
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1340, 835));
         jPanel1.setPreferredSize(new java.awt.Dimension(1300, 800));
         jPanel1.setLayout(new java.awt.CardLayout());
 
@@ -846,6 +849,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         jPanel1.add(pnlOrders, "orders");
 
+        pnlDish.setBackground(new java.awt.Color(255, 255, 255));
         pnlDish.setPreferredSize(new java.awt.Dimension(1300, 800));
         pnlDish.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -1970,11 +1974,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         pnlDish.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 220, 570));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Customer Dish.png"))); // NOI18N
-        pnlDish.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 800));
+        pnlDish.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1310, 800));
 
         jPanel1.add(pnlDish, "dish");
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 800));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1320, 800));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
