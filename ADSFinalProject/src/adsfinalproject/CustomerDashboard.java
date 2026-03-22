@@ -2006,14 +2006,12 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
     private void btnDishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDishActionPerformed
         setActive("dish");
-        jPanel1.setVisible(false);
         CardLayout cl = (CardLayout)(jPanel1.getLayout());
             cl.show(jPanel1, "dish");
     }//GEN-LAST:event_btnDishActionPerformed
 
     private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
         setActive("order");
-         jPanel1.setVisible(false);
         CardLayout cl = (CardLayout)(jPanel1.getLayout());
             cl.show(jPanel1, "orders");
             
