@@ -48,7 +48,7 @@ public class startUp extends javax.swing.JFrame {
         csd = new ImageIcon(getClass().getResource("/design/cusd.png"));
         st = new ImageIcon(getClass().getResource("/design/staff.png"));
         std = new ImageIcon(getClass().getResource("/design/staffd.png"));
-        ad = new ImageIcon(getClass().getResource("/design/admin.png"));
+        ad = new ImageIcon(getClass().getResource("/design/logadmin.png"));
         add = new ImageIcon(getClass().getResource("/design/admind.png"));
     }
     private void setRole(String role){

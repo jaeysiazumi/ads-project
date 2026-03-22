@@ -21,6 +21,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
     String orderType = "";
     String selectedPayment = "";
     
+    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CustomerDashboard.class.getName());
 
     /**
