@@ -2152,13 +2152,33 @@ public class CustomerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPlaceOrderActionPerformed
 
     private void btnProceedPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProceedPaymentActionPerformed
-        lblOrderStat2.setText("PENDING");
-        lblOrderStat1.setText("PENDING");
-        lblCcPay.setText("Credit Card");
-        lblEPayMethod.setText("e-Wallet");
+           if (selectedPayment == null) {
+        JOptionPane.showMessageDialog(this, "Please select a payment method first!");
+        return;
+    }
+
+    if (selectedPayment.equals("cash")) {
+        int confirm = JOptionPane.showConfirmDialog(
+            this,
+            "Confirm cash payment?",
+            "Cash Payment",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            lblOrderStat2.setText("PREPARING");
+
+            JOptionPane.showMessageDialog(this, "Please pay at the counter.");
+
+            CardLayout cl = (CardLayout)(jPanel1.getLayout());
+            cl.show(jPanel1, "orders"); 
+        }
+
+    } 
+    else {
         CardLayout cl = (CardLayout)(jPanel1.getLayout());
-            cl.show(jPanel1, "pay");
-   
+        cl.show(jPanel1, "pay");
+    } 
     }//GEN-LAST:event_btnProceedPaymentActionPerformed
 
     private void btneWalletPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneWalletPayActionPerformed
