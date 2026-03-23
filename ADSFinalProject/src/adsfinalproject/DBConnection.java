@@ -11,6 +11,7 @@ package adsfinalproject;
 import java.sql.Connection;
 import java.sql.DriverManager;
 public class DBConnection {
+    //sana gumana naman na oh
     public static Connection getConnection(){
         Connection con = null;
         try{
