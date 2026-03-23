@@ -111,6 +111,14 @@ public class AdminDashboard extends javax.swing.JFrame {
         pnlUsers = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         pnlDashboard = new javax.swing.JPanel();
+        lblLowStiock = new javax.swing.JLabel();
+        lblTotalCustomer = new javax.swing.JLabel();
+        lblTotalSales = new javax.swing.JLabel();
+        lblTransPend = new javax.swing.JLabel();
+        lblTotalOrd = new javax.swing.JLabel();
+        lblTransComp = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         pnlProduct = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -130,9 +138,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnUsers.setBorder(null);
         btnUsers.setBorderPainted(false);
         btnUsers.setContentAreaFilled(false);
-        btnUsers.setMaximumSize(new java.awt.Dimension(280, 34));
-        btnUsers.setMinimumSize(new java.awt.Dimension(280, 34));
-        btnUsers.setPreferredSize(new java.awt.Dimension(280, 34));
         btnUsers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUsersActionPerformed(evt);
@@ -318,21 +323,65 @@ public class AdminDashboard extends javax.swing.JFrame {
         jPanel2.add(pnlUsers, "users");
 
         pnlDashboard.setBackground(new java.awt.Color(255, 255, 255));
+        pnlDashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblLowStiock.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblLowStiock.setForeground(new java.awt.Color(255, 255, 255));
+        lblLowStiock.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLowStiock.setText("-");
+        pnlDashboard.add(lblLowStiock, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 140, 70, -1));
+
+        lblTotalCustomer.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblTotalCustomer.setForeground(new java.awt.Color(255, 255, 255));
+        lblTotalCustomer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTotalCustomer.setText("-");
+        pnlDashboard.add(lblTotalCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 140, 70, -1));
+
+        lblTotalSales.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblTotalSales.setForeground(new java.awt.Color(255, 255, 255));
+        lblTotalSales.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTotalSales.setText("-");
+        pnlDashboard.add(lblTotalSales, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 140, 50, -1));
+
+        lblTransPend.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        lblTransPend.setForeground(new java.awt.Color(0, 0, 0));
+        lblTransPend.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTransPend.setText("-");
+        pnlDashboard.add(lblTransPend, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 700, 100, 60));
+
+        lblTotalOrd.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblTotalOrd.setForeground(new java.awt.Color(255, 255, 255));
+        lblTotalOrd.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTotalOrd.setText("-");
+        pnlDashboard.add(lblTotalOrd, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 140, 40, -1));
+
+        lblTransComp.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        lblTransComp.setForeground(new java.awt.Color(0, 0, 0));
+        lblTransComp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTransComp.setText("-");
+        pnlDashboard.add(lblTransComp, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 700, 90, 70));
+
+        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane2.setBorder(null);
+
+        jTable2.setBackground(new java.awt.Color(255, 255, 255));
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
+        pnlDashboard.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 290, 930, 310));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/admin.png"))); // NOI18N
-
-        javax.swing.GroupLayout pnlDashboardLayout = new javax.swing.GroupLayout(pnlDashboard);
-        pnlDashboard.setLayout(pnlDashboardLayout);
-        pnlDashboardLayout.setHorizontalGroup(
-            pnlDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1320, Short.MAX_VALUE)
-        );
-        pnlDashboardLayout.setVerticalGroup(
-            pnlDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlDashboardLayout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        pnlDashboard.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(pnlDashboard, "dashboard");
 
@@ -457,9 +506,17 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lblLowStiock;
+    private javax.swing.JLabel lblTotalCustomer;
+    private javax.swing.JLabel lblTotalOrd;
+    private javax.swing.JLabel lblTotalSales;
+    private javax.swing.JLabel lblTransComp;
+    private javax.swing.JLabel lblTransPend;
     private javax.swing.JPanel pnlDashboard;
     private javax.swing.JPanel pnlOrder;
     private javax.swing.JPanel pnlProduct;
