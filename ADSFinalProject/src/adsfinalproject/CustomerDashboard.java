@@ -2153,6 +2153,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
     private void btnProceedPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProceedPaymentActionPerformed
         lblOrderStat2.setText("PENDING");
+        lblOrderStat1.setText("PENDING");
         lblCcPay.setText("Credit Card");
         lblEPayMethod.setText("e-Wallet");
         CardLayout cl = (CardLayout)(jPanel1.getLayout());
@@ -2183,7 +2184,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
     );
 
     if (confirm == JOptionPane.YES_OPTION) {
-        lblOrderStat2.setText("PREPARING");
+        lblOrderStat1.setText("PREPARING");
 
         JOptionPane.showMessageDialog(this, "Payment Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnCcPayActionPerformed
