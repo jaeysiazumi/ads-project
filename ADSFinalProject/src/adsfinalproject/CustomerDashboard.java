@@ -9,6 +9,7 @@ import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -627,7 +628,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel48.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/e-wallet Payment.png"))); // NOI18N
         jPanel11.add(jLabel48, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        pnlPayment.add(jPanel11, "card2");
+        pnlPayment.add(jPanel11, "ewallet");
 
         jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -743,7 +744,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/CC Payment.png"))); // NOI18N
         jPanel10.add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        pnlPayment.add(jPanel10, "card2");
+        pnlPayment.add(jPanel10, "cc");
 
         jPanel1.add(pnlPayment, "pay");
 
@@ -812,6 +813,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         jTextField3.setBackground(new java.awt.Color(255, 255, 255));
         jTextField3.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
         pnlOrders.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 600, 410, 30));
 
         jTextField2.setBackground(new java.awt.Color(255, 255, 255));
@@ -2043,14 +2049,17 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
     private void btnDineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDineActionPerformed
         setOrderType(btnDine);
+        lblOrderType.setText("Dine-in");
     }//GEN-LAST:event_btnDineActionPerformed
 
     private void btnTakeOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTakeOutActionPerformed
         setOrderType(btnTakeOut);
+        lblOrderType.setText("Take-out");
     }//GEN-LAST:event_btnTakeOutActionPerformed
 
     private void btnDeliveryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeliveryActionPerformed
         setOrderType(btnDelivery);
+        lblOrderType.setText("Delivery");
     }//GEN-LAST:event_btnDeliveryActionPerformed
 
     private void btnNoodlesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoodlesActionPerformed
@@ -2124,12 +2133,16 @@ public class CustomerDashboard extends javax.swing.JFrame {
         selectedPayment = "credit card";
         lblPayMethod.setText("Credit Card");
         btnCC.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+         CardLayout cl = (CardLayout)(pnlPayment.getLayout());
+            cl.show(pnlPayment, "cc");
     }//GEN-LAST:event_btnCCActionPerformed
 
     private void btnEWalletActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEWalletActionPerformed
         selectedPayment = "e-wallet";
         lblPayMethod.setText("e-Wallet");
         btnEWallet.setBorder(BorderFactory.createLineBorder(Color.red, 2));
+        CardLayout cl = (CardLayout)(pnlPayment.getLayout());
+            cl.show(pnlPayment, "ewallet");
     }//GEN-LAST:event_btnEWalletActionPerformed
 
     private void btnPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlaceOrderActionPerformed
@@ -2140,19 +2153,45 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
     private void btnProceedPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProceedPaymentActionPerformed
         lblOrderStat2.setText("PENDING");
+        lblCcPay.setText("Credit Card");
+        lblEPayMethod.setText("e-Wallet");
         CardLayout cl = (CardLayout)(jPanel1.getLayout());
             cl.show(jPanel1, "pay");
    
     }//GEN-LAST:event_btnProceedPaymentActionPerformed
 
     private void btneWalletPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneWalletPayActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(
+        this,
+        "Are you sure you want to confirm payment?",
+        "Confirm Payment",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirm == JOptionPane.YES_OPTION) {
         lblOrderStat2.setText("PREPARING");
+
+        JOptionPane.showMessageDialog(this, "Payment Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btneWalletPayActionPerformed
-
+    }
     private void btnCcPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCcPayActionPerformed
-        lblOrderStat2.setText("PREPARING");
-    }//GEN-LAST:event_btnCcPayActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(
+        this,
+        "Are you sure you want to confirm payment?",
+        "Confirm Payment",
+        JOptionPane.YES_NO_OPTION
+    );
 
+    if (confirm == JOptionPane.YES_OPTION) {
+        lblOrderStat2.setText("PREPARING");
+
+        JOptionPane.showMessageDialog(this, "Payment Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_btnCcPayActionPerformed
+    }
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+    
     /**
      * @param args the command line arguments
      */
