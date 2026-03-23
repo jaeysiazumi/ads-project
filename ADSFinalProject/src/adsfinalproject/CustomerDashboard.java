@@ -250,7 +250,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 Object val = cartModel.getValueAt(i, 3);
                 if (val != null) sum += Double.parseDouble(val.toString());
             }
-            lblTotal.setText("Total: " + sum); // use your total label
+            lblTotal.setText("" + sum); // use your total label
         } 
 
     /**
