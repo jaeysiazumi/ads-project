@@ -2152,7 +2152,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPlaceOrderActionPerformed
 
     private void btnProceedPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProceedPaymentActionPerformed
-           if (selectedPayment == null) {
+        lblOrderStat1.setText("PENDING");
+        lblOrderStat2.setText("PENDING");
+        if (selectedPayment == null) {
         JOptionPane.showMessageDialog(this, "Please select a payment method first!");
         return;
     }
@@ -2166,7 +2168,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         );
 
         if (confirm == JOptionPane.YES_OPTION) {
-            lblOrderStat2.setText("PREPARING");
+            lblOrderStat.setText("PREPARING");
 
             JOptionPane.showMessageDialog(this, "Please pay at the counter.");
 
