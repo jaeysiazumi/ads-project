@@ -24,7 +24,7 @@ public class startUp extends javax.swing.JFrame {
      */
     public startUp() {
         initComponents();
-        setSize(1300, 800);
+        setSize(1318, 847);
         setLocationRelativeTo(null);
         btnLogin.setContentAreaFilled(false);
         btnRegister.setContentAreaFilled(false);
