@@ -10,6 +10,8 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -21,7 +23,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
     boolean cartClicked = false;
     String orderType = "";
     String selectedPayment = "";
-    
+    DefaultTableModel cartModel;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CustomerDashboard.class.getName());
 
@@ -30,6 +32,43 @@ public class CustomerDashboard extends javax.swing.JFrame {
      */
     public CustomerDashboard() {
         initComponents();
+        cartModel = new DefaultTableModel(
+            new Object[]{"Item", "Price", "Qty", "Total"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 2; 
+            }
+        };
+        jTable5.setModel(cartModel);
+                cartModel.addTableModelListener(e -> {
+        int row = e.getFirstRow();
+        int col = e.getColumn();
+
+        if (col == 2) { 
+        try {
+            Object priceObj = cartModel.getValueAt(row, 1);
+            Object qtyObj = cartModel.getValueAt(row, 2);
+
+            if (priceObj == null || qtyObj == null) return;
+            double price = Double.parseDouble(priceObj.toString());
+            int qty = Integer.parseInt(qtyObj.toString());
+            if (qty <= 0) {
+                JOptionPane.showMessageDialog(null, "Quantity must be at least 1");
+                cartModel.setValueAt(1, row, 2);
+                return;
+            }
+            double total = price * qty;
+            cartModel.setValueAt(total, row, 3);
+
+            updateCartTotal();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Invalid quantity!");
+        }
+    }
+        });
+
+
         setSize(1318, 847);
         setLocationRelativeTo(null);        
         menuRice.setBorder(null);
@@ -162,6 +201,58 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 orderType = "Delivery";
             }
         }
+                private void addToCart(String itemName, double price) {
+
+    int qty = 1;
+    boolean found = false;
+
+    for (int i = 0; i < cartModel.getRowCount(); i++) {
+
+        Object value = cartModel.getValueAt(i, 0);
+
+        if (value == null) continue;
+
+        String existingItem = value.toString();
+
+        if (existingItem.equals(itemName)) {
+
+            int existingQty = Integer.parseInt(cartModel.getValueAt(i, 2).toString());
+            existingQty++;
+
+            cartModel.setValueAt(existingQty, i, 2);
+            cartModel.setValueAt(existingQty * price, i, 3);
+
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        cartModel.addRow(new Object[]{
+            itemName, price, qty, price
+        });
+
+        JOptionPane.showMessageDialog(
+            this,
+            itemName + " added to cart!",
+            "Success",
+            JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
+    updateCartTotal();
+}
+
+    
+        private void updateCartTotal() {
+            double sum = 0;
+            for (int i = 0; i < cartModel.getRowCount(); i++) {
+                Object val = cartModel.getValueAt(i, 3);
+                if (val != null) sum += Double.parseDouble(val.toString());
+            }
+            lblTotal.setText("Total: " + sum); // use your total label
+        } 
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -429,7 +520,6 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1318, 847));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(23, 29, 37));
@@ -994,6 +1084,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton36.setBorder(null);
         jButton36.setBorderPainted(false);
         jButton36.setContentAreaFilled(false);
+        jButton36.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton36ActionPerformed(evt);
+            }
+        });
         ss43.add(jButton36, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel34.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1015,6 +1110,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton37.setBorder(null);
         jButton37.setBorderPainted(false);
         jButton37.setContentAreaFilled(false);
+        jButton37.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton37ActionPerformed(evt);
+            }
+        });
         ss42.add(jButton37, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel35.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1036,6 +1136,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton38.setBorder(null);
         jButton38.setBorderPainted(false);
         jButton38.setContentAreaFilled(false);
+        jButton38.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton38ActionPerformed(evt);
+            }
+        });
         ss41.add(jButton38, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel36.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1057,6 +1162,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton39.setBorder(null);
         jButton39.setBorderPainted(false);
         jButton39.setContentAreaFilled(false);
+        jButton39.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton39ActionPerformed(evt);
+            }
+        });
         ss40.add(jButton39, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel37.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1078,6 +1188,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton40.setBorder(null);
         jButton40.setBorderPainted(false);
         jButton40.setContentAreaFilled(false);
+        jButton40.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton40ActionPerformed(evt);
+            }
+        });
         ss39.add(jButton40, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel38.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1099,6 +1214,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton41.setBorder(null);
         jButton41.setBorderPainted(false);
         jButton41.setContentAreaFilled(false);
+        jButton41.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton41ActionPerformed(evt);
+            }
+        });
         ss38.add(jButton41, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel39.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1131,6 +1251,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton29.setBorder(null);
         jButton29.setBorderPainted(false);
         jButton29.setContentAreaFilled(false);
+        jButton29.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton29ActionPerformed(evt);
+            }
+        });
         ss44.add(jButton29, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel40.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1152,6 +1277,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton30.setBorder(null);
         jButton30.setBorderPainted(false);
         jButton30.setContentAreaFilled(false);
+        jButton30.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton30ActionPerformed(evt);
+            }
+        });
         ss45.add(jButton30, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel57.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1173,6 +1303,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton31.setBorder(null);
         jButton31.setBorderPainted(false);
         jButton31.setContentAreaFilled(false);
+        jButton31.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton31ActionPerformed(evt);
+            }
+        });
         ss46.add(jButton31, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel58.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1194,6 +1329,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton32.setBorder(null);
         jButton32.setBorderPainted(false);
         jButton32.setContentAreaFilled(false);
+        jButton32.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton32ActionPerformed(evt);
+            }
+        });
         ss47.add(jButton32, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel59.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1215,6 +1355,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton33.setBorder(null);
         jButton33.setBorderPainted(false);
         jButton33.setContentAreaFilled(false);
+        jButton33.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton33ActionPerformed(evt);
+            }
+        });
         ss48.add(jButton33, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel60.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1236,6 +1381,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton34.setBorder(null);
         jButton34.setBorderPainted(false);
         jButton34.setContentAreaFilled(false);
+        jButton34.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton34ActionPerformed(evt);
+            }
+        });
         ss49.add(jButton34, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel61.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1257,6 +1407,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton35.setBorder(null);
         jButton35.setBorderPainted(false);
         jButton35.setContentAreaFilled(false);
+        jButton35.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton35ActionPerformed(evt);
+            }
+        });
         ss50.add(jButton35, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel62.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1290,6 +1445,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton23.setBorder(null);
         jButton23.setBorderPainted(false);
         jButton23.setContentAreaFilled(false);
+        jButton23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton23ActionPerformed(evt);
+            }
+        });
         ss30.add(jButton23, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel63.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1311,6 +1471,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton24.setBorder(null);
         jButton24.setBorderPainted(false);
         jButton24.setContentAreaFilled(false);
+        jButton24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton24ActionPerformed(evt);
+            }
+        });
         ss29.add(jButton24, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel64.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1332,6 +1497,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton25.setBorder(null);
         jButton25.setBorderPainted(false);
         jButton25.setContentAreaFilled(false);
+        jButton25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton25ActionPerformed(evt);
+            }
+        });
         ss28.add(jButton25, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel65.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1353,6 +1523,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton26.setBorder(null);
         jButton26.setBorderPainted(false);
         jButton26.setContentAreaFilled(false);
+        jButton26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton26ActionPerformed(evt);
+            }
+        });
         ss27.add(jButton26, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel66.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1374,6 +1549,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton27.setBorder(null);
         jButton27.setBorderPainted(false);
         jButton27.setContentAreaFilled(false);
+        jButton27.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton27ActionPerformed(evt);
+            }
+        });
         ss26.add(jButton27, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel67.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1395,6 +1575,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton28.setBorder(null);
         jButton28.setBorderPainted(false);
         jButton28.setContentAreaFilled(false);
+        jButton28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton28ActionPerformed(evt);
+            }
+        });
         ss25.add(jButton28, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel68.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1430,6 +1615,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton17.setBorder(null);
         jButton17.setBorderPainted(false);
         jButton17.setContentAreaFilled(false);
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton17ActionPerformed(evt);
+            }
+        });
         ss23.add(jButton17, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel69.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1468,6 +1658,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton18.setBorder(null);
         jButton18.setBorderPainted(false);
         jButton18.setContentAreaFilled(false);
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
         ss20.add(jButton18, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel70.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1489,6 +1684,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton19.setBorder(null);
         jButton19.setBorderPainted(false);
         jButton19.setContentAreaFilled(false);
+        jButton19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton19ActionPerformed(evt);
+            }
+        });
         ss19.add(jButton19, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel71.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1510,6 +1710,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton20.setBorder(null);
         jButton20.setBorderPainted(false);
         jButton20.setContentAreaFilled(false);
+        jButton20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton20ActionPerformed(evt);
+            }
+        });
         ss18.add(jButton20, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel72.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1531,6 +1736,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton21.setBorder(null);
         jButton21.setBorderPainted(false);
         jButton21.setContentAreaFilled(false);
+        jButton21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton21ActionPerformed(evt);
+            }
+        });
         ss17.add(jButton21, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel73.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1552,6 +1762,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton22.setBorder(null);
         jButton22.setBorderPainted(false);
         jButton22.setContentAreaFilled(false);
+        jButton22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton22ActionPerformed(evt);
+            }
+        });
         ss16.add(jButton22, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel74.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1586,6 +1801,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton1.setBorder(null);
         jButton1.setBorderPainted(false);
         jButton1.setContentAreaFilled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         ss15.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel75.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1607,6 +1827,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton2.setBorder(null);
         jButton2.setBorderPainted(false);
         jButton2.setContentAreaFilled(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         ss14.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel76.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1628,6 +1853,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton3.setBorder(null);
         jButton3.setBorderPainted(false);
         jButton3.setContentAreaFilled(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         ss13.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel77.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1649,6 +1879,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton4.setBorder(null);
         jButton4.setBorderPainted(false);
         jButton4.setContentAreaFilled(false);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         ss12.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel78.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1670,6 +1905,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton5.setBorder(null);
         jButton5.setBorderPainted(false);
         jButton5.setContentAreaFilled(false);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         ss11.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel79.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1691,6 +1931,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton6.setBorder(null);
         jButton6.setBorderPainted(false);
         jButton6.setContentAreaFilled(false);
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
         ss10.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel80.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1712,6 +1957,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton7.setBorder(null);
         jButton7.setBorderPainted(false);
         jButton7.setContentAreaFilled(false);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
         ss9.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel81.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1733,6 +1983,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton8.setBorder(null);
         jButton8.setBorderPainted(false);
         jButton8.setContentAreaFilled(false);
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
         ss8.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel82.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1754,6 +2009,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton9.setBorder(null);
         jButton9.setBorderPainted(false);
         jButton9.setContentAreaFilled(false);
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
         ss7.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel83.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1775,6 +2035,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton10.setBorder(null);
         jButton10.setBorderPainted(false);
         jButton10.setContentAreaFilled(false);
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
         ss6.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel84.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1796,6 +2061,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton11.setBorder(null);
         jButton11.setBorderPainted(false);
         jButton11.setContentAreaFilled(false);
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
         ss5.add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel85.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1817,6 +2087,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton12.setBorder(null);
         jButton12.setBorderPainted(false);
         jButton12.setContentAreaFilled(false);
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
         ss4.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel86.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1838,6 +2113,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton13.setBorder(null);
         jButton13.setBorderPainted(false);
         jButton13.setContentAreaFilled(false);
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
         ss3.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel87.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1859,6 +2139,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton14.setBorder(null);
         jButton14.setBorderPainted(false);
         jButton14.setContentAreaFilled(false);
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
         ss2.add(jButton14, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel88.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1880,6 +2165,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton15.setBorder(null);
         jButton15.setBorderPainted(false);
         jButton15.setContentAreaFilled(false);
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
         ss1.add(jButton15, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel89.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -1901,6 +2191,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jButton16.setBorder(null);
         jButton16.setBorderPainted(false);
         jButton16.setContentAreaFilled(false);
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
         ss.add(jButton16, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 50, 50));
 
         jLabel90.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
@@ -2214,6 +2509,211 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jButton36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton36ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Shanghai", 50.00);
+    }//GEN-LAST:event_jButton36ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Sweet & Sour Tilapia w/Rice", 55.00);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Fried Tilapia w/Rice", 45.00);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Nilagang Manok w/Rice", 60.00);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Beef Sinigang w/Rice", 70.00);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Lechon Kawali w/Rice", 60.00);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Beef Caldereta w/Rice", 60.00);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Pork Sinigang w/Rice", 65.00);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Kare-Kare w/Rice", 65.00);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Menudo w/Rice", 70.00);
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Bicol Express w/Rice", 75.00);
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Chicken Asado w/Rice", 55.00);
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Fried Chicken w/Rice", 50.00);
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Beef Steak w/Rice", 65.00);
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Tokwa't Baboy w/Rice", 65.00);
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Bopis w/Rice", 55.00);
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Sarciadong Tilapia w/Rice", 50.00);
+    }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Pancit Canton Calamansi", 30.00);
+    }//GEN-LAST:event_jButton23ActionPerformed
+
+    private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Pancit Canton Spicy", 30.00);
+    }//GEN-LAST:event_jButton24ActionPerformed
+
+    private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Pancit Canton Chilimansi", 30.00);
+    }//GEN-LAST:event_jButton25ActionPerformed
+
+    private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Spaghetti", 45.00);
+    }//GEN-LAST:event_jButton26ActionPerformed
+
+    private void jButton27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton27ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Pancit", 30.00);
+    }//GEN-LAST:event_jButton27ActionPerformed
+
+    private void jButton28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton28ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Palabok", 35.00);
+    }//GEN-LAST:event_jButton28ActionPerformed
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Garlic Longganisa w/Rice & Egg", 55.00);
+    }//GEN-LAST:event_jButton17ActionPerformed
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Egg w/Ric", 30.00);
+    }//GEN-LAST:event_jButton18ActionPerformed
+
+    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Daing w/Rice & Egg", 60.00);
+    }//GEN-LAST:event_jButton19ActionPerformed
+
+    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Hatdog w/Rice & Egg", 40.00);
+    }//GEN-LAST:event_jButton20ActionPerformed
+
+    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Sweet Longganisa w/Rice & Egg", 30.00);
+    }//GEN-LAST:event_jButton21ActionPerformed
+
+    private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Hungarian w/Rice & Egg", 70.00);
+    }//GEN-LAST:event_jButton22ActionPerformed
+
+    private void jButton37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton37ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Banana Cue", 25.00);
+    }//GEN-LAST:event_jButton37ActionPerformed
+
+    private void jButton38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton38ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Lumpiang Toge", 20.00);
+    }//GEN-LAST:event_jButton38ActionPerformed
+
+    private void jButton39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton39ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Siomai", 20.00);
+    }//GEN-LAST:event_jButton39ActionPerformed
+
+    private void jButton40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton40ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Turon", 30.00);
+    }//GEN-LAST:event_jButton40ActionPerformed
+
+    private void jButton41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton41ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Burger", 35.00);
+    }//GEN-LAST:event_jButton41ActionPerformed
+
+    private void jButton29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton29ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Bottled Water", 20.00);
+    }//GEN-LAST:event_jButton29ActionPerformed
+
+    private void jButton30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton30ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Sprite", 25.00);
+    }//GEN-LAST:event_jButton30ActionPerformed
+
+    private void jButton31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton31ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Coke", 25.00);
+    }//GEN-LAST:event_jButton31ActionPerformed
+
+    private void jButton32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton32ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Royal", 25.00);
+    }//GEN-LAST:event_jButton32ActionPerformed
+
+    private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Big Coca Cola", 75.00);
+    }//GEN-LAST:event_jButton33ActionPerformed
+
+    private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Big Coke Zero", 85.00);
+    }//GEN-LAST:event_jButton34ActionPerformed
+
+    private void jButton35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton35ActionPerformed
+        // TODO add your handling code here:
+        addToCart("Big Royal", 75.00);
+    }//GEN-LAST:event_jButton35ActionPerformed
     
     /**
      * @param args the command line arguments
