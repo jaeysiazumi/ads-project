@@ -305,7 +305,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         pnlUsers.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Userdash.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Usersimnida.png"))); // NOI18N
 
         javax.swing.GroupLayout pnlUsersLayout = new javax.swing.GroupLayout(pnlUsers);
         pnlUsers.setLayout(pnlUsersLayout);
@@ -315,9 +315,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         );
         pnlUsersLayout.setVerticalGroup(
             pnlUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlUsersLayout.createSequentialGroup()
-                .addComponent(jLabel2)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jLabel2)
         );
 
         jPanel2.add(pnlUsers, "users");
