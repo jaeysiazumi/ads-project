@@ -83,8 +83,8 @@ public class startUp extends javax.swing.JFrame {
         pnlLog = new javax.swing.JPanel();
         btnBackLog = new javax.swing.JButton();
         btnNext = new javax.swing.JButton();
-        lblLogEmail = new javax.swing.JTextField();
-        lblLogPass = new javax.swing.JTextField();
+        txtLoginEmail = new javax.swing.JTextField();
+        txtLoginPass = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         pnlReg = new javax.swing.JPanel();
         btnRegConfirm = new javax.swing.JButton();
@@ -135,15 +135,15 @@ public class startUp extends javax.swing.JFrame {
         });
         pnlLog.add(btnNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 513, 220, 70));
 
-        lblLogEmail.setBackground(new java.awt.Color(255, 255, 255));
-        lblLogEmail.setForeground(new java.awt.Color(0, 0, 0));
-        lblLogEmail.setBorder(null);
-        pnlLog.add(lblLogEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 330, 410, 40));
+        txtLoginEmail.setBackground(new java.awt.Color(255, 255, 255));
+        txtLoginEmail.setForeground(new java.awt.Color(0, 0, 0));
+        txtLoginEmail.setBorder(null);
+        pnlLog.add(txtLoginEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 330, 410, 40));
 
-        lblLogPass.setBackground(new java.awt.Color(255, 255, 255));
-        lblLogPass.setForeground(new java.awt.Color(0, 0, 0));
-        lblLogPass.setBorder(null);
-        pnlLog.add(lblLogPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 400, 410, 40));
+        txtLoginPass.setBackground(new java.awt.Color(255, 255, 255));
+        txtLoginPass.setForeground(new java.awt.Color(0, 0, 0));
+        txtLoginPass.setBorder(null);
+        pnlLog.add(txtLoginPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 400, 410, 40));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Login 2.png"))); // NOI18N
         jLabel2.setToolTipText("");
@@ -439,12 +439,12 @@ public class startUp extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField lblLogEmail;
-    private javax.swing.JTextField lblLogPass;
     private javax.swing.JPanel log1;
     private javax.swing.JPanel pnlLog;
     private javax.swing.JPanel pnlReg;
     private javax.swing.JPanel pnlUserChoice;
+    private javax.swing.JTextField txtLoginEmail;
+    private javax.swing.JTextField txtLoginPass;
     private javax.swing.JTextField txtRegEmail;
     private javax.swing.JTextField txtRegName;
     private javax.swing.JTextField txtRegPass;
