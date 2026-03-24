@@ -31,16 +31,25 @@ public class CustomerDashboard extends javax.swing.JFrame {
      * Creates new form CustomerDashboard
      */
     public CustomerDashboard() {
-        initComponents();
+                initComponents();
+        DefaultTableModel currentOrderModel = new DefaultTableModel(
+        new Object[]{"Name", "Qty", "Price", "Total"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // prevent editing of all cells
+            }
+        };
+        tblCurrentOrders.setModel(currentOrderModel);
         cartModel = new DefaultTableModel(
-            new Object[]{"Item", "Price", "Qty", "Total"}, 0
+            new Object[]{"Name", "Price", "Qty", "Total"}, 0
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return column == 2; 
             }
         };
-        jTable5.setModel(cartModel);
+        tblCart.setModel(cartModel);
                 cartModel.addTableModelListener(e -> {
         int row = e.getFirstRow();
         int col = e.getColumn();
@@ -201,46 +210,38 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 orderType = "Delivery";
             }
         }
-                private void addToCart(String itemName, double price) {
-
-    int qty = 1;
-    boolean found = false;
-
-    for (int i = 0; i < cartModel.getRowCount(); i++) {
-
-        Object value = cartModel.getValueAt(i, 0);
-
-        if (value == null) continue;
-
-        String existingItem = value.toString();
-
-        if (existingItem.equals(itemName)) {
-
-            int existingQty = Integer.parseInt(cartModel.getValueAt(i, 2).toString());
-            existingQty++;
-
-            cartModel.setValueAt(existingQty, i, 2);
-            cartModel.setValueAt(existingQty * price, i, 3);
-
-            found = true;
-            break;
+        
+        private void addToCart(String itemName, double price) {
+            int qty = 1;
+            boolean found = false;
+            for (int i = 0; i < cartModel.getRowCount(); i++) {
+                Object value = cartModel.getValueAt(i, 0);
+                if (value == null) continue;
+                
+                String existingItem = value.toString();
+                
+                if (existingItem.equals(itemName)) {
+                    int existingQty = Integer.parseInt(cartModel.getValueAt(i, 2).toString());
+                    existingQty++;
+                    
+                    cartModel.setValueAt(existingQty, i, 2);
+                    cartModel.setValueAt(existingQty * price, i, 3);
+                    found = true;
+                    break;
         }
     }
-
-    if (!found) {
-        cartModel.addRow(new Object[]{
-            itemName, price, qty, price
+            if (!found) {
+                cartModel.addRow(new Object[]{
+                    itemName, price, qty, price
         });
-
-        JOptionPane.showMessageDialog(
-            this,
-            itemName + " added to cart!",
-            "Success",
-            JOptionPane.INFORMATION_MESSAGE
-        );
-    }
-
-    updateCartTotal();
+                JOptionPane.showMessageDialog(
+                        this,
+                        itemName + " added to cart!",
+                        "Success",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+            }
+            updateCartTotal();
 }
 
     
@@ -250,8 +251,66 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 Object val = cartModel.getValueAt(i, 3);
                 if (val != null) sum += Double.parseDouble(val.toString());
             }
-            lblTotal.setText("" + sum); // use your total label
+            lblTotal.setText("" + sum); 
         } 
+        private void populateOrderTables() {
+        DefaultTableModel currentOrderModel = (DefaultTableModel) tblCurrentOrders.getModel();
+
+    currentOrderModel.setRowCount(0);
+
+    DefaultTableModel summaryModel = new DefaultTableModel(
+        new Object[]{"Name", "Qty", "Price", "Total"}, 0
+    ) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+
+    for (int i = 0; i < cartModel.getRowCount(); i++) {
+        Object name = cartModel.getValueAt(i, 0);
+        Object price = cartModel.getValueAt(i, 1);
+        Object qty = cartModel.getValueAt(i, 2);
+        Object total = cartModel.getValueAt(i, 3);
+
+        currentOrderModel.addRow(new Object[]{name, qty, price, total});
+        summaryModel.addRow(new Object[]{name, qty, price, total});
+    }
+
+    tblSummary.setModel(summaryModel);
+}
+        private boolean validateOrderAndPayment() {
+    if (orderType.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please select an order type!");
+        return false;
+    }
+
+    if (selectedPayment.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please select a payment method!");
+        return false;
+    }
+    
+    JOptionPane.showMessageDialog(this,
+        "Order Type: " + orderType + "\nPayment Method: " + selectedPayment,
+        "Confirm Order",
+        JOptionPane.INFORMATION_MESSAGE
+    );
+
+    return true;
+}
+        private void setupCustomerFields() {
+    if (orderType.equals("Delivery")) {
+        textAddress.setEnabled(true); // customer must fill address
+    } else {
+        textAddress.setEnabled(false); // Dine-in & Take-out cannot edit
+        textAddress.setText("");
+    }
+}
+        private void setupOrderDetails() {
+    lblDateTime.setText(java.time.LocalDateTime.now().toString());
+    lblOrderNum.setText("ORD" + System.currentTimeMillis()); // simple unique order number
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -308,14 +367,14 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel47 = new javax.swing.JLabel();
         pnlOrders = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblSummary = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblCurrentOrders = new javax.swing.JTable();
         lblTotal = new javax.swing.JLabel();
         lblOrderStat = new javax.swing.JLabel();
         lblDateTime = new javax.swing.JLabel();
         lblOrderNum = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        textAddress = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jTextField1 = new javax.swing.JTextField();
         btnProceedPayment = new javax.swing.JButton();
@@ -333,7 +392,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         btnTakeOut = new javax.swing.JButton();
         btnDine = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        tblCart = new javax.swing.JTable();
         jLabel25 = new javax.swing.JLabel();
         Dish = new javax.swing.JPanel();
         snacks = new javax.swing.JScrollPane();
@@ -843,8 +902,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setBackground(new java.awt.Color(255, 255, 255));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblSummary.setBackground(new java.awt.Color(255, 255, 255));
+        tblSummary.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -855,14 +914,14 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 "Name", "Quantity", "Price", "Subtotal"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tblSummary);
 
         pnlOrders.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 350, 330, 230));
 
         jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable2.setBackground(new java.awt.Color(255, 255, 255));
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblCurrentOrders.setBackground(new java.awt.Color(255, 255, 255));
+        tblCurrentOrders.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -873,7 +932,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 "Name", "Quantity", "Price", "Subtotal"
             }
         ));
-        jScrollPane3.setViewportView(jTable2);
+        jScrollPane3.setViewportView(tblCurrentOrders);
 
         pnlOrders.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 790, 270));
 
@@ -901,14 +960,14 @@ public class CustomerDashboard extends javax.swing.JFrame {
         lblOrderNum.setText("-");
         pnlOrders.add(lblOrderNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 280, 90, 40));
 
-        jTextField3.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField3.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        textAddress.setBackground(new java.awt.Color(255, 255, 255));
+        textAddress.setForeground(new java.awt.Color(0, 0, 0));
+        textAddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                textAddressActionPerformed(evt);
             }
         });
-        pnlOrders.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 600, 410, 30));
+        pnlOrders.add(textAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 600, 410, 30));
 
         jTextField2.setBackground(new java.awt.Color(255, 255, 255));
         jTextField2.setForeground(new java.awt.Color(0, 0, 0));
@@ -1043,8 +1102,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         jScrollPane6.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable5.setBackground(new java.awt.Color(255, 255, 255));
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        tblCart.setBackground(new java.awt.Color(255, 255, 255));
+        tblCart.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -1055,7 +1114,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 "Name", "Quantity", "Price", "Subtotal"
             }
         ));
-        jScrollPane6.setViewportView(jTable5);
+        jScrollPane6.setViewportView(tblCart);
 
         pnlCart.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 260, 400));
 
@@ -2441,9 +2500,14 @@ public class CustomerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEWalletActionPerformed
 
     private void btnPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlaceOrderActionPerformed
+       if (!validateOrderAndPayment()) return;
+       populateOrderTables();
+       setupCustomerFields();
+       setupOrderDetails();
+       CardLayout cl = (CardLayout)(jPanel1.getLayout());
+       cl.show(jPanel1, "orders");
        lblOrderStat.setText("PENDING");
-        CardLayout cl = (CardLayout)(jPanel1.getLayout());
-            cl.show(jPanel1, "orders");
+
     }//GEN-LAST:event_btnPlaceOrderActionPerformed
 
     private void btnProceedPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProceedPaymentActionPerformed
@@ -2506,9 +2570,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Payment Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnCcPayActionPerformed
     }
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void textAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textAddressActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_textAddressActionPerformed
 
     private void jButton36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton36ActionPerformed
         // TODO add your handling code here:
@@ -2912,17 +2976,13 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
-    private javax.swing.JTable jTable5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField14;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
@@ -2997,5 +3057,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel ss7;
     private javax.swing.JPanel ss8;
     private javax.swing.JPanel ss9;
+    private javax.swing.JTable tblCart;
+    private javax.swing.JTable tblCurrentOrders;
+    private javax.swing.JTable tblSummary;
+    private javax.swing.JTextField textAddress;
     // End of variables declaration//GEN-END:variables
 }
