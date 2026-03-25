@@ -83,8 +83,8 @@ public class startUp extends javax.swing.JFrame {
         pnlLog = new javax.swing.JPanel();
         btnBackLog = new javax.swing.JButton();
         btnLOg = new javax.swing.JButton();
-        txtLoginEmail = new javax.swing.JTextField();
-        txtLoginPass = new javax.swing.JTextField();
+        txtLogEmail = new javax.swing.JTextField();
+        txtLogPass = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         pnlReg = new javax.swing.JPanel();
         btnRegNext = new javax.swing.JButton();
@@ -135,15 +135,15 @@ public class startUp extends javax.swing.JFrame {
         });
         pnlLog.add(btnLOg, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 510, 220, 70));
 
-        txtLoginEmail.setBackground(new java.awt.Color(255, 255, 255));
-        txtLoginEmail.setForeground(new java.awt.Color(0, 0, 0));
-        txtLoginEmail.setBorder(null);
-        pnlLog.add(txtLoginEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 330, 410, 40));
+        txtLogEmail.setBackground(new java.awt.Color(255, 255, 255));
+        txtLogEmail.setForeground(new java.awt.Color(0, 0, 0));
+        txtLogEmail.setBorder(null);
+        pnlLog.add(txtLogEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 330, 410, 40));
 
-        txtLoginPass.setBackground(new java.awt.Color(255, 255, 255));
-        txtLoginPass.setForeground(new java.awt.Color(0, 0, 0));
-        txtLoginPass.setBorder(null);
-        pnlLog.add(txtLoginPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 400, 410, 40));
+        txtLogPass.setBackground(new java.awt.Color(255, 255, 255));
+        txtLogPass.setForeground(new java.awt.Color(0, 0, 0));
+        txtLogPass.setBorder(null);
+        pnlLog.add(txtLogPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 400, 410, 40));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Login 2.png"))); // NOI18N
         jLabel2.setToolTipText("");
@@ -448,8 +448,8 @@ pnlLog.setVisible(true);
     private javax.swing.JPanel pnlLog;
     private javax.swing.JPanel pnlReg;
     private javax.swing.JPanel pnlUserChoice;
-    private javax.swing.JTextField txtLoginEmail;
-    private javax.swing.JTextField txtLoginPass;
+    private javax.swing.JTextField txtLogEmail;
+    private javax.swing.JTextField txtLogPass;
     private javax.swing.JTextField txtRegEmail;
     private javax.swing.JTextField txtRegName;
     private javax.swing.JTextField txtRegPass;
