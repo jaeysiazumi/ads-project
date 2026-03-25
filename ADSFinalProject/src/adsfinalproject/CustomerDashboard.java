@@ -42,41 +42,15 @@ public class CustomerDashboard extends javax.swing.JFrame {
         };
         tblCurrentOrders.setModel(currentOrderModel);
         cartModel = new DefaultTableModel(
-            new Object[]{"Name", "Price", "Qty", "Total"}, 0
+        new Object[]{"Name", "Price", "Qty", "Total"}, 0
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 2; 
+                return false;
             }
         };
         tblCart.setModel(cartModel);
-                cartModel.addTableModelListener(e -> {
-        int row = e.getFirstRow();
-        int col = e.getColumn();
-
-        if (col == 2) { 
-        try {
-            Object priceObj = cartModel.getValueAt(row, 1);
-            Object qtyObj = cartModel.getValueAt(row, 2);
-
-            if (priceObj == null || qtyObj == null) return;
-            double price = Double.parseDouble(priceObj.toString());
-            int qty = Integer.parseInt(qtyObj.toString());
-            if (qty <= 0) {
-                JOptionPane.showMessageDialog(null, "Quantity must be at least 1");
-                cartModel.setValueAt(1, row, 2);
-                return;
-            }
-            double total = price * qty;
-            cartModel.setValueAt(total, row, 3);
-
-            updateCartTotal();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Invalid quantity!");
-        }
-    }
-        });
-
+                
 
         setSize(1318, 847);
         setLocationRelativeTo(null);        
@@ -228,21 +202,21 @@ public class CustomerDashboard extends javax.swing.JFrame {
                     cartModel.setValueAt(existingQty * price, i, 3);
                     found = true;
                     break;
-        }
-    }
+                }
+            }
             if (!found) {
                 cartModel.addRow(new Object[]{
                     itemName, price, qty, price
-        });
+                });
                 JOptionPane.showMessageDialog(
                         this,
                         itemName + " added to cart!",
                         "Success",
                         JOptionPane.INFORMATION_MESSAGE
-                );
-            }
+                        );
+                    }
             updateCartTotal();
-}
+        }
 
     
         private void updateCartTotal() {
@@ -256,59 +230,76 @@ public class CustomerDashboard extends javax.swing.JFrame {
         private void populateOrderTables() {
         DefaultTableModel currentOrderModel = (DefaultTableModel) tblCurrentOrders.getModel();
 
-    currentOrderModel.setRowCount(0);
+        currentOrderModel.setRowCount(0);
 
-    DefaultTableModel summaryModel = new DefaultTableModel(
-        new Object[]{"Name", "Qty", "Price", "Total"}, 0
-    ) {
-        @Override
-        public boolean isCellEditable(int row, int column) {
+        DefaultTableModel summaryModel = new DefaultTableModel(
+            new Object[]{"Name", "Qty", "Price", "Total"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        for (int i = 0; i < cartModel.getRowCount(); i++) {
+            Object name = cartModel.getValueAt(i, 0);
+            Object price = cartModel.getValueAt(i, 1);
+            Object qty = cartModel.getValueAt(i, 2);
+            Object total = cartModel.getValueAt(i, 3);
+
+            currentOrderModel.addRow(new Object[]{name, qty, price, total});
+            summaryModel.addRow(new Object[]{name, qty, price, total});
+        }
+
+        tblSummary.setModel(summaryModel);
+    }
+        private boolean validateOrderAndPayment() {
+        if (orderType.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select an order type!");
             return false;
         }
-    };
 
-    for (int i = 0; i < cartModel.getRowCount(); i++) {
-        Object name = cartModel.getValueAt(i, 0);
-        Object price = cartModel.getValueAt(i, 1);
-        Object qty = cartModel.getValueAt(i, 2);
-        Object total = cartModel.getValueAt(i, 3);
+        if (selectedPayment.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select a payment method!");
+            return false;
+        }
 
-        currentOrderModel.addRow(new Object[]{name, qty, price, total});
-        summaryModel.addRow(new Object[]{name, qty, price, total});
+        JOptionPane.showMessageDialog(this,
+            "Order Type: " + orderType + "\nPayment Method: " + selectedPayment,
+            "Confirm Order",
+            JOptionPane.INFORMATION_MESSAGE
+        );
+
+        return true;
     }
-
-    tblSummary.setModel(summaryModel);
-}
-        private boolean validateOrderAndPayment() {
-    if (orderType.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please select an order type!");
-        return false;
+            private void setupCustomerFields() {
+            if (orderType.equals("Delivery")) {
+                textAddress.setEnabled(true); // customer must fill address
+            } else {
+                textAddress.setEnabled(false); // Dine-in & Take-out cannot edit
+                textAddress.setText("");
+            }
+        }
+            private void setupOrderDetails() {
+        lblDateTime.setText(java.time.LocalDateTime.now().toString());
+        lblOrderNum.setText("ORD" + System.currentTimeMillis()); // simple unique order number
     }
+        private void refreshOrderTables() {
+        DefaultTableModel currentModel = (DefaultTableModel) tblCurrentOrders.getModel();
+        DefaultTableModel summaryModel = (DefaultTableModel) tblSummary.getModel();
 
-    if (selectedPayment.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please select a payment method!");
-        return false;
-    }
-    
-    JOptionPane.showMessageDialog(this,
-        "Order Type: " + orderType + "\nPayment Method: " + selectedPayment,
-        "Confirm Order",
-        JOptionPane.INFORMATION_MESSAGE
-    );
+        currentModel.setRowCount(0);
+        summaryModel.setRowCount(0);
 
-    return true;
-}
-        private void setupCustomerFields() {
-    if (orderType.equals("Delivery")) {
-        textAddress.setEnabled(true); // customer must fill address
-    } else {
-        textAddress.setEnabled(false); // Dine-in & Take-out cannot edit
-        textAddress.setText("");
-    }
-}
-        private void setupOrderDetails() {
-    lblDateTime.setText(java.time.LocalDateTime.now().toString());
-    lblOrderNum.setText("ORD" + System.currentTimeMillis()); // simple unique order number
+        for (int i = 0; i < cartModel.getRowCount(); i++) {
+            Object name = cartModel.getValueAt(i, 0);
+            Object price = cartModel.getValueAt(i, 1);
+            Object qty = cartModel.getValueAt(i, 2);
+            Object total = cartModel.getValueAt(i, 3);
+
+            currentModel.addRow(new Object[]{name, qty, price, total});
+            summaryModel.addRow(new Object[]{name, qty, price, total});
+        }
 }
 
 
@@ -1009,6 +1000,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         btnAddQuantity.setBorderPainted(false);
         btnAddQuantity.setContentAreaFilled(false);
         btnAddQuantity.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnAddQuantity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddQuantityActionPerformed(evt);
+            }
+        });
         pnlOrders.add(btnAddQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 90, 60, 40));
 
         btnRemoveOrder.setBackground(new java.awt.Color(255, 255, 255));
@@ -1017,6 +1013,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         btnRemoveOrder.setBorderPainted(false);
         btnRemoveOrder.setContentAreaFilled(false);
         btnRemoveOrder.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnRemoveOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveOrderActionPerformed(evt);
+            }
+        });
         pnlOrders.add(btnRemoveOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(741, 93, 60, 40));
 
         btnSubQuantity.setBackground(new java.awt.Color(255, 255, 255));
@@ -1025,6 +1026,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         btnSubQuantity.setBorderPainted(false);
         btnSubQuantity.setContentAreaFilled(false);
         btnSubQuantity.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnSubQuantity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubQuantityActionPerformed(evt);
+            }
+        });
         pnlOrders.add(btnSubQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 100, 60, 40));
 
         jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/currentorder.png"))); // NOI18N
@@ -2528,7 +2534,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
     private void btnPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlaceOrderActionPerformed
        if (!validateOrderAndPayment()) return;
-       populateOrderTables();
+       refreshOrderTables();
        setupCustomerFields();
        setupOrderDetails();
        CardLayout cl = (CardLayout)(jPanel1.getLayout());
@@ -2805,6 +2811,93 @@ public class CustomerDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         addToCart("Big Royal", 75.00);
     }//GEN-LAST:event_jButton35ActionPerformed
+
+    private void btnAddQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddQuantityActionPerformed
+        // TODO add your handling code here:
+        int row = tblCurrentOrders.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Select an order first!");
+            return;
+        }
+
+        String itemName = tblCurrentOrders.getValueAt(row, 0).toString();
+
+        for (int i = 0; i < cartModel.getRowCount(); i++) {
+            if (cartModel.getValueAt(i, 0).toString().equals(itemName)) {
+
+                int qty = Integer.parseInt(cartModel.getValueAt(i, 2).toString());
+                double price = Double.parseDouble(cartModel.getValueAt(i, 1).toString());
+
+                qty++;
+
+                cartModel.setValueAt(qty, i, 2);
+                cartModel.setValueAt(qty * price, i, 3);
+                break;
+            }
+            }
+
+            refreshOrderTables();
+            updateCartTotal();
+
+    }//GEN-LAST:event_btnAddQuantityActionPerformed
+
+    private void btnSubQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubQuantityActionPerformed
+        // TODO add your handling code here:
+        int row = tblCurrentOrders.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Select an order first!");
+            return;
+        }
+
+        String itemName = tblCurrentOrders.getValueAt(row, 0).toString();
+
+        for (int i = 0; i < cartModel.getRowCount(); i++) {
+            if (cartModel.getValueAt(i, 0).toString().equals(itemName)) {
+
+                int qty = Integer.parseInt(cartModel.getValueAt(i, 2).toString());
+
+                if (qty <= 1) {
+                    JOptionPane.showMessageDialog(this, "Minimum quantity is 1!");
+                    return;
+                }
+
+                double price = Double.parseDouble(cartModel.getValueAt(i, 1).toString());
+
+                qty--;
+
+                cartModel.setValueAt(qty, i, 2);
+                cartModel.setValueAt(qty * price, i, 3);
+                break;
+            }
+        }
+
+        refreshOrderTables();
+        updateCartTotal();
+    }//GEN-LAST:event_btnSubQuantityActionPerformed
+
+    private void btnRemoveOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveOrderActionPerformed
+        // TODO add your handling code here:
+        int row = tblCurrentOrders.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Select an order first!");
+            return;
+        }
+
+        String itemName = tblCurrentOrders.getValueAt(row, 0).toString();
+
+        for (int i = 0; i < cartModel.getRowCount(); i++) {
+            if (cartModel.getValueAt(i, 0).toString().equals(itemName)) {
+                cartModel.removeRow(i);
+                break;
+            }
+    }
+
+    refreshOrderTables();
+    updateCartTotal();
+    }//GEN-LAST:event_btnRemoveOrderActionPerformed
     
     /**
      * @param args the command line arguments
