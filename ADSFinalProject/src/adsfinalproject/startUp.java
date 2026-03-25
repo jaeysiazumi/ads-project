@@ -32,10 +32,10 @@ public class startUp extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         btnLogin.setContentAreaFilled(false);
         btnRegister.setContentAreaFilled(false);
-        btnNext.setContentAreaFilled(false);
+        btnLOg.setContentAreaFilled(false);
         btnBackLog.setContentAreaFilled(false);
         btnBackLog1.setContentAreaFilled(false);
-        btnLogConfirm.setContentAreaFilled(false);
+        btnregConfirm.setContentAreaFilled(false);
         btnLogStaff.setContentAreaFilled(false);
         btnLogCustomer.setContentAreaFilled(false);
         btnLogAdmin.setContentAreaFilled(false);
@@ -82,12 +82,12 @@ public class startUp extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         pnlLog = new javax.swing.JPanel();
         btnBackLog = new javax.swing.JButton();
-        btnNext = new javax.swing.JButton();
+        btnLOg = new javax.swing.JButton();
         txtLoginEmail = new javax.swing.JTextField();
         txtLoginPass = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         pnlReg = new javax.swing.JPanel();
-        btnRegConfirm = new javax.swing.JButton();
+        btnRegNext = new javax.swing.JButton();
         btnBackReg = new javax.swing.JButton();
         txtRegPass = new javax.swing.JTextField();
         txtRegEmail = new javax.swing.JTextField();
@@ -101,7 +101,7 @@ public class startUp extends javax.swing.JFrame {
         btnLogAdmin = new javax.swing.JButton();
         btnLogStaff = new javax.swing.JButton();
         btnLogCustomer = new javax.swing.JButton();
-        btnLogConfirm = new javax.swing.JButton();
+        btnregConfirm = new javax.swing.JButton();
         btnBackLog1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
@@ -125,15 +125,15 @@ public class startUp extends javax.swing.JFrame {
         });
         pnlLog.add(btnBackLog, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 600, 80, 60));
 
-        btnNext.setForeground(new java.awt.Color(0, 0, 0));
-        btnNext.setText("-");
-        btnNext.setBorder(null);
-        btnNext.addActionListener(new java.awt.event.ActionListener() {
+        btnLOg.setForeground(new java.awt.Color(0, 0, 0));
+        btnLOg.setText("-");
+        btnLOg.setBorder(null);
+        btnLOg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNextActionPerformed(evt);
+                btnLOgActionPerformed(evt);
             }
         });
-        pnlLog.add(btnNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 513, 220, 70));
+        pnlLog.add(btnLOg, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 510, 220, 70));
 
         txtLoginEmail.setBackground(new java.awt.Color(255, 255, 255));
         txtLoginEmail.setForeground(new java.awt.Color(0, 0, 0));
@@ -155,17 +155,17 @@ public class startUp extends javax.swing.JFrame {
         pnlReg.setPreferredSize(new java.awt.Dimension(1300, 800));
         pnlReg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnRegConfirm.setForeground(new java.awt.Color(0, 0, 0));
-        btnRegConfirm.setText("-");
-        btnRegConfirm.setBorder(null);
-        btnRegConfirm.setBorderPainted(false);
-        btnRegConfirm.setContentAreaFilled(false);
-        btnRegConfirm.addActionListener(new java.awt.event.ActionListener() {
+        btnRegNext.setForeground(new java.awt.Color(0, 0, 0));
+        btnRegNext.setText("-");
+        btnRegNext.setBorder(null);
+        btnRegNext.setBorderPainted(false);
+        btnRegNext.setContentAreaFilled(false);
+        btnRegNext.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegConfirmActionPerformed(evt);
+                btnRegNextActionPerformed(evt);
             }
         });
-        pnlReg.add(btnRegConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 550, 400, 70));
+        pnlReg.add(btnRegNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 550, 400, 70));
 
         btnBackReg.setForeground(new java.awt.Color(0, 0, 0));
         btnBackReg.setText("-");
@@ -175,17 +175,17 @@ public class startUp extends javax.swing.JFrame {
                 btnBackRegActionPerformed(evt);
             }
         });
-        pnlReg.add(btnBackReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 660, 80, 60));
+        pnlReg.add(btnBackReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 670, 80, 60));
 
         txtRegPass.setBackground(new java.awt.Color(255, 255, 255));
         txtRegPass.setForeground(new java.awt.Color(0, 0, 0));
         txtRegPass.setBorder(null);
-        pnlReg.add(txtRegPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 440, 410, 40));
+        pnlReg.add(txtRegPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 470, 410, 40));
 
         txtRegEmail.setBackground(new java.awt.Color(255, 255, 255));
         txtRegEmail.setForeground(new java.awt.Color(0, 0, 0));
         txtRegEmail.setBorder(null);
-        pnlReg.add(txtRegEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 380, 410, 30));
+        pnlReg.add(txtRegEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 400, 410, 30));
 
         txtRegName.setBackground(new java.awt.Color(255, 255, 255));
         txtRegName.setForeground(new java.awt.Color(0, 0, 0));
@@ -269,15 +269,15 @@ public class startUp extends javax.swing.JFrame {
         });
         pnlUserChoice.add(btnLogCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 320, 190, 150));
 
-        btnLogConfirm.setForeground(new java.awt.Color(0, 0, 0));
-        btnLogConfirm.setText("-");
-        btnLogConfirm.setBorder(null);
-        btnLogConfirm.addActionListener(new java.awt.event.ActionListener() {
+        btnregConfirm.setForeground(new java.awt.Color(0, 0, 0));
+        btnregConfirm.setText("-");
+        btnregConfirm.setBorder(null);
+        btnregConfirm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLogConfirmActionPerformed(evt);
+                btnregConfirmActionPerformed(evt);
             }
         });
-        pnlUserChoice.add(btnLogConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(495, 513, 330, 70));
+        pnlUserChoice.add(btnregConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(495, 513, 330, 70));
 
         btnBackLog1.setForeground(new java.awt.Color(0, 0, 0));
         btnBackLog1.setText("-");
@@ -309,23 +309,10 @@ public class startUp extends javax.swing.JFrame {
         log1.setVisible(false);
     }//GEN-LAST:event_btnRegisterActionPerformed
 
-    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+    private void btnLOgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLOgActionPerformed
         pnlLog.setVisible(false);
-        pnlUserChoice.setVisible(true);
-    }//GEN-LAST:event_btnNextActionPerformed
-
-    private void btnBackLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackLogActionPerformed
-        pnlLog.setVisible(false);
-        log1.setVisible(true);
-    }//GEN-LAST:event_btnBackLogActionPerformed
-
-    private void btnBackLog1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackLog1ActionPerformed
-        pnlLog.setVisible(true);
+        pnlReg.setVisible(false);
         pnlUserChoice.setVisible(false);
-    }//GEN-LAST:event_btnBackLog1ActionPerformed
-
-    private void btnLogConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogConfirmActionPerformed
-
         if(selectedRole.equals("customer")){
             CustomerDashboard cd = new CustomerDashboard();
             cd.setVisible(true);
@@ -338,8 +325,25 @@ public class startUp extends javax.swing.JFrame {
             AdminDashboard ad = new AdminDashboard();
             ad.setVisible(true);
             this.dispose();
+            
         }
-    }//GEN-LAST:event_btnLogConfirmActionPerformed
+    }//GEN-LAST:event_btnLOgActionPerformed
+
+    private void btnBackLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackLogActionPerformed
+        pnlLog.setVisible(false);
+        log1.setVisible(true);
+    }//GEN-LAST:event_btnBackLogActionPerformed
+
+    private void btnBackLog1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackLog1ActionPerformed
+        pnlReg.setVisible(true);
+        
+    }//GEN-LAST:event_btnBackLog1ActionPerformed
+
+    private void btnregConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregConfirmActionPerformed
+pnlLog.setVisible(true);
+        
+        
+    }//GEN-LAST:event_btnregConfirmActionPerformed
 
     private void btnLogCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogCustomerActionPerformed
         setRole("customer");
@@ -358,8 +362,9 @@ public class startUp extends javax.swing.JFrame {
         log1.setVisible(true);
     }//GEN-LAST:event_btnBackRegActionPerformed
 
-    private void btnRegConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegConfirmActionPerformed
-        // TODO add your handling code here:
+    private void btnRegNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegNextActionPerformed
+        pnlUserChoice.setVisible(true);
+        pnlReg.setVisible(false);
         Connection con = DBConnection.getConnection();
 
     try {
@@ -395,7 +400,7 @@ public class startUp extends javax.swing.JFrame {
     JOptionPane.showMessageDialog(null, e);
     
 }
-    }//GEN-LAST:event_btnRegConfirmActionPerformed
+    }//GEN-LAST:event_btnRegNextActionPerformed
 
     /**
      * @param args the command line arguments
@@ -426,14 +431,14 @@ public class startUp extends javax.swing.JFrame {
     private javax.swing.JButton btnBackLog;
     private javax.swing.JButton btnBackLog1;
     private javax.swing.JButton btnBackReg;
+    private javax.swing.JButton btnLOg;
     private javax.swing.JButton btnLogAdmin;
-    private javax.swing.JButton btnLogConfirm;
     private javax.swing.JButton btnLogCustomer;
     private javax.swing.JButton btnLogStaff;
     private javax.swing.JButton btnLogin;
-    private javax.swing.JButton btnNext;
-    private javax.swing.JButton btnRegConfirm;
+    private javax.swing.JButton btnRegNext;
     private javax.swing.JButton btnRegister;
+    private javax.swing.JButton btnregConfirm;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

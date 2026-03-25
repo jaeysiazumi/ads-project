@@ -380,6 +380,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         btnProceedPayment = new javax.swing.JButton();
         lblOrderType = new javax.swing.JLabel();
         lblPayMethod = new javax.swing.JLabel();
+        btnAddQuantity = new javax.swing.JButton();
+        btnRemoveOrder = new javax.swing.JButton();
+        btnSubQuantity = new javax.swing.JButton();
         jLabel26 = new javax.swing.JLabel();
         pnlDish = new javax.swing.JPanel();
         btnCart = new javax.swing.JButton();
@@ -1000,7 +1003,31 @@ public class CustomerDashboard extends javax.swing.JFrame {
         lblPayMethod.setText("-");
         pnlOrders.add(lblPayMethod, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 710, 200, 60));
 
-        jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Order.png"))); // NOI18N
+        btnAddQuantity.setBackground(new java.awt.Color(255, 255, 255));
+        btnAddQuantity.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/trash.png"))); // NOI18N
+        btnAddQuantity.setBorder(null);
+        btnAddQuantity.setBorderPainted(false);
+        btnAddQuantity.setContentAreaFilled(false);
+        btnAddQuantity.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        pnlOrders.add(btnAddQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 90, 60, 40));
+
+        btnRemoveOrder.setBackground(new java.awt.Color(255, 255, 255));
+        btnRemoveOrder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/trash.png"))); // NOI18N
+        btnRemoveOrder.setBorder(null);
+        btnRemoveOrder.setBorderPainted(false);
+        btnRemoveOrder.setContentAreaFilled(false);
+        btnRemoveOrder.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        pnlOrders.add(btnRemoveOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(741, 93, 60, 40));
+
+        btnSubQuantity.setBackground(new java.awt.Color(255, 255, 255));
+        btnSubQuantity.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/trash.png"))); // NOI18N
+        btnSubQuantity.setBorder(null);
+        btnSubQuantity.setBorderPainted(false);
+        btnSubQuantity.setContentAreaFilled(false);
+        btnSubQuantity.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        pnlOrders.add(btnSubQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 100, 60, 40));
+
+        jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/currentorder.png"))); // NOI18N
         pnlOrders.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1340, 800));
 
         jPanel1.add(pnlOrders, "orders");
@@ -2808,6 +2835,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel Dish;
     private javax.swing.JScrollPane bfMeals;
     private javax.swing.JButton btnAbout;
+    private javax.swing.JButton btnAddQuantity;
     private javax.swing.JButton btnBreakfast;
     private javax.swing.JButton btnCC;
     private javax.swing.JButton btnCart;
@@ -2825,8 +2853,10 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnPayment;
     private javax.swing.JButton btnPlaceOrder;
     private javax.swing.JButton btnProceedPayment;
+    private javax.swing.JButton btnRemoveOrder;
     private javax.swing.JButton btnRice;
     private javax.swing.JButton btnSnacks;
+    private javax.swing.JButton btnSubQuantity;
     private javax.swing.JButton btnTakeOut;
     private javax.swing.JButton btneWalletPay;
     private javax.swing.JScrollPane drinks;
