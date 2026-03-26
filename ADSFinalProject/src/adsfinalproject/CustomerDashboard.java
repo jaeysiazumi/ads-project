@@ -25,6 +25,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
     String selectedPayment = "";
     DefaultTableModel cartModel;
     int selectedRowIndex = -1;
+    double cartTotal = 0;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CustomerDashboard.class.getName());
 
@@ -33,6 +34,17 @@ public class CustomerDashboard extends javax.swing.JFrame {
      */
     public CustomerDashboard() {
                 initComponents();
+                textAmount.addKeyListener(new java.awt.event.KeyAdapter() {
+                public void keyReleased(java.awt.event.KeyEvent evt) {
+                    calculateChange();
+                }
+            });
+
+            textAmount2.addKeyListener(new java.awt.event.KeyAdapter() {
+                public void keyReleased(java.awt.event.KeyEvent evt) {
+                    calculateChangeCC();
+                }
+            });
                 tblCurrentOrders.addMouseListener(new java.awt.event.MouseAdapter() {
                     
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -241,13 +253,15 @@ public class CustomerDashboard extends javax.swing.JFrame {
         }
         
         private void updateCartTotal() {
-            double sum = 0;
-            for (int i = 0; i < cartModel.getRowCount(); i++) {
-                Object val = cartModel.getValueAt(i, 3);
-                if (val != null) sum += Double.parseDouble(val.toString());
+            cartTotal = 0;
+
+                for (int i = 0; i < cartModel.getRowCount(); i++) {
+                    Object val = cartModel.getValueAt(i, 3);
+                    if (val != null) cartTotal += Double.parseDouble(val.toString());
+                }
+
+                lblTotal.setText(String.format("%.2f", cartTotal));
             }
-            lblTotal.setText("" + sum); 
-        } 
         private void populateOrderTables() {
         DefaultTableModel currentOrderModel = (DefaultTableModel) tblCurrentOrders.getModel();
 
@@ -307,8 +321,29 @@ public class CustomerDashboard extends javax.swing.JFrame {
             java.time.format.DateTimeFormatter formatter =
                     java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a");
 
-            lblDateTime.setText(now.format(formatter));
-            lblOrderNum.setText("ORD" + System.currentTimeMillis());
+            String formattedDate = now.format(formatter);
+            String orderNum = "ORD" + System.currentTimeMillis();
+
+            lblDateTime.setText(formattedDate);
+            lblOrderNum.setText(orderNum);
+
+            lblDateTime1.setText(formattedDate);
+            lblDateTime2.setText(formattedDate);
+
+            lblOrderNum1.setText(orderNum);
+            lblOrderNum2.setText(orderNum);
+
+            String total = lblTotal.getText();
+
+            lblTotal3.setText(total);
+            lblTotal2.setText(total);
+            lblTotal3.setText(total);
+
+            DefaultTableModel model = (DefaultTableModel) tblSummary.getModel();
+
+            tblSummary.setModel(model);
+            tblSummary2.setModel(model);
+            tblSummery3.setModel(model);
     }
         private void refreshOrderTables() {
             DefaultTableModel currentModel = (DefaultTableModel) tblCurrentOrders.getModel();
@@ -326,7 +361,57 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 currentModel.addRow(new Object[]{name, qty, price, total});
                 summaryModel.addRow(new Object[]{name, qty, price, total});
         }
-}
+        }
+        private void calculateChange() {
+            try {
+
+                if (textAmount.getText().trim().isEmpty()) {
+                    lblChange.setText("0.00");
+                    lblChange1.setText("0.00");
+                    return;
+                }
+
+                double total = Double.parseDouble(lblTotal.getText().trim());
+                double paid = Double.parseDouble(textAmount.getText().trim());
+
+                double change = paid - total;
+
+                if (change < 0) {
+                    change = 0;
+                }
+
+                setChangeLabels(change);
+
+            } catch (NumberFormatException e) {
+                lblChange.setText("0.00");
+                lblChange1.setText("0.00");
+            }
+        }
+        private void calculateChangeCC() {
+            try {
+
+                if (textAmount2.getText().trim().isEmpty()) {
+                    lblChange.setText("0.00");
+                    lblChange1.setText("0.00");
+                    return;
+                }
+
+                double total = Double.parseDouble(lblTotal.getText().trim());
+                double paid = Double.parseDouble(textAmount2.getText().trim());
+
+                double change = paid - total;
+
+                if (change < 0) {
+                    change = 0;
+                }
+
+                setChangeLabels(change);
+
+            } catch (NumberFormatException e) {
+                lblChange.setText("0.00");
+                lblChange1.setText("0.00");
+            }
+        }
 
 
     /**
@@ -359,27 +444,27 @@ public class CustomerDashboard extends javax.swing.JFrame {
         lblOrderNum2 = new javax.swing.JLabel();
         lblOrderStat2 = new javax.swing.JLabel();
         lblDateTime2 = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
-        jTextField13 = new javax.swing.JTextField();
-        jTextField14 = new javax.swing.JTextField();
+        textAmount = new javax.swing.JTextField();
+        textRefNum = new javax.swing.JTextField();
+        textAccName = new javax.swing.JTextField();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        tblSummary2 = new javax.swing.JTable();
         btneWalletPay = new javax.swing.JButton();
         jLabel48 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tblSummery3 = new javax.swing.JTable();
         lblCcPay = new javax.swing.JLabel();
         lblChange = new javax.swing.JLabel();
-        lblTotal1 = new javax.swing.JLabel();
+        lblTotal3 = new javax.swing.JLabel();
         lblOrderNum1 = new javax.swing.JLabel();
         lblOrderStat1 = new javax.swing.JLabel();
         lblDateTime1 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        textAmount2 = new javax.swing.JTextField();
+        textCCV = new javax.swing.JTextField();
+        textExDate = new javax.swing.JTextField();
+        textCardNum = new javax.swing.JTextField();
+        textCardName = new javax.swing.JTextField();
         btnCcPay = new javax.swing.JButton();
         jLabel47 = new javax.swing.JLabel();
         pnlOrders = new javax.swing.JPanel();
@@ -738,37 +823,37 @@ public class CustomerDashboard extends javax.swing.JFrame {
         lblDateTime2.setText("date & time");
         jPanel11.add(lblDateTime2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 330, 330, 20));
 
-        jTextField11.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField11.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField11.addActionListener(new java.awt.event.ActionListener() {
+        textAmount.setBackground(new java.awt.Color(255, 255, 255));
+        textAmount.setForeground(new java.awt.Color(0, 0, 0));
+        textAmount.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField11ActionPerformed(evt);
+                textAmountActionPerformed(evt);
             }
         });
-        jPanel11.add(jTextField11, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 550, 130, 30));
+        jPanel11.add(textAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 550, 130, 30));
 
-        jTextField13.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField13.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField13.addActionListener(new java.awt.event.ActionListener() {
+        textRefNum.setBackground(new java.awt.Color(255, 255, 255));
+        textRefNum.setForeground(new java.awt.Color(0, 0, 0));
+        textRefNum.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField13ActionPerformed(evt);
+                textRefNumActionPerformed(evt);
             }
         });
-        jPanel11.add(jTextField13, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 470, 390, 30));
+        jPanel11.add(textRefNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 470, 390, 30));
 
-        jTextField14.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField14.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField14.addActionListener(new java.awt.event.ActionListener() {
+        textAccName.setBackground(new java.awt.Color(255, 255, 255));
+        textAccName.setForeground(new java.awt.Color(0, 0, 0));
+        textAccName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField14ActionPerformed(evt);
+                textAccNameActionPerformed(evt);
             }
         });
-        jPanel11.add(jTextField14, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 390, 390, 30));
+        jPanel11.add(textAccName, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 390, 390, 30));
 
         jScrollPane5.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable4.setBackground(new java.awt.Color(255, 255, 255));
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tblSummary2.setBackground(new java.awt.Color(255, 255, 255));
+        tblSummary2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -779,7 +864,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 "Name", "Quantity", "Price", "Subtotal"
             }
         ));
-        jScrollPane5.setViewportView(jTable4);
+        jScrollPane5.setViewportView(tblSummary2);
 
         jPanel11.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 440, 330, 220));
 
@@ -803,8 +888,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         jScrollPane4.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable3.setBackground(new java.awt.Color(255, 255, 255));
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tblSummery3.setBackground(new java.awt.Color(255, 255, 255));
+        tblSummery3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -815,7 +900,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 "Name", "Quantity", "Price", "Subtotal"
             }
         ));
-        jScrollPane4.setViewportView(jTable3);
+        jScrollPane4.setViewportView(tblSummery3);
 
         jPanel10.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 440, 330, 220));
 
@@ -830,11 +915,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         lblChange.setText("-");
         jPanel10.add(lblChange, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 690, 100, 40));
 
-        lblTotal1.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
-        lblTotal1.setForeground(new java.awt.Color(0, 0, 0));
-        lblTotal1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblTotal1.setText("-");
-        jPanel10.add(lblTotal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 680, 100, 30));
+        lblTotal3.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblTotal3.setForeground(new java.awt.Color(0, 0, 0));
+        lblTotal3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblTotal3.setText("-");
+        jPanel10.add(lblTotal3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 680, 100, 30));
 
         lblOrderNum1.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
         lblOrderNum1.setForeground(new java.awt.Color(0, 0, 0));
@@ -854,50 +939,50 @@ public class CustomerDashboard extends javax.swing.JFrame {
         lblDateTime1.setText("date & time");
         jPanel10.add(lblDateTime1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 330, 330, 20));
 
-        jTextField9.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField9.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField9.addActionListener(new java.awt.event.ActionListener() {
+        textAmount2.setBackground(new java.awt.Color(255, 255, 255));
+        textAmount2.setForeground(new java.awt.Color(0, 0, 0));
+        textAmount2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField9ActionPerformed(evt);
+                textAmount2ActionPerformed(evt);
             }
         });
-        jPanel10.add(jTextField9, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 640, 130, 30));
+        jPanel10.add(textAmount2, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 640, 130, 30));
 
-        jTextField8.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField8.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField8.addActionListener(new java.awt.event.ActionListener() {
+        textCCV.setBackground(new java.awt.Color(255, 255, 255));
+        textCCV.setForeground(new java.awt.Color(0, 0, 0));
+        textCCV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField8ActionPerformed(evt);
+                textCCVActionPerformed(evt);
             }
         });
-        jPanel10.add(jTextField8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 570, 130, 30));
+        jPanel10.add(textCCV, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 570, 130, 30));
 
-        jTextField7.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField7.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+        textExDate.setBackground(new java.awt.Color(255, 255, 255));
+        textExDate.setForeground(new java.awt.Color(0, 0, 0));
+        textExDate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
+                textExDateActionPerformed(evt);
             }
         });
-        jPanel10.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 568, 130, 30));
+        jPanel10.add(textExDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 568, 130, 30));
 
-        jTextField6.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField6.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+        textCardNum.setBackground(new java.awt.Color(255, 255, 255));
+        textCardNum.setForeground(new java.awt.Color(0, 0, 0));
+        textCardNum.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
+                textCardNumActionPerformed(evt);
             }
         });
-        jPanel10.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 500, 390, 30));
+        jPanel10.add(textCardNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 500, 390, 30));
 
-        jTextField5.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField5.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        textCardName.setBackground(new java.awt.Color(255, 255, 255));
+        textCardName.setForeground(new java.awt.Color(0, 0, 0));
+        textCardName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                textCardNameActionPerformed(evt);
             }
         });
-        jPanel10.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 430, 390, 30));
+        jPanel10.add(textCardName, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 430, 390, 30));
 
         btnCcPay.setText("-");
         btnCcPay.setBorder(null);
@@ -2504,37 +2589,39 @@ public class CustomerDashboard extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void textCardNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCardNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_textCardNameActionPerformed
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+    private void textCardNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCardNumActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
+    }//GEN-LAST:event_textCardNumActionPerformed
 
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
+    private void textExDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textExDateActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7ActionPerformed
+    }//GEN-LAST:event_textExDateActionPerformed
 
-    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
+    private void textCCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCCVActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField8ActionPerformed
+    }//GEN-LAST:event_textCCVActionPerformed
 
-    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
+    private void textAmount2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textAmount2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField9ActionPerformed
+        calculateChangeCC();
+    }//GEN-LAST:event_textAmount2ActionPerformed
 
-    private void jTextField11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField11ActionPerformed
+    private void textAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textAmountActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField11ActionPerformed
+        calculateChange();
+    }//GEN-LAST:event_textAmountActionPerformed
 
-    private void jTextField13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField13ActionPerformed
+    private void textRefNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textRefNumActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField13ActionPerformed
+    }//GEN-LAST:event_textRefNumActionPerformed
 
-    private void jTextField14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField14ActionPerformed
+    private void textAccNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textAccNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField14ActionPerformed
+    }//GEN-LAST:event_textAccNameActionPerformed
 
     private void btnCashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCashActionPerformed
         selectedPayment = "cash";
@@ -2620,31 +2707,51 @@ public class CustomerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProceedPaymentActionPerformed
 
     private void btneWalletPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneWalletPayActionPerformed
+        String accName = textAccName.getText().trim();
+        String refNum = textRefNum.getText().trim();
+        String amount = textAmount.getText().trim();
+
+        if (accName.isEmpty() || refNum.isEmpty() || amount.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill all E-Wallet details!");
+            return;
+        }
+
         int confirm = JOptionPane.showConfirmDialog(
-        this,
-        "Are you sure you want to confirm payment?",
-        "Confirm Payment",
-        JOptionPane.YES_NO_OPTION
-    );
+            this,
+            "Confirm E-Wallet payment?",
+            "Confirm Payment",
+            JOptionPane.YES_NO_OPTION
+        );
 
-    if (confirm == JOptionPane.YES_OPTION) {
-        lblOrderStat2.setText("PREPARING");
-
-        JOptionPane.showMessageDialog(this, "Payment Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        if (confirm == JOptionPane.YES_OPTION) {
+            calculateChange();
+            lblOrderStat2.setText("PREPARING");
+            JOptionPane.showMessageDialog(this, "Payment Successful!");
     }//GEN-LAST:event_btneWalletPayActionPerformed
     }
     private void btnCcPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCcPayActionPerformed
+        String name = textCardName.getText().trim();
+        String cardNum = textCardNum.getText().trim();
+        String exDate = textExDate.getText().trim();
+        String ccv = textCCV.getText().trim();
+        String amount = textAmount2.getText().trim();
+
+        if (name.isEmpty() || cardNum.isEmpty() || exDate.isEmpty() || ccv.isEmpty() || amount.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill all Credit Card details!");
+            return;
+        }
+
         int confirm = JOptionPane.showConfirmDialog(
-        this,
-        "Are you sure you want to confirm payment?",
-        "Confirm Payment",
-        JOptionPane.YES_NO_OPTION
-    );
+            this,
+            "Confirm Credit Card payment?",
+            "Confirm Payment",
+            JOptionPane.YES_NO_OPTION
+        );
 
-    if (confirm == JOptionPane.YES_OPTION) {
-        lblOrderStat1.setText("PREPARING");
-
-        JOptionPane.showMessageDialog(this, "Payment Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        if (confirm == JOptionPane.YES_OPTION) {
+            calculateChangeCC();
+            lblOrderStat1.setText("PREPARING");
+            JOptionPane.showMessageDialog(this, "Payment Successful!");
     }//GEN-LAST:event_btnCcPayActionPerformed
     }
     private void textAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textAddressActionPerformed
@@ -2932,6 +3039,12 @@ public class CustomerDashboard extends javax.swing.JFrame {
         selectedRowIndex = -1;
         refreshOrderTables();
         updateCartTotal();
+}
+        private void setChangeLabels(double change) {
+    String formatted = String.format("%.2f", change);
+    lblChange.setText(formatted);
+    lblChange1.setText(formatted);
+
     }//GEN-LAST:event_btnRemoveOrderActionPerformed
     
     /**
@@ -3134,16 +3247,6 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JLabel lblCcPay;
     private javax.swing.JLabel lblChange;
     private javax.swing.JLabel lblChange1;
@@ -3160,8 +3263,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel lblOrderType;
     private javax.swing.JLabel lblPayMethod;
     private javax.swing.JLabel lblTotal;
-    private javax.swing.JLabel lblTotal1;
     private javax.swing.JLabel lblTotal2;
+    private javax.swing.JLabel lblTotal3;
     private javax.swing.JScrollPane menuRice;
     private javax.swing.JScrollPane noodles;
     private javax.swing.JPanel pnlAbout;
@@ -3216,7 +3319,17 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JTable tblCart;
     private javax.swing.JTable tblCurrentOrders;
     private javax.swing.JTable tblSummary;
+    private javax.swing.JTable tblSummary2;
+    private javax.swing.JTable tblSummery3;
+    private javax.swing.JTextField textAccName;
     private javax.swing.JTextField textAddress;
+    private javax.swing.JTextField textAmount;
+    private javax.swing.JTextField textAmount2;
+    private javax.swing.JTextField textCCV;
+    private javax.swing.JTextField textCardName;
+    private javax.swing.JTextField textCardNum;
+    private javax.swing.JTextField textExDate;
+    private javax.swing.JTextField textRefNum;
     private javax.swing.JTextField textUserContact;
     private javax.swing.JTextField textUserName;
     // End of variables declaration//GEN-END:variables
