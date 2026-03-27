@@ -2761,171 +2761,205 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private void jButton36ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton36ActionPerformed
         // TODO add your handling code here:
         addToCart("Shanghai", 50.00);
+        JOptionPane.showMessageDialog(this, "Crispy spring rolls with savory filling.");
     }//GEN-LAST:event_jButton36ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         addToCart("Sweet & Sour Tilapia w/Rice", 55.00);
+        JOptionPane.showMessageDialog(this, "Crispy tilapia with tangy sweet and sour sauce.");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         addToCart("Fried Tilapia w/Rice", 45.00);
+         JOptionPane.showMessageDialog(this, "Golden fried tilapia, crispy and satisfying.");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         addToCart("Nilagang Manok w/Rice", 60.00);
+         JOptionPane.showMessageDialog(this, "Light chicken soup with vegetables.");
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         addToCart("Beef Sinigang w/Rice", 70.00);
+         JOptionPane.showMessageDialog(this, "Sour beef soup with fresh vegetables");
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         addToCart("Lechon Kawali w/Rice", 60.00);
+         JOptionPane.showMessageDialog(this, "Crispy deep-fried pork belly.");
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         addToCart("Beef Caldereta w/Rice", 60.00);
+         JOptionPane.showMessageDialog(this, "Rich beef stew with tomato sauce and spices.");
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         addToCart("Pork Sinigang w/Rice", 65.00);
+         JOptionPane.showMessageDialog(this, "Sour tamarind soup with tender pork and vegetables.");
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
         addToCart("Kare-Kare w/Rice", 65.00);
+         JOptionPane.showMessageDialog(this, "Peanut-based stew with tender meat and veggies.");
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
         addToCart("Menudo w/Rice", 70.00);
+         JOptionPane.showMessageDialog(this, "Pork stew with tomato sauce and vegetables.");
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
         addToCart("Bicol Express w/Rice", 75.00);
+         JOptionPane.showMessageDialog(this, "Spicy pork in creamy coconut milk sauce.");
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // TODO add your handling code here:
         addToCart("Chicken Asado w/Rice", 55.00);
+         JOptionPane.showMessageDialog(this, "Tender chicken cooked in a sweet and savory sauce.");
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
         addToCart("Fried Chicken w/Rice", 50.00);
+         JOptionPane.showMessageDialog(this, "Crispy and juicy fried chicken.");
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
         addToCart("Beef Steak w/Rice", 65.00);
+         JOptionPane.showMessageDialog(this, "Tender beef in soy-calamansi sauce with onions.");
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
         // TODO add your handling code here:
         addToCart("Tokwa't Baboy w/Rice", 65.00);
+         JOptionPane.showMessageDialog(this, "Fried tofu with pork in savory sauce.");
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         // TODO add your handling code here:
         addToCart("Bopis w/Rice", 55.00);
+         JOptionPane.showMessageDialog(this, "Spicy minced pork dish with bold flavors.");
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
         // TODO add your handling code here:
         addToCart("Sarciadong Tilapia w/Rice", 50.00);
+         JOptionPane.showMessageDialog(this, "Fried tilapia topped with savory tomato and egg sauce.");
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
         // TODO add your handling code here:
         addToCart("Pancit Canton Calamansi", 30.00);
+        JOptionPane.showMessageDialog(this, "Instant noodles with calamansi flavor.");
     }//GEN-LAST:event_jButton23ActionPerformed
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
         // TODO add your handling code here:
         addToCart("Pancit Canton Spicy", 30.00);
+        JOptionPane.showMessageDialog(this, "Instant noodles with spicy flavor.");
     }//GEN-LAST:event_jButton24ActionPerformed
 
     private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
         // TODO add your handling code here:
         addToCart("Pancit Canton Chilimansi", 30.00);
+        JOptionPane.showMessageDialog(this, "Instant noodles with chili and calamansi flavor.");
     }//GEN-LAST:event_jButton25ActionPerformed
 
     private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
         // TODO add your handling code here:
         addToCart("Spaghetti", 45.00);
+        JOptionPane.showMessageDialog(this, "Sweet-style Filipino spaghetti with sauce.");
     }//GEN-LAST:event_jButton26ActionPerformed
 
     private void jButton27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton27ActionPerformed
         // TODO add your handling code here:
         addToCart("Pancit", 30.00);
+        JOptionPane.showMessageDialog(this, "Stir-fried noodles with vegetables and meat.");
     }//GEN-LAST:event_jButton27ActionPerformed
 
     private void jButton28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton28ActionPerformed
         // TODO add your handling code here:
         addToCart("Palabok", 35.00);
+        JOptionPane.showMessageDialog(this, "Rice noodles with rich shrimp sauce and toppings.");
     }//GEN-LAST:event_jButton28ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         // TODO add your handling code here:
         addToCart("Garlic Longganisa w/Rice & Egg", 55.00);
+        JOptionPane.showMessageDialog(this, "Savory garlic sausage, rich and flavorful, served with rice.");
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
         // TODO add your handling code here:
-        addToCart("Egg w/Ric", 30.00);
+        addToCart("Egg w/Rice", 30.00);
+         JOptionPane.showMessageDialog(this, "Simple fried egg.");
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
         // TODO add your handling code here:
         addToCart("Daing w/Rice & Egg", 60.00);
+         JOptionPane.showMessageDialog(this, "Crispy marinated dried fish.");
     }//GEN-LAST:event_jButton19ActionPerformed
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
         // TODO add your handling code here:
         addToCart("Hatdog w/Rice & Egg", 40.00);
+         JOptionPane.showMessageDialog(this, "Classic juicy hotdog meal.");
     }//GEN-LAST:event_jButton20ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
         // TODO add your handling code here:
         addToCart("Sweet Longganisa w/Rice & Egg", 30.00);
+         JOptionPane.showMessageDialog(this, "Sweet Filipino sausage, rich in flavor.");
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
         // TODO add your handling code here:
         addToCart("Hungarian w/Rice & Egg", 70.00);
+         JOptionPane.showMessageDialog(this, "Juicy and flavorful sausage.");
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton37ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton37ActionPerformed
         // TODO add your handling code here:
         addToCart("Banana Cue", 25.00);
+         JOptionPane.showMessageDialog(this, "Deep-fried banana coated in caramelized sugar.");
     }//GEN-LAST:event_jButton37ActionPerformed
 
     private void jButton38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton38ActionPerformed
         // TODO add your handling code here:
         addToCart("Lumpiang Toge", 20.00);
+         JOptionPane.showMessageDialog(this, "Fried spring rolls with bean sprouts.");
     }//GEN-LAST:event_jButton38ActionPerformed
 
     private void jButton39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton39ActionPerformed
         // TODO add your handling code here:
         addToCart("Siomai", 20.00);
+         JOptionPane.showMessageDialog(this, "Steamed dumplings with dipping sauce.");
     }//GEN-LAST:event_jButton39ActionPerformed
 
     private void jButton40ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton40ActionPerformed
         // TODO add your handling code here:
         addToCart("Turon", 30.00);
+         JOptionPane.showMessageDialog(this, "Fried banana roll with caramelized sugar.");
     }//GEN-LAST:event_jButton40ActionPerformed
 
     private void jButton41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton41ActionPerformed
         // TODO add your handling code here:
         addToCart("Burger", 35.00);
+         JOptionPane.showMessageDialog(this, "Juicy burger with soft bun.");
     }//GEN-LAST:event_jButton41ActionPerformed
 
     private void jButton29ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton29ActionPerformed
