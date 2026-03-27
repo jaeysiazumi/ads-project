@@ -2667,6 +2667,14 @@ public class CustomerDashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please fill in Name and Contact!");
             return;
         }
+        if (!name.matches("[a-zA-Z ]+")) {
+            JOptionPane.showMessageDialog(this, "Name must contain letters only!");
+            return;
+        }
+        if (!contact.matches("\\d+")) {
+            JOptionPane.showMessageDialog(this, "Contact must contain numbers only!");
+            return;
+        }
 
         if (orderType.equals("Delivery") && address.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please fill in Address for delivery!");
