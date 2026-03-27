@@ -4,12 +4,17 @@
  */
 package adsfinalproject;
 
+import java.awt.CardLayout;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author kleir
  */
 public class EmployeeDashboard extends javax.swing.JFrame {
-    
+    ImageIcon darkd, darku, darko, darkp, darkpa ;
+    ImageIcon dash, user, ord, pr, pay;
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(EmployeeDashboard.class.getName());
 
     /**
@@ -20,8 +25,53 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         setSize(1300, 800);
         setLocationRelativeTo(null);
         
+        //--//
+        darkd = new ImageIcon(getClass().getResource("/design/darkd.png"));
+        darku = new ImageIcon(getClass().getResource("/design/darku.png"));
+        darko = new ImageIcon(getClass().getResource("/design/darko.png"));
+        darkp = new ImageIcon(getClass().getResource("/design/darkp.png"));
+        darkpa = new ImageIcon(getClass().getResource("/design/darkpa.png"));
+        dash = new ImageIcon(getClass().getResource("/design/Dashboard.png"));
+        user = new ImageIcon(getClass().getResource("/design/users.png"));
+        ord = new ImageIcon(getClass().getResource("/design/orders.png"));
+        pr = new ImageIcon(getClass().getResource("/design/products.png"));
+        pay = new ImageIcon(getClass().getResource("/design/paymentt.png"));
+        
+        //--//
+        jPanel4.setLayout(new CardLayout());
+        
+        jPanel4.add(pnlDashboard, "dashboard");
+        jPanel4.add(pnlCustomer, "users");
+        jPanel4.add(pnlOrder, "order");
+        jPanel4.add(pnlProduct, "product");
+        jPanel4.add(pnlPayment, "supplier");
+        
+        CardLayout cl = (CardLayout)(jPanel4.getLayout());
+        cl.show(jPanel4, "dashboard");
     }
-
+ private void setActive(String page){
+        btnDashboard.setIcon(dash);
+        btnUsers.setIcon(user);
+        btnOrders.setIcon(ord);
+        btnProducts.setIcon(pr);
+        btnPayment.setIcon(pay);
+        
+       
+        
+        if(page.equals("dashboard")){
+            btnDashboard.setIcon(darkd);
+        }else if (page.equals("users")){
+            btnUsers.setIcon(darku);
+        }else if (page.equals("orders")){
+            btnOrders.setIcon(darko);
+        }else if (page.equals("product")){
+            btnProducts.setIcon(darkp);
+        }else if (page.equals("payment")){
+            btnPayment.setIcon(darkpa);
+        }
+            CardLayout cl = (CardLayout)(jPanel4.getLayout());
+            cl.show(jPanel4, "dashboard");
+     }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,148 +81,289 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        pnlTransaction = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        pnlCreateOrder = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        pnlProduct = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        btnUsers = new javax.swing.JButton();
+        btnLogout = new javax.swing.JButton();
+        btnPayment = new javax.swing.JButton();
+        btnProducts = new javax.swing.JButton();
+        btnOrders = new javax.swing.JButton();
+        btnDashboard = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        pnlCustomer = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        pnlOrders = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        pnlCustomers = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        pnlDashboard = new javax.swing.JPanel();
+        pnlPayment = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        pnlDashboard = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        pnlOrder = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        pnlCreateOrder = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        pnlProduct = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1300, 847));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setOpaque(false);
+        jPanel1.setPreferredSize(new java.awt.Dimension(285, 800));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        btnUsers.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/users.png"))); // NOI18N
+        btnUsers.setBorder(null);
+        btnUsers.setBorderPainted(false);
+        btnUsers.setContentAreaFilled(false);
+        btnUsers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsersActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnUsers, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 360, 70));
+
+        btnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/logout.png"))); // NOI18N
+        btnLogout.setBorder(null);
+        btnLogout.setBorderPainted(false);
+        btnLogout.setContentAreaFilled(false);
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, 730, 300, 50));
+
+        btnPayment.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/paymentt.png"))); // NOI18N
+        btnPayment.setBorder(null);
+        btnPayment.setBorderPainted(false);
+        btnPayment.setContentAreaFilled(false);
+        btnPayment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPaymentActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnPayment, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 490, 300, 80));
+
+        btnProducts.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/products.png"))); // NOI18N
+        btnProducts.setBorder(null);
+        btnProducts.setBorderPainted(false);
+        btnProducts.setContentAreaFilled(false);
+        btnProducts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProductsActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnProducts, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 420, 300, 70));
+
+        btnOrders.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/orders.png"))); // NOI18N
+        btnOrders.setBorder(null);
+        btnOrders.setBorderPainted(false);
+        btnOrders.setContentAreaFilled(false);
+        btnOrders.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrdersActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnOrders, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 350, 320, 70));
+
+        btnDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Dashboard.png"))); // NOI18N
+        btnDashboard.setBorder(null);
+        btnDashboard.setBorderPainted(false);
+        btnDashboard.setContentAreaFilled(false);
+        btnDashboard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDashboardActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 300, 70));
+
+        jLabel8.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/admindasd.png"))); // NOI18N
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 780));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -3, 250, 850));
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setLayout(new java.awt.CardLayout());
+
+        pnlCustomer.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Customers.png"))); // NOI18N
+
+        javax.swing.GroupLayout pnlCustomerLayout = new javax.swing.GroupLayout(pnlCustomer);
+        pnlCustomer.setLayout(pnlCustomerLayout);
+        pnlCustomerLayout.setHorizontalGroup(
+            pnlCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCustomerLayout.createSequentialGroup()
+                .addGap(230, 230, 230)
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1320, 830));
-
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setLayout(new java.awt.CardLayout());
-
-        pnlTransaction.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Transactions.png"))); // NOI18N
-
-        javax.swing.GroupLayout pnlTransactionLayout = new javax.swing.GroupLayout(pnlTransaction);
-        pnlTransaction.setLayout(pnlTransactionLayout);
-        pnlTransactionLayout.setHorizontalGroup(
-            pnlTransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        pnlTransactionLayout.setVerticalGroup(
-            pnlTransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jPanel3.add(pnlTransaction, "card2");
-
-        pnlCreateOrder.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Create Orders.png"))); // NOI18N
-
-        javax.swing.GroupLayout pnlCreateOrderLayout = new javax.swing.GroupLayout(pnlCreateOrder);
-        pnlCreateOrder.setLayout(pnlCreateOrderLayout);
-        pnlCreateOrderLayout.setHorizontalGroup(
-            pnlCreateOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        pnlCreateOrderLayout.setVerticalGroup(
-            pnlCreateOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jPanel3.add(pnlCreateOrder, "card2");
-
-        pnlProduct.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Product.png"))); // NOI18N
-
-        javax.swing.GroupLayout pnlProductLayout = new javax.swing.GroupLayout(pnlProduct);
-        pnlProduct.setLayout(pnlProductLayout);
-        pnlProductLayout.setHorizontalGroup(
-            pnlProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pnlCustomerLayout.setVerticalGroup(
+            pnlCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        pnlProductLayout.setVerticalGroup(
-            pnlProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+
+        jPanel4.add(pnlCustomer, "users");
+
+        pnlPayment.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/PaymentWalkin.png"))); // NOI18N
+
+        javax.swing.GroupLayout pnlPaymentLayout = new javax.swing.GroupLayout(pnlPayment);
+        pnlPayment.setLayout(pnlPaymentLayout);
+        pnlPaymentLayout.setHorizontalGroup(
+            pnlPaymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPaymentLayout.createSequentialGroup()
+                .addGap(230, 230, 230)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlPaymentLayout.setVerticalGroup(
+            pnlPaymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jPanel3.add(pnlProduct, "card2");
-
-        pnlOrders.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/EOrders.png"))); // NOI18N
-
-        javax.swing.GroupLayout pnlOrdersLayout = new javax.swing.GroupLayout(pnlOrders);
-        pnlOrders.setLayout(pnlOrdersLayout);
-        pnlOrdersLayout.setHorizontalGroup(
-            pnlOrdersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        pnlOrdersLayout.setVerticalGroup(
-            pnlOrdersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jPanel3.add(pnlOrders, "card2");
-
-        pnlCustomers.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Customers.png"))); // NOI18N
-
-        javax.swing.GroupLayout pnlCustomersLayout = new javax.swing.GroupLayout(pnlCustomers);
-        pnlCustomers.setLayout(pnlCustomersLayout);
-        pnlCustomersLayout.setHorizontalGroup(
-            pnlCustomersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        pnlCustomersLayout.setVerticalGroup(
-            pnlCustomersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jPanel3.add(pnlCustomers, "card2");
+        jPanel4.add(pnlPayment, "payment");
 
         pnlDashboard.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Employee.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Employee.png"))); // NOI18N
 
         javax.swing.GroupLayout pnlDashboardLayout = new javax.swing.GroupLayout(pnlDashboard);
         pnlDashboard.setLayout(pnlDashboardLayout);
         pnlDashboardLayout.setHorizontalGroup(
             pnlDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnlDashboardLayout.createSequentialGroup()
+                .addGap(230, 230, 230)
+                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         pnlDashboardLayout.setVerticalGroup(
             pnlDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jPanel3.add(pnlDashboard, "card2");
+        jPanel4.add(pnlDashboard, "dashboard");
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 0));
+        pnlOrder.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/aorderr.png"))); // NOI18N
+
+        pnlCreateOrder.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Create Orders.png"))); // NOI18N
+
+        javax.swing.GroupLayout pnlCreateOrderLayout = new javax.swing.GroupLayout(pnlCreateOrder);
+        pnlCreateOrder.setLayout(pnlCreateOrderLayout);
+        pnlCreateOrderLayout.setHorizontalGroup(
+            pnlCreateOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCreateOrderLayout.createSequentialGroup()
+                .addGap(230, 230, 230)
+                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlCreateOrderLayout.setVerticalGroup(
+            pnlCreateOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout pnlOrderLayout = new javax.swing.GroupLayout(pnlOrder);
+        pnlOrder.setLayout(pnlOrderLayout);
+        pnlOrderLayout.setHorizontalGroup(
+            pnlOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1303, Short.MAX_VALUE)
+            .addGroup(pnlOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlOrderLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel6)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(pnlOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlOrderLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(pnlCreateOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        pnlOrderLayout.setVerticalGroup(
+            pnlOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 800, Short.MAX_VALUE)
+            .addGroup(pnlOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlOrderLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel6)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(pnlOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlOrderLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(pnlCreateOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        jPanel4.add(pnlOrder, "orders");
+
+        pnlProduct.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/AProduct.png"))); // NOI18N
+
+        javax.swing.GroupLayout pnlProductLayout = new javax.swing.GroupLayout(pnlProduct);
+        pnlProduct.setLayout(pnlProductLayout);
+        pnlProductLayout.setHorizontalGroup(
+            pnlProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlProductLayout.createSequentialGroup()
+                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlProductLayout.setVerticalGroup(
+            pnlProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jPanel4.add(pnlProduct, "product");
+
+        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 800));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsersActionPerformed
+        setActive("users");
+        CardLayout cl = (CardLayout)(jPanel4.getLayout());
+        cl.show(jPanel4, "users");
+    }//GEN-LAST:event_btnUsersActionPerformed
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        startUp log = new startUp();
+        log.setVisible(true);
+        log.pack();
+        log.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentActionPerformed
+        setActive("supplier");
+        CardLayout cl = (CardLayout)(jPanel4.getLayout());
+        cl.show(jPanel4, "payment");
+    }//GEN-LAST:event_btnPaymentActionPerformed
+
+    private void btnProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductsActionPerformed
+        setActive("product");
+        CardLayout cl = (CardLayout)(jPanel4.getLayout());
+        cl.show(jPanel4, "product");
+
+    }//GEN-LAST:event_btnProductsActionPerformed
+
+    private void btnOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdersActionPerformed
+        setActive("order");
+        CardLayout cl = (CardLayout)(jPanel4.getLayout());
+        cl.show(jPanel4, "orders");
+    }//GEN-LAST:event_btnOrdersActionPerformed
+
+    private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
+        setActive("dashboard");
+        CardLayout cl = (CardLayout)(jPanel4.getLayout());
+        cl.show(jPanel4, "dashboard");
+    }//GEN-LAST:event_btnDashboardActionPerformed
 
     /**
      * @param args the command line arguments
@@ -200,19 +391,26 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDashboard;
+    private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnOrders;
+    private javax.swing.JButton btnPayment;
+    private javax.swing.JButton btnProducts;
+    private javax.swing.JButton btnUsers;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel pnlCreateOrder;
-    private javax.swing.JPanel pnlCustomers;
+    private javax.swing.JPanel pnlCustomer;
     private javax.swing.JPanel pnlDashboard;
-    private javax.swing.JPanel pnlOrders;
+    private javax.swing.JPanel pnlOrder;
+    private javax.swing.JPanel pnlPayment;
     private javax.swing.JPanel pnlProduct;
-    private javax.swing.JPanel pnlTransaction;
     // End of variables declaration//GEN-END:variables
 }
