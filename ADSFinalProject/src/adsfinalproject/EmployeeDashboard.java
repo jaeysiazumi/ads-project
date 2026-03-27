@@ -195,8 +195,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         pnlCustomer.setLayout(pnlCustomerLayout);
         pnlCustomerLayout.setHorizontalGroup(
             pnlCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlCustomerLayout.createSequentialGroup()
-                .addGap(230, 230, 230)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCustomerLayout.createSequentialGroup()
                 .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -215,8 +214,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         pnlPayment.setLayout(pnlPaymentLayout);
         pnlPaymentLayout.setHorizontalGroup(
             pnlPaymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlPaymentLayout.createSequentialGroup()
-                .addGap(230, 230, 230)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPaymentLayout.createSequentialGroup()
                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -235,8 +233,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         pnlDashboard.setLayout(pnlDashboardLayout);
         pnlDashboardLayout.setHorizontalGroup(
             pnlDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlDashboardLayout.createSequentialGroup()
-                .addGap(230, 230, 230)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDashboardLayout.createSequentialGroup()
                 .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -249,7 +246,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
         pnlOrder.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/aorderr.png"))); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/orders.png"))); // NOI18N
 
         pnlCreateOrder.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -304,7 +301,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
         pnlProduct.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/AProduct.png"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Producttt.png"))); // NOI18N
 
         javax.swing.GroupLayout pnlProductLayout = new javax.swing.GroupLayout(pnlProduct);
         pnlProduct.setLayout(pnlProductLayout);
@@ -328,6 +325,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
     private void btnUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsersActionPerformed
         setActive("users");
+        jPanel1.setVisible(true);
         CardLayout cl = (CardLayout)(jPanel4.getLayout());
         cl.show(jPanel4, "users");
     }//GEN-LAST:event_btnUsersActionPerformed
@@ -342,12 +340,14 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
     private void btnPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentActionPerformed
         setActive("supplier");
+        jPanel1.setVisible(true);
         CardLayout cl = (CardLayout)(jPanel4.getLayout());
         cl.show(jPanel4, "payment");
     }//GEN-LAST:event_btnPaymentActionPerformed
 
     private void btnProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductsActionPerformed
         setActive("product");
+        jPanel1.setVisible(true);
         CardLayout cl = (CardLayout)(jPanel4.getLayout());
         cl.show(jPanel4, "product");
 
@@ -355,12 +355,14 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
     private void btnOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdersActionPerformed
         setActive("order");
+        jPanel1.setVisible(true);
         CardLayout cl = (CardLayout)(jPanel4.getLayout());
         cl.show(jPanel4, "orders");
     }//GEN-LAST:event_btnOrdersActionPerformed
 
     private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
         setActive("dashboard");
+        jPanel1.setVisible(true);
         CardLayout cl = (CardLayout)(jPanel4.getLayout());
         cl.show(jPanel4, "dashboard");
     }//GEN-LAST:event_btnDashboardActionPerformed
