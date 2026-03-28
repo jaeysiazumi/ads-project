@@ -505,27 +505,27 @@ public class CustomerDashboard extends javax.swing.JFrame {
         ss43 = new javax.swing.JPanel();
         jButton36 = new javax.swing.JButton();
         jLabel34 = new javax.swing.JLabel();
-        jLabel46 = new javax.swing.JLabel();
+        lblShanghai = new javax.swing.JLabel();
         ss42 = new javax.swing.JPanel();
         jButton37 = new javax.swing.JButton();
         jLabel35 = new javax.swing.JLabel();
-        jLabel45 = new javax.swing.JLabel();
+        lblCue = new javax.swing.JLabel();
         ss41 = new javax.swing.JPanel();
         jButton38 = new javax.swing.JButton();
         jLabel36 = new javax.swing.JLabel();
-        jLabel44 = new javax.swing.JLabel();
+        lblTogue = new javax.swing.JLabel();
         ss40 = new javax.swing.JPanel();
         jButton39 = new javax.swing.JButton();
         jLabel37 = new javax.swing.JLabel();
-        jLabel43 = new javax.swing.JLabel();
+        lblSiomai = new javax.swing.JLabel();
         ss39 = new javax.swing.JPanel();
         jButton40 = new javax.swing.JButton();
         jLabel38 = new javax.swing.JLabel();
-        jLabel42 = new javax.swing.JLabel();
+        lblTuron = new javax.swing.JLabel();
         ss38 = new javax.swing.JPanel();
         jButton41 = new javax.swing.JButton();
         jLabel39 = new javax.swing.JLabel();
-        jLabel41 = new javax.swing.JLabel();
+        lblBurger = new javax.swing.JLabel();
         drinks = new javax.swing.JScrollPane();
         jPanel7 = new javax.swing.JPanel();
         ss44 = new javax.swing.JPanel();
@@ -535,146 +535,146 @@ public class CustomerDashboard extends javax.swing.JFrame {
         ss45 = new javax.swing.JPanel();
         jButton30 = new javax.swing.JButton();
         jLabel57 = new javax.swing.JLabel();
-        jLabel51 = new javax.swing.JLabel();
+        lblSprite = new javax.swing.JLabel();
         ss46 = new javax.swing.JPanel();
         jButton31 = new javax.swing.JButton();
         jLabel58 = new javax.swing.JLabel();
-        jLabel52 = new javax.swing.JLabel();
+        lblCoke = new javax.swing.JLabel();
         ss47 = new javax.swing.JPanel();
         jButton32 = new javax.swing.JButton();
         jLabel59 = new javax.swing.JLabel();
-        jLabel53 = new javax.swing.JLabel();
+        lblRoyal = new javax.swing.JLabel();
         ss48 = new javax.swing.JPanel();
         jButton33 = new javax.swing.JButton();
         jLabel60 = new javax.swing.JLabel();
-        jLabel54 = new javax.swing.JLabel();
+        lblBigcoke = new javax.swing.JLabel();
         ss49 = new javax.swing.JPanel();
         jButton34 = new javax.swing.JButton();
         jLabel61 = new javax.swing.JLabel();
-        jLabel55 = new javax.swing.JLabel();
+        lblBigcokezero = new javax.swing.JLabel();
         ss50 = new javax.swing.JPanel();
         jButton35 = new javax.swing.JButton();
         jLabel62 = new javax.swing.JLabel();
-        jLabel56 = new javax.swing.JLabel();
+        lblbigroyal = new javax.swing.JLabel();
         noodles = new javax.swing.JScrollPane();
         jPanel6 = new javax.swing.JPanel();
         ss30 = new javax.swing.JPanel();
         jButton23 = new javax.swing.JButton();
         jLabel63 = new javax.swing.JLabel();
-        jLabel33 = new javax.swing.JLabel();
+        lblCalamansi = new javax.swing.JLabel();
         ss29 = new javax.swing.JPanel();
         jButton24 = new javax.swing.JButton();
         jLabel64 = new javax.swing.JLabel();
-        jLabel32 = new javax.swing.JLabel();
+        lblSpicy = new javax.swing.JLabel();
         ss28 = new javax.swing.JPanel();
         jButton25 = new javax.swing.JButton();
         jLabel65 = new javax.swing.JLabel();
-        jLabel31 = new javax.swing.JLabel();
+        lblChilimansi = new javax.swing.JLabel();
         ss27 = new javax.swing.JPanel();
         jButton26 = new javax.swing.JButton();
         jLabel66 = new javax.swing.JLabel();
-        jLabel30 = new javax.swing.JLabel();
+        lblspag = new javax.swing.JLabel();
         ss26 = new javax.swing.JPanel();
         jButton27 = new javax.swing.JButton();
         jLabel67 = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
+        lblpancit = new javax.swing.JLabel();
         ss25 = new javax.swing.JPanel();
         jButton28 = new javax.swing.JButton();
         jLabel68 = new javax.swing.JLabel();
-        jLabel28 = new javax.swing.JLabel();
+        lblpalabok = new javax.swing.JLabel();
         bfMeals = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
         ss22 = new javax.swing.JPanel();
         ss23 = new javax.swing.JPanel();
         jButton17 = new javax.swing.JButton();
         jLabel69 = new javax.swing.JLabel();
-        jLabel27 = new javax.swing.JLabel();
+        lblGarlic = new javax.swing.JLabel();
         ss20 = new javax.swing.JPanel();
         jButton18 = new javax.swing.JButton();
         jLabel70 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
+        lblEgg = new javax.swing.JLabel();
         ss19 = new javax.swing.JPanel();
         jButton19 = new javax.swing.JButton();
         jLabel71 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
+        lblDaing = new javax.swing.JLabel();
         ss18 = new javax.swing.JPanel();
         jButton20 = new javax.swing.JButton();
         jLabel72 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
+        lblHotdog = new javax.swing.JLabel();
         ss17 = new javax.swing.JPanel();
         jButton21 = new javax.swing.JButton();
         jLabel73 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
+        lblSweet = new javax.swing.JLabel();
         ss16 = new javax.swing.JPanel();
         jButton22 = new javax.swing.JButton();
         jLabel74 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
+        lblHungarian = new javax.swing.JLabel();
         menuRice = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         ss15 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jLabel75 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
+        lblsweetsourtilapia = new javax.swing.JLabel();
         ss14 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jLabel76 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
+        lbltilapia = new javax.swing.JLabel();
         ss13 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jLabel77 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
+        lblNilagangManok = new javax.swing.JLabel();
         ss12 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
         jLabel78 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
+        lblBeefsinigang = new javax.swing.JLabel();
         ss11 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
         jLabel79 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        lblLechon = new javax.swing.JLabel();
         ss10 = new javax.swing.JPanel();
         jButton6 = new javax.swing.JButton();
         jLabel80 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
+        lblBCaldereta = new javax.swing.JLabel();
         ss9 = new javax.swing.JPanel();
         jButton7 = new javax.swing.JButton();
         jLabel81 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        lblPorksinigang = new javax.swing.JLabel();
         ss8 = new javax.swing.JPanel();
         jButton8 = new javax.swing.JButton();
         jLabel82 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        lblKarekare = new javax.swing.JLabel();
         ss7 = new javax.swing.JPanel();
         jButton9 = new javax.swing.JButton();
         jLabel83 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        lblMenudo = new javax.swing.JLabel();
         ss6 = new javax.swing.JPanel();
         jButton10 = new javax.swing.JButton();
         jLabel84 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        lblBicol = new javax.swing.JLabel();
         ss5 = new javax.swing.JPanel();
         jButton11 = new javax.swing.JButton();
         jLabel85 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        lblAsado = new javax.swing.JLabel();
         ss4 = new javax.swing.JPanel();
         jButton12 = new javax.swing.JButton();
         jLabel86 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        lblFriedChiken = new javax.swing.JLabel();
         ss3 = new javax.swing.JPanel();
         jButton13 = new javax.swing.JButton();
         jLabel87 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lblBeefSteak = new javax.swing.JLabel();
         ss2 = new javax.swing.JPanel();
         jButton14 = new javax.swing.JButton();
         jLabel88 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        lblTokwatBaboy = new javax.swing.JLabel();
         ss1 = new javax.swing.JPanel();
         jButton15 = new javax.swing.JButton();
         jLabel89 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lblbopis = new javax.swing.JLabel();
         ss = new javax.swing.JPanel();
         jButton16 = new javax.swing.JButton();
         jLabel90 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lblSarciado = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         btnDrinks = new javax.swing.JButton();
         btnSnacks = new javax.swing.JButton();
@@ -1299,8 +1299,10 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel34.setText("₱ 35");
         ss43.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel46.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 1.png"))); // NOI18N
-        ss43.add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblShanghai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 1.png"))); // NOI18N
+        lblShanghai.setToolTipText("Crispy spring rolls with savory filling.");
+        lblShanghai.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        ss43.add(lblShanghai, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel8.add(ss43);
 
@@ -1325,8 +1327,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel35.setText("₱ 25");
         ss42.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel45.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 2.png"))); // NOI18N
-        ss42.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblCue.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 2.png"))); // NOI18N
+        lblCue.setToolTipText("Deep-fried banana coated in caramelized sugar.");
+        ss42.add(lblCue, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel8.add(ss42);
 
@@ -1351,8 +1354,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel36.setText("₱ 20");
         ss41.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel44.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 3.png"))); // NOI18N
-        ss41.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblTogue.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 3.png"))); // NOI18N
+        lblTogue.setToolTipText("Fried spring rolls with bean sprouts.");
+        ss41.add(lblTogue, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel8.add(ss41);
 
@@ -1377,8 +1381,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel37.setText("₱ 20");
         ss40.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel43.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 4.png"))); // NOI18N
-        ss40.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblSiomai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 4.png"))); // NOI18N
+        lblSiomai.setToolTipText("Steamed dumplings with dipping sauce.");
+        ss40.add(lblSiomai, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel8.add(ss40);
 
@@ -1403,8 +1408,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel38.setText("₱ 30");
         ss39.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel42.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 5.png"))); // NOI18N
-        ss39.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblTuron.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 5.png"))); // NOI18N
+        lblTuron.setToolTipText(" Fried banana roll with caramelized sugar.");
+        ss39.add(lblTuron, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel8.add(ss39);
 
@@ -1429,8 +1435,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel39.setText("₱ 35");
         ss38.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel41.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 6.png"))); // NOI18N
-        ss38.add(jLabel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblBurger.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Snack 6.png"))); // NOI18N
+        lblBurger.setToolTipText("Juicy burger with soft bun.");
+        ss38.add(lblBurger, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel8.add(ss38);
 
@@ -1467,6 +1474,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         ss44.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
         jLabel49.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 1.png"))); // NOI18N
+        jLabel49.setToolTipText("Refreshing and clean water.");
         ss44.add(jLabel49, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel7.add(ss44);
@@ -1492,8 +1500,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel57.setText("₱ 25");
         ss45.add(jLabel57, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel51.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 2.png"))); // NOI18N
-        ss45.add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblSprite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 2.png"))); // NOI18N
+        lblSprite.setToolTipText("Lemon-lime soda.");
+        ss45.add(lblSprite, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel7.add(ss45);
 
@@ -1518,8 +1527,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel58.setText("₱ 25");
         ss46.add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel52.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 3.png"))); // NOI18N
-        ss46.add(jLabel52, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblCoke.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 3.png"))); // NOI18N
+        lblCoke.setToolTipText("Classic cola with a sweet, fizzy taste.");
+        ss46.add(lblCoke, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel7.add(ss46);
 
@@ -1544,8 +1554,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel59.setText("₱ 25");
         ss47.add(jLabel59, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel53.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 4.png"))); // NOI18N
-        ss47.add(jLabel53, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblRoyal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 4.png"))); // NOI18N
+        lblRoyal.setToolTipText("Orange sode, sweet and citrusy.");
+        ss47.add(lblRoyal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel7.add(ss47);
 
@@ -1570,8 +1581,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel60.setText("₱ 75");
         ss48.add(jLabel60, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel54.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 5.png"))); // NOI18N
-        ss48.add(jLabel54, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblBigcoke.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 5.png"))); // NOI18N
+        lblBigcoke.setToolTipText("Bigger serving of classic cola");
+        ss48.add(lblBigcoke, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel7.add(ss48);
 
@@ -1596,8 +1608,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel61.setText("₱ 85");
         ss49.add(jLabel61, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel55.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 6.png"))); // NOI18N
-        ss49.add(jLabel55, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblBigcokezero.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 6.png"))); // NOI18N
+        lblBigcokezero.setToolTipText("Zero sugar cola.");
+        ss49.add(lblBigcokezero, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel7.add(ss49);
 
@@ -1622,8 +1635,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel62.setText("₱ 75");
         ss50.add(jLabel62, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel56.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 7.png"))); // NOI18N
-        ss50.add(jLabel56, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblbigroyal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/drinks 7.png"))); // NOI18N
+        lblbigroyal.setToolTipText("Bigger serving of sweet orange soda.");
+        ss50.add(lblbigroyal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel7.add(ss50);
 
@@ -1660,8 +1674,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel63.setText("₱ 30");
         ss30.add(jLabel63, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 29.png"))); // NOI18N
-        ss30.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblCalamansi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 29.png"))); // NOI18N
+        lblCalamansi.setToolTipText("Instant noodles with calamansi flavor.");
+        ss30.add(lblCalamansi, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel6.add(ss30);
 
@@ -1686,8 +1701,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel64.setText("₱ 30");
         ss29.add(jLabel64, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 28.png"))); // NOI18N
-        ss29.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblSpicy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 28.png"))); // NOI18N
+        lblSpicy.setToolTipText("Instant noodles with spicy flavor.");
+        ss29.add(lblSpicy, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel6.add(ss29);
 
@@ -1712,8 +1728,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel65.setText("₱ 30");
         ss28.add(jLabel65, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 27.png"))); // NOI18N
-        ss28.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblChilimansi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 27.png"))); // NOI18N
+        lblChilimansi.setToolTipText("Instant noodles with chili and calamansi flavor.");
+        ss28.add(lblChilimansi, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel6.add(ss28);
 
@@ -1738,8 +1755,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel66.setText("₱ 45");
         ss27.add(jLabel66, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 26.png"))); // NOI18N
-        ss27.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblspag.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 26.png"))); // NOI18N
+        lblspag.setToolTipText("Sweet-style Filipino spaghetti with sauce.");
+        ss27.add(lblspag, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel6.add(ss27);
 
@@ -1764,8 +1782,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel67.setText("₱ 30");
         ss26.add(jLabel67, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 25.png"))); // NOI18N
-        ss26.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblpancit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 25.png"))); // NOI18N
+        lblpancit.setToolTipText(" Stir-fried noodles with vegetables and meat.");
+        ss26.add(lblpancit, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel6.add(ss26);
 
@@ -1790,8 +1809,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel68.setText("₱ 35");
         ss25.add(jLabel68, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, 60, 40));
 
-        jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 24.png"))); // NOI18N
-        ss25.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblpalabok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 24.png"))); // NOI18N
+        lblpalabok.setToolTipText("Rice noodles with rich shrimp sauce and toppings.");
+        ss25.add(lblpalabok, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel6.add(ss25);
 
@@ -1830,8 +1850,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel69.setText("₱ 55");
         ss23.add(jLabel69, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 23.png"))); // NOI18N
-        ss23.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblGarlic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 23.png"))); // NOI18N
+        lblGarlic.setToolTipText("Savory garlic sausage, rich and flavorful.");
+        ss23.add(lblGarlic, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout ss22Layout = new javax.swing.GroupLayout(ss22);
         ss22.setLayout(ss22Layout);
@@ -1873,8 +1894,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel70.setText("₱ 30");
         ss20.add(jLabel70, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 21.png"))); // NOI18N
-        ss20.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblEgg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 21.png"))); // NOI18N
+        lblEgg.setToolTipText(" Simple fried egg served with rice.");
+        ss20.add(lblEgg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel4.add(ss20);
 
@@ -1899,8 +1921,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel71.setText("₱ 60");
         ss19.add(jLabel71, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 20.png"))); // NOI18N
-        ss19.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblDaing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 20.png"))); // NOI18N
+        lblDaing.setToolTipText("Crispy marinated dried fish.");
+        ss19.add(lblDaing, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel4.add(ss19);
 
@@ -1925,8 +1948,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel72.setText("₱ 40");
         ss18.add(jLabel72, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, 60, 40));
 
-        jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 19.png"))); // NOI18N
-        ss18.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, -1));
+        lblHotdog.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 19.png"))); // NOI18N
+        lblHotdog.setToolTipText("Classic juicy hotdog meal.");
+        ss18.add(lblHotdog, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, -1));
 
         jPanel4.add(ss18);
 
@@ -1951,8 +1975,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel73.setText("₱ 30");
         ss17.add(jLabel73, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 18.png"))); // NOI18N
-        ss17.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblSweet.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 18.png"))); // NOI18N
+        lblSweet.setToolTipText("Sweet Filipino sausage, rich in flavor.");
+        ss17.add(lblSweet, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel4.add(ss17);
 
@@ -1977,8 +2002,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel74.setText("₱ 70");
         ss16.add(jLabel74, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 60, 40));
 
-        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 17.png"))); // NOI18N
-        ss16.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblHungarian.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish 17.png"))); // NOI18N
+        lblHungarian.setToolTipText("Juicy and flavorful sausage with rice.");
+        ss16.add(lblHungarian, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel4.add(ss16);
 
@@ -2016,8 +2042,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel75.setText("₱ 55");
         ss15.add(jLabel75, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 60, 50));
 
-        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
-        ss15.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblsweetsourtilapia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish.png"))); // NOI18N
+        lblsweetsourtilapia.setToolTipText("Crispy tilapia with tangy sweet and sour sauce.");
+        ss15.add(lblsweetsourtilapia, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss15);
 
@@ -2042,8 +2069,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel76.setText("₱ 45");
         ss14.add(jLabel76, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
-        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish1.png"))); // NOI18N
-        ss14.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lbltilapia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish1.png"))); // NOI18N
+        lbltilapia.setToolTipText("Golden fried tilapia, crispy and satisfying.");
+        ss14.add(lbltilapia, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss14);
 
@@ -2068,8 +2096,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel77.setText("₱ 60");
         ss13.add(jLabel77, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 50));
 
-        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish9.png"))); // NOI18N
-        ss13.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblNilagangManok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish9.png"))); // NOI18N
+        lblNilagangManok.setToolTipText("Light chicken soup with vegetables.");
+        ss13.add(lblNilagangManok, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss13);
 
@@ -2094,8 +2123,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel78.setText("₱ 70");
         ss12.add(jLabel78, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
-        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish8.png"))); // NOI18N
-        ss12.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblBeefsinigang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish8.png"))); // NOI18N
+        lblBeefsinigang.setToolTipText(" Sour beef soup with fresh vegetables.");
+        ss12.add(lblBeefsinigang, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss12);
 
@@ -2120,8 +2150,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel79.setText("₱ 60");
         ss11.add(jLabel79, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish7.png"))); // NOI18N
-        ss11.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblLechon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish7.png"))); // NOI18N
+        lblLechon.setToolTipText("Crispy deep-fried pork belly.");
+        ss11.add(lblLechon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss11);
 
@@ -2146,8 +2177,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel80.setText("₱ 60");
         ss10.add(jLabel80, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
-        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish6.png"))); // NOI18N
-        ss10.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblBCaldereta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish6.png"))); // NOI18N
+        lblBCaldereta.setToolTipText("Rich beef stew with tomato sauce and spices.");
+        ss10.add(lblBCaldereta, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss10);
 
@@ -2172,8 +2204,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel81.setText("₱ 65");
         ss9.add(jLabel81, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 250, 60, 40));
 
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish5.png"))); // NOI18N
-        ss9.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblPorksinigang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish5.png"))); // NOI18N
+        lblPorksinigang.setToolTipText("Sour tamarind soup with tender pork and vegetables.");
+        ss9.add(lblPorksinigang, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss9);
 
@@ -2198,8 +2231,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel82.setText("₱ 65");
         ss8.add(jLabel82, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish4.png"))); // NOI18N
-        ss8.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblKarekare.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish4.png"))); // NOI18N
+        lblKarekare.setToolTipText("Peanut-based stew with tender meat and veggies. ");
+        ss8.add(lblKarekare, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss8);
 
@@ -2224,8 +2258,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel83.setText("₱ 70");
         ss7.add(jLabel83, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish3.png"))); // NOI18N
-        ss7.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblMenudo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish3.png"))); // NOI18N
+        lblMenudo.setToolTipText("Pork stew with tomato sauce and vegetables.");
+        ss7.add(lblMenudo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss7);
 
@@ -2250,8 +2285,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel84.setText("₱ 75");
         ss6.add(jLabel84, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish2.png"))); // NOI18N
-        ss6.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblBicol.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish2.png"))); // NOI18N
+        lblBicol.setToolTipText("Spicy pork in creamy coconut milk sauce.");
+        ss6.add(lblBicol, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss6);
 
@@ -2276,8 +2312,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel85.setText("₱ 55");
         ss5.add(jLabel85, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, 50, 40));
 
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish15.png"))); // NOI18N
-        ss5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblAsado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish15.png"))); // NOI18N
+        lblAsado.setToolTipText("Sweet and savory chicken.");
+        ss5.add(lblAsado, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss5);
 
@@ -2302,8 +2339,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel86.setText("₱ 50");
         ss4.add(jLabel86, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish14.png"))); // NOI18N
-        ss4.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblFriedChiken.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish14.png"))); // NOI18N
+        lblFriedChiken.setToolTipText("Crispy and juicy fried chicken. ");
+        ss4.add(lblFriedChiken, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss4);
 
@@ -2328,8 +2366,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel87.setText("₱ 65");
         ss3.add(jLabel87, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish13.png"))); // NOI18N
-        ss3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblBeefSteak.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish13.png"))); // NOI18N
+        lblBeefSteak.setToolTipText("Tender beef in soy-calamansi sauce with onions.");
+        ss3.add(lblBeefSteak, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss3);
 
@@ -2354,8 +2393,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel88.setText("₱ 65");
         ss2.add(jLabel88, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish12.png"))); // NOI18N
-        ss2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblTokwatBaboy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish12.png"))); // NOI18N
+        lblTokwatBaboy.setToolTipText(" Fried tofu with pork in savory sauce.");
+        ss2.add(lblTokwatBaboy, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss2);
 
@@ -2380,8 +2420,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel89.setText("₱ 55");
         ss1.add(jLabel89, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish11.png"))); // NOI18N
-        ss1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblbopis.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish11.png"))); // NOI18N
+        lblbopis.setToolTipText("Spicy minced pork dish with bold flavors.");
+        ss1.add(lblbopis, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss1);
 
@@ -2406,8 +2447,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         jLabel90.setText("₱ 50");
         ss.add(jLabel90, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 50, 40));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish10.png"))); // NOI18N
-        ss.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        lblSarciado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/dish10.png"))); // NOI18N
+        lblSarciado.setToolTipText("Fried tilapia topped with savory tomato and egg sauce.");
+        ss.add(lblSarciado, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel2.add(ss);
 
@@ -3183,61 +3225,24 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
-    private javax.swing.JLabel jLabel41;
-    private javax.swing.JLabel jLabel42;
-    private javax.swing.JLabel jLabel43;
-    private javax.swing.JLabel jLabel44;
-    private javax.swing.JLabel jLabel45;
-    private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel49;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
-    private javax.swing.JLabel jLabel51;
-    private javax.swing.JLabel jLabel52;
-    private javax.swing.JLabel jLabel53;
-    private javax.swing.JLabel jLabel54;
-    private javax.swing.JLabel jLabel55;
-    private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel60;
     private javax.swing.JLabel jLabel61;
     private javax.swing.JLabel jLabel62;
@@ -3248,7 +3253,6 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel67;
     private javax.swing.JLabel jLabel68;
     private javax.swing.JLabel jLabel69;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel71;
     private javax.swing.JLabel jLabel72;
@@ -3259,7 +3263,6 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel77;
     private javax.swing.JLabel jLabel78;
     private javax.swing.JLabel jLabel79;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel80;
     private javax.swing.JLabel jLabel81;
     private javax.swing.JLabel jLabel82;
@@ -3270,7 +3273,6 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel87;
     private javax.swing.JLabel jLabel88;
     private javax.swing.JLabel jLabel89;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabel90;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -3287,13 +3289,35 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JLabel lblAsado;
+    private javax.swing.JLabel lblBCaldereta;
+    private javax.swing.JLabel lblBeefSteak;
+    private javax.swing.JLabel lblBeefsinigang;
+    private javax.swing.JLabel lblBicol;
+    private javax.swing.JLabel lblBigcoke;
+    private javax.swing.JLabel lblBigcokezero;
+    private javax.swing.JLabel lblBurger;
+    private javax.swing.JLabel lblCalamansi;
     private javax.swing.JLabel lblCcPay;
     private javax.swing.JLabel lblChange;
     private javax.swing.JLabel lblChange1;
+    private javax.swing.JLabel lblChilimansi;
+    private javax.swing.JLabel lblCoke;
+    private javax.swing.JLabel lblCue;
+    private javax.swing.JLabel lblDaing;
     private javax.swing.JLabel lblDateTime;
     private javax.swing.JLabel lblDateTime1;
     private javax.swing.JLabel lblDateTime2;
     private javax.swing.JLabel lblEPayMethod;
+    private javax.swing.JLabel lblEgg;
+    private javax.swing.JLabel lblFriedChiken;
+    private javax.swing.JLabel lblGarlic;
+    private javax.swing.JLabel lblHotdog;
+    private javax.swing.JLabel lblHungarian;
+    private javax.swing.JLabel lblKarekare;
+    private javax.swing.JLabel lblLechon;
+    private javax.swing.JLabel lblMenudo;
+    private javax.swing.JLabel lblNilagangManok;
     private javax.swing.JLabel lblOrderNum;
     private javax.swing.JLabel lblOrderNum1;
     private javax.swing.JLabel lblOrderNum2;
@@ -3302,9 +3326,27 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel lblOrderStat2;
     private javax.swing.JLabel lblOrderType;
     private javax.swing.JLabel lblPayMethod;
+    private javax.swing.JLabel lblPorksinigang;
+    private javax.swing.JLabel lblRoyal;
+    private javax.swing.JLabel lblSarciado;
+    private javax.swing.JLabel lblShanghai;
+    private javax.swing.JLabel lblSiomai;
+    private javax.swing.JLabel lblSpicy;
+    private javax.swing.JLabel lblSprite;
+    private javax.swing.JLabel lblSweet;
+    private javax.swing.JLabel lblTogue;
+    private javax.swing.JLabel lblTokwatBaboy;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JLabel lblTotal2;
     private javax.swing.JLabel lblTotal3;
+    private javax.swing.JLabel lblTuron;
+    private javax.swing.JLabel lblbigroyal;
+    private javax.swing.JLabel lblbopis;
+    private javax.swing.JLabel lblpalabok;
+    private javax.swing.JLabel lblpancit;
+    private javax.swing.JLabel lblspag;
+    private javax.swing.JLabel lblsweetsourtilapia;
+    private javax.swing.JLabel lbltilapia;
     private javax.swing.JScrollPane menuRice;
     private javax.swing.JScrollPane noodles;
     private javax.swing.JPanel pnlAbout;
