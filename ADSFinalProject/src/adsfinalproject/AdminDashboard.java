@@ -5,13 +5,12 @@
 package adsfinalproject;
 
 import java.awt.CardLayout;
-import java.awt.Image;
-import java.io.File;
 import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -30,6 +29,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     public AdminDashboard() {
         initComponents(); 
         updateTotalOrdersLabel();
+        loadDashboardTable();
+        
         new javax.swing.Timer(2000, e -> {
             updateTotalOrders();
         }).start();
@@ -135,6 +136,41 @@ public class AdminDashboard extends javax.swing.JFrame {
             lblTotalOrd.setText("0");
         }
     }
+     
+     public void loadDashboardTable() {
+    try {
+        Connection con = DBConnection.getConnection();
+        if (con == null) {
+            System.out.println("Connection failed!");
+            return;
+        }
+
+        String sql = "SELECT order_id, customer_name, total_amount, order_type, status, order_date FROM orders";
+        PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) tblDashboard.getModel();
+        model.setRowCount(0);
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("order_id"),
+                rs.getString("customer_name"),
+                rs.getDouble("total_amount"),
+                rs.getString("order_type"),
+                rs.getString("status"),
+                rs.getString("order_date")
+            });
+        }
+
+        rs.close();
+        pst.close();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error loading dashboard table: " + e.getMessage());
+    }
+}
+     
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
