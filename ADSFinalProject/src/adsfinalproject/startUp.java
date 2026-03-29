@@ -4,12 +4,12 @@
  */
 package adsfinalproject;
 
-import java.awt.Color;
 import javax.swing.ImageIcon;
-import javax.swing.border.LineBorder;
-import java.sql.*;
 import javax.swing.JOptionPane;
-
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JFrame;
 
 /**
  *
@@ -20,6 +20,10 @@ public class startUp extends javax.swing.JFrame {
     String selectedRole = "";
     ImageIcon cs, st, ad;
     ImageIcon csd, std, add;
+    Connection con;
+    ResultSet rs;
+    PreparedStatement pst;
+    
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(startUp.class.getName());
 
@@ -300,44 +304,8 @@ public class startUp extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-       Connection con = DBConnection.getConnection();
-
-    try {
-        String email = txtLogEmail.getText();
-        String password = txtLogPass.getText();
-
-        PreparedStatement pst = con.prepareStatement(
-            "SELECT * FROM users WHERE username=? AND password=?"
-        );
-
-        pst.setString(1, email);
-        pst.setString(2, password);
-
-        ResultSet rs = pst.executeQuery();
-
-        if (rs.next()) {
-            String role = rs.getString("role");
-
-            JOptionPane.showMessageDialog(null, "Login Successful!");
-
-            if (role.equals("customer")) {
-                new CustomerDashboard().setVisible(true);
-            } else if (role.equals("staff")) {
-                new EmployeeDashboard().setVisible(true);
-            } else if (role.equals("admin")) {
-                new AdminDashboard().setVisible(true);
-            }
-
-            this.dispose();
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Invalid Username or Password!");
-        }
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, e);
-    }
-
+      pnlLog.setVisible(true);
+      log1.setVisible(false);
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
@@ -346,23 +314,53 @@ public class startUp extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     private void btnLOgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLOgActionPerformed
-        pnlLog.setVisible(false);
-        pnlReg.setVisible(false);
-        pnlUserChoice.setVisible(false);
-        if(selectedRole.equals("customer")){
-            CustomerDashboard cd = new CustomerDashboard();
-            cd.setVisible(true);
+       String email = txtLogEmail.getText().trim();
+    String password = txtLogPass.getText().trim();
+
+    if (email.isEmpty() || password.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Fill all fields");
+        return;
+    }
+
+    try {
+
+        Connection con = DBConnection.getConnection();
+
+        String sql = "SELECT * FROM users WHERE email=? AND password=?";
+        PreparedStatement pst = con.prepareStatement(sql);
+
+        pst.setString(1, email);
+        pst.setString(2, password);
+
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+
+            String role = rs.getString("role");
+
+            JOptionPane.showMessageDialog(null, "Login successful!");
+
+            JFrame dashboard;
+
+            if (role.equals("admin")) {
+                dashboard = new AdminDashboard();
+            } else if (role.equals("staff")) {
+                dashboard = new EmployeeDashboard();
+            } else {
+                dashboard = new CustomerDashboard();
+            }
+
+            dashboard.setVisible(true);
             this.dispose();
-        }else if(selectedRole.equals("staff")){
-            EmployeeDashboard ed = new EmployeeDashboard();
-            ed.setVisible(true);
-            this.dispose();
-        }else if(selectedRole.equals("admin")){
-            AdminDashboard ad = new AdminDashboard();
-            ad.setVisible(true);
-            this.dispose();
-            
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid email or password");
         }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e.getMessage());
+    }
+
     }//GEN-LAST:event_btnLOgActionPerformed
 
     private void btnBackLogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackLogActionPerformed
