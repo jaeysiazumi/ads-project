@@ -32,11 +32,13 @@ public class AdminDashboard extends javax.swing.JFrame {
     public AdminDashboard() {
         initComponents(); 
         updateTotalOrdersLabel();
+        updateTotalCustomers(); 
         updateTotalSalesLabel();
         loadDashboardTable();
         
         new javax.swing.Timer(2000, e -> {
             updateTotalOrders();
+            updateTotalCustomers();
             loadDashboardTable();
         }).start();
         setSize(1318, 847);
@@ -141,6 +143,33 @@ public class AdminDashboard extends javax.swing.JFrame {
             lblTotalOrd.setText("0");
         }
     }
+      public void updateTotalCustomers() {
+    try {
+        Connection con = DBConnection.getConnection();
+        if (con == null) {
+            System.out.println("Connection failed!");
+            return;
+        }
+
+        String sql = "SELECT COUNT(DISTINCT customer_name) AS totalCustomers " +
+                     "FROM orders WHERE status = 'PENDING'";
+
+        PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            int totalCustomers = rs.getInt("totalCustomers");
+            lblTotalCustomer.setText(String.valueOf(totalCustomers));
+        }
+
+        rs.close();
+        pst.close();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        lblTotalCustomer.setText("0");
+    }
+}
      private void updateTotalSalesLabel() {
     try {
 
@@ -167,6 +196,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         lblTotalSales.setText("₱ 0.00");
     }
 }
+    
      
      public void loadDashboardTable() {
     try {
