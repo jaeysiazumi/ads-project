@@ -37,6 +37,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         
         new javax.swing.Timer(2000, e -> {
             updateTotalOrders();
+            loadDashboardTable();
         }).start();
         setSize(1318, 847);
         jPanel1.setVisible(true);
