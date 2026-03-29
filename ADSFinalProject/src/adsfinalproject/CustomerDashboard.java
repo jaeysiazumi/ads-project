@@ -2762,13 +2762,14 @@ public class CustomerDashboard extends javax.swing.JFrame {
         try {
             Connection con = DBConnection.getConnection();
 
-            String sql = "INSERT INTO orders (order_number, customer_name, total_amount, status, order_date) VALUES (?, ?, ?, ?, NOW())";
+            String sql = "INSERT INTO orders (order_number, customer_name, total_amount, status, order_type, order_date) VALUES (?, ?, ?, ?, ?, NOW())";
 
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, lblOrderNum.getText());
             pst.setString(2, textUserName.getText().trim());
             pst.setDouble(3, Double.parseDouble(lblTotal.getText()));
             pst.setString(4, "PENDING");
+            pst.setString(5, orderType);
 
             pst.executeUpdate();
 
