@@ -26,6 +26,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
     DefaultTableModel cartModel;
     int selectedRowIndex = -1;
     double cartTotal = 0;
+    String status = "";
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CustomerDashboard.class.getName());
 
@@ -193,7 +194,6 @@ public class CustomerDashboard extends javax.swing.JFrame {
         cl.show(Dish, cat);
             }
     }
-
         private void setOrderType(JButton select){
             btnDine.setIcon(di);
             btnTakeOut.setIcon(ti);

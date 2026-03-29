@@ -40,7 +40,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         darkr = new ImageIcon(getClass().getResource("/design/darkr.png"));
         dash = new ImageIcon(getClass().getResource("/design/Dashboard.png"));
         user = new ImageIcon(getClass().getResource("/design/users.png"));
-        ord = new ImageIcon(getClass().getResource("/design/orders.png"));
+        ord = new ImageIcon(getClass().getResource("/design/AAorder.png"));
         pr = new ImageIcon(getClass().getResource("/design/products.png"));
         sup = new ImageIcon(getClass().getResource("/design/suppliers.png"));
         rep = new ImageIcon(getClass().getResource("/design/reports.png"));
@@ -114,7 +114,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         jTable4 = new javax.swing.JTable();
         jLabel12 = new javax.swing.JLabel();
         pnlSuppliers = new javax.swing.JPanel();
-        pnlAddSupplier = new javax.swing.JPanel();
+        pnlAddSuppliers = new javax.swing.JPanel();
         txtAddSupCN = new javax.swing.JTextField();
         txtAddSupCP = new javax.swing.JTextField();
         txtAddName1 = new javax.swing.JTextField();
@@ -123,13 +123,13 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnAddSave1 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         pnlUsers2 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTable5 = new javax.swing.JTable();
+        jComboBox2 = new javax.swing.JComboBox<>();
         btnSupAdd = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         btnSupEdit = new javax.swing.JButton();
         btnSupDel = new javax.swing.JButton();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
-        jComboBox2 = new javax.swing.JComboBox<>();
         jTextField1 = new javax.swing.JTextField();
         pnlOrder = new javax.swing.JPanel();
         pnlverufy = new javax.swing.JPanel();
@@ -316,7 +316,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
         jPanel1.add(btnProducts, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 350, 300, 70));
 
-        btnOrders.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/orders.png"))); // NOI18N
+        btnOrders.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/AAorder.png"))); // NOI18N
         btnOrders.setBorder(null);
         btnOrders.setBorderPainted(false);
         btnOrders.setContentAreaFilled(false);
@@ -325,7 +325,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 btnOrdersActionPerformed(evt);
             }
         });
-        jPanel1.add(btnOrders, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 320, 70));
+        jPanel1.add(btnOrders, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 320, 80));
 
         btnDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Dashboard.png"))); // NOI18N
         btnDashboard.setBorder(null);
@@ -413,19 +413,19 @@ public class AdminDashboard extends javax.swing.JFrame {
         pnlSuppliers.setBackground(new java.awt.Color(255, 255, 255));
         pnlSuppliers.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        pnlAddSupplier.setBackground(new java.awt.Color(255, 255, 255));
-        pnlAddSupplier.setPreferredSize(new java.awt.Dimension(510, 680));
-        pnlAddSupplier.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlAddSuppliers.setBackground(new java.awt.Color(255, 255, 255));
+        pnlAddSuppliers.setPreferredSize(new java.awt.Dimension(510, 680));
+        pnlAddSuppliers.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtAddSupCN.setBackground(new java.awt.Color(255, 255, 255));
         txtAddSupCN.setForeground(new java.awt.Color(0, 0, 0));
         txtAddSupCN.setBorder(null);
-        pnlAddSupplier.add(txtAddSupCN, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 340, 350, 30));
+        pnlAddSuppliers.add(txtAddSupCN, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 340, 350, 30));
 
         txtAddSupCP.setBackground(new java.awt.Color(255, 255, 255));
         txtAddSupCP.setForeground(new java.awt.Color(0, 0, 0));
         txtAddSupCP.setBorder(null);
-        pnlAddSupplier.add(txtAddSupCP, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, 370, 30));
+        pnlAddSuppliers.add(txtAddSupCP, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, 370, 30));
 
         txtAddName1.setBackground(new java.awt.Color(255, 255, 255));
         txtAddName1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
@@ -436,12 +436,12 @@ public class AdminDashboard extends javax.swing.JFrame {
                 txtAddName1ActionPerformed(evt);
             }
         });
-        pnlAddSupplier.add(txtAddName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 360, 30));
+        pnlAddSuppliers.add(txtAddName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 360, 30));
 
         txtAddSupEm.setBackground(new java.awt.Color(255, 255, 255));
         txtAddSupEm.setForeground(new java.awt.Color(0, 0, 0));
         txtAddSupEm.setBorder(null);
-        pnlAddSupplier.add(txtAddSupEm, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 430, 360, 30));
+        pnlAddSuppliers.add(txtAddSupEm, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 430, 360, 30));
 
         btnAddCancel1.setText("-");
         btnAddCancel1.setBorder(null);
@@ -452,22 +452,49 @@ public class AdminDashboard extends javax.swing.JFrame {
                 btnAddCancel1ActionPerformed(evt);
             }
         });
-        pnlAddSupplier.add(btnAddCancel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 510, 80, 40));
+        pnlAddSuppliers.add(btnAddCancel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 510, 80, 40));
 
         btnAddSave1.setText("-");
         btnAddSave1.setBorder(null);
         btnAddSave1.setBorderPainted(false);
         btnAddSave1.setContentAreaFilled(false);
-        pnlAddSupplier.add(btnAddSave1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 510, 80, 40));
+        pnlAddSuppliers.add(btnAddSave1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 510, 80, 40));
 
         jLabel7.setBackground(new java.awt.Color(255, 255, 255));
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/AddSupplier.png"))); // NOI18N
-        pnlAddSupplier.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        pnlAddSuppliers.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        pnlSuppliers.add(pnlAddSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 30, -1, -1));
+        pnlSuppliers.add(pnlAddSuppliers, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 30, -1, -1));
 
         pnlUsers2.setBackground(new java.awt.Color(255, 255, 255));
         pnlUsers2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jScrollPane5.setBackground(new java.awt.Color(255, 255, 255));
+
+        jTable5.setBackground(new java.awt.Color(255, 255, 255));
+        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Name", "Contact Person", "Contact No.", "Email", "Status"
+            }
+        ));
+        jScrollPane5.setViewportView(jTable5);
+        if (jTable5.getColumnModel().getColumnCount() > 0) {
+            jTable5.getColumnModel().getColumn(4).setResizable(false);
+            jTable5.getColumnModel().getColumn(5).setHeaderValue("Status");
+        }
+
+        pnlUsers2.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 500));
+
+        jComboBox2.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBox2.setForeground(new java.awt.Color(51, 51, 51));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Active", "Inactive" }));
+        pnlUsers2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 112, 150, 30));
 
         btnSupAdd.setBackground(new java.awt.Color(255, 255, 255));
         btnSupAdd.setText("-");
@@ -497,33 +524,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnSupDel.setBorderPainted(false);
         btnSupDel.setContentAreaFilled(false);
         pnlUsers2.add(btnSupDel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 740, 80, 30));
-
-        jScrollPane5.setBackground(new java.awt.Color(255, 255, 255));
-
-        jTable5.setBackground(new java.awt.Color(255, 255, 255));
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Name", "Contact Person", "Contact No.", "Email", "Status"
-            }
-        ));
-        jScrollPane5.setViewportView(jTable5);
-        if (jTable5.getColumnModel().getColumnCount() > 0) {
-            jTable5.getColumnModel().getColumn(4).setResizable(false);
-            jTable5.getColumnModel().getColumn(5).setHeaderValue("Status");
-        }
-
-        pnlUsers2.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 500));
-
-        jComboBox2.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox2.setForeground(new java.awt.Color(51, 51, 51));
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Active", "Inactive" }));
-        pnlUsers2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 112, 150, 30));
 
         jTextField1.setBackground(new java.awt.Color(255, 255, 255));
         jTextField1.setForeground(new java.awt.Color(0, 0, 0));
@@ -757,7 +757,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jComboBox3.setBackground(new java.awt.Color(255, 255, 255));
         jComboBox3.setForeground(new java.awt.Color(51, 51, 51));
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status:", "Active", "Inactive" }));
         jComboBox3.setBorder(null);
         jPanel5.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 110, 240, 30));
 
@@ -1349,6 +1349,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void btnSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupplierActionPerformed
         setActive("supplier");
+        pnlAddSuppliers.setVisible(false);
         CardLayout cl = (CardLayout)(jPanel2.getLayout());
             cl.show(jPanel2, "supplier");
     }//GEN-LAST:event_btnSupplierActionPerformed
@@ -1379,8 +1380,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_txtxAddDescripActionPerformed
 
     private void btnSupAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupAddActionPerformed
-       pnlAddSupplier.setVisible(true);
-       pnlSuppliers.setVisible(false);
+       pnlAddSuppliers.setVisible(true);
     }//GEN-LAST:event_btnSupAddActionPerformed
 
     private void btnStaffAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStaffAddActionPerformed
@@ -1394,7 +1394,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void btnAddCancel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCancel1ActionPerformed
         pnlSuppliers.setVisible(true);
-        pnlAddSupplier.setVisible(false);
+        pnlAddSuppliers.setVisible(false);
     }//GEN-LAST:event_btnAddCancel1ActionPerformed
 
     private void btnAddCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCancelActionPerformed
@@ -1605,7 +1605,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel lblTransPend;
     private javax.swing.JPanel pnlAddPr;
     private javax.swing.JPanel pnlAddStaff;
-    private javax.swing.JPanel pnlAddSupplier;
+    private javax.swing.JPanel pnlAddSuppliers;
     private javax.swing.JPanel pnlDashboard;
     private javax.swing.JPanel pnlOrder;
     private javax.swing.JPanel pnlProduct;

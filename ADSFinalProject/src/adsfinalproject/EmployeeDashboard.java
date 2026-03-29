@@ -6,14 +6,16 @@ package adsfinalproject;
 
 import java.awt.CardLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 
 /**
  *
  * @author kleir
  */
 public class EmployeeDashboard extends javax.swing.JFrame {
-    ImageIcon darkd, darku, darko, darkp, darkpa ;
+    ImageIcon darkd, darku, darko, darkp, darkpa, active, onduty, inactive ;
     ImageIcon dash, user, ord, pr, pay;
+    String status = "";
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(EmployeeDashboard.class.getName());
 
@@ -28,27 +30,40 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         //--//
         darkd = new ImageIcon(getClass().getResource("/design/darkd.png"));
         darku = new ImageIcon(getClass().getResource("/design/darku.png"));
-        darko = new ImageIcon(getClass().getResource("/design/darko.png"));
+        darko = new ImageIcon(getClass().getResource("/design/ABORDER.png"));
         darkp = new ImageIcon(getClass().getResource("/design/darkp.png"));
         darkpa = new ImageIcon(getClass().getResource("/design/darkpa.png"));
         dash = new ImageIcon(getClass().getResource("/design/Dashboard.png"));
         user = new ImageIcon(getClass().getResource("/design/users.png"));
-        ord = new ImageIcon(getClass().getResource("/design/orders.png"));
+        ord = new ImageIcon(getClass().getResource("/design/AAorder.png"));
         pr = new ImageIcon(getClass().getResource("/design/products.png"));
         pay = new ImageIcon(getClass().getResource("/design/paymentt.png"));
+        active = new ImageIcon(getClass().getResource("/design/active.png"));
+        onduty = new ImageIcon(getClass().getResource("/design/onduty.png"));
+        inactive = new ImageIcon(getClass().getResource("/design/inactive.png"));
         
         //--//
         jPanel4.setLayout(new CardLayout());
         
         jPanel4.add(pnlDashboard, "dashboard");
         jPanel4.add(pnlCustomer, "users");
-        jPanel4.add(pnlOrder, "order");
+        jPanel4.add(pnlOrder, "orders");
         jPanel4.add(pnlProduct, "product");
-        jPanel4.add(pnlPayment, "supplier");
+        jPanel4.add(pnlPayment, "payment");
         
         CardLayout cl = (CardLayout)(jPanel4.getLayout());
         cl.show(jPanel4, "dashboard");
     }
+     private void resetStatus(){
+            btnActive.setIcon(null);
+            btnInactive.setIcon(null);
+            btnOnDuty.setIcon(null);
+            
+            btnActive.setText("-");
+            btnInactive.setText("-");
+            btnOnDuty.setText("-");
+            }
+        
  private void setActive(String page){
         btnDashboard.setIcon(dash);
         btnUsers.setIcon(user);
@@ -91,16 +106,69 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         pnlCustomer = new javax.swing.JPanel();
+        pnlAddCustoemr = new javax.swing.JPanel();
+        txtAddSupCN = new javax.swing.JTextField();
+        txtAddSupCP = new javax.swing.JTextField();
+        txtAddName1 = new javax.swing.JTextField();
+        btnAddCancel1 = new javax.swing.JButton();
+        btnAddSave1 = new javax.swing.JButton();
+        jLabel16 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTable7 = new javax.swing.JTable();
+        btnDel = new javax.swing.JButton();
+        btnAddCustomer = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         pnlPayment = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField8 = new javax.swing.JTextField();
+        jTextField7 = new javax.swing.JTextField();
+        jTextField6 = new javax.swing.JTextField();
+        jTextField5 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblSummary = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         pnlDashboard = new javax.swing.JPanel();
+        btnInactive = new javax.swing.JButton();
+        btnOnDuty = new javax.swing.JButton();
+        btnActive = new javax.swing.JButton();
+        lblCompleted = new javax.swing.JLabel();
+        lblReady = new javax.swing.JLabel();
+        lblPrep = new javax.swing.JLabel();
+        lblOrdersToday = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         pnlOrder = new javax.swing.JPanel();
+        jComboBox9 = new javax.swing.JComboBox<>();
+        jTextField3 = new javax.swing.JTextField();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        jTable12 = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
         pnlCreateOrder = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblSummary1 = new javax.swing.JTable();
+        jLabel15 = new javax.swing.JLabel();
+        jTextField9 = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        btnBack = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tblSummary2 = new javax.swing.JTable();
+        btnPlaceOrder = new javax.swing.JButton();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        btnAddOrder = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         pnlProduct = new javax.swing.JPanel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jTextField2 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -156,7 +224,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         });
         jPanel1.add(btnProducts, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 420, 300, 70));
 
-        btnOrders.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/orders.png"))); // NOI18N
+        btnOrders.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/AAorder.png"))); // NOI18N
         btnOrders.setBorder(null);
         btnOrders.setBorderPainted(false);
         btnOrders.setContentAreaFilled(false);
@@ -188,133 +256,403 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jPanel4.setLayout(new java.awt.CardLayout());
 
         pnlCustomer.setBackground(new java.awt.Color(255, 255, 255));
+        pnlCustomer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pnlAddCustoemr.setBackground(new java.awt.Color(255, 255, 255));
+        pnlAddCustoemr.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtAddSupCN.setBackground(new java.awt.Color(255, 255, 255));
+        txtAddSupCN.setForeground(new java.awt.Color(0, 0, 0));
+        txtAddSupCN.setBorder(null);
+        pnlAddCustoemr.add(txtAddSupCN, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 390, 350, 30));
+
+        txtAddSupCP.setBackground(new java.awt.Color(255, 255, 255));
+        txtAddSupCP.setForeground(new java.awt.Color(0, 0, 0));
+        txtAddSupCP.setBorder(null);
+        pnlAddCustoemr.add(txtAddSupCP, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, 370, 30));
+
+        txtAddName1.setBackground(new java.awt.Color(255, 255, 255));
+        txtAddName1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        txtAddName1.setForeground(new java.awt.Color(0, 0, 0));
+        txtAddName1.setBorder(null);
+        txtAddName1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAddName1ActionPerformed(evt);
+            }
+        });
+        pnlAddCustoemr.add(txtAddName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, 360, 30));
+
+        btnAddCancel1.setText("-");
+        btnAddCancel1.setBorder(null);
+        btnAddCancel1.setBorderPainted(false);
+        btnAddCancel1.setContentAreaFilled(false);
+        btnAddCancel1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddCancel1ActionPerformed(evt);
+            }
+        });
+        pnlAddCustoemr.add(btnAddCancel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 510, 80, 40));
+
+        btnAddSave1.setText("-");
+        btnAddSave1.setBorder(null);
+        btnAddSave1.setBorderPainted(false);
+        btnAddSave1.setContentAreaFilled(false);
+        pnlAddCustoemr.add(btnAddSave1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 510, 80, 40));
+
+        jLabel16.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/AddCustomer.png"))); // NOI18N
+        pnlAddCustoemr.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        pnlCustomer.add(pnlAddCustoemr, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 30, -1, -1));
+
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jScrollPane7.setBackground(new java.awt.Color(255, 255, 255));
+
+        jTable7.setBackground(new java.awt.Color(255, 255, 255));
+        jTable7.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID", "Name", "Contact No.", "Status"
+            }
+        ));
+        jScrollPane7.setViewportView(jTable7);
+
+        jPanel2.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 137, 930, 530));
+
+        btnDel.setText("-");
+        btnDel.setBorder(null);
+        btnDel.setBorderPainted(false);
+        btnDel.setContentAreaFilled(false);
+        jPanel2.add(btnDel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 740, 90, 30));
+
+        btnAddCustomer.setText("-");
+        btnAddCustomer.setBorder(null);
+        btnAddCustomer.setBorderPainted(false);
+        btnAddCustomer.setContentAreaFilled(false);
+        btnAddCustomer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddCustomerActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnAddCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 743, 140, 30));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Customers.png"))); // NOI18N
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        javax.swing.GroupLayout pnlCustomerLayout = new javax.swing.GroupLayout(pnlCustomer);
-        pnlCustomer.setLayout(pnlCustomerLayout);
-        pnlCustomerLayout.setHorizontalGroup(
-            pnlCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCustomerLayout.createSequentialGroup()
-                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlCustomerLayout.setVerticalGroup(
-            pnlCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        pnlCustomer.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 800));
 
         jPanel4.add(pnlCustomer, "users");
 
         pnlPayment.setBackground(new java.awt.Color(255, 255, 255));
+        pnlPayment.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel12.setText("-");
+        pnlPayment.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 660, 120, -1));
+
+        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel11.setText("-");
+        pnlPayment.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 490, 120, -1));
+
+        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel10.setText("-");
+        pnlPayment.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 110, 120, -1));
+
+        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel9.setText("-");
+        pnlPayment.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, 120, -1));
+
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("-");
+        pnlPayment.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 70, 120, -1));
+
+        jTextField8.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField8.setBorder(null);
+        pnlPayment.add(jTextField8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 660, 170, 30));
+
+        jTextField7.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField7.setBorder(null);
+        pnlPayment.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 630, 170, 20));
+
+        jTextField6.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField6.setBorder(null);
+        pnlPayment.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 660, 160, 30));
+
+        jTextField5.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField5.setBorder(null);
+        pnlPayment.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 630, 170, 20));
+
+        jTextField4.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField4.setBorder(null);
+        pnlPayment.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, 380, 20));
+
+        jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
+
+        tblSummary.setBackground(new java.awt.Color(255, 255, 255));
+        tblSummary.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Name", "Quantity", "Price", "Subtotal"
+            }
+        ));
+        jScrollPane3.setViewportView(tblSummary);
+
+        pnlPayment.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 240, 880, 220));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/PaymentWalkin.png"))); // NOI18N
-
-        javax.swing.GroupLayout pnlPaymentLayout = new javax.swing.GroupLayout(pnlPayment);
-        pnlPayment.setLayout(pnlPaymentLayout);
-        pnlPaymentLayout.setHorizontalGroup(
-            pnlPaymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPaymentLayout.createSequentialGroup()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlPaymentLayout.setVerticalGroup(
-            pnlPaymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        pnlPayment.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel4.add(pnlPayment, "payment");
 
         pnlDashboard.setBackground(new java.awt.Color(255, 255, 255));
+        pnlDashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnInactive.setText("-");
+        btnInactive.setBorder(null);
+        btnInactive.setBorderPainted(false);
+        btnInactive.setContentAreaFilled(false);
+        btnInactive.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInactiveActionPerformed(evt);
+            }
+        });
+        pnlDashboard.add(btnInactive, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 80, 260, 60));
+
+        btnOnDuty.setText("-");
+        btnOnDuty.setBorder(null);
+        btnOnDuty.setBorderPainted(false);
+        btnOnDuty.setContentAreaFilled(false);
+        btnOnDuty.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOnDutyActionPerformed(evt);
+            }
+        });
+        pnlDashboard.add(btnOnDuty, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 80, 290, 60));
+
+        btnActive.setText("-");
+        btnActive.setBorder(null);
+        btnActive.setBorderPainted(false);
+        btnActive.setContentAreaFilled(false);
+        btnActive.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActiveActionPerformed(evt);
+            }
+        });
+        pnlDashboard.add(btnActive, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 90, 270, 50));
+
+        lblCompleted.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        lblCompleted.setForeground(new java.awt.Color(255, 255, 255));
+        lblCompleted.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCompleted.setText("-");
+        pnlDashboard.add(lblCompleted, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 190, 60, 60));
+
+        lblReady.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        lblReady.setForeground(new java.awt.Color(255, 255, 255));
+        lblReady.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblReady.setText("-");
+        pnlDashboard.add(lblReady, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 190, 60, 60));
+
+        lblPrep.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        lblPrep.setForeground(new java.awt.Color(255, 255, 255));
+        lblPrep.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblPrep.setText("-");
+        pnlDashboard.add(lblPrep, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 190, 60, 60));
+
+        lblOrdersToday.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        lblOrdersToday.setForeground(new java.awt.Color(255, 255, 255));
+        lblOrdersToday.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblOrdersToday.setText("-");
+        pnlDashboard.add(lblOrdersToday, new org.netbeans.lib.awtextra.AbsoluteConstraints(348, 190, 60, 60));
+
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setBorder(null);
+
+        jTable1.setBackground(new java.awt.Color(255, 255, 255));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Order ID", "Name", "Total", "Payment Type", "Status", "Date"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        pnlDashboard.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 397, 930, 350));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Employee.png"))); // NOI18N
-
-        javax.swing.GroupLayout pnlDashboardLayout = new javax.swing.GroupLayout(pnlDashboard);
-        pnlDashboard.setLayout(pnlDashboardLayout);
-        pnlDashboardLayout.setHorizontalGroup(
-            pnlDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDashboardLayout.createSequentialGroup()
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlDashboardLayout.setVerticalGroup(
-            pnlDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        pnlDashboard.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel4.add(pnlDashboard, "dashboard");
 
         pnlOrder.setBackground(new java.awt.Color(255, 255, 255));
+        pnlOrder.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jComboBox9.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBox9.setForeground(new java.awt.Color(51, 51, 51));
+        jComboBox9.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Pending", "Preparing", "Completed" }));
+        pnlOrder.add(jComboBox9, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 112, 190, 30));
+
+        jTextField3.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField3.setBorder(null);
+        pnlOrder.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 116, 380, 20));
+
+        jScrollPane12.setBackground(new java.awt.Color(255, 255, 255));
+
+        jTable12.setBackground(new java.awt.Color(255, 255, 255));
+        jTable12.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Name", "Date", "Total", "Order Type", "Status"
+            }
+        ));
+        jScrollPane12.setViewportView(jTable12);
+
+        pnlOrder.add(jScrollPane12, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 500));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/orders.png"))); // NOI18N
+        pnlOrder.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 0, -1, -1));
 
         pnlCreateOrder.setBackground(new java.awt.Color(255, 255, 255));
+        pnlCreateOrder.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jScrollPane4.setBackground(new java.awt.Color(255, 255, 255));
+
+        tblSummary1.setBackground(new java.awt.Color(255, 255, 255));
+        tblSummary1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Name", "Quantity", "Price"
+            }
+        ));
+        jScrollPane4.setViewportView(tblSummary1);
+
+        pnlCreateOrder.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 320, 270, 390));
+
+        jLabel15.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel15.setText("-");
+        pnlCreateOrder.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 680, 120, -1));
+
+        jTextField9.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField9.setBorder(null);
+        pnlCreateOrder.add(jTextField9, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, 380, 20));
+
+        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel13.setText("-");
+        pnlCreateOrder.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 150, 120, -1));
+
+        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel14.setText("-");
+        pnlCreateOrder.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 110, 120, -1));
+
+        btnBack.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnBack.setText("X");
+        btnBack.setBorder(null);
+        btnBack.setBorderPainted(false);
+        btnBack.setContentAreaFilled(false);
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+        pnlCreateOrder.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 10, 40, 30));
+
+        jScrollPane5.setBackground(new java.awt.Color(255, 255, 255));
+
+        tblSummary2.setBackground(new java.awt.Color(255, 255, 255));
+        tblSummary2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Name", "Quantity", "Price", "Subtotal"
+            }
+        ));
+        jScrollPane5.setViewportView(tblSummary2);
+
+        pnlCreateOrder.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 290, 620, 340));
+
+        btnPlaceOrder.setText("-");
+        btnPlaceOrder.setBorder(null);
+        btnPlaceOrder.setBorderPainted(false);
+        btnPlaceOrder.setContentAreaFilled(false);
+        pnlCreateOrder.add(btnPlaceOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(1155, 743, 130, 30));
+
+        jComboBox2.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBox2.setForeground(new java.awt.Color(102, 102, 102));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Category:", "Rice Meals", "Breakfast Meals", "Snacks", "Noodles", "Drinks" }));
+        pnlCreateOrder.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 290, 190, -1));
+
+        btnAddOrder.setText("Add Order");
+        pnlCreateOrder.add(btnAddOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 740, 100, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Create Orders.png"))); // NOI18N
+        pnlCreateOrder.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, -1, -1));
 
-        javax.swing.GroupLayout pnlCreateOrderLayout = new javax.swing.GroupLayout(pnlCreateOrder);
-        pnlCreateOrder.setLayout(pnlCreateOrderLayout);
-        pnlCreateOrderLayout.setHorizontalGroup(
-            pnlCreateOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlCreateOrderLayout.createSequentialGroup()
-                .addGap(230, 230, 230)
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlCreateOrderLayout.setVerticalGroup(
-            pnlCreateOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout pnlOrderLayout = new javax.swing.GroupLayout(pnlOrder);
-        pnlOrder.setLayout(pnlOrderLayout);
-        pnlOrderLayout.setHorizontalGroup(
-            pnlOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1303, Short.MAX_VALUE)
-            .addGroup(pnlOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnlOrderLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel6)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-            .addGroup(pnlOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnlOrderLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(pnlCreateOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        pnlOrderLayout.setVerticalGroup(
-            pnlOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
-            .addGroup(pnlOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnlOrderLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel6)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-            .addGroup(pnlOrderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnlOrderLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(pnlCreateOrder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        pnlOrder.add(pnlCreateOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel4.add(pnlOrder, "orders");
 
         pnlProduct.setBackground(new java.awt.Color(255, 255, 255));
+        pnlProduct.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBox1.setForeground(new java.awt.Color(51, 51, 51));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status:", "Available", "Out of Stock", "Discontinued" }));
+        pnlProduct.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 110, 210, 30));
+
+        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane2.setBorder(null);
+
+        jTable2.setBackground(new java.awt.Color(255, 255, 255));
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Product ID", "Name", "Description", "Category", "Stock", "Price", "Supplier", "Status", "Date Add", "Expiration"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
+        pnlProduct.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 170, 930, 550));
+
+        jTextField2.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField2.setBorder(null);
+        pnlProduct.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 116, 380, 20));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Producttt.png"))); // NOI18N
-
-        javax.swing.GroupLayout pnlProductLayout = new javax.swing.GroupLayout(pnlProduct);
-        pnlProduct.setLayout(pnlProductLayout);
-        pnlProductLayout.setHorizontalGroup(
-            pnlProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlProductLayout.createSequentialGroup()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnlProductLayout.setVerticalGroup(
-            pnlProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        pnlProduct.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel4.add(pnlProduct, "product");
 
@@ -326,6 +664,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private void btnUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsersActionPerformed
         setActive("users");
         jPanel1.setVisible(true);
+        pnlCustomer.setVisible(false);
         CardLayout cl = (CardLayout)(jPanel4.getLayout());
         cl.show(jPanel4, "users");
     }//GEN-LAST:event_btnUsersActionPerformed
@@ -339,7 +678,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentActionPerformed
-        setActive("supplier");
+        setActive("payment");
         jPanel1.setVisible(true);
         CardLayout cl = (CardLayout)(jPanel4.getLayout());
         cl.show(jPanel4, "payment");
@@ -356,6 +695,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private void btnOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdersActionPerformed
         setActive("order");
         jPanel1.setVisible(true);
+        pnlCreateOrder.setVisible(false);
         CardLayout cl = (CardLayout)(jPanel4.getLayout());
         cl.show(jPanel4, "orders");
     }//GEN-LAST:event_btnOrdersActionPerformed
@@ -366,6 +706,46 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         CardLayout cl = (CardLayout)(jPanel4.getLayout());
         cl.show(jPanel4, "dashboard");
     }//GEN-LAST:event_btnDashboardActionPerformed
+
+    private void btnActiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActiveActionPerformed
+        resetStatus();
+        btnActive.setText("");
+        btnActive.setIcon(active);
+        status = "Active";
+        
+    }//GEN-LAST:event_btnActiveActionPerformed
+
+    private void btnOnDutyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOnDutyActionPerformed
+        resetStatus();
+        btnOnDuty.setText("");
+        btnOnDuty.setIcon(onduty);
+        status = "On Duty";
+    }//GEN-LAST:event_btnOnDutyActionPerformed
+
+    private void btnInactiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInactiveActionPerformed
+        resetStatus();
+        btnInactive.setText("");
+        btnInactive.setIcon(inactive);
+        status = "Inactive";
+    }//GEN-LAST:event_btnInactiveActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        pnlCreateOrder.setVisible(false);
+        pnlOrder.setVisible(true);
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void txtAddName1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAddName1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAddName1ActionPerformed
+
+    private void btnAddCancel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCancel1ActionPerformed
+        jPanel2.setVisible(true);
+        pnlAddCustoemr.setVisible(false);
+    }//GEN-LAST:event_btnAddCancel1ActionPerformed
+
+    private void btnAddCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCustomerActionPerformed
+        pnlAddCustoemr.setVisible(true);
+    }//GEN-LAST:event_btnAddCustomerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -393,12 +773,33 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActive;
+    private javax.swing.JButton btnAddCancel1;
+    private javax.swing.JButton btnAddCustomer;
+    private javax.swing.JButton btnAddOrder;
+    private javax.swing.JButton btnAddSave1;
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnDashboard;
+    private javax.swing.JButton btnDel;
+    private javax.swing.JButton btnInactive;
     private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnOnDuty;
     private javax.swing.JButton btnOrders;
     private javax.swing.JButton btnPayment;
+    private javax.swing.JButton btnPlaceOrder;
     private javax.swing.JButton btnProducts;
     private javax.swing.JButton btnUsers;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox9;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -406,13 +807,45 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable12;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable7;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
+    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField jTextField9;
+    private javax.swing.JLabel lblCompleted;
+    private javax.swing.JLabel lblOrdersToday;
+    private javax.swing.JLabel lblPrep;
+    private javax.swing.JLabel lblReady;
+    private javax.swing.JPanel pnlAddCustoemr;
     private javax.swing.JPanel pnlCreateOrder;
     private javax.swing.JPanel pnlCustomer;
     private javax.swing.JPanel pnlDashboard;
     private javax.swing.JPanel pnlOrder;
     private javax.swing.JPanel pnlPayment;
     private javax.swing.JPanel pnlProduct;
+    private javax.swing.JTable tblSummary;
+    private javax.swing.JTable tblSummary1;
+    private javax.swing.JTable tblSummary2;
+    private javax.swing.JTextField txtAddName1;
+    private javax.swing.JTextField txtAddSupCN;
+    private javax.swing.JTextField txtAddSupCP;
     // End of variables declaration//GEN-END:variables
 }
