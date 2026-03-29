@@ -300,8 +300,44 @@ public class startUp extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-       pnlLog.setVisible(true);
-       log1.setVisible(false);
+       Connection con = DBConnection.getConnection();
+
+    try {
+        String email = txtLogEmail.getText();
+        String password = txtLogPass.getText();
+
+        PreparedStatement pst = con.prepareStatement(
+            "SELECT * FROM users WHERE username=? AND password=?"
+        );
+
+        pst.setString(1, email);
+        pst.setString(2, password);
+
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String role = rs.getString("role");
+
+            JOptionPane.showMessageDialog(null, "Login Successful!");
+
+            if (role.equals("customer")) {
+                new CustomerDashboard().setVisible(true);
+            } else if (role.equals("staff")) {
+                new EmployeeDashboard().setVisible(true);
+            } else if (role.equals("admin")) {
+                new AdminDashboard().setVisible(true);
+            }
+
+            this.dispose();
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid Username or Password!");
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e);
+    }
+
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
@@ -340,9 +376,64 @@ public class startUp extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackLog1ActionPerformed
 
     private void btnregConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregConfirmActionPerformed
-pnlLog.setVisible(true);
-        
-        
+Connection con = DBConnection.getConnection();
+
+    try {
+        String username = txtRegName.getText();
+        String email = txtRegEmail.getText();
+        String pass = txtRegPass.getText();
+
+        // check if role selected
+        if (selectedRole.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please select account type!");
+            return;
+        }
+
+        if (username.isEmpty() || email.isEmpty() || pass.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please fill all fields!");
+            return;
+        }
+
+        // 🔍 CHECK IF USER EXISTS
+        PreparedStatement check = con.prepareStatement(
+            "SELECT * FROM users WHERE username=? OR email=?"
+        );
+        check.setString(1, username);
+        check.setString(2, email);
+        ResultSet rs = check.executeQuery();
+
+        if (rs.next()) {
+            JOptionPane.showMessageDialog(null, "Account already exists!");
+            return;
+        }
+
+        // ✅ INSERT USER
+        PreparedStatement pst = con.prepareStatement(
+            "INSERT INTO users(username, email, password, role) VALUES (?, ?, ?, ?)"
+        );
+
+        pst.setString(1, username);
+        pst.setString(2, email);
+        pst.setString(3, pass);
+        pst.setString(4, selectedRole); // 🔥 use selected role
+
+        int result = pst.executeUpdate();
+
+        if (result > 0) {
+            JOptionPane.showMessageDialog(null, "Registered Successfully!");
+
+            txtRegName.setText("");
+            txtRegEmail.setText("");
+            txtRegPass.setText("");
+
+            pnlReg.setVisible(false);
+            pnlLog.setVisible(true);
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e);
+    }
+
     }//GEN-LAST:event_btnregConfirmActionPerformed
 
     private void btnLogCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogCustomerActionPerformed
@@ -363,43 +454,19 @@ pnlLog.setVisible(true);
     }//GEN-LAST:event_btnBackRegActionPerformed
 
     private void btnRegNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegNextActionPerformed
-        pnlUserChoice.setVisible(true);
-        pnlReg.setVisible(false);
-        Connection con = DBConnection.getConnection();
-
-    try {
+       
     String username = txtRegName.getText();
     String email = txtRegEmail.getText();
     String pass = txtRegPass.getText();
 
     if (username.isEmpty() || email.isEmpty() || pass.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Please fill all fields!");
+        JOptionPane.showMessageDialog(null, "Please fill all fields first!");
         return;
     }
 
-    PreparedStatement pst = con.prepareStatement(
-        "INSERT INTO users(username, email, password, role) VALUES (?, ?, ?, ?)"
-    );
-
-    pst.setString(1, username);
-    pst.setString(2, email);
-    pst.setString(3, pass);
-    pst.setString(4, "customer"); 
-
-    int result = pst.executeUpdate();
-
-    if (result > 0) {
-        JOptionPane.showMessageDialog(null, "Registered Successfully!");
-
-        txtRegName.setText("");
-        txtRegEmail.setText("");
-        txtRegPass.setText("");
-    }
+    pnlUserChoice.setVisible(true);
+    pnlReg.setVisible(false);
     
-} catch (Exception e) {
-    JOptionPane.showMessageDialog(null, e);
-    
-}
     }//GEN-LAST:event_btnRegNextActionPerformed
 
     /**
