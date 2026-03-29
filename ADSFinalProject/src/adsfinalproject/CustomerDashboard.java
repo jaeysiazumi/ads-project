@@ -2762,7 +2762,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         try {
             Connection con = DBConnection.getConnection();
 
-            String sql = "INSERT INTO orders (order_number, customer_name, total_amount, status) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO orders (order_number, customer_name, total_amount, status, order_date) VALUES (?, ?, ?, ?, NOW())";
 
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, lblOrderNum.getText());
@@ -2798,6 +2798,17 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         if (confirm == JOptionPane.YES_OPTION) {
             calculateChange();
+            try {
+        Connection con = DBConnection.getConnection();
+
+        String sql = "UPDATE orders SET status='PAID' WHERE order_number=?";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, lblOrderNum.getText());
+        pst.executeUpdate();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
             lblOrderStat2.setText("PREPARING");
             JOptionPane.showMessageDialog(this, "Payment Successful!");
     }//GEN-LAST:event_btneWalletPayActionPerformed
@@ -2823,6 +2834,17 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         if (confirm == JOptionPane.YES_OPTION) {
             calculateChangeCC();
+            try {
+        Connection con = DBConnection.getConnection();
+
+        String sql = "UPDATE orders SET status='PAID' WHERE order_number=?";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, lblOrderNum.getText());
+        pst.executeUpdate();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
             lblOrderStat1.setText("PREPARING");
             JOptionPane.showMessageDialog(this, "Payment Successful!");
     }//GEN-LAST:event_btnCcPayActionPerformed

@@ -5,7 +5,10 @@
 package adsfinalproject;
 
 import java.awt.CardLayout;
+import java.awt.Image;
+import java.io.File;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,6 +32,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     public AdminDashboard() {
         initComponents(); 
         updateTotalOrdersLabel();
+        updateTotalSalesLabel();
         loadDashboardTable();
         
         new javax.swing.Timer(2000, e -> {
@@ -136,6 +140,32 @@ public class AdminDashboard extends javax.swing.JFrame {
             lblTotalOrd.setText("0");
         }
     }
+     private void updateTotalSalesLabel() {
+    try {
+
+        Connection con = DBConnection.getConnection();
+
+        String sql = "SELECT IFNULL(SUM(total_amount),0) AS totalSales " +
+                     "FROM orders " +
+                     "WHERE status='PAID' " +
+                     "AND DATE(order_date)=CURDATE()";
+
+        PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+
+            double totalSales = rs.getDouble("totalSales");
+
+            lblTotalSales.setText("₱ " + String.format("%.2f", totalSales));
+        }
+
+    } catch (Exception e) {
+
+        e.printStackTrace();
+        lblTotalSales.setText("₱ 0.00");
+    }
+}
      
      public void loadDashboardTable() {
     try {
@@ -1141,7 +1171,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         lblTotalSales.setForeground(new java.awt.Color(255, 255, 255));
         lblTotalSales.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTotalSales.setText("-");
-        pnlDashboard.add(lblTotalSales, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 140, 50, -1));
+        pnlDashboard.add(lblTotalSales, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 140, 100, -1));
 
         lblTransPend.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         lblTransPend.setForeground(new java.awt.Color(0, 0, 0));
