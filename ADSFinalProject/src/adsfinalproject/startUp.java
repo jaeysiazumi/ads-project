@@ -315,51 +315,51 @@ public class startUp extends javax.swing.JFrame {
 
     private void btnLOgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLOgActionPerformed
        String email = txtLogEmail.getText().trim();
-    String password = txtLogPass.getText().trim();
+       String password = txtLogPass.getText().trim();
 
-    if (email.isEmpty() || password.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Fill all fields");
-        return;
-    }
-
-    try {
-
-        Connection con = DBConnection.getConnection();
-
-        String sql = "SELECT * FROM users WHERE email=? AND password=?";
-        PreparedStatement pst = con.prepareStatement(sql);
-
-        pst.setString(1, email);
-        pst.setString(2, password);
-
-        ResultSet rs = pst.executeQuery();
-
-        if (rs.next()) {
-
-            String role = rs.getString("role");
-
-            JOptionPane.showMessageDialog(null, "Login successful!");
-
-            JFrame dashboard;
-
-            if (role.equals("admin")) {
-                dashboard = new AdminDashboard();
-            } else if (role.equals("staff")) {
-                dashboard = new EmployeeDashboard();
-            } else {
-                dashboard = new CustomerDashboard();
-            }
-
-            dashboard.setVisible(true);
-            this.dispose();
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Invalid email or password");
+        if (email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Fill all fields");
+            return;
         }
 
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, e.getMessage());
-    }
+        try {
+
+            Connection con = DBConnection.getConnection();
+
+            String sql = "SELECT * FROM users WHERE email=? AND password=?";
+            PreparedStatement pst = con.prepareStatement(sql);
+
+            pst.setString(1, email);
+            pst.setString(2, password);
+
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+
+                String role = rs.getString("role");
+
+                JOptionPane.showMessageDialog(null, "Login successful!");
+
+                JFrame dashboard;
+
+                if (role.equals("admin")) {
+                    dashboard = new AdminDashboard();
+                } else if (role.equals("staff")) {
+                    dashboard = new EmployeeDashboard();
+                } else {
+                    dashboard = new CustomerDashboard();
+                }
+
+                dashboard.setVisible(true);
+                this.dispose();
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid email or password");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
 
     }//GEN-LAST:event_btnLOgActionPerformed
 
@@ -374,14 +374,13 @@ public class startUp extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackLog1ActionPerformed
 
     private void btnregConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregConfirmActionPerformed
-Connection con = DBConnection.getConnection();
+    Connection con = DBConnection.getConnection();
 
     try {
         String username = txtRegName.getText();
         String email = txtRegEmail.getText();
         String pass = txtRegPass.getText();
-
-        // check if role selected
+        
         if (selectedRole.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please select account type!");
             return;
@@ -391,8 +390,7 @@ Connection con = DBConnection.getConnection();
             JOptionPane.showMessageDialog(null, "Please fill all fields!");
             return;
         }
-
-        // 🔍 CHECK IF USER EXISTS
+        
         PreparedStatement check = con.prepareStatement(
             "SELECT * FROM users WHERE username=? OR email=?"
         );
@@ -404,8 +402,7 @@ Connection con = DBConnection.getConnection();
             JOptionPane.showMessageDialog(null, "Account already exists!");
             return;
         }
-
-        // ✅ INSERT USER
+        
         PreparedStatement pst = con.prepareStatement(
             "INSERT INTO users(username, email, password, role) VALUES (?, ?, ?, ?)"
         );
@@ -413,7 +410,7 @@ Connection con = DBConnection.getConnection();
         pst.setString(1, username);
         pst.setString(2, email);
         pst.setString(3, pass);
-        pst.setString(4, selectedRole); // 🔥 use selected role
+        pst.setString(4, selectedRole); 
 
         int result = pst.executeUpdate();
 
@@ -452,7 +449,11 @@ Connection con = DBConnection.getConnection();
     }//GEN-LAST:event_btnBackRegActionPerformed
 
     private void btnRegNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegNextActionPerformed
-       
+    Connection con = DBConnection.getConnection();
+        if (con == null) {
+    System.out.println("Connection failed!");
+    return;
+}       
     String username = txtRegName.getText();
     String email = txtRegEmail.getText();
     String pass = txtRegPass.getText();

@@ -15,13 +15,14 @@ public class DBConnection {
     public static Connection getConnection(){
         Connection con = null;
         try{
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/adsfinalproject",
-                "root",
-                ""
-            );
-            System.out.println("Connected!");
+            String url = "jdbc:mysql://localhost:3306/adsfinalproject"; 
+            String user = "root";
+            String password = ""; // change if you have password
+
+            con = DriverManager.getConnection(url, user, password);
         }catch(Exception e){
-            System.out.println(e);
+            System.out.println("Database connection error:");
+            e.printStackTrace();
         }
         return con;
     }

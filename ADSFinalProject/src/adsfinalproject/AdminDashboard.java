@@ -9,6 +9,9 @@ import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  *
@@ -25,7 +28,11 @@ public class AdminDashboard extends javax.swing.JFrame {
      * Creates new form AdminDashboard
      */
     public AdminDashboard() {
-        initComponents();
+        initComponents(); 
+        updateTotalOrdersLabel();
+        new javax.swing.Timer(2000, e -> {
+            updateTotalOrders();
+        }).start();
         setSize(1318, 847);
         jPanel1.setVisible(true);
         setLocationRelativeTo(null);
@@ -84,6 +91,50 @@ public class AdminDashboard extends javax.swing.JFrame {
             CardLayout cl = (CardLayout)(jPanel2.getLayout());
             cl.show(jPanel2, "dashboard");
      }
+     public void updateTotalOrders() {
+        try {
+            Connection con = DBConnection.getConnection();
+            if (con == null) {
+                System.out.println("Connection failed!");
+                return;
+            }
+
+            String sql = "SELECT COUNT(*) FROM orders WHERE status = 'PENDING'";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                lblTotalOrd.setText(rs.getString(1));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+     private void updateTotalOrdersLabel() {
+        try {
+            Connection con = DBConnection.getConnection();
+            if (con == null) {
+                System.out.println("Connection failed!");
+                return;
+            }
+            
+            String sql = "SELECT COUNT(*) AS total FROM orders WHERE status = 'PENDING'";
+            PreparedStatement pst = con.prepareStatement(sql);
+            java.sql.ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                int totalPending = rs.getInt("total");
+                lblTotalOrd.setText(String.valueOf(totalPending));
+            }
+
+            rs.close();
+            pst.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            lblTotalOrd.setText("0");
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -215,7 +266,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         lblTotalOrd = new javax.swing.JLabel();
         lblTransComp = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblDashboard = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         pnlProduct = new javax.swing.JPanel();
         pnlAddPr = new javax.swing.JPanel();
@@ -1077,8 +1128,8 @@ public class AdminDashboard extends javax.swing.JFrame {
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setBorder(null);
 
-        jTable2.setBackground(new java.awt.Color(255, 255, 255));
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblDashboard.setBackground(new java.awt.Color(255, 255, 255));
+        tblDashboard.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -1089,7 +1140,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 "Order ID", "Customer", "Total", "Order Type", "Status", "Date"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tblDashboard);
 
         pnlDashboard.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 290, 930, 320));
 
@@ -1573,7 +1624,6 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JTable jTable10;
     private javax.swing.JTable jTable11;
     private javax.swing.JTable jTable12;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
@@ -1617,6 +1667,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel pnlUsers2;
     private javax.swing.JPanel pnlView;
     private javax.swing.JPanel pnlverufy;
+    private javax.swing.JTable tblDashboard;
     private javax.swing.JTextField txtAddCategory;
     private javax.swing.JTextField txtAddName;
     private javax.swing.JTextField txtAddName1;

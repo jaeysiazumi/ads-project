@@ -11,6 +11,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 
 /**
@@ -412,6 +414,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
                 lblChange1.setText("0.00");
             }
         }
+        
 
 
     /**
@@ -2695,6 +2698,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
        CardLayout cl = (CardLayout)(jPanel1.getLayout());
        cl.show(jPanel1, "orders");
        lblOrderStat.setText("PENDING");
+       
 
     }//GEN-LAST:event_btnPlaceOrderActionPerformed
 
@@ -2703,6 +2707,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         lblOrderStat2.setText("PENDING");
 
         String name = textUserName.getText().trim();
+        System.out.println("Customer Name: " + textUserName);
         String contact = textUserContact.getText().trim();
         String address = textAddress.getText().trim();
         if (name.isEmpty() || contact.isEmpty()) {
@@ -2753,6 +2758,24 @@ public class CustomerDashboard extends javax.swing.JFrame {
         else {
             CardLayout cl = (CardLayout)(jPanel1.getLayout());
             cl.show(jPanel1, "pay");
+        }
+        try {
+            Connection con = DBConnection.getConnection();
+
+            String sql = "INSERT INTO orders (order_number, customer_name, total_amount, status) VALUES (?, ?, ?, ?)";
+
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, lblOrderNum.getText());
+            pst.setString(2, textUserName.getText().trim());
+            pst.setDouble(3, Double.parseDouble(lblTotal.getText()));
+            pst.setString(4, "PENDING");
+
+            pst.executeUpdate();
+
+            System.out.println("Order saved successfully!");
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }//GEN-LAST:event_btnProceedPaymentActionPerformed
 
