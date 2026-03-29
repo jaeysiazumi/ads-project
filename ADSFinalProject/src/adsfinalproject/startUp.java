@@ -88,14 +88,14 @@ public class startUp extends javax.swing.JFrame {
         btnBackLog = new javax.swing.JButton();
         btnLOg = new javax.swing.JButton();
         txtLogEmail = new javax.swing.JTextField();
-        txtLogPass = new javax.swing.JTextField();
+        txtLogPass = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
         pnlReg = new javax.swing.JPanel();
         btnRegNext = new javax.swing.JButton();
         btnBackReg = new javax.swing.JButton();
-        txtRegPass = new javax.swing.JTextField();
         txtRegEmail = new javax.swing.JTextField();
         txtRegName = new javax.swing.JTextField();
+        txtRegPass = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
         log1 = new javax.swing.JPanel();
         btnRegister = new javax.swing.JButton();
@@ -140,14 +140,15 @@ public class startUp extends javax.swing.JFrame {
         pnlLog.add(btnLOg, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 510, 220, 70));
 
         txtLogEmail.setBackground(new java.awt.Color(255, 255, 255));
+        txtLogEmail.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
         txtLogEmail.setForeground(new java.awt.Color(0, 0, 0));
         txtLogEmail.setBorder(null);
         pnlLog.add(txtLogEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 330, 410, 40));
 
         txtLogPass.setBackground(new java.awt.Color(255, 255, 255));
-        txtLogPass.setForeground(new java.awt.Color(0, 0, 0));
+        txtLogPass.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
         txtLogPass.setBorder(null);
-        pnlLog.add(txtLogPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 400, 410, 40));
+        pnlLog.add(txtLogPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 406, 410, 40));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Login 2.png"))); // NOI18N
         jLabel2.setToolTipText("");
@@ -181,20 +182,27 @@ public class startUp extends javax.swing.JFrame {
         });
         pnlReg.add(btnBackReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 670, 80, 60));
 
-        txtRegPass.setBackground(new java.awt.Color(255, 255, 255));
-        txtRegPass.setForeground(new java.awt.Color(0, 0, 0));
-        txtRegPass.setBorder(null);
-        pnlReg.add(txtRegPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 470, 410, 40));
-
         txtRegEmail.setBackground(new java.awt.Color(255, 255, 255));
+        txtRegEmail.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
         txtRegEmail.setForeground(new java.awt.Color(0, 0, 0));
         txtRegEmail.setBorder(null);
-        pnlReg.add(txtRegEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 400, 410, 30));
+        pnlReg.add(txtRegEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 390, 410, 40));
 
         txtRegName.setBackground(new java.awt.Color(255, 255, 255));
+        txtRegName.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
         txtRegName.setForeground(new java.awt.Color(0, 0, 0));
         txtRegName.setBorder(null);
         pnlReg.add(txtRegName, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 312, 410, 40));
+
+        txtRegPass.setBackground(new java.awt.Color(255, 255, 255));
+        txtRegPass.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
+        txtRegPass.setBorder(null);
+        txtRegPass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRegPassActionPerformed(evt);
+            }
+        });
+        pnlReg.add(txtRegPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 460, 410, 50));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Register.png"))); // NOI18N
         pnlReg.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -468,6 +476,10 @@ public class startUp extends javax.swing.JFrame {
     
     }//GEN-LAST:event_btnRegNextActionPerformed
 
+    private void txtRegPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRegPassActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtRegPassActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -515,9 +527,9 @@ public class startUp extends javax.swing.JFrame {
     private javax.swing.JPanel pnlReg;
     private javax.swing.JPanel pnlUserChoice;
     private javax.swing.JTextField txtLogEmail;
-    private javax.swing.JTextField txtLogPass;
+    private javax.swing.JPasswordField txtLogPass;
     private javax.swing.JTextField txtRegEmail;
     private javax.swing.JTextField txtRegName;
-    private javax.swing.JTextField txtRegPass;
+    private javax.swing.JPasswordField txtRegPass;
     // End of variables declaration//GEN-END:variables
 }
