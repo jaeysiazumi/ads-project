@@ -37,6 +37,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         updateTotalSalesLabel();
         loadDashboardTable();
         loadUsersTable();
+        loadDashboardOrders();
         loadStatusFilter();
         loadProductsTable("", "All");
         txtProductID.setEditable(false);
@@ -349,6 +350,33 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     loadProductsTable(searchText, statusFilter);
 }
+        private void loadDashboardOrders() {
+    try {
+        Connection conn = DBConnection.getConnection();
+
+        String sql = "SELECT order_id, customer_name, total_amount, order_type, status, order_date FROM orders";
+        PreparedStatement pst = conn.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) tblDashboard.getModel();
+        model.setRowCount(0); // clear table
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("order_id"),
+                rs.getString("customer_name"),
+                rs.getDouble("total_amount"),
+                rs.getString("order_type"),
+                rs.getString("status"),
+                rs.getString("order_date")
+            });
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+        }
+
      
     
     /**
@@ -1607,6 +1635,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
        setActive("dashboard");
+       loadDashboardOrders();
         CardLayout cl = (CardLayout)(jPanel2.getLayout());
             cl.show(jPanel2, "dashboard");
     }//GEN-LAST:event_btnDashboardActionPerformed
