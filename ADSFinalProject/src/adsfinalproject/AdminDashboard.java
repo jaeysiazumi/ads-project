@@ -5,15 +5,14 @@
 package adsfinalproject;
 
 import java.awt.CardLayout;
-import java.awt.Image;
-import java.io.File;
 import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.sql.SQLException;
+
 
 /**
  *
@@ -23,23 +22,41 @@ public class AdminDashboard extends javax.swing.JFrame {
     
     ImageIcon darkd, darku, darko, darkp, darks, darkr;
     ImageIcon dash, user, ord, pr, sup, rep ;
+    private Connection conn;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AdminDashboard.class.getName());
 
     /**
      * Creates new form AdminDashboard
      */
+    
     public AdminDashboard() {
         initComponents(); 
         updateTotalOrdersLabel();
         updateTotalCustomers(); 
         updateTotalSalesLabel();
         loadDashboardTable();
+        loadUsersTable();
+        loadStatusFilter();
+        loadProductsTable("", "All");
+        txtProductID.setEditable(false);
+        txtName.setEditable(false);
+        txtDescription.setEditable(false);
+        txtCategory.setEditable(false);
+        txtPrice.setEditable(false);
+        txtSupplier.setEditable(false);
+        txtStatus.setEditable(false);
+        txtDateAdded.setEditable(false);
+        txtExpirationDate.setEditable(false);
+        txtStock.setEditable(false);
+       
+
         
         new javax.swing.Timer(2000, e -> {
             updateTotalOrders();
             updateTotalCustomers();
             loadDashboardTable();
+            loadUsersTable();
         }).start();
         setSize(1318, 847);
         jPanel1.setVisible(true);
@@ -230,8 +247,110 @@ public class AdminDashboard extends javax.swing.JFrame {
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Error loading dashboard table: " + e.getMessage());
     }
+     }
+    public void loadUsersTable() {
+    try (Connection conn = DBConnection.getConnection()) {
+
+        DefaultTableModel model = (DefaultTableModel) tblCustomer.getModel();
+        model.setRowCount(0);
+        String sql = "SELECT id, username, email, contact_no, status FROM users";
+        PreparedStatement pst = conn.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String username = rs.getString("username");
+            String email = rs.getString("email");
+
+            String contactNo = rs.getString("contact_no");
+            if (contactNo == null || contactNo.isEmpty()) {
+                contactNo = "-";
+            }
+
+            String status = rs.getString("status");
+            if (status == null || status.isEmpty()) {
+                status = "Pending";
+            }
+            
+            model.addRow(new Object[]{ id, username, email, contactNo, status });
+        }
+
+        rs.close();
+        pst.close();
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error loading users table: " + e.getMessage());
+    }
+    }
+    private void loadStatusFilter() {
+    cmbStatusFilter.removeAllItems();
+    cmbStatusFilter.addItem("Status");
+    cmbStatusFilter.addItem("Available");
+    cmbStatusFilter.addItem("Out of Stock");
+    cmbStatusFilter.addItem("Discontinued");
+
+}
+    private void loadProductsTable(String search, String statusFilter) {
+    DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
+    model.setRowCount(0);
+
+    Connection conn = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+
+    try {
+        conn = DBConnection.getConnection();
+
+        String sql = "SELECT * FROM products WHERE "
+                   + "(name LIKE ? OR category LIKE ? OR supplier LIKE ?)";
+
+        if (!statusFilter.equals("All")) {
+            sql += " AND status = ?";
+        }
+
+        sql += " ORDER BY product_id DESC";
+
+        pst = conn.prepareStatement(sql);
+        pst.setString(1, "%" + search + "%");
+        pst.setString(2, "%" + search + "%");
+        pst.setString(3, "%" + search + "%");
+
+        if (!statusFilter.equals("All")) {
+            pst.setString(4, statusFilter);
+        }
+
+        rs = pst.executeQuery();
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("product_id"),
+                rs.getString("name"),
+                rs.getString("description"),
+                rs.getString("category"),
+                rs.getInt("stock"),
+                rs.getDouble("price"),
+                rs.getString("supplier"),
+                rs.getString("status"),
+                rs.getDate("date_added"),
+                rs.getDate("expiration_date")
+            });
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error loading products: " + e.getMessage());
+    }
+    }
+    private void refreshProductsTable() {
+    String searchText = txtSearch.getText().trim();
+
+    Object selectedItem = cmbStatusFilter.getSelectedItem();
+    String statusFilter = (selectedItem != null) ? selectedItem.toString() : "All";
+
+    loadProductsTable(searchText, statusFilter);
 }
      
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -316,7 +435,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         jComboBox3 = new javax.swing.JComboBox<>();
         jTextField3 = new javax.swing.JTextField();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTable7 = new javax.swing.JTable();
+        tblCustomer = new javax.swing.JTable();
         btnCusDel = new javax.swing.JButton();
         btnCusEdit = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
@@ -334,7 +453,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnStaffAdd = new javax.swing.JButton();
         jTextField4 = new javax.swing.JTextField();
         jScrollPane8 = new javax.swing.JScrollPane();
-        jTable8 = new javax.swing.JTable();
+        tblStaff = new javax.swing.JTable();
         jComboBox4 = new javax.swing.JComboBox<>();
         jTabbedPane3 = new javax.swing.JTabbedPane();
         jPanel10 = new javax.swing.JPanel();
@@ -376,29 +495,29 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnAddSave = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         pnlRestock = new javax.swing.JPanel();
-        jTextField17 = new javax.swing.JTextField();
-        jTextField16 = new javax.swing.JTextField();
-        jTextField15 = new javax.swing.JTextField();
-        jTextField14 = new javax.swing.JTextField();
-        jTextField13 = new javax.swing.JTextField();
+        txtExpirationDate = new javax.swing.JTextField();
+        txtDateAdded = new javax.swing.JTextField();
+        txtSupplier = new javax.swing.JTextField();
+        txtStatus = new javax.swing.JTextField();
+        txtPrice = new javax.swing.JTextField();
         jTextField12 = new javax.swing.JTextField();
-        jTextField11 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
+        txtStock = new javax.swing.JTextField();
+        txtCategory = new javax.swing.JTextField();
+        txtDescription = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
+        txtProductID = new javax.swing.JTextField();
         btnBack = new javax.swing.JButton();
-        btnAddStock1 = new javax.swing.JButton();
+        btnSaveRestock = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
-        btnPrDel = new javax.swing.JButton();
-        btnPrRestock = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnRestock = new javax.swing.JButton();
         btnAddProduct = new javax.swing.JButton();
         btnPrUpdate1 = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
+        txtSearch = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        tblProducts = new javax.swing.JTable();
+        cmbStatusFilter = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -916,19 +1035,19 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jScrollPane7.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable7.setBackground(new java.awt.Color(255, 255, 255));
-        jTable7.setModel(new javax.swing.table.DefaultTableModel(
+        tblCustomer.setBackground(new java.awt.Color(255, 255, 255));
+        tblCustomer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID", "Name", "Contact No.", "Status"
+                "ID", "Name", "Email", "Contact No.", "Status"
             }
         ));
-        jScrollPane7.setViewportView(jTable7);
+        jScrollPane7.setViewportView(tblCustomer);
 
         jPanel5.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 500));
 
@@ -1031,8 +1150,8 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jScrollPane8.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable8.setBackground(new java.awt.Color(255, 255, 255));
-        jTable8.setModel(new javax.swing.table.DefaultTableModel(
+        tblStaff.setBackground(new java.awt.Color(255, 255, 255));
+        tblStaff.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -1043,7 +1162,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 "ID", "Name", "Email", "Contact No.", "Status"
             }
         ));
-        jScrollPane8.setViewportView(jTable8);
+        jScrollPane8.setViewportView(tblStaff);
 
         pnlUsers1.add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 500));
 
@@ -1309,61 +1428,61 @@ public class AdminDashboard extends javax.swing.JFrame {
         pnlRestock.setBackground(new java.awt.Color(255, 255, 255));
         pnlRestock.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTextField17.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField17.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField17.setBorder(null);
-        pnlRestock.add(jTextField17, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 500, 370, -1));
+        txtExpirationDate.setBackground(new java.awt.Color(255, 255, 255));
+        txtExpirationDate.setForeground(new java.awt.Color(0, 0, 0));
+        txtExpirationDate.setBorder(null);
+        pnlRestock.add(txtExpirationDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 500, 370, -1));
 
-        jTextField16.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField16.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField16.setBorder(null);
-        pnlRestock.add(jTextField16, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 410, 370, 20));
+        txtDateAdded.setBackground(new java.awt.Color(255, 255, 255));
+        txtDateAdded.setForeground(new java.awt.Color(0, 0, 0));
+        txtDateAdded.setBorder(null);
+        pnlRestock.add(txtDateAdded, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 410, 370, 20));
 
-        jTextField15.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField15.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField15.setBorder(null);
-        pnlRestock.add(jTextField15, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 240, 370, 20));
+        txtSupplier.setBackground(new java.awt.Color(255, 255, 255));
+        txtSupplier.setForeground(new java.awt.Color(0, 0, 0));
+        txtSupplier.setBorder(null);
+        pnlRestock.add(txtSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 240, 370, 20));
 
-        jTextField14.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField14.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField14.setBorder(null);
-        pnlRestock.add(jTextField14, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 330, 370, -1));
+        txtStatus.setBackground(new java.awt.Color(255, 255, 255));
+        txtStatus.setForeground(new java.awt.Color(0, 0, 0));
+        txtStatus.setBorder(null);
+        pnlRestock.add(txtStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 330, 370, -1));
 
-        jTextField13.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField13.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField13.setBorder(null);
-        pnlRestock.add(jTextField13, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 160, 370, 20));
+        txtPrice.setBackground(new java.awt.Color(255, 255, 255));
+        txtPrice.setForeground(new java.awt.Color(0, 0, 0));
+        txtPrice.setBorder(null);
+        pnlRestock.add(txtPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 160, 370, 20));
 
         jTextField12.setBackground(new java.awt.Color(255, 255, 255));
         jTextField12.setForeground(new java.awt.Color(0, 0, 0));
         jTextField12.setBorder(null);
         pnlRestock.add(jTextField12, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 240, 370, 20));
 
-        jTextField11.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField11.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField11.setBorder(null);
-        pnlRestock.add(jTextField11, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 580, 370, -1));
+        txtStock.setBackground(new java.awt.Color(255, 255, 255));
+        txtStock.setForeground(new java.awt.Color(0, 0, 0));
+        txtStock.setBorder(null);
+        pnlRestock.add(txtStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 580, 370, -1));
 
-        jTextField10.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField10.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField10.setBorder(null);
-        pnlRestock.add(jTextField10, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 500, 370, -1));
+        txtCategory.setBackground(new java.awt.Color(255, 255, 255));
+        txtCategory.setForeground(new java.awt.Color(0, 0, 0));
+        txtCategory.setBorder(null);
+        pnlRestock.add(txtCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 500, 370, -1));
 
-        jTextField9.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField9.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField9.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTextField9.setBorder(null);
-        pnlRestock.add(jTextField9, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, 370, 100));
+        txtDescription.setBackground(new java.awt.Color(255, 255, 255));
+        txtDescription.setForeground(new java.awt.Color(0, 0, 0));
+        txtDescription.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtDescription.setBorder(null);
+        pnlRestock.add(txtDescription, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, 370, 100));
 
-        jTextField8.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField8.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField8.setBorder(null);
-        pnlRestock.add(jTextField8, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 370, 20));
+        txtName.setBackground(new java.awt.Color(255, 255, 255));
+        txtName.setForeground(new java.awt.Color(0, 0, 0));
+        txtName.setBorder(null);
+        pnlRestock.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 370, 20));
 
-        jTextField7.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField7.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField7.setBorder(null);
-        pnlRestock.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 160, 370, -1));
+        txtProductID.setBackground(new java.awt.Color(255, 255, 255));
+        txtProductID.setForeground(new java.awt.Color(0, 0, 0));
+        txtProductID.setBorder(null);
+        pnlRestock.add(txtProductID, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 160, 370, -1));
 
         btnBack.setText("-");
         btnBack.setBorderPainted(false);
@@ -1375,10 +1494,15 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
         pnlRestock.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 740, 130, 30));
 
-        btnAddStock1.setText("-");
-        btnAddStock1.setBorderPainted(false);
-        btnAddStock1.setContentAreaFilled(false);
-        pnlRestock.add(btnAddStock1, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 743, 130, 30));
+        btnSaveRestock.setText("-");
+        btnSaveRestock.setBorderPainted(false);
+        btnSaveRestock.setContentAreaFilled(false);
+        btnSaveRestock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveRestockActionPerformed(evt);
+            }
+        });
+        pnlRestock.add(btnSaveRestock, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 743, 130, 30));
 
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Restock.png"))); // NOI18N
         jLabel21.setToolTipText("");
@@ -1388,24 +1512,29 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnPrDel.setBackground(new java.awt.Color(255, 255, 255));
-        btnPrDel.setText("-");
-        btnPrDel.setBorder(null);
-        btnPrDel.setBorderPainted(false);
-        btnPrDel.setContentAreaFilled(false);
-        jPanel7.add(btnPrDel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 740, 80, 30));
-
-        btnPrRestock.setBackground(new java.awt.Color(255, 255, 255));
-        btnPrRestock.setText("-");
-        btnPrRestock.setBorder(null);
-        btnPrRestock.setBorderPainted(false);
-        btnPrRestock.setContentAreaFilled(false);
-        btnPrRestock.addActionListener(new java.awt.event.ActionListener() {
+        btnDelete.setBackground(new java.awt.Color(255, 255, 255));
+        btnDelete.setText("-");
+        btnDelete.setBorder(null);
+        btnDelete.setBorderPainted(false);
+        btnDelete.setContentAreaFilled(false);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPrRestockActionPerformed(evt);
+                btnDeleteActionPerformed(evt);
             }
         });
-        jPanel7.add(btnPrRestock, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 740, 80, 30));
+        jPanel7.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 740, 80, 30));
+
+        btnRestock.setBackground(new java.awt.Color(255, 255, 255));
+        btnRestock.setText("-");
+        btnRestock.setBorder(null);
+        btnRestock.setBorderPainted(false);
+        btnRestock.setContentAreaFilled(false);
+        btnRestock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRestockActionPerformed(evt);
+            }
+        });
+        jPanel7.add(btnRestock, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 740, 80, 30));
 
         btnAddProduct.setBackground(new java.awt.Color(255, 255, 255));
         btnAddProduct.setText("-");
@@ -1426,15 +1555,20 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnPrUpdate1.setContentAreaFilled(false);
         jPanel7.add(btnPrUpdate1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 740, 80, 30));
 
-        jTextField2.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField2.setBorder(null);
-        jPanel7.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 116, 380, 20));
+        txtSearch.setBackground(new java.awt.Color(255, 255, 255));
+        txtSearch.setBorder(null);
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
+        jPanel7.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 116, 380, 20));
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setBorder(null);
 
-        jTable1.setBackground(new java.awt.Color(255, 255, 255));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblProducts.setBackground(new java.awt.Color(255, 255, 255));
+        tblProducts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null},
@@ -1445,14 +1579,19 @@ public class AdminDashboard extends javax.swing.JFrame {
                 "Product ID", "Name", "Description", "Category", "Stock", "Price", "Supplier", "Status", "Date Add", "Expiration"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblProducts);
 
         jPanel7.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 170, 930, 500));
 
-        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setForeground(new java.awt.Color(51, 51, 51));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status:", "Available", "Out of Stock", "Discontinued" }));
-        jPanel7.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 110, 210, 30));
+        cmbStatusFilter.setBackground(new java.awt.Color(255, 255, 255));
+        cmbStatusFilter.setForeground(new java.awt.Color(51, 51, 51));
+        cmbStatusFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status:", "Available", "Out of Stock", "Discontinued" }));
+        cmbStatusFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbStatusFilterActionPerformed(evt);
+            }
+        });
+        jPanel7.add(cmbStatusFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 110, 210, 30));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/AdProduct.png"))); // NOI18N
         jPanel7.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1320, -1));
@@ -1580,17 +1719,129 @@ public class AdminDashboard extends javax.swing.JFrame {
         pnlView.setVisible(true);
     }//GEN-LAST:event_btnOrdViewActionPerformed
 
-    private void btnPrRestockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrRestockActionPerformed
+    private void btnRestockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestockActionPerformed
+
+        int selectedRow = tblProducts.getSelectedRow();
+
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a product first.");
+        return;
+    }
+
+    txtProductID.setText(tblProducts.getValueAt(selectedRow, 0).toString());
+    txtName.setText(tblProducts.getValueAt(selectedRow, 1).toString());
+    txtDescription.setText(tblProducts.getValueAt(selectedRow, 2).toString());
+    txtCategory.setText(tblProducts.getValueAt(selectedRow, 3).toString());
+    txtStock.setText(tblProducts.getValueAt(selectedRow, 4).toString());
+    txtPrice.setText(tblProducts.getValueAt(selectedRow, 5).toString());
+    txtSupplier.setText(tblProducts.getValueAt(selectedRow, 6).toString());
+    txtStatus.setText(tblProducts.getValueAt(selectedRow, 7).toString());
+    txtDateAdded.setText(tblProducts.getValueAt(selectedRow, 8).toString());
+    txtExpirationDate.setText(tblProducts.getValueAt(selectedRow, 9).toString());
+
+    txtAddStock.setText("");
+
+    // restockPanel.setVisible(true);
+    // productsPanel.setVisible(false);
+
         pnlRestock.setVisible(true);
         jPanel7.setVisible(false);
         jPanel1.setVisible(false);
-    }//GEN-LAST:event_btnPrRestockActionPerformed
+    }//GEN-LAST:event_btnRestockActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         pnlRestock.setVisible(false);
         jPanel1.setVisible(true);
         jPanel7.setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+        refreshProductsTable();
+    }//GEN-LAST:event_txtSearchKeyReleased
+
+    private void cmbStatusFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbStatusFilterActionPerformed
+        // TODO add your handling code here:
+        refreshProductsTable();
+    }//GEN-LAST:event_cmbStatusFilterActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = tblProducts.getSelectedRow();
+
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a product first.");
+        return;
+    }
+
+    int productId = Integer.parseInt(tblProducts.getValueAt(selectedRow, 0).toString());
+    String productName = tblProducts.getValueAt(selectedRow, 1).toString();
+
+    int confirm = JOptionPane.showConfirmDialog(
+        this,
+        "Mark \"" + productName + "\" as Discontinued?",
+        "Confirm",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirm == JOptionPane.YES_OPTION) {
+        try {
+            Connection conn = DBConnection.getConnection();
+            String sql = "UPDATE products SET stock = 0, status = 'Discontinued' WHERE product_id = ?";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setInt(1, productId);
+
+            pst.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "Product marked as Discontinued.");
+            refreshProductsTable();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnSaveRestockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveRestockActionPerformed
+        // TODO add your handling code here:
+
+    try {
+        if (conn == null) {
+            JOptionPane.showMessageDialog(this, "Database not connected!");
+            return;
+        }
+
+        String ProductId = txtProductID.getText(); 
+
+        String selectSQL = "SELECT stock FROM items WHERE order_id = ?";
+        PreparedStatement pstSelect = conn.prepareStatement(selectSQL);
+        pstSelect.setString(1, ProductId);
+        ResultSet rs = pstSelect.executeQuery();
+
+        if (rs.next()) {
+            int currentStock = rs.getInt("stock");
+            int newStock = currentStock + 1; 
+
+            String updateSQL = "UPDATE items SET stock = ? WHERE order_id = ?";
+            PreparedStatement pstUpdate = conn.prepareStatement(updateSQL);
+            pstUpdate.setInt(1, newStock);
+            pstUpdate.setString(2, ProductId);
+            pstUpdate.executeUpdate();
+
+            txtStock.setText(String.valueOf(newStock));
+            JOptionPane.showMessageDialog(this, "Stock successfully added!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Item not found!");
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage());
+    }
+
+        
+        
+
+    }//GEN-LAST:event_btnSaveRestockActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1625,13 +1876,13 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnAddSave;
     private javax.swing.JButton btnAddSave1;
     private javax.swing.JButton btnAddSave2;
-    private javax.swing.JButton btnAddStock1;
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCusDel;
     private javax.swing.JButton btnCusDel1;
     private javax.swing.JButton btnCusEdit;
     private javax.swing.JButton btnCusEdit1;
     private javax.swing.JButton btnDashboard;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnOrdCanc;
     private javax.swing.JButton btnOrdCanc1;
@@ -1647,11 +1898,11 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnOrdView;
     private javax.swing.JButton btnOrdView1;
     private javax.swing.JButton btnOrders;
-    private javax.swing.JButton btnPrDel;
-    private javax.swing.JButton btnPrRestock;
     private javax.swing.JButton btnPrUpdate1;
     private javax.swing.JButton btnProducts;
     private javax.swing.JButton btnReports;
+    private javax.swing.JButton btnRestock;
+    private javax.swing.JButton btnSaveRestock;
     private javax.swing.JButton btnStaffAdd;
     private javax.swing.JButton btnStaffAdd1;
     private javax.swing.JButton btnStaffDel;
@@ -1663,7 +1914,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnSupEdit;
     private javax.swing.JButton btnSupplier;
     private javax.swing.JButton btnUsers;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cmbStatusFilter;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
@@ -1717,33 +1968,19 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTabbedPane jTabbedPane5;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable10;
     private javax.swing.JTable jTable11;
     private javax.swing.JTable jTable12;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
-    private javax.swing.JTable jTable7;
-    private javax.swing.JTable jTable8;
     private javax.swing.JTable jTable9;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField16;
-    private javax.swing.JTextField jTextField17;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JLabel lblLowStiock;
     private javax.swing.JLabel lblTotalCustomer;
     private javax.swing.JLabel lblTotalOrd;
@@ -1764,7 +2001,10 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel pnlUsers2;
     private javax.swing.JPanel pnlView;
     private javax.swing.JPanel pnlverufy;
+    private javax.swing.JTable tblCustomer;
     private javax.swing.JTable tblDashboard;
+    private javax.swing.JTable tblProducts;
+    private javax.swing.JTable tblStaff;
     private javax.swing.JTextField txtAddCategory;
     private javax.swing.JTextField txtAddName;
     private javax.swing.JTextField txtAddName1;
@@ -1776,6 +2016,17 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField txtAddSupCP1;
     private javax.swing.JTextField txtAddSupEm;
     private javax.swing.JTextField txtAddSupEm1;
+    private javax.swing.JTextField txtCategory;
+    private javax.swing.JTextField txtDateAdded;
+    private javax.swing.JTextField txtDescription;
+    private javax.swing.JTextField txtExpirationDate;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtPrice;
+    private javax.swing.JTextField txtProductID;
+    private javax.swing.JTextField txtSearch;
+    private javax.swing.JTextField txtStatus;
+    private javax.swing.JTextField txtStock;
+    private javax.swing.JTextField txtSupplier;
     private javax.swing.JTextField txtxAddDescrip;
     // End of variables declaration//GEN-END:variables
 }
