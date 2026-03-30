@@ -4,6 +4,8 @@
  */
 package adsfinalproject;
 
+import adsfinalproject.DBConnection;
+import adsfinalproject.startUp;
 import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.BorderFactory;
@@ -13,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 
 /**
@@ -415,6 +418,32 @@ public class CustomerDashboard extends javax.swing.JFrame {
             }
         }
         
+ 
+    public void saveCustomerContactNo(String username, String contactNo) {
+    try {
+        Connection conn = DBConnection.getConnection();
+        String sql = "UPDATE users SET contact_no = ?, status = ? WHERE username = ?";
+        PreparedStatement pst = conn.prepareStatement(sql);
+
+        pst.setString(1, contactNo);
+        pst.setString(2, "Active");
+        pst.setString(3, username);
+
+        int rowsUpdated = pst.executeUpdate();
+
+        System.out.println("Username passed: " + username);
+        System.out.println("Rows updated: " + rowsUpdated);
+
+        pst.close();
+        conn.close();
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error saving customer info: " + e.getMessage());
+    }
+
+}
+        
 
 
     /**
@@ -480,7 +509,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         lblDateTime = new javax.swing.JLabel();
         lblOrderNum = new javax.swing.JLabel();
         textAddress = new javax.swing.JTextField();
-        textUserContact = new javax.swing.JTextField();
+        txtContactNo = new javax.swing.JTextField();
         textUserName = new javax.swing.JTextField();
         btnProceedPayment = new javax.swing.JButton();
         lblOrderType = new javax.swing.JLabel();
@@ -1077,9 +1106,14 @@ public class CustomerDashboard extends javax.swing.JFrame {
         });
         pnlOrders.add(textAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 600, 410, 30));
 
-        textUserContact.setBackground(new java.awt.Color(255, 255, 255));
-        textUserContact.setForeground(new java.awt.Color(0, 0, 0));
-        pnlOrders.add(textUserContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 560, 410, 30));
+        txtContactNo.setBackground(new java.awt.Color(255, 255, 255));
+        txtContactNo.setForeground(new java.awt.Color(0, 0, 0));
+        txtContactNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtContactNoActionPerformed(evt);
+            }
+        });
+        pnlOrders.add(txtContactNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 560, 410, 30));
 
         textUserName.setBackground(new java.awt.Color(255, 255, 255));
         textUserName.setForeground(new java.awt.Color(0, 0, 0));
@@ -2708,7 +2742,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         String name = textUserName.getText().trim();
         System.out.println("Customer Name: " + textUserName);
-        String contact = textUserContact.getText().trim();
+        String contact = txtContactNo.getText().trim();
         String address = textAddress.getText().trim();
         if (name.isEmpty() || contact.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please fill in Name and Contact!");
@@ -2732,6 +2766,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please select a payment method first!");
             return;
         }
+        
+        saveCustomerInfo(name, contact);
 
         if (selectedPayment.equals("cash")) {
             int confirm = JOptionPane.showConfirmDialog(
@@ -2778,6 +2814,28 @@ public class CustomerDashboard extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+}
+            public void saveCustomerInfo(String username, String contactNo) {
+        try {
+            Connection conn = DBConnection.getConnection();
+            String sql = "UPDATE users SET contact_no = ?, status = ? WHERE username = ?";
+            PreparedStatement pst = conn.prepareStatement(sql);
+
+            pst.setString(1, contactNo);
+            pst.setString(2, "Active");
+            pst.setString(3, username);
+
+            pst.executeUpdate();
+
+            pst.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error saving customer info: " + e.getMessage());
+        }
+    
+        
     }//GEN-LAST:event_btnProceedPaymentActionPerformed
 
     private void btneWalletPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneWalletPayActionPerformed
@@ -3174,6 +3232,10 @@ public class CustomerDashboard extends javax.swing.JFrame {
     lblChange1.setText(formatted);
 
     }//GEN-LAST:event_btnRemoveOrderActionPerformed
+
+    private void txtContactNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContactNoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtContactNoActionPerformed
     
     /**
      * @param args the command line arguments
@@ -3458,7 +3520,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField textCardNum;
     private javax.swing.JTextField textExDate;
     private javax.swing.JTextField textRefNum;
-    private javax.swing.JTextField textUserContact;
     private javax.swing.JTextField textUserName;
+    private javax.swing.JTextField txtContactNo;
     // End of variables declaration//GEN-END:variables
 }
