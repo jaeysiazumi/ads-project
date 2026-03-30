@@ -36,7 +36,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         updateTotalCustomers(); 
         updateTotalSalesLabel();
         loadDashboardTable();
-        loadUsersTable();
+        updateStatusFilterOptions();
+        refreshUsersTable();
+      
         loadDashboardOrders();
         loadStatusFilter();
         loadProductsTable("", "All");
@@ -57,7 +59,9 @@ public class AdminDashboard extends javax.swing.JFrame {
             updateTotalOrders();
             updateTotalCustomers();
             loadDashboardTable();
-            loadUsersTable();
+            updateStatusFilterOptions();
+            refreshUsersTable();
+           
         }).start();
         setSize(1318, 847);
         jPanel1.setVisible(true);
@@ -249,41 +253,108 @@ public class AdminDashboard extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Error loading dashboard table: " + e.getMessage());
     }
      }
-    public void loadUsersTable() {
-    try (Connection conn = DBConnection.getConnection()) {
+     
+    public void loadUsersTable(String role, String searchText, String statusFilter) {
+    DefaultTableModel model = (DefaultTableModel) tblCustomer.getModel();
+    model.setRowCount(0);
 
-        DefaultTableModel model = (DefaultTableModel) tblCustomer.getModel();
-        model.setRowCount(0);
-        String sql = "SELECT id, username, email, contact_no, status FROM users";
-        PreparedStatement pst = conn.prepareStatement(sql);
+    String sql = "SELECT id, username, email, contact_no, status, role FROM users WHERE 1=1";
+
+    if (role != null && !role.isEmpty()) {
+        sql += " AND role = ?";
+    }
+
+    if (!searchText.isEmpty()) {
+        sql += " AND (username LIKE ? OR email LIKE ?)";
+    }
+
+    if (!statusFilter.equals("All")) {
+        sql += " AND status = ?";
+    }
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement pst = conn.prepareStatement(sql)) {
+
+        int index = 1;
+
+        if (role != null && !role.isEmpty()) {
+            pst.setString(index++, role);
+        }
+
+        if (!searchText.isEmpty()) {
+            pst.setString(index++, "%" + searchText + "%");
+            pst.setString(index++, "%" + searchText + "%");
+        }
+
+        if (!statusFilter.equals("All")) {
+            pst.setString(index++, statusFilter);
+        }
+
+        System.out.println("SQL: " + sql);
+        System.out.println("Role: " + role);
+        System.out.println("Search: " + searchText);
+        System.out.println("Status: " + statusFilter);
+
         ResultSet rs = pst.executeQuery();
 
         while (rs.next()) {
-            int id = rs.getInt("id");
-            String username = rs.getString("username");
-            String email = rs.getString("email");
+            System.out.println("Found user: " + rs.getString("username"));
 
-            String contactNo = rs.getString("contact_no");
-            if (contactNo == null || contactNo.isEmpty()) {
-                contactNo = "-";
-            }
-
-            String status = rs.getString("status");
-            if (status == null || status.isEmpty()) {
-                status = "Pending";
-            }
-            
-            model.addRow(new Object[]{ id, username, email, contactNo, status });
+            Object[] row = new Object[] {
+                rs.getInt("id"),
+                rs.getString("username"),
+                rs.getString("email"),
+                rs.getString("contact_no"),
+                rs.getString("status")
+            };
+            model.addRow(row);
         }
 
-        rs.close();
-        pst.close();
-
     } catch (SQLException e) {
-        e.printStackTrace();
         JOptionPane.showMessageDialog(null, "Error loading users table: " + e.getMessage());
     }
+
+}
+    public void refreshUsersTable() {
+    String searchText = txtSearchUsers.getText().trim();
+
+    Object selectedItem = cmbStatusFilterr.getSelectedItem();
+    String statusFilter = (selectedItem != null) ? selectedItem.toString() : "All";
+
+    int selectedTab = tabbedpane.getSelectedIndex();
+
+    System.out.println("Selected Tab: " + selectedTab);
+    System.out.println("Search Text: " + searchText);
+    System.out.println("Status Filter: " + statusFilter);
+
+    if (selectedTab == 0) {
+        loadUsersTable("customer", searchText, statusFilter);
+    } else if (selectedTab == 1) {
+        loadUsersTable("staff", searchText, statusFilter);
     }
+}
+    
+    public void updateStatusFilterOptions() {
+    cmbStatusFilterr.removeAllItems();
+    cmbStatusFilterr.addItem("All");
+
+    int selectedTab = tabbedpane.getSelectedIndex();
+
+    if (selectedTab == 0) { // Customer
+        cmbStatusFilterr.addItem("Active");
+        cmbStatusFilterr.addItem("Inactive");
+    } else if (selectedTab == 1) { // Staff
+        cmbStatusFilterr.addItem("Active");
+        cmbStatusFilterr.addItem("Inactive");
+        cmbStatusFilterr.addItem("In Duty");
+    }
+
+    cmbStatusFilterr.setSelectedIndex(0);
+
+}
+    
+    
+    
     private void loadStatusFilter() {
     cmbStatusFilter.removeAllItems();
     cmbStatusFilter.addItem("Status");
@@ -460,8 +531,8 @@ public class AdminDashboard extends javax.swing.JFrame {
         pnlUsers = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jTextField3 = new javax.swing.JTextField();
+        cmbStatusFilterr = new javax.swing.JComboBox<>();
+        txtSearchUsers = new javax.swing.JTextField();
         jScrollPane7 = new javax.swing.JScrollPane();
         tblCustomer = new javax.swing.JTable();
         btnCusDel = new javax.swing.JButton();
@@ -483,7 +554,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         jScrollPane8 = new javax.swing.JScrollPane();
         tblStaff = new javax.swing.JTable();
         jComboBox4 = new javax.swing.JComboBox<>();
-        jTabbedPane3 = new javax.swing.JTabbedPane();
+        tabbedpane = new javax.swing.JTabbedPane();
         jPanel10 = new javax.swing.JPanel();
         jComboBox5 = new javax.swing.JComboBox<>();
         jTextField5 = new javax.swing.JTextField();
@@ -496,7 +567,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         jComboBox6 = new javax.swing.JComboBox<>();
         jTextField6 = new javax.swing.JTextField();
         jScrollPane10 = new javax.swing.JScrollPane();
-        jTable10 = new javax.swing.JTable();
+        tblStaffs = new javax.swing.JTable();
         btnStaffAdd1 = new javax.swing.JButton();
         btnStaffDel1 = new javax.swing.JButton();
         btnStaffEdit1 = new javax.swing.JButton();
@@ -1050,16 +1121,31 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jComboBox3.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox3.setForeground(new java.awt.Color(51, 51, 51));
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status:", "Active", "Inactive" }));
-        jComboBox3.setBorder(null);
-        jPanel5.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 110, 240, 30));
+        cmbStatusFilterr.setBackground(new java.awt.Color(255, 255, 255));
+        cmbStatusFilterr.setForeground(new java.awt.Color(51, 51, 51));
+        cmbStatusFilterr.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status:", "Active", "Inactive" }));
+        cmbStatusFilterr.setBorder(null);
+        cmbStatusFilterr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbStatusFilterrActionPerformed(evt);
+            }
+        });
+        jPanel5.add(cmbStatusFilterr, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 110, 240, 30));
 
-        jTextField3.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField3.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField3.setBorder(null);
-        jPanel5.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 112, 370, 20));
+        txtSearchUsers.setBackground(new java.awt.Color(255, 255, 255));
+        txtSearchUsers.setForeground(new java.awt.Color(0, 0, 0));
+        txtSearchUsers.setBorder(null);
+        txtSearchUsers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchUsersActionPerformed(evt);
+            }
+        });
+        txtSearchUsers.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchUsersKeyReleased(evt);
+            }
+        });
+        jPanel5.add(txtSearchUsers, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 112, 370, 20));
 
         jScrollPane7.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1200,10 +1286,15 @@ public class AdminDashboard extends javax.swing.JFrame {
         jComboBox4.setBorder(null);
         pnlUsers1.add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 110, 240, 30));
 
-        jTabbedPane3.setBackground(new java.awt.Color(255, 255, 255));
-        jTabbedPane3.setTabPlacement(javax.swing.JTabbedPane.RIGHT);
-        jTabbedPane3.setToolTipText("");
-        jTabbedPane3.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
+        tabbedpane.setBackground(new java.awt.Color(255, 255, 255));
+        tabbedpane.setTabPlacement(javax.swing.JTabbedPane.RIGHT);
+        tabbedpane.setToolTipText("");
+        tabbedpane.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
+        tabbedpane.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabbedpaneStateChanged(evt);
+            }
+        });
 
         jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -1253,7 +1344,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Usersimnida.png"))); // NOI18N
         jPanel10.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1277, -1));
 
-        jTabbedPane3.addTab("C", jPanel10);
+        tabbedpane.addTab("C", jPanel10);
 
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -1270,8 +1361,8 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jScrollPane10.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable10.setBackground(new java.awt.Color(255, 255, 255));
-        jTable10.setModel(new javax.swing.table.DefaultTableModel(
+        tblStaffs.setBackground(new java.awt.Color(255, 255, 255));
+        tblStaffs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -1282,7 +1373,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 "ID", "Name", "Email", "Contact No.", "Status"
             }
         ));
-        jScrollPane10.setViewportView(jTable10);
+        jScrollPane10.setViewportView(tblStaffs);
 
         jPanel11.add(jScrollPane10, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 500));
 
@@ -1315,9 +1406,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Userdash.png"))); // NOI18N
         jPanel11.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1330, -1));
 
-        jTabbedPane3.addTab("S", jPanel11);
+        tabbedpane.addTab("S", jPanel11);
 
-        pnlUsers1.add(jTabbedPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1330, 800));
+        pnlUsers1.add(tabbedpane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1330, 800));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Userdash.png"))); // NOI18N
         pnlUsers1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1330, -1));
@@ -1792,6 +1883,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private void cmbStatusFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbStatusFilterActionPerformed
         // TODO add your handling code here:
         refreshProductsTable();
+
     }//GEN-LAST:event_cmbStatusFilterActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -1872,6 +1964,28 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnSaveRestockActionPerformed
 
+    private void tabbedpaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabbedpaneStateChanged
+        // TODO add your handling code here:
+        updateStatusFilterOptions();
+        refreshUsersTable();
+
+    }//GEN-LAST:event_tabbedpaneStateChanged
+
+    private void txtSearchUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchUsersActionPerformed
+        // TODO add your handling code here:
+        refreshUsersTable();
+    }//GEN-LAST:event_txtSearchUsersActionPerformed
+
+    private void txtSearchUsersKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchUsersKeyReleased
+        // TODO add your handling code here:
+        refreshUsersTable();
+    }//GEN-LAST:event_txtSearchUsersKeyReleased
+
+    private void cmbStatusFilterrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbStatusFilterrActionPerformed
+        // TODO add your handling code here:
+       refreshUsersTable();
+    }//GEN-LAST:event_cmbStatusFilterrActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1944,8 +2058,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnSupplier;
     private javax.swing.JButton btnUsers;
     private javax.swing.JComboBox<String> cmbStatusFilter;
+    private javax.swing.JComboBox<String> cmbStatusFilterr;
     private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JComboBox<String> jComboBox6;
@@ -1994,10 +2108,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTabbedPane jTabbedPane5;
-    private javax.swing.JTable jTable10;
     private javax.swing.JTable jTable11;
     private javax.swing.JTable jTable12;
     private javax.swing.JTable jTable3;
@@ -2006,7 +2118,6 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JTable jTable9;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
@@ -2030,10 +2141,12 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel pnlUsers2;
     private javax.swing.JPanel pnlView;
     private javax.swing.JPanel pnlverufy;
+    private javax.swing.JTabbedPane tabbedpane;
     private javax.swing.JTable tblCustomer;
     private javax.swing.JTable tblDashboard;
     private javax.swing.JTable tblProducts;
     private javax.swing.JTable tblStaff;
+    private javax.swing.JTable tblStaffs;
     private javax.swing.JTextField txtAddCategory;
     private javax.swing.JTextField txtAddName;
     private javax.swing.JTextField txtAddName1;
@@ -2053,6 +2166,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtProductID;
     private javax.swing.JTextField txtSearch;
+    private javax.swing.JTextField txtSearchUsers;
     private javax.swing.JTextField txtStatus;
     private javax.swing.JTextField txtStock;
     private javax.swing.JTextField txtSupplier;
