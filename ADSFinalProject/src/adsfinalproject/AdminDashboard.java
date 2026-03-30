@@ -36,6 +36,35 @@ public class AdminDashboard extends javax.swing.JFrame {
         updateTotalCustomers(); 
         updateTotalSalesLabel();
         loadDashboardTable();
+        tblDashboard.getModel().addTableModelListener(e -> {
+
+    int row = e.getFirstRow();
+    int column = e.getColumn();
+
+    // Status column index (check your table, usually 4)
+    if(column == 4){
+
+        int orderID = Integer.parseInt(tblDashboard.getValueAt(row,0).toString());
+        String newStatus = tblDashboard.getValueAt(row,4).toString();
+
+        try{
+            Connection con = DBConnection.getConnection();
+
+            String sql = "UPDATE orders SET status=? WHERE order_id=?";
+            PreparedStatement pst = con.prepareStatement(sql);
+
+            pst.setString(1,newStatus);
+            pst.setInt(2,orderID);
+
+            pst.executeUpdate();
+
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+
+    }
+
+});
         updateStatusFilterOptions();
         refreshUsersTable();
       
@@ -55,14 +84,17 @@ public class AdminDashboard extends javax.swing.JFrame {
        
 
         
-        new javax.swing.Timer(2000, e -> {
-            updateTotalOrders();
-            updateTotalCustomers();
-            loadDashboardTable();
-            updateStatusFilterOptions();
-            refreshUsersTable();
-           
-        }).start();
+        new javax.swing.Timer(5000, e -> {
+            loadDashboardTable(); 
+    updatePendingTransactions();
+    updateCompletedTransactions();
+    updateTotalOrders();
+    updateTotalCustomers();
+    updateTotalSalesLabel();
+    updateStatusFilterOptions();
+    refreshUsersTable();
+      
+}).start();
         setSize(1318, 847);
         jPanel1.setVisible(true);
         setLocationRelativeTo(null);
@@ -94,6 +126,8 @@ public class AdminDashboard extends javax.swing.JFrame {
         
         CardLayout cl = (CardLayout)(jPanel2.getLayout());
         cl.show(jPanel2, "dashboard");
+        updatePendingTransactions();
+            updateCompletedTransactions();
        
     }
      private void setActive(String page){
@@ -122,25 +156,22 @@ public class AdminDashboard extends javax.swing.JFrame {
             cl.show(jPanel2, "dashboard");
      }
      public void updateTotalOrders() {
-        try {
-            Connection con = DBConnection.getConnection();
-            if (con == null) {
-                System.out.println("Connection failed!");
-                return;
-            }
+    String sql = "SELECT COUNT(*) FROM orders WHERE status = 'PENDING'";
 
-            String sql = "SELECT COUNT(*) FROM orders WHERE status = 'PENDING'";
-            PreparedStatement pst = con.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
+    try (Connection con = DBConnection.getConnection();
+         PreparedStatement pst = con.prepareStatement(sql);
+         ResultSet rs = pst.executeQuery()) {
 
-            if (rs.next()) {
-                lblTotalOrd.setText(rs.getString(1));
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (rs.next()) {
+            lblTotalOrd.setText(rs.getString(1));
         }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        lblTotalOrd.setText("0");
     }
+}
+
      private void updateTotalOrdersLabel() {
         try {
             Connection con = DBConnection.getConnection();
@@ -166,54 +197,36 @@ public class AdminDashboard extends javax.swing.JFrame {
         }
     }
       public void updateTotalCustomers() {
-    try {
-        Connection con = DBConnection.getConnection();
-        if (con == null) {
-            System.out.println("Connection failed!");
-            return;
-        }
+    String sql = "SELECT COUNT(DISTINCT customer_name) AS totalCustomers "
+               + "FROM orders WHERE status='COMPLETE'";
 
-        String sql = "SELECT COUNT(DISTINCT customer_name) AS totalCustomers " +
-                     "FROM orders WHERE status = 'PENDING'";
-
-        PreparedStatement pst = con.prepareStatement(sql);
-        ResultSet rs = pst.executeQuery();
+    try (Connection con = DBConnection.getConnection();
+         PreparedStatement pst = con.prepareStatement(sql);
+         ResultSet rs = pst.executeQuery()) {
 
         if (rs.next()) {
-            int totalCustomers = rs.getInt("totalCustomers");
-            lblTotalCustomer.setText(String.valueOf(totalCustomers));
+            lblTotalCustomer.setText(rs.getString("totalCustomers"));
         }
-
-        rs.close();
-        pst.close();
 
     } catch (Exception e) {
         e.printStackTrace();
         lblTotalCustomer.setText("0");
     }
 }
-     private void updateTotalSalesLabel() {
-    try {
+     public void updateTotalSalesLabel() {
+    String sql = "SELECT IFNULL(SUM(total_amount),0) AS totalSales "
+               + "FROM orders WHERE status='COMPLETE'";
 
-        Connection con = DBConnection.getConnection();
-
-        String sql = "SELECT IFNULL(SUM(total_amount),0) AS totalSales " +
-                     "FROM orders " +
-                     "WHERE status='PAID' " +
-                     "AND DATE(order_date)=CURDATE()";
-
-        PreparedStatement pst = con.prepareStatement(sql);
-        ResultSet rs = pst.executeQuery();
+    try (Connection con = DBConnection.getConnection();
+         PreparedStatement pst = con.prepareStatement(sql);
+         ResultSet rs = pst.executeQuery()) {
 
         if (rs.next()) {
-
             double totalSales = rs.getDouble("totalSales");
-
             lblTotalSales.setText("₱ " + String.format("%.2f", totalSales));
         }
 
     } catch (Exception e) {
-
         e.printStackTrace();
         lblTotalSales.setText("₱ 0.00");
     }
@@ -221,16 +234,11 @@ public class AdminDashboard extends javax.swing.JFrame {
     
      
      public void loadDashboardTable() {
-    try {
-        Connection con = DBConnection.getConnection();
-        if (con == null) {
-            System.out.println("Connection failed!");
-            return;
-        }
+    String sql = "SELECT order_id, customer_name, total_amount, order_type, status, order_date FROM orders";
 
-        String sql = "SELECT order_id, customer_name, total_amount, order_type, status, order_date FROM orders";
-        PreparedStatement pst = con.prepareStatement(sql);
-        ResultSet rs = pst.executeQuery();
+    try (Connection con = DBConnection.getConnection();
+         PreparedStatement pst = con.prepareStatement(sql);
+         ResultSet rs = pst.executeQuery()) {
 
         DefaultTableModel model = (DefaultTableModel) tblDashboard.getModel();
         model.setRowCount(0);
@@ -245,9 +253,6 @@ public class AdminDashboard extends javax.swing.JFrame {
                 rs.getString("order_date")
             });
         }
-
-        rs.close();
-        pst.close();
 
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Error loading dashboard table: " + e.getMessage());
@@ -309,6 +314,10 @@ public class AdminDashboard extends javax.swing.JFrame {
             };
             model.addRow(row);
         }
+        rs.close();
+pst.close();
+conn.close();
+
 
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(null, "Error loading users table: " + e.getMessage());
@@ -367,52 +376,43 @@ public class AdminDashboard extends javax.swing.JFrame {
     DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
     model.setRowCount(0);
 
-    Connection conn = null;
-    PreparedStatement pst = null;
-    ResultSet rs = null;
+    String sql = "SELECT * FROM products WHERE (name LIKE ? OR category LIKE ? OR supplier LIKE ?)";
+    if (!statusFilter.equals("All")) {
+        sql += " AND status = ?";
+    }
+    sql += " ORDER BY product_id DESC";
 
-    try {
-        conn = DBConnection.getConnection();
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement pst = conn.prepareStatement(sql)) {
 
-        String sql = "SELECT * FROM products WHERE "
-                   + "(name LIKE ? OR category LIKE ? OR supplier LIKE ?)";
-
-        if (!statusFilter.equals("All")) {
-            sql += " AND status = ?";
-        }
-
-        sql += " ORDER BY product_id DESC";
-
-        pst = conn.prepareStatement(sql);
         pst.setString(1, "%" + search + "%");
         pst.setString(2, "%" + search + "%");
         pst.setString(3, "%" + search + "%");
-
         if (!statusFilter.equals("All")) {
             pst.setString(4, statusFilter);
         }
 
-        rs = pst.executeQuery();
-
-        while (rs.next()) {
-            model.addRow(new Object[]{
-                rs.getInt("product_id"),
-                rs.getString("name"),
-                rs.getString("description"),
-                rs.getString("category"),
-                rs.getInt("stock"),
-                rs.getDouble("price"),
-                rs.getString("supplier"),
-                rs.getString("status"),
-                rs.getDate("date_added"),
-                rs.getDate("expiration_date")
-            });
+        try (ResultSet rs = pst.executeQuery()) {
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getInt("product_id"),
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    rs.getString("category"),
+                    rs.getInt("stock"),
+                    rs.getDouble("price"),
+                    rs.getString("supplier"),
+                    rs.getString("status"),
+                    rs.getDate("date_added"),
+                    rs.getDate("expiration_date")
+                });
+            }
         }
 
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error loading products: " + e.getMessage());
     }
-    }
+}
     private void refreshProductsTable() {
     String searchText = txtSearch.getText().trim();
 
@@ -447,6 +447,43 @@ public class AdminDashboard extends javax.swing.JFrame {
         e.printStackTrace();
     }
         }
+        public void updatePendingTransactions() {
+    String sql = "SELECT COUNT(*) AS totalPending FROM orders WHERE status='PENDING'";
+
+    try (Connection con = DBConnection.getConnection();
+         PreparedStatement pst = con.prepareStatement(sql);
+         ResultSet rs = pst.executeQuery()) {
+
+        if (rs.next()) {
+            lblTransPend.setText(String.valueOf(rs.getInt("totalPending")));
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        lblTransPend.setText("0");
+    }
+}
+        public void updateCompletedTransactions() {
+    String sql = "SELECT COUNT(*) AS totalCompleted FROM orders WHERE TRIM(UPPER(status))='COMPLETE'";
+
+    try (Connection con = DBConnection.getConnection();
+         PreparedStatement pst = con.prepareStatement(sql);
+         ResultSet rs = pst.executeQuery()) {
+
+        if (rs.next()) {
+            int totalCompleted = rs.getInt("totalCompleted");
+            System.out.println("Completed orders: " + totalCompleted); // Debug log
+            lblTransComp.setText(String.valueOf(totalCompleted));
+        } else {
+            lblTransComp.setText("0");
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        lblTransComp.setText("0");
+    }
+}
+        
 
      
     
