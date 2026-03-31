@@ -590,7 +590,8 @@ public class AdminDashboard extends javax.swing.JFrame {
                 rs.getString("contact_person"),
                 rs.getString("contact_no"),
                 rs.getString("email"),
-                rs.getString("status")
+                rs.getString("status"),
+                rs.getString("created_at")
             });
         }
 
@@ -1053,19 +1054,18 @@ public class AdminDashboard extends javax.swing.JFrame {
         tblSuppliers.setBackground(new java.awt.Color(255, 255, 255));
         tblSuppliers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Name", "Contact Person", "Contact No.", "Email", "Status"
+                "ID", "Name", "Contact Person", "Contact No.", "Email", "Status", "Date Added"
             }
         ));
         jScrollPane5.setViewportView(tblSuppliers);
         if (tblSuppliers.getColumnModel().getColumnCount() > 0) {
             tblSuppliers.getColumnModel().getColumn(4).setResizable(false);
-            tblSuppliers.getColumnModel().getColumn(5).setHeaderValue("Status");
         }
 
         pnlUsers2.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 500));
@@ -1083,6 +1083,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         txtSearchSupplier.setBackground(new java.awt.Color(255, 255, 255));
         txtSearchSupplier.setForeground(new java.awt.Color(0, 0, 0));
         txtSearchSupplier.setBorder(null);
+        txtSearchSupplier.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchSupplierKeyReleased(evt);
+            }
+        });
         pnlUsers2.add(txtSearchSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 112, 380, 20));
 
         btnSave.setBackground(new java.awt.Color(255, 255, 255));
@@ -2279,38 +2284,28 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
-         int row = tblSuppliers.getSelectedRow();
+
+    int row = tblSuppliers.getSelectedRow();
 
     if (row == -1) {
-        JOptionPane.showMessageDialog(null, "Please select a supplier first!");
+        JOptionPane.showMessageDialog(null, "Select a supplier first!");
         return;
     }
 
-    int supplierID = Integer.parseInt(tblSuppliers.getValueAt(row, 0).toString());
+    SupplierDialog dialog = new SupplierDialog(this, true);
 
-    try {
-        Connection con = DBConnection.getConnection();
+    dialog.setSupplierData(
+        Integer.parseInt(tblSuppliers.getValueAt(row, 0).toString()),
+        tblSuppliers.getValueAt(row, 1).toString(),
+        tblSuppliers.getValueAt(row, 2).toString(),
+        tblSuppliers.getValueAt(row, 3).toString(),
+        tblSuppliers.getValueAt(row, 4).toString(),
+        tblSuppliers.getValueAt(row, 5).toString()
+    );
 
-        String sql = "UPDATE suppliers SET name=?, contact_person=?, contact_no=?, email=?, status=? WHERE supplier_id=?";
+    dialog.setVisible(true);
 
-        PreparedStatement pst = con.prepareStatement(sql);
-
-        pst.setString(1, txtName.getText());
-        pst.setString(2, txtContactPerson.getText());
-        pst.setString(3, txtContactNo.getText());
-        pst.setString(4, txtEmail.getText());
-        pst.setString(5, txtStatus.getText());
-        pst.setInt(6, supplierID);
-
-        pst.executeUpdate();
-
-        JOptionPane.showMessageDialog(null, "Supplier updated successfully!");
-
-        refreshSuppliersTable();
-
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
+    refreshSuppliersTable();
 
         
     }//GEN-LAST:event_btnEditActionPerformed
@@ -2371,6 +2366,11 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         loadOrdersTable(status, search);
     }//GEN-LAST:event_txtSearchOrderKeyReleased
+
+    private void txtSearchSupplierKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchSupplierKeyReleased
+        // TODO add your handling code here:
+        refreshSuppliersTable();
+    }//GEN-LAST:event_txtSearchSupplierKeyReleased
     
     /**
      * @param args the command line arguments
