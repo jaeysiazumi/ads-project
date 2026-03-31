@@ -492,31 +492,31 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
         }
         public void loadOrdersTable() {
-            try {
-                Connection con = DBConnection.getConnection();
+    try {
+        Connection con = DBConnection.getConnection();
 
-                String sql = "SELECT order_id, customer_name, total_amount, order_type, status, order_date FROM tblorder";
-                PreparedStatement pst = con.prepareStatement(sql);
-                ResultSet rs = pst.executeQuery();
+        String sql = "SELECT order_id, customer_name, order_date, total_amount, order_type, status FROM tblorder";
+        PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
 
-                DefaultTableModel model = (DefaultTableModel) tblOrder.getModel();
-                model.setRowCount(0); // clear table
+        DefaultTableModel model = (DefaultTableModel) tblOrder.getModel();
+        model.setRowCount(0);
 
-                while (rs.next()) {
-                    model.addRow(new Object[]{
-                        rs.getInt("order_id"),
-                        rs.getString("customer_name"),
-                        rs.getDouble("total_amount"),
-                        rs.getString("order_type"),
-                        rs.getString("status"),
-                        rs.getString("order_date")
-                    });
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        while(rs.next()){
+            model.addRow(new Object[]{
+                rs.getInt("order_id"),
+                rs.getString("customer_name"),
+                rs.getDate("order_date"),
+                rs.getDouble("total_amount"),
+                rs.getString("order_type"),
+                rs.getString("status")
+            });
         }
+
+    } catch(Exception e){
+        e.printStackTrace();
+    }
+}
 
 
      
@@ -1138,12 +1138,12 @@ public class AdminDashboard extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Date", "Total", "Order Type", "CustomerID", "Status"
+                "ID", "Customer", "Date", "Total", "Order Type", "Status"
             }
         ));
         jScrollPane12.setViewportView(tblOrder);
         if (tblOrder.getColumnModel().getColumnCount() > 0) {
-            tblOrder.getColumnModel().getColumn(3).setResizable(false);
+            tblOrder.getColumnModel().getColumn(4).setResizable(false);
         }
 
         jPanel12.add(jScrollPane12, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 500));
