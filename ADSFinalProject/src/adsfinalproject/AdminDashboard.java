@@ -759,13 +759,13 @@ public class AdminDashboard extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         pnlProduct = new javax.swing.JPanel();
         pnlAddPr = new javax.swing.JPanel();
-        txtAddName = new javax.swing.JTextField();
-        txtAddCategory = new javax.swing.JTextField();
-        txtxAddDescrip = new javax.swing.JTextField();
+        txtNameProduct = new javax.swing.JTextField();
+        txtAddCategoryProduct = new javax.swing.JTextField();
+        txtAddDescrip = new javax.swing.JTextField();
         txtAddPrice = new javax.swing.JTextField();
         txtAddStock = new javax.swing.JTextField();
         btnAddCancel = new javax.swing.JButton();
-        btnAddSave = new javax.swing.JButton();
+        btnSaveProduct = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         pnlRestock = new javax.swing.JPanel();
         txtExpirationDate = new javax.swing.JTextField();
@@ -1736,25 +1736,25 @@ public class AdminDashboard extends javax.swing.JFrame {
         pnlAddPr.setBackground(new java.awt.Color(255, 255, 255));
         pnlAddPr.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtAddName.setBackground(new java.awt.Color(255, 255, 255));
-        txtAddName.setForeground(new java.awt.Color(0, 0, 0));
-        txtAddName.setBorder(null);
-        pnlAddPr.add(txtAddName, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 380, 30));
+        txtNameProduct.setBackground(new java.awt.Color(255, 255, 255));
+        txtNameProduct.setForeground(new java.awt.Color(0, 0, 0));
+        txtNameProduct.setBorder(null);
+        pnlAddPr.add(txtNameProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 380, 30));
 
-        txtAddCategory.setBackground(new java.awt.Color(255, 255, 255));
-        txtAddCategory.setForeground(new java.awt.Color(0, 0, 0));
-        txtAddCategory.setBorder(null);
-        pnlAddPr.add(txtAddCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 220, 380, 30));
+        txtAddCategoryProduct.setBackground(new java.awt.Color(255, 255, 255));
+        txtAddCategoryProduct.setForeground(new java.awt.Color(0, 0, 0));
+        txtAddCategoryProduct.setBorder(null);
+        pnlAddPr.add(txtAddCategoryProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 220, 380, 30));
 
-        txtxAddDescrip.setBackground(new java.awt.Color(255, 255, 255));
-        txtxAddDescrip.setForeground(new java.awt.Color(0, 0, 0));
-        txtxAddDescrip.setBorder(null);
-        txtxAddDescrip.addActionListener(new java.awt.event.ActionListener() {
+        txtAddDescrip.setBackground(new java.awt.Color(255, 255, 255));
+        txtAddDescrip.setForeground(new java.awt.Color(0, 0, 0));
+        txtAddDescrip.setBorder(null);
+        txtAddDescrip.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtxAddDescripActionPerformed(evt);
+                txtAddDescripActionPerformed(evt);
             }
         });
-        pnlAddPr.add(txtxAddDescrip, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, 390, 90));
+        pnlAddPr.add(txtAddDescrip, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, 390, 90));
 
         txtAddPrice.setBackground(new java.awt.Color(255, 255, 255));
         txtAddPrice.setForeground(new java.awt.Color(0, 0, 0));
@@ -1779,11 +1779,16 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
         pnlAddPr.add(btnAddCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 560, 80, 40));
 
-        btnAddSave.setText("-");
-        btnAddSave.setBorder(null);
-        btnAddSave.setBorderPainted(false);
-        btnAddSave.setContentAreaFilled(false);
-        pnlAddPr.add(btnAddSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 560, 80, 40));
+        btnSaveProduct.setText("-");
+        btnSaveProduct.setBorder(null);
+        btnSaveProduct.setBorderPainted(false);
+        btnSaveProduct.setContentAreaFilled(false);
+        btnSaveProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveProductActionPerformed(evt);
+            }
+        });
+        pnlAddPr.add(btnSaveProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 560, 80, 40));
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Add Product.png"))); // NOI18N
         pnlAddPr.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, -4, 510, 690));
@@ -2021,7 +2026,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void btnAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductActionPerformed
         pnlAddPr.setVisible(true);
-        pnlProduct.setVisible(false);
+        pnlProduct.setVisible(true);
         pnlRestock.setVisible(false);
     }//GEN-LAST:event_btnAddProductActionPerformed
 
@@ -2033,9 +2038,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnLogoutActionPerformed
 
-    private void txtxAddDescripActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtxAddDescripActionPerformed
+    private void txtAddDescripActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAddDescripActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtxAddDescripActionPerformed
+    }//GEN-LAST:event_txtAddDescripActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
        pnlAddSuppliers.setVisible(true);
@@ -2371,6 +2376,80 @@ public class AdminDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         refreshSuppliersTable();
     }//GEN-LAST:event_txtSearchSupplierKeyReleased
+
+    private void btnSaveProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveProductActionPerformed
+        // TODO add your handling code here:
+       try {
+
+    // 🔴 VALIDATION FIRST
+    if(txtNameProduct.getText().trim().isEmpty() ||
+       txtAddCategoryProduct.getText().trim().isEmpty() ||
+       txtAddDescrip.getText().trim().isEmpty() ||
+       txtAddStock.getText().trim().isEmpty() ||
+       txtAddPrice.getText().trim().isEmpty() ||
+       txtSupplier.getText().trim().isEmpty()) {
+
+        JOptionPane.showMessageDialog(null, "Please complete all fields!");
+        return;
+    }
+
+    int stock;
+    double price;
+
+    try {
+        stock = Integer.parseInt(txtAddStock.getText().trim());
+        price = Double.parseDouble(txtAddPrice.getText().trim());
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Stock and Price must be valid numbers!");
+        return;
+    }
+
+    String name = txtNameProduct.getText().trim();
+    String category = txtAddCategoryProduct.getText().trim();
+    String description = txtAddDescrip.getText().trim();
+    String supplier = txtSupplier.getText().trim();
+
+    String selectedStatus = cmbStatus.getSelectedItem().toString();
+    String status;
+
+    if(selectedStatus.equals("Discontinued")) {
+        status = "Discontinued";
+    } else {
+        status = (stock > 0) ? "Available" : "Out of Stock";
+    }
+
+    // 🔴 SQL INSERT
+    String sql = "INSERT INTO products " +
+                 "(name, description, category, stock, price, supplier, status, date_added) " +
+                 "VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
+
+    PreparedStatement pst = conn.prepareStatement(sql);
+
+    pst.setString(1, name);
+    pst.setString(2, description);
+    pst.setString(3, category);
+    pst.setInt(4, stock);
+    pst.setDouble(5, price);
+    pst.setString(6, supplier);
+
+    pst.executeUpdate();
+
+    JOptionPane.showMessageDialog(null, "Product Added Successfully!");
+
+    // 🔴 REFRESH TABLE AFTER SAVE
+    loadProductsTable("", "All");
+
+    // 🔴 CLEAR FIELDS
+    txtNameProduct.setText("");
+    txtAddCategoryProduct.setText("");
+    txtAddDescrip.setText("");
+    txtAddStock.setText("");
+    txtAddPrice.setText("");
+
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(null, e);
+}
+    }//GEN-LAST:event_btnSaveProductActionPerformed
     
     /**
      * @param args the command line arguments
@@ -2401,7 +2480,6 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnAddCancel;
     private javax.swing.JButton btnAddCancel2;
     private javax.swing.JButton btnAddProduct;
-    private javax.swing.JButton btnAddSave;
     private javax.swing.JButton btnAddSave2;
     private javax.swing.JButton btnAddSupplier;
     private javax.swing.JButton btnBack;
@@ -2434,6 +2512,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnReports;
     private javax.swing.JButton btnRestock;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSaveProduct;
     private javax.swing.JButton btnSaveRestock;
     private javax.swing.JButton btnStaffAdd;
     private javax.swing.JButton btnStaffAdd1;
@@ -2536,8 +2615,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JTable tblStaff;
     private javax.swing.JTable tblStaffs;
     private javax.swing.JTable tblSuppliers;
-    private javax.swing.JTextField txtAddCategory;
-    private javax.swing.JTextField txtAddName;
+    private javax.swing.JTextField txtAddCategoryProduct;
+    private javax.swing.JTextField txtAddDescrip;
     private javax.swing.JTextField txtAddName2;
     private javax.swing.JTextField txtAddPrice;
     private javax.swing.JTextField txtAddStock;
@@ -2551,6 +2630,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtExpirationDate;
     private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtNameProduct;
     private javax.swing.JTextField txtNamee;
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtProductID;
@@ -2561,6 +2641,5 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField txtStatus;
     private javax.swing.JTextField txtStock;
     private javax.swing.JTextField txtSupplier;
-    private javax.swing.JTextField txtxAddDescrip;
     // End of variables declaration//GEN-END:variables
 }
