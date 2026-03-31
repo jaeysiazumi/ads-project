@@ -32,20 +32,19 @@ public class AdminDashboard extends javax.swing.JFrame {
     
     public AdminDashboard() {
         initComponents(); 
+        loadOrderStatusFilter(); 
+        loadOrdersTable("All", "");
         cmbStatus1.addActionListener(e -> {
-        Object selectedObj = cmbStatus1.getSelectedItem();
-        if (selectedObj == null) return; 
-        String selectedStatus = selectedObj.toString();
 
-        if (selectedStatus.equalsIgnoreCase("Pending")) {
-            loadOrdersTable("PENDING");
-        } else if (selectedStatus.equalsIgnoreCase("Preparing")) {
-            loadOrdersTable("PREPARING");
-        } else if (selectedStatus.equalsIgnoreCase("Completed")) {
-            loadOrdersTable("COMPLETED");
-        } else {
-            loadOrdersTable("All");
+        Object selectedItem = cmbStatus1.getSelectedItem();
+        if (selectedItem == null) {
+            return; // stop if nothing selected
         }
+
+        String status = selectedItem.toString();
+        String search = txtSearchOrder.getText();
+
+        loadOrdersTable(status, search);
     });
 
         dateChooser = new JDateChooser();
@@ -54,10 +53,10 @@ public class AdminDashboard extends javax.swing.JFrame {
         updateTotalCustomers(); 
         updateTotalSalesLabel();
         loadDashboardTable();
-        loadOrdersTable("All");
-        loadOrderStatusFilter(); 
+        loadOrdersTable("All", "");
+        
         btnOrders.addActionListener(e -> {
-            loadOrdersTable("All"); 
+            loadOrdersTable("All", ""); 
         });
     
         tblDashboard.getModel().addTableModelListener(e -> {
@@ -510,23 +509,25 @@ public class AdminDashboard extends javax.swing.JFrame {
                 lblTransComp.setText("0");
             }
         }
-        public void loadOrdersTable(String statusFilter) {
+        public void loadOrdersTable(String statusFilter, String searchText) {
     try {
         Connection con = DBConnection.getConnection();
 
-        String sql = "SELECT order_id, customer_name, order_date, total_amount, order_type, status FROM tblorder";
+        String sql = "SELECT order_id, customer_name, order_date, total_amount, order_type, status "
+                   + "FROM tblorder WHERE customer_name LIKE ?";
 
-        // Filter by status if not "All"
         if (!statusFilter.equalsIgnoreCase("All")) {
-            sql += " WHERE TRIM(UPPER(status)) = ?";
+            sql += " AND TRIM(UPPER(status)) = ?";
         }
 
         sql += " ORDER BY order_id DESC";
 
         PreparedStatement pst = con.prepareStatement(sql);
 
+        pst.setString(1, "%" + searchText + "%");
+
         if (!statusFilter.equalsIgnoreCase("All")) {
-            pst.setString(1, statusFilter.toUpperCase());
+            pst.setString(2, statusFilter.toUpperCase());
         }
 
         ResultSet rs = pst.executeQuery();
@@ -534,7 +535,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tblOrder.getModel();
         model.setRowCount(0);
 
-        while(rs.next()){
+        while (rs.next()) {
             model.addRow(new Object[]{
                 rs.getInt("order_id"),
                 rs.getString("customer_name"),
@@ -545,11 +546,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             });
         }
 
-        rs.close();
-        pst.close();
-        con.close();
-
-    } catch(Exception e){
+    } catch (Exception e) {
         e.printStackTrace();
     }
 }
@@ -667,11 +664,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         tblSuppliers = new javax.swing.JTable();
         cmbStatus = new javax.swing.JComboBox<>();
+        txtSearchSupplier = new javax.swing.JTextField();
         btnSave = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         btnEdit = new javax.swing.JButton();
         btnDeletee = new javax.swing.JButton();
-        txtSearchSupplier = new javax.swing.JTextField();
         pnlOrder = new javax.swing.JPanel();
         pnlverufy = new javax.swing.JPanel();
         btnOrdCanc = new javax.swing.JButton();
@@ -691,6 +688,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnOrdDel2 = new javax.swing.JButton();
         btnOrdEdit3 = new javax.swing.JButton();
         cmbStatus1 = new javax.swing.JComboBox<>();
+        txtSearchOrder = new javax.swing.JTextArea();
         jScrollPane12 = new javax.swing.JScrollPane();
         tblOrder = new javax.swing.JTable();
         jLabel19 = new javax.swing.JLabel();
@@ -1082,6 +1080,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
         pnlUsers2.add(cmbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 112, 150, 30));
 
+        txtSearchSupplier.setBackground(new java.awt.Color(255, 255, 255));
+        txtSearchSupplier.setForeground(new java.awt.Color(0, 0, 0));
+        txtSearchSupplier.setBorder(null);
+        pnlUsers2.add(txtSearchSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 112, 380, 20));
+
         btnSave.setBackground(new java.awt.Color(255, 255, 255));
         btnSave.setText("-");
         btnSave.setBorder(null);
@@ -1120,11 +1123,6 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
         });
         pnlUsers2.add(btnDeletee, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 740, 80, 30));
-
-        txtSearchSupplier.setBackground(new java.awt.Color(255, 255, 255));
-        txtSearchSupplier.setForeground(new java.awt.Color(0, 0, 0));
-        txtSearchSupplier.setBorder(null);
-        pnlUsers2.add(txtSearchSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 112, 380, 20));
 
         pnlSuppliers.add(pnlUsers2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -1246,6 +1244,19 @@ public class AdminDashboard extends javax.swing.JFrame {
         cmbStatus1.setForeground(new java.awt.Color(51, 51, 51));
         cmbStatus1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Pending", "Preparing", "Completed" }));
         jPanel12.add(cmbStatus1, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 112, 190, 30));
+
+        txtSearchOrder.setBackground(new java.awt.Color(255, 255, 255));
+        txtSearchOrder.setColumns(20);
+        txtSearchOrder.setForeground(new java.awt.Color(0, 0, 0));
+        txtSearchOrder.setRows(5);
+        txtSearchOrder.setBorder(null);
+        txtSearchOrder.setMinimumSize(new java.awt.Dimension(1, 10));
+        txtSearchOrder.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchOrderKeyReleased(evt);
+            }
+        });
+        jPanel12.add(txtSearchOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 113, 380, 20));
 
         jScrollPane12.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1906,6 +1917,11 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         txtSearch.setBackground(new java.awt.Color(255, 255, 255));
         txtSearch.setBorder(null);
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchActionPerformed(evt);
+            }
+        });
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtSearchKeyReleased(evt);
@@ -2342,6 +2358,19 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
 
     }//GEN-LAST:event_btnDeleteeActionPerformed
+
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchActionPerformed
+
+    private void txtSearchOrderKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchOrderKeyReleased
+        // TODO add your handling code here:
+        String search = txtSearchOrder.getText();
+        Object selectedItem = cmbStatus1.getSelectedItem();
+        String status = selectedItem == null ? "All" : selectedItem.toString();
+
+        loadOrdersTable(status, search);
+    }//GEN-LAST:event_txtSearchOrderKeyReleased
     
     /**
      * @param args the command line arguments
@@ -2526,6 +2555,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtProductID;
     private javax.swing.JTextField txtSearch;
+    private javax.swing.JTextArea txtSearchOrder;
     private javax.swing.JTextField txtSearchSupplier;
     private javax.swing.JTextField txtSearchUsers;
     private javax.swing.JTextField txtStatus;
