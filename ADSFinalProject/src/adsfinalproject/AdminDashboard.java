@@ -32,9 +32,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     
     public AdminDashboard() {
         initComponents(); 
-        dateChooser= new JDateChooser();
-        dateChooser.setBounds(20, 20, 150, 30);
-        pnlReports.add(dateChooser);
+        dateChooser = new JDateChooser();
+        pnlReports.add(dateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 150, 30));
         updateTotalOrdersLabel();
         updateTotalCustomers(); 
         updateTotalSalesLabel();
