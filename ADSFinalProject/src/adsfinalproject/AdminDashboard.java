@@ -164,7 +164,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             cl.show(jPanel2, "dashboard");
      }
      public void updateTotalOrders() {
-        String sql = "SELECT COUNT(*) FROM orders WHERE status = 'PENDING'";
+        String sql = "SELECT COUNT(*) AS total FROM orders WHERE status IN ('PENDING','PAID')";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement pst = con.prepareStatement(sql);
@@ -188,7 +188,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 return;
             }
             
-            String sql = "SELECT COUNT(*) AS total FROM orders WHERE status = 'PENDING'";
+            String sql = "SELECT COUNT(*) AS total FROM orders WHERE status IN ('PENDING','PAID')";
             PreparedStatement pst = con.prepareStatement(sql);
             java.sql.ResultSet rs = pst.executeQuery();
 
@@ -456,7 +456,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
                 }
         public void updatePendingTransactions() {
-            String sql = "SELECT COUNT(*) AS totalPending FROM orders WHERE status='PENDING'";
+            String sql = "SELECT COUNT(*) AS totalPending FROM orders WHERE status='PENDING' OR status='PAID'";
 
             try (Connection con = DBConnection.getConnection();
                  PreparedStatement pst = con.prepareStatement(sql);
