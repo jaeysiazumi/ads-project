@@ -2796,25 +2796,63 @@ public class CustomerDashboard extends javax.swing.JFrame {
             cl.show(jPanel1, "pay");
         }
         try {
-            Connection con = DBConnection.getConnection();
+    Connection con = DBConnection.getConnection();
 
-            String sql = "INSERT INTO orders (order_number, customer_name, total_amount, status, order_type, order_date) VALUES (?, ?, ?, ?, ?, NOW())";
+    // ✅ GET VALUES
+    String customerName = textUserName.getText().trim();
+    double totalAmount = Double.parseDouble(lblTotal.getText().trim());
+    String status = "PENDING";
+    String orderTypeVal = orderType;
 
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, lblOrderNum.getText());
-            pst.setString(2, textUserName.getText().trim());
-            pst.setDouble(3, Double.parseDouble(lblTotal.getText()));
-            pst.setString(4, "PENDING");
-            pst.setString(5, orderType);
+    java.time.LocalDateTime now = java.time.LocalDateTime.now();
+    String orderDate = now.toString();
 
-            pst.executeUpdate();
+    String orderNumber = "ORD" + System.currentTimeMillis(); // ✅ IMPORTANT
 
-            System.out.println("Order saved successfully!");
+    // ✅ INSERT INTO orders
+    String sql = "INSERT INTO orders (order_number, customer_name, total_amount, order_type, status, order_date) VALUES (?,?,?,?,?,?)";
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    PreparedStatement pst = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+
+    pst.setString(1, orderNumber);
+    pst.setString(2, customerName);
+    pst.setDouble(3, totalAmount);
+    pst.setString(4, orderTypeVal);
+    pst.setString(5, status);
+    pst.setString(6, orderDate);
+
+    pst.executeUpdate();
+
+    // ✅ GET order_id
+    java.sql.ResultSet rs = pst.getGeneratedKeys();
+    int orderID = 0;
+
+    if (rs.next()) {
+        orderID = rs.getInt(1);
+    }
+
+    // ✅ INSERT INTO tblorder
+    String sql2 = "INSERT INTO tblorder (order_id, customer_name, total_amount, order_type, status, order_date) VALUES (?,?,?,?,?,?)";
+
+    PreparedStatement pst2 = con.prepareStatement(sql2);
+    pst2.setInt(1, orderID);
+    pst2.setString(2, customerName);
+    pst2.setDouble(3, totalAmount);
+    pst2.setString(4, orderTypeVal);
+    pst2.setString(5, status);
+    pst2.setString(6, orderDate);
+
+    pst2.executeUpdate();
+
+    // ✅ SAVE order number to label (VERY IMPORTANT)
+    lblOrderNum.setText(orderNumber);
+
+    System.out.println("Order saved successfully in BOTH tables!");
+
+} catch (Exception e) {
+    e.printStackTrace();
 }
+    }
             public void saveCustomerInfo(String username, String contactNo) {
         try {
             Connection conn = DBConnection.getConnection();
@@ -2864,6 +2902,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setString(1, lblOrderNum.getText());
         pst.executeUpdate();
+        
+        String sql2 = "UPDATE tblorder SET status='PAID' WHERE order_id = (SELECT order_id FROM orders WHERE order_number=?)";
+        PreparedStatement pst2 = con.prepareStatement(sql2);
+        pst2.setString(1, lblOrderNum.getText());
+        pst2.executeUpdate();
 
     } catch (Exception e) {
         e.printStackTrace();
@@ -2900,6 +2943,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setString(1, lblOrderNum.getText());
         pst.executeUpdate();
+        
+        String sql2 = "UPDATE tblorder SET status='PAID' WHERE order_id = (SELECT order_id FROM orders WHERE order_number=?)";
+        PreparedStatement pst2 = con.prepareStatement(sql2);
+        pst2.setString(1, lblOrderNum.getText());
+        pst2.executeUpdate();
 
     } catch (Exception e) {
         e.printStackTrace();
