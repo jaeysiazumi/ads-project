@@ -32,15 +32,32 @@ public class AdminDashboard extends javax.swing.JFrame {
     
     public AdminDashboard() {
         initComponents(); 
+        cmbStatus1.addActionListener(e -> {
+        Object selectedObj = cmbStatus1.getSelectedItem();
+        if (selectedObj == null) return; 
+        String selectedStatus = selectedObj.toString();
+
+        if (selectedStatus.equalsIgnoreCase("Pending")) {
+            loadOrdersTable("PENDING");
+        } else if (selectedStatus.equalsIgnoreCase("Preparing")) {
+            loadOrdersTable("PREPARING");
+        } else if (selectedStatus.equalsIgnoreCase("Completed")) {
+            loadOrdersTable("COMPLETED");
+        } else {
+            loadOrdersTable("All");
+        }
+    });
+
         dateChooser = new JDateChooser();
         pnlReports.add(dateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 150, 30));
         updateTotalOrdersLabel();
         updateTotalCustomers(); 
         updateTotalSalesLabel();
         loadDashboardTable();
-        loadOrdersTable(); 
+        loadOrdersTable("All");
+        loadOrderStatusFilter(); 
         btnOrders.addActionListener(e -> {
-            loadOrdersTable(); 
+            loadOrdersTable("All"); 
         });
     
         tblDashboard.getModel().addTableModelListener(e -> {
@@ -493,12 +510,25 @@ public class AdminDashboard extends javax.swing.JFrame {
                 lblTransComp.setText("0");
             }
         }
-        public void loadOrdersTable() {
+        public void loadOrdersTable(String statusFilter) {
     try {
         Connection con = DBConnection.getConnection();
 
         String sql = "SELECT order_id, customer_name, order_date, total_amount, order_type, status FROM tblorder";
+
+        // Filter by status if not "All"
+        if (!statusFilter.equalsIgnoreCase("All")) {
+            sql += " WHERE TRIM(UPPER(status)) = ?";
+        }
+
+        sql += " ORDER BY order_id DESC";
+
         PreparedStatement pst = con.prepareStatement(sql);
+
+        if (!statusFilter.equalsIgnoreCase("All")) {
+            pst.setString(1, statusFilter.toUpperCase());
+        }
+
         ResultSet rs = pst.executeQuery();
 
         DefaultTableModel model = (DefaultTableModel) tblOrder.getModel();
@@ -515,10 +545,23 @@ public class AdminDashboard extends javax.swing.JFrame {
             });
         }
 
+        rs.close();
+        pst.close();
+        con.close();
+
     } catch(Exception e){
         e.printStackTrace();
     }
-        }
+}
+        private void loadOrderStatusFilter() {
+        cmbStatus1.removeAllItems();
+        cmbStatus1.addItem("All");
+        cmbStatus1.addItem("Pending");
+        cmbStatus1.addItem("Preparing");
+        cmbStatus1.addItem("Completed");
+        cmbStatus1.setSelectedIndex(0);
+    }
+
         
      public void loadSuppliers(String searchText, String statusFilter) {
     try {
@@ -647,7 +690,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnOrdView1 = new javax.swing.JButton();
         btnOrdDel2 = new javax.swing.JButton();
         btnOrdEdit3 = new javax.swing.JButton();
-        jComboBox9 = new javax.swing.JComboBox<>();
+        cmbStatus1 = new javax.swing.JComboBox<>();
         jScrollPane12 = new javax.swing.JScrollPane();
         tblOrder = new javax.swing.JTable();
         jLabel19 = new javax.swing.JLabel();
@@ -1199,10 +1242,10 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnOrdEdit3.setContentAreaFilled(false);
         jPanel12.add(btnOrdEdit3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 740, 70, 30));
 
-        jComboBox9.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox9.setForeground(new java.awt.Color(51, 51, 51));
-        jComboBox9.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Pending", "Preparing", "Completed" }));
-        jPanel12.add(jComboBox9, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 112, 190, 30));
+        cmbStatus1.setBackground(new java.awt.Color(255, 255, 255));
+        cmbStatus1.setForeground(new java.awt.Color(51, 51, 51));
+        cmbStatus1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Pending", "Preparing", "Completed" }));
+        jPanel12.add(cmbStatus1, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 112, 190, 30));
 
         jScrollPane12.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2372,6 +2415,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnSupplier;
     private javax.swing.JButton btnUsers;
     private javax.swing.JComboBox<String> cmbStatus;
+    private javax.swing.JComboBox<String> cmbStatus1;
     private javax.swing.JComboBox<String> cmbStatusFilter;
     private javax.swing.JComboBox<String> cmbStatusFilterr;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -2379,7 +2423,6 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JComboBox<String> jComboBox6;
     private javax.swing.JComboBox<String> jComboBox8;
-    private javax.swing.JComboBox<String> jComboBox9;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
