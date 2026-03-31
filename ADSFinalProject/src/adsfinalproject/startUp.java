@@ -314,6 +314,7 @@ public class startUp extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
       pnlLog.setVisible(true);
       log1.setVisible(false);
+      
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
@@ -354,7 +355,7 @@ public class startUp extends javax.swing.JFrame {
                     dashboard = new AdminDashboard();
                 } else if (role.equals("staff")) {
                     dashboard = new EmployeeDashboard();
-                } else {
+                } else{
                     dashboard = new CustomerDashboard();
                 }
 
@@ -366,6 +367,7 @@ public class startUp extends javax.swing.JFrame {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
