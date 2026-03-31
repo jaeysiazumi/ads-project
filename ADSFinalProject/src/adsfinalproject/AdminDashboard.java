@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
-
+import com.toedter.calendar.JDateChooser;
 
 /**
  *
@@ -23,7 +23,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     ImageIcon darkd, darku, darko, darkp, darks, darkr;
     ImageIcon dash, user, ord, pr, sup, rep ;
     private Connection conn;
-    
+    JDateChooser dateChooser;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AdminDashboard.class.getName());
 
     /**
@@ -32,6 +32,9 @@ public class AdminDashboard extends javax.swing.JFrame {
     
     public AdminDashboard() {
         initComponents(); 
+        dateChooser= new JDateChooser();
+        dateChooser.setBounds(20, 20, 150, 30);
+        pnlReports.add(dateChooser);
         updateTotalOrdersLabel();
         updateTotalCustomers(); 
         updateTotalSalesLabel();
@@ -118,7 +121,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         ord = new ImageIcon(getClass().getResource("/design/AAorder.png"));
         pr = new ImageIcon(getClass().getResource("/design/products.png"));
         sup = new ImageIcon(getClass().getResource("/design/suppliers.png"));
-        rep = new ImageIcon(getClass().getResource("/design/reports.png"));
+        rep = new ImageIcon(getClass().getResource("/design/reportstxt.png"));
         
           //-----//
         jPanel2.setLayout(new CardLayout());
@@ -541,8 +544,12 @@ public class AdminDashboard extends javax.swing.JFrame {
         pnlReports = new javax.swing.JPanel();
         jTabbedPane4 = new javax.swing.JTabbedPane();
         jPanel8 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        tblPaneProduct = new javax.swing.JScrollPane();
+        jTable6 = new javax.swing.JTable();
+        tblPaneCustomer = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -718,7 +725,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
         jPanel1.add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, 700, 300, 50));
 
-        btnReports.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/reports.png"))); // NOI18N
+        btnReports.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/reportstxt.png"))); // NOI18N
         btnReports.setBorder(null);
         btnReports.setBorderPainted(false);
         btnReports.setContentAreaFilled(false);
@@ -792,25 +799,60 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
+        tblPaneProduct.setBackground(new java.awt.Color(255, 255, 255));
+
+        jTable6.setBackground(new java.awt.Color(255, 255, 255));
+        jTable6.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Name", "Quantity Sold", "Total Sales", "Date"
+            }
+        ));
+        tblPaneProduct.setViewportView(jTable6);
+
+        jPanel8.add(tblPaneProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 207, 930, 500));
+
+        tblPaneCustomer.setBackground(new java.awt.Color(255, 255, 255));
 
         jTable3.setBackground(new java.awt.Color(255, 255, 255));
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Date", "Total Order", "Total Sales"
+                "Name", "Total Order", "Total Items Ordered", "Amount Spent", "Date"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        tblPaneCustomer.setViewportView(jTable3);
+        if (jTable3.getColumnModel().getColumnCount() > 0) {
+            jTable3.getColumnModel().getColumn(3).setHeaderValue("Amount Spent");
+        }
 
-        jPanel8.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 540));
+        jPanel8.add(tblPaneCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 207, 930, 500));
 
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/SalesReports.png"))); // NOI18N
+        jDateChooser1.setBackground(new java.awt.Color(255, 255, 255));
+        jDateChooser1.setDateFormatString("dd/MM/yyyy");
+        jDateChooser1.setMaxSelectableDate(new java.util.Date(253370739717000L));
+        jPanel8.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 130, 180, 30));
+
+        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Customer", "Product" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+        jPanel8.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 150, 140, -1));
+
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/rreports.png"))); // NOI18N
         jPanel8.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1277, -1));
 
         jTabbedPane4.addTab("S", jPanel8);
@@ -2055,6 +2097,17 @@ public class AdminDashboard extends javax.swing.JFrame {
        refreshUsersTable();
     }//GEN-LAST:event_cmbStatusFilterrActionPerformed
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        String selected = jComboBox1.getSelectedItem().toString();
+        
+        if (selected.equals("Customer")){
+            tblPaneCustomer.setVisible(true);
+            tblPaneProduct.setVisible(false);
+        }else if (selected.equals("Product")){
+            tblPaneProduct.setVisible(true);
+            tblPaneCustomer.setVisible(false);
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }
     /**
      * @param args the command line arguments
      */
@@ -2128,12 +2181,14 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnUsers;
     private javax.swing.JComboBox<String> cmbStatusFilter;
     private javax.swing.JComboBox<String> cmbStatusFilterr;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JComboBox<String> jComboBox6;
     private javax.swing.JComboBox<String> jComboBox8;
     private javax.swing.JComboBox<String> jComboBox9;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2170,7 +2225,6 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane7;
@@ -2183,6 +2237,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
+    private javax.swing.JTable jTable6;
     private javax.swing.JTable jTable9;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField12;
@@ -2213,6 +2268,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JTable tblCustomer;
     private javax.swing.JTable tblDashboard;
     private javax.swing.JTable tblOrder;
+    private javax.swing.JScrollPane tblPaneCustomer;
+    private javax.swing.JScrollPane tblPaneProduct;
     private javax.swing.JTable tblProducts;
     private javax.swing.JTable tblStaff;
     private javax.swing.JTable tblStaffs;

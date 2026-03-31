@@ -664,7 +664,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private void btnUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsersActionPerformed
         setActive("users");
         jPanel1.setVisible(true);
-        pnlCustomer.setVisible(false);
+        pnlAddCustoemr.setVisible(false);
         CardLayout cl = (CardLayout)(jPanel4.getLayout());
         cl.show(jPanel4, "users");
     }//GEN-LAST:event_btnUsersActionPerformed
