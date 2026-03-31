@@ -75,10 +75,12 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
         updateStatusFilterOptions();
         refreshUsersTable();
-      
+        refreshSuppliersTable();
+        
         loadDashboardOrders();
         loadStatusFilter();
         loadProductsTable("", "All");
+        loadSuppliers("", "All");
         txtProductID.setEditable(false);
         txtName.setEditable(false);
         txtDescription.setEditable(false);
@@ -516,7 +518,62 @@ public class AdminDashboard extends javax.swing.JFrame {
     } catch(Exception e){
         e.printStackTrace();
     }
+        }
+        
+     public void loadSuppliers(String searchText, String statusFilter) {
+    try {
+        Connection con = DBConnection.getConnection();
+
+        String sql = "SELECT * FROM suppliers WHERE name LIKE ?";
+
+        if (!statusFilter.equals("All")) {
+            sql += " AND status = ?";
+        }
+
+        PreparedStatement pst = con.prepareStatement(sql);
+
+        pst.setString(1, "%" + searchText + "%");
+
+        if (!statusFilter.equals("All")) {
+            pst.setString(2, statusFilter);
+        }
+
+        ResultSet rs = pst.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) tblSuppliers.getModel();
+        model.setRowCount(0);
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("supplier_id"),
+                rs.getString("name"),
+                rs.getString("contact_person"),
+                rs.getString("contact_no"),
+                rs.getString("email"),
+                rs.getString("status")
+            });
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
 }
+
+    public void refreshSuppliersTable() {
+    String searchText = txtSearchSupplier.getText().trim();
+
+    Object selectedItem = cmbStatus.getSelectedItem();
+    String statusFilter = (selectedItem != null) ? selectedItem.toString() : "All";
+
+    if (statusFilter.equals("Status")) {
+        statusFilter = "All";
+    }
+
+    loadSuppliers(searchText, statusFilter);
+}
+
+
+        
 
 
      
@@ -556,22 +613,22 @@ public class AdminDashboard extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         pnlSuppliers = new javax.swing.JPanel();
         pnlAddSuppliers = new javax.swing.JPanel();
-        txtAddSupCN = new javax.swing.JTextField();
-        txtAddSupCP = new javax.swing.JTextField();
-        txtAddName1 = new javax.swing.JTextField();
-        txtAddSupEm = new javax.swing.JTextField();
-        btnAddCancel1 = new javax.swing.JButton();
-        btnAddSave1 = new javax.swing.JButton();
+        txtContactNo = new javax.swing.JTextField();
+        txtContactPerson = new javax.swing.JTextField();
+        txtNamee = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
+        btnCancel = new javax.swing.JButton();
+        btnAddSupplier = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         pnlUsers2 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        btnSupAdd = new javax.swing.JButton();
+        tblSuppliers = new javax.swing.JTable();
+        cmbStatus = new javax.swing.JComboBox<>();
+        btnSave = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        btnSupEdit = new javax.swing.JButton();
-        btnSupDel = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        btnEdit = new javax.swing.JButton();
+        btnDeletee = new javax.swing.JButton();
+        txtSearchSupplier = new javax.swing.JTextField();
         pnlOrder = new javax.swing.JPanel();
         pnlverufy = new javax.swing.JPanel();
         btnOrdCanc = new javax.swing.JButton();
@@ -893,48 +950,53 @@ public class AdminDashboard extends javax.swing.JFrame {
         pnlAddSuppliers.setPreferredSize(new java.awt.Dimension(510, 680));
         pnlAddSuppliers.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtAddSupCN.setBackground(new java.awt.Color(255, 255, 255));
-        txtAddSupCN.setForeground(new java.awt.Color(0, 0, 0));
-        txtAddSupCN.setBorder(null);
-        pnlAddSuppliers.add(txtAddSupCN, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 340, 350, 30));
+        txtContactNo.setBackground(new java.awt.Color(255, 255, 255));
+        txtContactNo.setForeground(new java.awt.Color(0, 0, 0));
+        txtContactNo.setBorder(null);
+        pnlAddSuppliers.add(txtContactNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 340, 350, 30));
 
-        txtAddSupCP.setBackground(new java.awt.Color(255, 255, 255));
-        txtAddSupCP.setForeground(new java.awt.Color(0, 0, 0));
-        txtAddSupCP.setBorder(null);
-        pnlAddSuppliers.add(txtAddSupCP, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, 370, 30));
+        txtContactPerson.setBackground(new java.awt.Color(255, 255, 255));
+        txtContactPerson.setForeground(new java.awt.Color(0, 0, 0));
+        txtContactPerson.setBorder(null);
+        pnlAddSuppliers.add(txtContactPerson, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, 370, 30));
 
-        txtAddName1.setBackground(new java.awt.Color(255, 255, 255));
-        txtAddName1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        txtAddName1.setForeground(new java.awt.Color(0, 0, 0));
-        txtAddName1.setBorder(null);
-        txtAddName1.addActionListener(new java.awt.event.ActionListener() {
+        txtNamee.setBackground(new java.awt.Color(255, 255, 255));
+        txtNamee.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        txtNamee.setForeground(new java.awt.Color(0, 0, 0));
+        txtNamee.setBorder(null);
+        txtNamee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAddName1ActionPerformed(evt);
+                txtNameeActionPerformed(evt);
             }
         });
-        pnlAddSuppliers.add(txtAddName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 360, 30));
+        pnlAddSuppliers.add(txtNamee, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 360, 30));
 
-        txtAddSupEm.setBackground(new java.awt.Color(255, 255, 255));
-        txtAddSupEm.setForeground(new java.awt.Color(0, 0, 0));
-        txtAddSupEm.setBorder(null);
-        pnlAddSuppliers.add(txtAddSupEm, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 430, 360, 30));
+        txtEmail.setBackground(new java.awt.Color(255, 255, 255));
+        txtEmail.setForeground(new java.awt.Color(0, 0, 0));
+        txtEmail.setBorder(null);
+        pnlAddSuppliers.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 430, 360, 30));
 
-        btnAddCancel1.setText("-");
-        btnAddCancel1.setBorder(null);
-        btnAddCancel1.setBorderPainted(false);
-        btnAddCancel1.setContentAreaFilled(false);
-        btnAddCancel1.addActionListener(new java.awt.event.ActionListener() {
+        btnCancel.setText("-");
+        btnCancel.setBorder(null);
+        btnCancel.setBorderPainted(false);
+        btnCancel.setContentAreaFilled(false);
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddCancel1ActionPerformed(evt);
+                btnCancelActionPerformed(evt);
             }
         });
-        pnlAddSuppliers.add(btnAddCancel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 510, 80, 40));
+        pnlAddSuppliers.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 510, 80, 40));
 
-        btnAddSave1.setText("-");
-        btnAddSave1.setBorder(null);
-        btnAddSave1.setBorderPainted(false);
-        btnAddSave1.setContentAreaFilled(false);
-        pnlAddSuppliers.add(btnAddSave1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 510, 80, 40));
+        btnAddSupplier.setText("-");
+        btnAddSupplier.setBorder(null);
+        btnAddSupplier.setBorderPainted(false);
+        btnAddSupplier.setContentAreaFilled(false);
+        btnAddSupplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddSupplierActionPerformed(evt);
+            }
+        });
+        pnlAddSuppliers.add(btnAddSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 510, 80, 40));
 
         jLabel7.setBackground(new java.awt.Color(255, 255, 255));
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/AddSupplier.png"))); // NOI18N
@@ -947,8 +1009,8 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jScrollPane5.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable5.setBackground(new java.awt.Color(255, 255, 255));
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        tblSuppliers.setBackground(new java.awt.Color(255, 255, 255));
+        tblSuppliers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -959,52 +1021,67 @@ public class AdminDashboard extends javax.swing.JFrame {
                 "ID", "Name", "Contact Person", "Contact No.", "Email", "Status"
             }
         ));
-        jScrollPane5.setViewportView(jTable5);
-        if (jTable5.getColumnModel().getColumnCount() > 0) {
-            jTable5.getColumnModel().getColumn(4).setResizable(false);
-            jTable5.getColumnModel().getColumn(5).setHeaderValue("Status");
+        jScrollPane5.setViewportView(tblSuppliers);
+        if (tblSuppliers.getColumnModel().getColumnCount() > 0) {
+            tblSuppliers.getColumnModel().getColumn(4).setResizable(false);
+            tblSuppliers.getColumnModel().getColumn(5).setHeaderValue("Status");
         }
 
         pnlUsers2.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 500));
 
-        jComboBox2.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox2.setForeground(new java.awt.Color(51, 51, 51));
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Active", "Inactive" }));
-        pnlUsers2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 112, 150, 30));
-
-        btnSupAdd.setBackground(new java.awt.Color(255, 255, 255));
-        btnSupAdd.setText("-");
-        btnSupAdd.setBorder(null);
-        btnSupAdd.setBorderPainted(false);
-        btnSupAdd.setContentAreaFilled(false);
-        btnSupAdd.addActionListener(new java.awt.event.ActionListener() {
+        cmbStatus.setBackground(new java.awt.Color(255, 255, 255));
+        cmbStatus.setForeground(new java.awt.Color(51, 51, 51));
+        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Active", "Inactive" }));
+        cmbStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSupAddActionPerformed(evt);
+                cmbStatusActionPerformed(evt);
             }
         });
-        pnlUsers2.add(btnSupAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 740, 110, 30));
+        pnlUsers2.add(cmbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 112, 150, 30));
+
+        btnSave.setBackground(new java.awt.Color(255, 255, 255));
+        btnSave.setText("-");
+        btnSave.setBorder(null);
+        btnSave.setBorderPainted(false);
+        btnSave.setContentAreaFilled(false);
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+        pnlUsers2.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 740, 110, 30));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Supplier.png"))); // NOI18N
         pnlUsers2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1320, -1));
 
-        btnSupEdit.setBackground(new java.awt.Color(255, 255, 255));
-        btnSupEdit.setText("-");
-        btnSupEdit.setBorder(null);
-        btnSupEdit.setBorderPainted(false);
-        btnSupEdit.setContentAreaFilled(false);
-        pnlUsers2.add(btnSupEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 740, 70, 30));
+        btnEdit.setBackground(new java.awt.Color(255, 255, 255));
+        btnEdit.setText("-");
+        btnEdit.setBorder(null);
+        btnEdit.setBorderPainted(false);
+        btnEdit.setContentAreaFilled(false);
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+        pnlUsers2.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 740, 70, 30));
 
-        btnSupDel.setBackground(new java.awt.Color(255, 255, 255));
-        btnSupDel.setText("-");
-        btnSupDel.setBorder(null);
-        btnSupDel.setBorderPainted(false);
-        btnSupDel.setContentAreaFilled(false);
-        pnlUsers2.add(btnSupDel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 740, 80, 30));
+        btnDeletee.setBackground(new java.awt.Color(255, 255, 255));
+        btnDeletee.setText("-");
+        btnDeletee.setBorder(null);
+        btnDeletee.setBorderPainted(false);
+        btnDeletee.setContentAreaFilled(false);
+        btnDeletee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteeActionPerformed(evt);
+            }
+        });
+        pnlUsers2.add(btnDeletee, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 740, 80, 30));
 
-        jTextField1.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField1.setForeground(new java.awt.Color(0, 0, 0));
-        jTextField1.setBorder(null);
-        pnlUsers2.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 112, 380, 20));
+        txtSearchSupplier.setBackground(new java.awt.Color(255, 255, 255));
+        txtSearchSupplier.setForeground(new java.awt.Color(0, 0, 0));
+        txtSearchSupplier.setBorder(null);
+        pnlUsers2.add(txtSearchSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 112, 380, 20));
 
         pnlSuppliers.add(pnlUsers2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -1896,9 +1973,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtxAddDescripActionPerformed
 
-    private void btnSupAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupAddActionPerformed
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
        pnlAddSuppliers.setVisible(true);
-    }//GEN-LAST:event_btnSupAddActionPerformed
+    }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnStaffAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStaffAddActionPerformed
        pnlAddStaff.setVisible(true);
@@ -1909,10 +1986,10 @@ public class AdminDashboard extends javax.swing.JFrame {
         pnlAddStaff.setVisible(false);
     }//GEN-LAST:event_btnAddCancel2ActionPerformed
 
-    private void btnAddCancel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCancel1ActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         pnlSuppliers.setVisible(true);
         pnlAddSuppliers.setVisible(false);
-    }//GEN-LAST:event_btnAddCancel1ActionPerformed
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnAddCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCancelActionPerformed
         pnlAddPr.setVisible(false);
@@ -1933,9 +2010,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnStaffAdd1ActionPerformed
 
-    private void txtAddName1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAddName1ActionPerformed
+    private void txtNameeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtAddName1ActionPerformed
+    }//GEN-LAST:event_txtNameeActionPerformed
 
     private void btnOrdVerifyPay1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdVerifyPay1ActionPerformed
         // TODO add your handling code here:
@@ -2107,6 +2184,122 @@ public class AdminDashboard extends javax.swing.JFrame {
             tblPaneCustomer.setVisible(false);
     }//GEN-LAST:event_jComboBox1ActionPerformed
     }
+    private void btnAddSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSupplierActionPerformed
+        // TODO add your handling code here:
+    String name = txtNamee.getText();
+    String contactPerson = txtContactPerson.getText();
+    String contactNo = txtContactNo.getText();
+    String email = txtEmail.getText();
+
+    try {
+        Connection con = DBConnection.getConnection();
+        String sql = "INSERT INTO suppliers (name, contact_person, contact_no, email) VALUES (?, ?, ?, ?)";
+        PreparedStatement pst = con.prepareStatement(sql);
+
+        pst.setString(1, name);
+        pst.setString(2, contactPerson);
+        pst.setString(3, contactNo);
+        pst.setString(4, email);
+
+        pst.executeUpdate();
+
+        loadSuppliers("", "All");
+        JOptionPane.showMessageDialog(this, "Supplier Added!");
+
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+     
+    }//GEN-LAST:event_btnAddSupplierActionPerformed
+
+    private void cmbStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbStatusActionPerformed
+        // TODO add your handling code here:
+        refreshSuppliersTable();
+    }//GEN-LAST:event_cmbStatusActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // TODO add your handling code here:
+         int row = tblSuppliers.getSelectedRow();
+
+    if (row == -1) {
+        JOptionPane.showMessageDialog(null, "Please select a supplier first!");
+        return;
+    }
+
+    int supplierID = Integer.parseInt(tblSuppliers.getValueAt(row, 0).toString());
+
+    try {
+        Connection con = DBConnection.getConnection();
+
+        String sql = "UPDATE suppliers SET name=?, contact_person=?, contact_no=?, email=?, status=? WHERE supplier_id=?";
+
+        PreparedStatement pst = con.prepareStatement(sql);
+
+        pst.setString(1, txtName.getText());
+        pst.setString(2, txtContactPerson.getText());
+        pst.setString(3, txtContactNo.getText());
+        pst.setString(4, txtEmail.getText());
+        pst.setString(5, txtStatus.getText());
+        pst.setInt(6, supplierID);
+
+        pst.executeUpdate();
+
+        JOptionPane.showMessageDialog(null, "Supplier updated successfully!");
+
+        refreshSuppliersTable();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+        
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnDeleteeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteeActionPerformed
+        // TODO add your handling code here:
+ 
+
+    int row = tblSuppliers.getSelectedRow();
+
+    if (row == -1) {
+        JOptionPane.showMessageDialog(null, "Please select a supplier first!");
+        return;
+    }
+
+    int supplierID = Integer.parseInt(tblSuppliers.getValueAt(row, 0).toString());
+
+    try {
+
+        int confirm = JOptionPane.showConfirmDialog(
+                null,
+                "Are you sure you want to delete this supplier?",
+                "Confirm Delete",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
+
+            Connection con = DBConnection.getConnection();
+
+            String sql = "DELETE FROM suppliers WHERE supplier_id=?";
+
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, supplierID);
+
+            pst.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Supplier deleted successfully!");
+
+            refreshSuppliersTable();
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    }//GEN-LAST:event_btnDeleteeActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -2134,19 +2327,21 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddCancel;
-    private javax.swing.JButton btnAddCancel1;
     private javax.swing.JButton btnAddCancel2;
     private javax.swing.JButton btnAddProduct;
     private javax.swing.JButton btnAddSave;
-    private javax.swing.JButton btnAddSave1;
     private javax.swing.JButton btnAddSave2;
+    private javax.swing.JButton btnAddSupplier;
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnCusDel;
     private javax.swing.JButton btnCusDel1;
     private javax.swing.JButton btnCusEdit;
     private javax.swing.JButton btnCusEdit1;
     private javax.swing.JButton btnDashboard;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDeletee;
+    private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnOrdCanc;
     private javax.swing.JButton btnOrdCanc1;
@@ -2166,6 +2361,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnProducts;
     private javax.swing.JButton btnReports;
     private javax.swing.JButton btnRestock;
+    private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSaveRestock;
     private javax.swing.JButton btnStaffAdd;
     private javax.swing.JButton btnStaffAdd1;
@@ -2173,15 +2369,12 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnStaffDel1;
     private javax.swing.JButton btnStaffEdit;
     private javax.swing.JButton btnStaffEdit1;
-    private javax.swing.JButton btnSupAdd;
-    private javax.swing.JButton btnSupDel;
-    private javax.swing.JButton btnSupEdit;
     private javax.swing.JButton btnSupplier;
     private javax.swing.JButton btnUsers;
+    private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JComboBox<String> cmbStatusFilter;
     private javax.swing.JComboBox<String> cmbStatusFilterr;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JComboBox<String> jComboBox6;
@@ -2235,10 +2428,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JTable jTable11;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
-    private javax.swing.JTable jTable5;
     private javax.swing.JTable jTable6;
     private javax.swing.JTable jTable9;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
@@ -2272,25 +2463,27 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JTable tblProducts;
     private javax.swing.JTable tblStaff;
     private javax.swing.JTable tblStaffs;
+    private javax.swing.JTable tblSuppliers;
     private javax.swing.JTextField txtAddCategory;
     private javax.swing.JTextField txtAddName;
-    private javax.swing.JTextField txtAddName1;
     private javax.swing.JTextField txtAddName2;
     private javax.swing.JTextField txtAddPrice;
     private javax.swing.JTextField txtAddStock;
-    private javax.swing.JTextField txtAddSupCN;
-    private javax.swing.JTextField txtAddSupCP;
     private javax.swing.JTextField txtAddSupCP1;
-    private javax.swing.JTextField txtAddSupEm;
     private javax.swing.JTextField txtAddSupEm1;
     private javax.swing.JTextField txtCategory;
+    private javax.swing.JTextField txtContactNo;
+    private javax.swing.JTextField txtContactPerson;
     private javax.swing.JTextField txtDateAdded;
     private javax.swing.JTextField txtDescription;
+    private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtExpirationDate;
     private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtNamee;
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtProductID;
     private javax.swing.JTextField txtSearch;
+    private javax.swing.JTextField txtSearchSupplier;
     private javax.swing.JTextField txtSearchUsers;
     private javax.swing.JTextField txtStatus;
     private javax.swing.JTextField txtStock;
