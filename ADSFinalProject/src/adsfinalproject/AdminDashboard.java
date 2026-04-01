@@ -821,9 +821,10 @@ private void loadPayments() {
         btnAddCancel = new javax.swing.JButton();
         btnSaveProduct = new javax.swing.JButton();
         cmbSupplier = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jLabel14 = new javax.swing.JLabel();
         pnlRestock = new javax.swing.JPanel();
+        txtStockIn = new javax.swing.JTextField();
         txtExpirationDate = new javax.swing.JTextField();
         txtDateAdded = new javax.swing.JTextField();
         txtSupplier = new javax.swing.JTextField();
@@ -1805,7 +1806,7 @@ private void loadPayments() {
                 txtAddCategoryProductActionPerformed(evt);
             }
         });
-        pnlAddPr.add(txtAddCategoryProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 220, 380, 30));
+        pnlAddPr.add(txtAddCategoryProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 210, 380, 30));
 
         txtAddDescrip.setBackground(new java.awt.Color(255, 255, 255));
         txtAddDescrip.setForeground(new java.awt.Color(0, 0, 0));
@@ -1815,19 +1816,19 @@ private void loadPayments() {
                 txtAddDescripActionPerformed(evt);
             }
         });
-        pnlAddPr.add(txtAddDescrip, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, 390, 90));
+        pnlAddPr.add(txtAddDescrip, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 300, 390, 80));
 
         txtAddPrice.setBackground(new java.awt.Color(255, 255, 255));
         txtAddPrice.setForeground(new java.awt.Color(0, 0, 0));
         txtAddPrice.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtAddPrice.setBorder(null);
-        pnlAddPr.add(txtAddPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 460, 130, 30));
+        pnlAddPr.add(txtAddPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 430, 130, 30));
 
         txtAddStock.setBackground(new java.awt.Color(255, 255, 255));
         txtAddStock.setForeground(new java.awt.Color(0, 0, 0));
         txtAddStock.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtAddStock.setBorder(null);
-        pnlAddPr.add(txtAddStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 460, 140, 30));
+        pnlAddPr.add(txtAddStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 430, 140, 30));
 
         btnAddCancel.setText("-");
         btnAddCancel.setBorder(null);
@@ -1853,12 +1854,10 @@ private void loadPayments() {
 
         cmbSupplier.setBackground(new java.awt.Color(204, 204, 204));
         cmbSupplier.setForeground(new java.awt.Color(0, 0, 0));
-        pnlAddPr.add(cmbSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 510, 130, 30));
+        pnlAddPr.add(cmbSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 510, 130, 30));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Supplier");
-        pnlAddPr.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 510, 80, 30));
+        jDateChooser2.setBackground(new java.awt.Color(255, 255, 255));
+        pnlAddPr.add(jDateChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 512, 140, 30));
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Add Product.png"))); // NOI18N
         pnlAddPr.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, -4, 510, 690));
@@ -1867,6 +1866,11 @@ private void loadPayments() {
 
         pnlRestock.setBackground(new java.awt.Color(255, 255, 255));
         pnlRestock.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtStockIn.setBackground(new java.awt.Color(255, 255, 255));
+        txtStockIn.setForeground(new java.awt.Color(0, 0, 0));
+        txtStockIn.setBorder(null);
+        pnlRestock.add(txtStockIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 580, 370, 20));
 
         txtExpirationDate.setBackground(new java.awt.Color(255, 255, 255));
         txtExpirationDate.setForeground(new java.awt.Color(0, 0, 0));
@@ -2603,6 +2607,7 @@ try {
     private javax.swing.JComboBox<String> jComboBox6;
     private javax.swing.JComboBox<String> jComboBox8;
     private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2614,7 +2619,6 @@ try {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
@@ -2712,6 +2716,7 @@ try {
     private javax.swing.JTextField txtSearchUsers;
     private javax.swing.JTextField txtStatus;
     private javax.swing.JTextField txtStock;
+    private javax.swing.JTextField txtStockIn;
     private javax.swing.JTextField txtSupplier;
     // End of variables declaration//GEN-END:variables
 }
