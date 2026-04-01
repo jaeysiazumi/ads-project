@@ -2817,6 +2817,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
             );
 
             if (confirm == JOptionPane.YES_OPTION) {
+                insertPayment("CASH");
                 lblOrderStat.setText("PREPARING");
 
                 if (orderType.equals("Delivery")) {
@@ -2934,6 +2935,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         if (confirm == JOptionPane.YES_OPTION) {
             calculateChange();
+            insertPayment("E-WALLET");
             try {
         Connection con = DBConnection.getConnection();
 
@@ -2974,7 +2976,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
         );
 
         if (confirm == JOptionPane.YES_OPTION) {
-            calculateChangeCC();
+            calculateChangeCC(); 
+            insertPayment("CREDIT CARD");
             try {
         Connection con = DBConnection.getConnection();
 
