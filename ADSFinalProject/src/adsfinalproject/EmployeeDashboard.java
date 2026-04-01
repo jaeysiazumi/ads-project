@@ -6,7 +6,11 @@ package adsfinalproject;
 
 import java.awt.CardLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import java.sql.PreparedStatement;
+import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
+import java.sql.Connection;
 
 /**
  *
@@ -24,6 +28,8 @@ public class EmployeeDashboard extends javax.swing.JFrame {
      */
     public EmployeeDashboard() {
         initComponents();
+        loadUsers();
+        loadOrders();
         setSize(1300, 800);
         setLocationRelativeTo(null);
         
@@ -87,6 +93,144 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             CardLayout cl = (CardLayout)(jPanel4.getLayout());
             cl.show(jPanel4, "dashboard");
      }
+
+     public void loadUsers() {
+    try {
+
+        DefaultTableModel model = (DefaultTableModel) tblUsers.getModel();
+        model.setRowCount(0);
+
+        Connection conn = DBConnection.getConnection();
+
+        String sql = "SELECT * FROM users WHERE role = ?";
+        PreparedStatement pst = conn.prepareStatement(sql);
+        pst.setString(1, "customer");
+
+        ResultSet rs = pst.executeQuery();
+
+        while (rs.next()) {
+
+            model.addRow(new Object[]{
+                rs.getInt("id"),
+                rs.getString("username"),
+                rs.getString("email"),
+                rs.getString("contact_no"),
+                rs.getString("status")
+            });
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Load Error: " + e.getMessage());
+    }
+
+}
+        public void clearFields() {
+        txtCustomerName.setText("");
+        txtCustomerEmail.setText("");
+        txtCustomerNo.setText("");
+    
+    }
+
+        public void loadOrders() {
+    try {
+        Connection con = DBConnection.getConnection();
+
+        String sql = "SELECT * FROM orders";
+        PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) tblOrders.getModel();
+        model.setRowCount(0);
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("order_id"),
+                rs.getString("customer_name"),
+                rs.getDate("order_date"),
+                rs.getDouble("total_amount"),
+                rs.getString("order_type"),
+                rs.getString("status")
+            });
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e.getMessage());
+    }
+        }
+        
+    public void searchOrders(String keyword) {
+    try {
+        Connection con = DBConnection.getConnection();
+
+        String sql = "SELECT * FROM orders WHERE customer_name LIKE ? OR order_id LIKE ?";
+        PreparedStatement pst = con.prepareStatement(sql);
+
+        pst.setString(1, "%" + keyword + "%");
+        pst.setString(2, "%" + keyword + "%");
+
+        ResultSet rs = pst.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) tblOrders.getModel();
+        model.setRowCount(0);
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("order_id"),
+                rs.getString("customer_name"),
+                rs.getDate("order_date"),
+                rs.getDouble("total_amount"),
+                rs.getString("order_type"),
+                rs.getString("status")
+            });
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e.getMessage());
+    }
+    }
+    
+    public void filterByStatus(String status) {
+    try {
+        Connection con = DBConnection.getConnection();
+
+        String sql;
+
+        if (status.equals("Default")) {
+            sql = "SELECT * FROM orders";
+        } else {
+            sql = "SELECT * FROM orders WHERE status = ?";
+        }
+
+        PreparedStatement pst = con.prepareStatement(sql);
+
+        if (!status.equals("Default")) {
+            pst.setString(1, status);
+        }
+
+        ResultSet rs = pst.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) tblOrders.getModel();
+        model.setRowCount(0);
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("order_id"),
+                rs.getString("customer_name"),
+                rs.getDate("order_date"),
+                rs.getDouble("total_amount"),
+                rs.getString("order_type"),
+                rs.getString("status")
+            });
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e.getMessage());
+    }
+
+}
+    
+ 
+ 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -107,15 +251,15 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         pnlCustomer = new javax.swing.JPanel();
         pnlAddCustoemr = new javax.swing.JPanel();
-        txtAddSupCN = new javax.swing.JTextField();
-        txtAddSupCP = new javax.swing.JTextField();
-        txtAddName1 = new javax.swing.JTextField();
+        txtCustomerNo = new javax.swing.JTextField();
+        txtCustomerEmail = new javax.swing.JTextField();
+        txtCustomerName = new javax.swing.JTextField();
         btnAddCancel1 = new javax.swing.JButton();
-        btnAddSave1 = new javax.swing.JButton();
+        btnSaveCustomer = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTable7 = new javax.swing.JTable();
+        tblUsers = new javax.swing.JTable();
         btnDel = new javax.swing.JButton();
         btnAddCustomer = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
@@ -145,10 +289,10 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         pnlOrder = new javax.swing.JPanel();
-        jComboBox9 = new javax.swing.JComboBox<>();
-        jTextField3 = new javax.swing.JTextField();
+        cmbStatus = new javax.swing.JComboBox<>();
+        txtSearchOrders = new javax.swing.JTextField();
         jScrollPane12 = new javax.swing.JScrollPane();
-        jTable12 = new javax.swing.JTable();
+        tblOrders = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
         pnlCreateOrder = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -261,26 +405,26 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         pnlAddCustoemr.setBackground(new java.awt.Color(255, 255, 255));
         pnlAddCustoemr.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtAddSupCN.setBackground(new java.awt.Color(255, 255, 255));
-        txtAddSupCN.setForeground(new java.awt.Color(0, 0, 0));
-        txtAddSupCN.setBorder(null);
-        pnlAddCustoemr.add(txtAddSupCN, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 390, 350, 30));
+        txtCustomerNo.setBackground(new java.awt.Color(255, 255, 255));
+        txtCustomerNo.setForeground(new java.awt.Color(0, 0, 0));
+        txtCustomerNo.setBorder(null);
+        pnlAddCustoemr.add(txtCustomerNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 390, 350, 30));
 
-        txtAddSupCP.setBackground(new java.awt.Color(255, 255, 255));
-        txtAddSupCP.setForeground(new java.awt.Color(0, 0, 0));
-        txtAddSupCP.setBorder(null);
-        pnlAddCustoemr.add(txtAddSupCP, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, 370, 30));
+        txtCustomerEmail.setBackground(new java.awt.Color(255, 255, 255));
+        txtCustomerEmail.setForeground(new java.awt.Color(0, 0, 0));
+        txtCustomerEmail.setBorder(null);
+        pnlAddCustoemr.add(txtCustomerEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, 370, 30));
 
-        txtAddName1.setBackground(new java.awt.Color(255, 255, 255));
-        txtAddName1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        txtAddName1.setForeground(new java.awt.Color(0, 0, 0));
-        txtAddName1.setBorder(null);
-        txtAddName1.addActionListener(new java.awt.event.ActionListener() {
+        txtCustomerName.setBackground(new java.awt.Color(255, 255, 255));
+        txtCustomerName.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        txtCustomerName.setForeground(new java.awt.Color(0, 0, 0));
+        txtCustomerName.setBorder(null);
+        txtCustomerName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAddName1ActionPerformed(evt);
+                txtCustomerNameActionPerformed(evt);
             }
         });
-        pnlAddCustoemr.add(txtAddName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, 360, 30));
+        pnlAddCustoemr.add(txtCustomerName, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, 360, 30));
 
         btnAddCancel1.setText("-");
         btnAddCancel1.setBorder(null);
@@ -293,11 +437,16 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         });
         pnlAddCustoemr.add(btnAddCancel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 510, 80, 40));
 
-        btnAddSave1.setText("-");
-        btnAddSave1.setBorder(null);
-        btnAddSave1.setBorderPainted(false);
-        btnAddSave1.setContentAreaFilled(false);
-        pnlAddCustoemr.add(btnAddSave1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 510, 80, 40));
+        btnSaveCustomer.setText("-");
+        btnSaveCustomer.setBorder(null);
+        btnSaveCustomer.setBorderPainted(false);
+        btnSaveCustomer.setContentAreaFilled(false);
+        btnSaveCustomer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveCustomerActionPerformed(evt);
+            }
+        });
+        pnlAddCustoemr.add(btnSaveCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 510, 80, 40));
 
         jLabel16.setBackground(new java.awt.Color(255, 255, 255));
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/AddCustomer.png"))); // NOI18N
@@ -309,19 +458,19 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
         jScrollPane7.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable7.setBackground(new java.awt.Color(255, 255, 255));
-        jTable7.setModel(new javax.swing.table.DefaultTableModel(
+        tblUsers.setBackground(new java.awt.Color(255, 255, 255));
+        tblUsers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID", "Name", "Contact No.", "Status"
+                "ID", "Name", "Email", "Contact No.", "Status"
             }
         ));
-        jScrollPane7.setViewportView(jTable7);
+        jScrollPane7.setViewportView(tblUsers);
 
         jPanel2.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 137, 930, 530));
 
@@ -502,19 +651,29 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         pnlOrder.setBackground(new java.awt.Color(255, 255, 255));
         pnlOrder.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jComboBox9.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox9.setForeground(new java.awt.Color(51, 51, 51));
-        jComboBox9.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Pending", "Preparing", "Completed" }));
-        pnlOrder.add(jComboBox9, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 112, 190, 30));
+        cmbStatus.setBackground(new java.awt.Color(255, 255, 255));
+        cmbStatus.setForeground(new java.awt.Color(51, 51, 51));
+        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Pending", "Preparing", "Paid" }));
+        cmbStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbStatusActionPerformed(evt);
+            }
+        });
+        pnlOrder.add(cmbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 112, 190, 30));
 
-        jTextField3.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField3.setBorder(null);
-        pnlOrder.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 116, 380, 20));
+        txtSearchOrders.setBackground(new java.awt.Color(255, 255, 255));
+        txtSearchOrders.setBorder(null);
+        txtSearchOrders.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchOrdersKeyReleased(evt);
+            }
+        });
+        pnlOrder.add(txtSearchOrders, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 116, 380, 20));
 
         jScrollPane12.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable12.setBackground(new java.awt.Color(255, 255, 255));
-        jTable12.setModel(new javax.swing.table.DefaultTableModel(
+        tblOrders.setBackground(new java.awt.Color(255, 255, 255));
+        tblOrders.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -525,7 +684,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 "ID", "Name", "Date", "Total", "Order Type", "Status"
             }
         ));
-        jScrollPane12.setViewportView(jTable12);
+        jScrollPane12.setViewportView(tblOrders);
 
         pnlOrder.add(jScrollPane12, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 500));
 
@@ -734,9 +893,9 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         pnlOrder.setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
 
-    private void txtAddName1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAddName1ActionPerformed
+    private void txtCustomerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustomerNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtAddName1ActionPerformed
+    }//GEN-LAST:event_txtCustomerNameActionPerformed
 
     private void btnAddCancel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCancel1ActionPerformed
         jPanel2.setVisible(true);
@@ -746,6 +905,43 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private void btnAddCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCustomerActionPerformed
         pnlAddCustoemr.setVisible(true);
     }//GEN-LAST:event_btnAddCustomerActionPerformed
+
+    private void btnSaveCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveCustomerActionPerformed
+        // TODO add your handling code here:
+     try {
+
+    String sql = "INSERT INTO users (username, email, contact_no) VALUES (?, ?, ?)";
+
+    Connection conn = DBConnection.getConnection();
+
+    PreparedStatement pst = conn.prepareStatement(sql);
+    pst.setString(1, txtCustomerName.getText());
+    pst.setString(2, txtCustomerEmail.getText());
+    pst.setString(3, txtCustomerNo.getText());
+
+    pst.executeUpdate();
+
+    JOptionPane.showMessageDialog(this, "Customer Added!");
+
+    clearFields();
+    loadUsers();
+
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+}
+    }//GEN-LAST:event_btnSaveCustomerActionPerformed
+
+    private void txtSearchOrdersKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchOrdersKeyReleased
+        // TODO add your handling code here:
+         searchOrders(txtSearchOrders.getText());
+    }//GEN-LAST:event_txtSearchOrdersKeyReleased
+
+    private void cmbStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbStatusActionPerformed
+        // TODO add your handling code here:
+        String selectedStatus = cmbStatus.getSelectedItem().toString();
+        filterByStatus(selectedStatus);
+        
+    }//GEN-LAST:event_cmbStatusActionPerformed
 
     /**
      * @param args the command line arguments
@@ -777,7 +973,6 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnAddCancel1;
     private javax.swing.JButton btnAddCustomer;
     private javax.swing.JButton btnAddOrder;
-    private javax.swing.JButton btnAddSave1;
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnDashboard;
     private javax.swing.JButton btnDel;
@@ -788,10 +983,11 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnPayment;
     private javax.swing.JButton btnPlaceOrder;
     private javax.swing.JButton btnProducts;
+    private javax.swing.JButton btnSaveCustomer;
     private javax.swing.JButton btnUsers;
+    private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -819,11 +1015,8 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable12;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable7;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
@@ -841,11 +1034,14 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel pnlOrder;
     private javax.swing.JPanel pnlPayment;
     private javax.swing.JPanel pnlProduct;
+    private javax.swing.JTable tblOrders;
     private javax.swing.JTable tblSummary;
     private javax.swing.JTable tblSummary1;
     private javax.swing.JTable tblSummary2;
-    private javax.swing.JTextField txtAddName1;
-    private javax.swing.JTextField txtAddSupCN;
-    private javax.swing.JTextField txtAddSupCP;
+    private javax.swing.JTable tblUsers;
+    private javax.swing.JTextField txtCustomerEmail;
+    private javax.swing.JTextField txtCustomerName;
+    private javax.swing.JTextField txtCustomerNo;
+    private javax.swing.JTextField txtSearchOrders;
     // End of variables declaration//GEN-END:variables
 }
