@@ -32,7 +32,9 @@ public class AdminDashboard extends javax.swing.JFrame {
     
     public AdminDashboard() {
         initComponents(); 
-        loadPayments(); 
+        loadPaymentsTable("All", "");
+        tblPayment.revalidate();
+        tblPayment.repaint();
         loadOrderStatusFilter(); 
         loadOrdersTable("All", "");
         loadSupplierIDs();
@@ -47,6 +49,22 @@ public class AdminDashboard extends javax.swing.JFrame {
         String search = txtSearchOrder.getText();
 
         loadOrdersTable(status, search);
+    });
+        cmbStatus2.removeAllItems();
+        cmbStatus2.addItem("All");
+        cmbStatus2.addItem("Pending");
+        cmbStatus2.addItem("Paid");
+        cmbStatus2.addItem("Completed");
+        
+        cmbStatus2.addActionListener(e -> {
+
+        Object selectedItem = cmbStatus2.getSelectedItem();
+        if (selectedItem == null) return;
+
+        String status = selectedItem.toString();
+        String search = txtPaymentSearch.getText();
+
+        loadPaymentsTable(status, search);
     });
 
         dateChooser = new JDateChooser();
@@ -67,7 +85,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             int row = e.getFirstRow();
             int column = e.getColumn();
 
-            if(column == 4){ 
+            if (column == 4 && row >= 0) { 
 
                 int orderID = Integer.parseInt(tblDashboard.getValueAt(row,0).toString());
                 String newStatus = tblDashboard.getValueAt(row,4).toString();
@@ -86,6 +104,14 @@ public class AdminDashboard extends javax.swing.JFrame {
                     pst2.setString(1,newStatus);
                     pst2.setInt(2,orderID);
                     pst2.executeUpdate();
+
+                    String sql3 = "UPDATE tblpayment SET status=? WHERE order_id=?";
+                    PreparedStatement pst3 = conn.prepareStatement(sql3);
+                    pst3.setString(1, newStatus.toUpperCase());
+                    pst3.setInt(2,orderID);
+                    pst3.executeUpdate();
+
+                    loadPaymentsTable("All", "");
 
                 }catch(Exception ex){
                     ex.printStackTrace();
@@ -667,7 +693,56 @@ private void loadPayments() {
         e.printStackTrace();
     }
 }
+public void loadPaymentsTable(String statusFilter, String searchText) {
+    try {
+        Connection conn = DBConnection.getConnection();
 
+        String sql = "SELECT * FROM tblpayment WHERE 1=1";
+        
+        if (!searchText.isEmpty()) {
+            sql += " AND payment_id = ?";
+        }
+        
+        if (!statusFilter.equalsIgnoreCase("All")) {
+            sql += " AND TRIM(UPPER(status)) = ?";
+        }
+
+        sql += " ORDER BY payment_id DESC";
+
+        PreparedStatement pst = conn.prepareStatement(sql);
+
+        int index = 1;
+
+        if (!searchText.isEmpty()) {
+            pst.setInt(index++, Integer.parseInt(searchText));
+        }
+
+        if (!statusFilter.equalsIgnoreCase("All")) {
+            pst.setString(index++, statusFilter.toUpperCase());
+        }
+
+        ResultSet rs = pst.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) tblPayment.getModel();
+        model.setRowCount(0);
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("payment_id"),
+                rs.getInt("order_id"),
+                rs.getDouble("total_amount"),
+                rs.getTimestamp("payment_date"),
+                rs.getString("payment_type"),
+                rs.getString("status")
+            });
+        }
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Please enter a valid Payment ID (numbers only).");
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
         
 
 
@@ -751,7 +826,8 @@ private void loadPayments() {
         btnOrdVerifyPay1 = new javax.swing.JButton();
         btnOrdDel3 = new javax.swing.JButton();
         btnOrdEdit4 = new javax.swing.JButton();
-        jComboBox8 = new javax.swing.JComboBox<>();
+        cmbStatus2 = new javax.swing.JComboBox<>();
+        txtPaymentSearch = new javax.swing.JTextField();
         jScrollPane11 = new javax.swing.JScrollPane();
         tblPayment = new javax.swing.JTable();
         jLabel20 = new javax.swing.JLabel();
@@ -1374,10 +1450,20 @@ private void loadPayments() {
         btnOrdEdit4.setContentAreaFilled(false);
         jPanel13.add(btnOrdEdit4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 740, 70, 30));
 
-        jComboBox8.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox8.setForeground(new java.awt.Color(51, 51, 51));
-        jComboBox8.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Pending", "Preparing", "Completed" }));
-        jPanel13.add(jComboBox8, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 112, 190, 30));
+        cmbStatus2.setBackground(new java.awt.Color(255, 255, 255));
+        cmbStatus2.setForeground(new java.awt.Color(51, 51, 51));
+        cmbStatus2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Pending", "Preparing", "Completed" }));
+        jPanel13.add(cmbStatus2, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 112, 190, 30));
+
+        txtPaymentSearch.setBackground(new java.awt.Color(255, 255, 255));
+        txtPaymentSearch.setForeground(new java.awt.Color(0, 0, 0));
+        txtPaymentSearch.setBorder(null);
+        txtPaymentSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPaymentSearchKeyReleased(evt);
+            }
+        });
+        jPanel13.add(txtPaymentSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 115, 380, -1));
 
         jScrollPane11.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2524,6 +2610,17 @@ try {
     private void txtAddCategoryProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAddCategoryProductActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAddCategoryProductActionPerformed
+
+    private void txtPaymentSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPaymentSearchKeyReleased
+        // TODO add your handling code here:
+        txtPaymentSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            String status = cmbStatus2.getSelectedItem().toString();
+            String search = txtPaymentSearch.getText();
+            loadPaymentsTable(status, search);
+        }
+    });
+    }//GEN-LAST:event_txtPaymentSearchKeyReleased
     
     /**
      * @param args the command line arguments
@@ -2598,6 +2695,7 @@ try {
     private javax.swing.JButton btnUsers;
     private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JComboBox<String> cmbStatus1;
+    private javax.swing.JComboBox<String> cmbStatus2;
     private javax.swing.JComboBox<String> cmbStatusFilter;
     private javax.swing.JComboBox<String> cmbStatusFilterr;
     private javax.swing.JComboBox<String> cmbSupplier;
@@ -2605,7 +2703,6 @@ try {
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JComboBox<String> jComboBox6;
-    private javax.swing.JComboBox<String> jComboBox8;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
@@ -2708,6 +2805,7 @@ try {
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtNameProduct;
     private javax.swing.JTextField txtNamee;
+    private javax.swing.JTextField txtPaymentSearch;
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtProductID;
     private javax.swing.JTextField txtSearch;
