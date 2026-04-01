@@ -30,6 +30,9 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         initComponents();
         loadUsers();
         loadOrders();
+        loadDashboardTable();
+        loadProductsTable("", "All");
+  
         setSize(1300, 800);
         setLocationRelativeTo(null);
         
@@ -226,10 +229,83 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, e.getMessage());
     }
+    }
+   public void loadDashboardTable() {
+    String sql = "SELECT order_id, customer_name, total_amount, payment_type, status, order_date FROM orders";
 
-}
+    try (Connection con = DBConnection.getConnection();
+         PreparedStatement pst = con.prepareStatement(sql);
+         ResultSet rs = pst.executeQuery()) {
+
+        DefaultTableModel model = (DefaultTableModel) tblStaffDashboard.getModel();
+        model.setRowCount(0);
+
+        while (rs.next()) {
+
+            model.addRow(new Object[]{
+                rs.getInt("order_id"),
+                rs.getString("customer_name"),
+                rs.getDouble("total_amount"),
+                rs.getString("payment_type"),
+                rs.getString("status"),
+                rs.getString("order_date")
+            });
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e.getMessage());
+    }
+   }
+    private void loadProductsTable(String search, String statusFilter) {
+
+    DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
+    model.setRowCount(0);
+
+    String sql;
+    boolean hasFilter = !statusFilter.equalsIgnoreCase("All");
+
+    if (hasFilter) {
+        sql = "SELECT * FROM products WHERE (name LIKE ? OR category LIKE ?) AND status = ? ORDER BY product_id DESC";
+    } else {
+        sql = "SELECT * FROM products WHERE (name LIKE ? OR category LIKE ?) ORDER BY product_id DESC";
+    }
+
+    try (Connection con = DBConnection.getConnection();
+         PreparedStatement pst = con.prepareStatement(sql)) {
+
+        pst.setString(1, "%" + search + "%");
+        pst.setString(2, "%" + search + "%");
+
+        if (hasFilter) {
+            pst.setString(3, statusFilter);
+        }
+
+        ResultSet rs = pst.executeQuery();
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("product_id"),
+                rs.getString("name"),
+                rs.getString("description"),
+                rs.getString("category"),
+                rs.getInt("stock"),
+                rs.getDouble("price"),
+                rs.getString("supplier_id"),
+                rs.getString("status"),
+                rs.getDate("date_added"),
+                rs.getDate("expiration_date")
+            });
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+    }
+
+
+    }
     
- 
+    
+
  
     /**
      * This method is called from within the constructor to initialize the form.
@@ -286,7 +362,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         lblPrep = new javax.swing.JLabel();
         lblOrdersToday = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblStaffDashboard = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         pnlOrder = new javax.swing.JPanel();
         cmbStatus = new javax.swing.JComboBox<>();
@@ -309,10 +385,10 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         btnAddOrder = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         pnlProduct = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cmbStatusProduct = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jTextField2 = new javax.swing.JTextField();
+        tblProducts = new javax.swing.JTable();
+        txtSearchProduct = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -627,8 +703,8 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setBorder(null);
 
-        jTable1.setBackground(new java.awt.Color(255, 255, 255));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblStaffDashboard.setBackground(new java.awt.Color(255, 255, 255));
+        tblStaffDashboard.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -639,7 +715,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 "Order ID", "Name", "Total", "Payment Type", "Status", "Date"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblStaffDashboard);
 
         pnlDashboard.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 397, 930, 350));
 
@@ -782,16 +858,21 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         pnlProduct.setBackground(new java.awt.Color(255, 255, 255));
         pnlProduct.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setForeground(new java.awt.Color(51, 51, 51));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status:", "Available", "Out of Stock", "Discontinued" }));
-        pnlProduct.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 110, 210, 30));
+        cmbStatusProduct.setBackground(new java.awt.Color(255, 255, 255));
+        cmbStatusProduct.setForeground(new java.awt.Color(51, 51, 51));
+        cmbStatusProduct.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status:", "Available", "Out of Stock", "Discontinued" }));
+        cmbStatusProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbStatusProductActionPerformed(evt);
+            }
+        });
+        pnlProduct.add(cmbStatusProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 110, 210, 30));
 
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setBorder(null);
 
-        jTable2.setBackground(new java.awt.Color(255, 255, 255));
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblProducts.setBackground(new java.awt.Color(255, 255, 255));
+        tblProducts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null},
@@ -802,13 +883,18 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 "Product ID", "Name", "Description", "Category", "Stock", "Price", "Supplier", "Status", "Date Add", "Expiration"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tblProducts);
 
         pnlProduct.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 170, 930, 550));
 
-        jTextField2.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField2.setBorder(null);
-        pnlProduct.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 116, 380, 20));
+        txtSearchProduct.setBackground(new java.awt.Color(255, 255, 255));
+        txtSearchProduct.setBorder(null);
+        txtSearchProduct.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchProductKeyReleased(evt);
+            }
+        });
+        pnlProduct.add(txtSearchProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 116, 380, 20));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Producttt.png"))); // NOI18N
         pnlProduct.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -943,6 +1029,22 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         
     }//GEN-LAST:event_cmbStatusActionPerformed
 
+    private void cmbStatusProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbStatusProductActionPerformed
+        // TODO add your handling code here:
+        loadProductsTable(
+        txtSearchProduct.getText(),
+        cmbStatusProduct.getSelectedItem().toString()
+         );
+    }//GEN-LAST:event_cmbStatusProductActionPerformed
+
+    private void txtSearchProductKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchProductKeyReleased
+        // TODO add your handling code here:
+       loadProductsTable(
+        txtSearchProduct.getText(),
+        cmbStatusProduct.getSelectedItem().toString()
+    );
+    }//GEN-LAST:event_txtSearchProductKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -986,7 +1088,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnSaveCustomer;
     private javax.swing.JButton btnUsers;
     private javax.swing.JComboBox<String> cmbStatus;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cmbStatusProduct;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1014,9 +1116,6 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
@@ -1035,6 +1134,8 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel pnlPayment;
     private javax.swing.JPanel pnlProduct;
     private javax.swing.JTable tblOrders;
+    private javax.swing.JTable tblProducts;
+    private javax.swing.JTable tblStaffDashboard;
     private javax.swing.JTable tblSummary;
     private javax.swing.JTable tblSummary1;
     private javax.swing.JTable tblSummary2;
@@ -1043,5 +1144,6 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtCustomerNo;
     private javax.swing.JTextField txtSearchOrders;
+    private javax.swing.JTextField txtSearchProduct;
     // End of variables declaration//GEN-END:variables
 }
