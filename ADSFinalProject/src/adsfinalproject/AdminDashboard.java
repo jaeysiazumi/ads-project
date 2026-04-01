@@ -801,10 +801,27 @@ public void loadPaymentsTable(String statusFilter, String searchText) {
         btnDeletee = new javax.swing.JButton();
         pnlOrder = new javax.swing.JPanel();
         pnlverufy = new javax.swing.JPanel();
+        lblCardNum = new javax.swing.JLabel();
+        lblRefNo = new javax.swing.JLabel();
+        lblPayMethod = new javax.swing.JLabel();
+        lblOrderType = new javax.swing.JLabel();
+        lblContact = new javax.swing.JLabel();
+        lblName1 = new javax.swing.JLabel();
+        lblDateTime1 = new javax.swing.JLabel();
+        lblOrderNum1 = new javax.swing.JLabel();
         btnOrdCanc = new javax.swing.JButton();
         btnOrdConf = new javax.swing.JButton();
+        lblTotal1 = new javax.swing.JLabel();
+        btnOrdBack = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
         pnlView = new javax.swing.JPanel();
+        lblDateTime = new javax.swing.JLabel();
+        lblName = new javax.swing.JLabel();
+        lblOrderNum = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
+        lblTotal = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblSummary = new javax.swing.JTable();
         btnOrdCanc1 = new javax.swing.JButton();
         btnOrdConf1 = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
@@ -1271,6 +1288,54 @@ public void loadPaymentsTable(String statusFilter, String searchText) {
 
         pnlverufy.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lblCardNum.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblCardNum.setForeground(new java.awt.Color(0, 0, 0));
+        lblCardNum.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblCardNum.setText("-");
+        pnlverufy.add(lblCardNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, 80, 30));
+
+        lblRefNo.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblRefNo.setForeground(new java.awt.Color(0, 0, 0));
+        lblRefNo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblRefNo.setText("-");
+        pnlverufy.add(lblRefNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 260, 80, 40));
+
+        lblPayMethod.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblPayMethod.setForeground(new java.awt.Color(0, 0, 0));
+        lblPayMethod.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblPayMethod.setText("-");
+        pnlverufy.add(lblPayMethod, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, 80, 30));
+
+        lblOrderType.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblOrderType.setForeground(new java.awt.Color(0, 0, 0));
+        lblOrderType.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblOrderType.setText("-");
+        pnlverufy.add(lblOrderType, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, 80, 30));
+
+        lblContact.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblContact.setForeground(new java.awt.Color(0, 0, 0));
+        lblContact.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblContact.setText("-");
+        pnlverufy.add(lblContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, 80, 30));
+
+        lblName1.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblName1.setForeground(new java.awt.Color(0, 0, 0));
+        lblName1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblName1.setText("-");
+        pnlverufy.add(lblName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, 80, 30));
+
+        lblDateTime1.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblDateTime1.setForeground(new java.awt.Color(0, 0, 0));
+        lblDateTime1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDateTime1.setText("date & time");
+        pnlverufy.add(lblDateTime1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 310, 10));
+
+        lblOrderNum1.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblOrderNum1.setForeground(new java.awt.Color(0, 0, 0));
+        lblOrderNum1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblOrderNum1.setText("-");
+        pnlverufy.add(lblOrderNum1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 90, 20));
+
         btnOrdCanc.setText("-");
         btnOrdCanc.setBorder(null);
         btnOrdCanc.setBorderPainted(false);
@@ -1288,12 +1353,74 @@ public void loadPaymentsTable(String statusFilter, String searchText) {
         btnOrdConf.setContentAreaFilled(false);
         pnlverufy.add(btnOrdConf, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 440, 90, 30));
 
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/apayment.png"))); // NOI18N
+        lblTotal1.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblTotal1.setForeground(new java.awt.Color(0, 0, 0));
+        lblTotal1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblTotal1.setText("-");
+        pnlverufy.add(lblTotal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, 100, 30));
+
+        btnOrdBack.setText("X");
+        btnOrdBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrdBackActionPerformed(evt);
+            }
+        });
+        pnlverufy.add(btnOrdBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, -1, -1));
+
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/VIEWPAY.png"))); // NOI18N
         pnlverufy.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 6, 380, 500));
 
         pnlOrder.add(pnlverufy, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 390, 510));
 
         pnlView.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblDateTime.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblDateTime.setForeground(new java.awt.Color(0, 0, 0));
+        lblDateTime.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDateTime.setText("date & time");
+        pnlView.add(lblDateTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 310, 10));
+
+        lblName.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblName.setForeground(new java.awt.Color(0, 0, 0));
+        lblName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblName.setText("-");
+        pnlView.add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, 80, 30));
+
+        lblOrderNum.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblOrderNum.setForeground(new java.awt.Color(0, 0, 0));
+        lblOrderNum.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblOrderNum.setText("-");
+        pnlView.add(lblOrderNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 90, 20));
+
+        lblStatus.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblStatus.setForeground(new java.awt.Color(0, 0, 0));
+        lblStatus.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblStatus.setText("-");
+        pnlView.add(lblStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 380, 100, 20));
+
+        lblTotal.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblTotal.setForeground(new java.awt.Color(0, 0, 0));
+        lblTotal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblTotal.setText("-");
+        pnlView.add(lblTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 360, 100, 20));
+
+        jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
+
+        tblSummary.setBackground(new java.awt.Color(255, 255, 255));
+        tblSummary.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Name", "Quantity", "Price", "Subtotal"
+            }
+        ));
+        jScrollPane3.setViewportView(tblSummary);
+
+        pnlView.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 330, 160));
 
         btnOrdCanc1.setText("-");
         btnOrdCanc1.setBorder(null);
@@ -1312,7 +1439,7 @@ public void loadPaymentsTable(String statusFilter, String searchText) {
         btnOrdConf1.setContentAreaFilled(false);
         pnlView.add(btnOrdConf1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 440, 90, 30));
 
-        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/aorder.png"))); // NOI18N
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/VIEWORDER.png"))); // NOI18N
         pnlView.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 6, 380, 500));
 
         pnlOrder.add(pnlView, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 390, 510));
@@ -2226,8 +2353,7 @@ public void loadPaymentsTable(String statusFilter, String searchText) {
     }//GEN-LAST:event_btnAddCancelActionPerformed
 
     private void btnOrdCancActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdCancActionPerformed
-        pnlOrder.setVisible(true);
-        pnlverufy.setVisible(false);
+
     }//GEN-LAST:event_btnOrdCancActionPerformed
 
     private void btnOrdCanc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdCanc1ActionPerformed
@@ -2621,6 +2747,11 @@ try {
         }
     });
     }//GEN-LAST:event_txtPaymentSearchKeyReleased
+
+    private void btnOrdBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdBackActionPerformed
+        pnlOrder.setVisible(true);
+        pnlverufy.setVisible(false);
+    }//GEN-LAST:event_btnOrdBackActionPerformed
     
     /**
      * @param args the command line arguments
@@ -2664,6 +2795,7 @@ try {
     private javax.swing.JButton btnDeletee;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnOrdBack;
     private javax.swing.JButton btnOrdCanc;
     private javax.swing.JButton btnOrdCanc1;
     private javax.swing.JButton btnOrdConf;
@@ -2741,6 +2873,7 @@ try {
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane7;
@@ -2757,7 +2890,21 @@ try {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JLabel lblCardNum;
+    private javax.swing.JLabel lblContact;
+    private javax.swing.JLabel lblDateTime;
+    private javax.swing.JLabel lblDateTime1;
     private javax.swing.JLabel lblLowStiock;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblName1;
+    private javax.swing.JLabel lblOrderNum;
+    private javax.swing.JLabel lblOrderNum1;
+    private javax.swing.JLabel lblOrderType;
+    private javax.swing.JLabel lblPayMethod;
+    private javax.swing.JLabel lblRefNo;
+    private javax.swing.JLabel lblStatus;
+    private javax.swing.JLabel lblTotal;
+    private javax.swing.JLabel lblTotal1;
     private javax.swing.JLabel lblTotalCustomer;
     private javax.swing.JLabel lblTotalOrd;
     private javax.swing.JLabel lblTotalSales;
@@ -2787,6 +2934,7 @@ try {
     private javax.swing.JTable tblProducts;
     private javax.swing.JTable tblStaff;
     private javax.swing.JTable tblStaffs;
+    private javax.swing.JTable tblSummary;
     private javax.swing.JTable tblSuppliers;
     private javax.swing.JTextField txtAddCategoryProduct;
     private javax.swing.JTextField txtAddDescrip;
