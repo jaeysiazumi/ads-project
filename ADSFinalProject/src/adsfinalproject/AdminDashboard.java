@@ -1839,7 +1839,7 @@ private void loadPayments() {
                 btnAddCancelActionPerformed(evt);
             }
         });
-        pnlAddPr.add(btnAddCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 560, 80, 40));
+        pnlAddPr.add(btnAddCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 590, 80, 40));
 
         btnSaveProduct.setText("-");
         btnSaveProduct.setBorder(null);
@@ -1850,7 +1850,7 @@ private void loadPayments() {
                 btnSaveProductActionPerformed(evt);
             }
         });
-        pnlAddPr.add(btnSaveProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 560, 80, 40));
+        pnlAddPr.add(btnSaveProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 590, 80, 40));
 
         cmbSupplier.setBackground(new java.awt.Color(204, 204, 204));
         cmbSupplier.setForeground(new java.awt.Color(0, 0, 0));
@@ -2488,7 +2488,7 @@ try {
                      "(name, description, category, stock, price, supplier_id, status, date_added) " +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
 
-        Connection conn = DBConnection.getConnection(); // <-- IMPORTANT
+        Connection conn = DBConnection.getConnection(); 
         PreparedStatement pst = conn.prepareStatement(sql);
 
         pst.setString(1, name);
