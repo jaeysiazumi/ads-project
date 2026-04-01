@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.ResultSet;
 
 
 /**
@@ -443,6 +444,44 @@ public class CustomerDashboard extends javax.swing.JFrame {
     }
 
 }
+    private void insertPayment(String paymentType) {
+    try {
+        Connection conn = DBConnection.getConnection();
+
+        // Get latest order ID
+        String getOrder = "SELECT MAX(order_id) FROM tblorder";
+        PreparedStatement pstOrder = conn.prepareStatement(getOrder);
+        ResultSet rs = pstOrder.executeQuery();
+
+        int orderId = 0;
+        if (rs.next()) orderId = rs.getInt(1);
+
+        double totalAmount = Double.parseDouble(lblTotal.getText());
+
+        String status = paymentType.equals("CASH") ? "PENDING" : "PAID";
+
+        String sql = "INSERT INTO tblpayment (order_id, total_amount, payment_date, payment_type, status) "
+                   + "VALUES (?, ?, NOW(), ?, ?)";
+
+        PreparedStatement pst = conn.prepareStatement(sql);
+        pst.setInt(1, orderId);
+        pst.setDouble(2, totalAmount);
+        pst.setString(3, paymentType);
+        pst.setString(4, status);
+
+        pst.executeUpdate();
+
+        pst.close();
+        conn.close();
+
+        JOptionPane.showMessageDialog(this, "Payment Recorded!");
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Payment Error: " + e.getMessage());
+    }
+}
+
         
 
 

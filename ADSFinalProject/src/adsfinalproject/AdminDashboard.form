@@ -1465,19 +1465,18 @@
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                           <SubComponents>
-                            <Component class="javax.swing.JTable" name="jTable11">
+                            <Component class="javax.swing.JTable" name="tblPayment">
                               <Properties>
                                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                                 </Property>
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                                  <Table columnCount="7" rowCount="4">
+                                  <Table columnCount="6" rowCount="4">
                                     <Column editable="true" title="ID" type="java.lang.Object"/>
                                     <Column editable="true" title="Order ID" type="java.lang.Object"/>
                                     <Column editable="true" title="Amount" type="java.lang.Object"/>
                                     <Column editable="true" title="Date" type="java.lang.Object"/>
                                     <Column editable="true" title="Type" type="java.lang.Object"/>
-                                    <Column editable="true" title="Reference No." type="java.lang.Object"/>
                                     <Column editable="true" title="Status" type="java.lang.Object"/>
                                   </Table>
                                 </Property>
@@ -1499,11 +1498,6 @@
                                       <Renderer/>
                                     </Column>
                                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
-                                      <Title/>
-                                      <Editor/>
-                                      <Renderer/>
-                                    </Column>
-                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                       <Title/>
                                       <Editor/>
                                       <Renderer/>

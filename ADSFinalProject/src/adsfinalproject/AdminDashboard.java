@@ -32,6 +32,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     
     public AdminDashboard() {
         initComponents(); 
+        loadPayments(); 
         loadOrderStatusFilter(); 
         loadOrdersTable("All", "");
         loadSupplierIDs();
@@ -636,6 +637,36 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
 
     }
+private void loadPayments() {
+    try {
+        Connection conn = DBConnection.getConnection();
+        String sql = "SELECT * FROM tblpayment";
+        PreparedStatement pst = conn.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) tblPayment.getModel();
+        model.setRowCount(0);
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("payment_id"),
+                rs.getInt("order_id"),
+                rs.getDouble("total_amount"),
+                rs.getTimestamp("payment_date"),
+                rs.getString("payment_type"),
+                rs.getString("status"),
+                
+            });
+        }
+
+        rs.close();
+        pst.close();
+        conn.close();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
 
         
 
@@ -722,7 +753,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnOrdEdit4 = new javax.swing.JButton();
         jComboBox8 = new javax.swing.JComboBox<>();
         jScrollPane11 = new javax.swing.JScrollPane();
-        jTable11 = new javax.swing.JTable();
+        tblPayment = new javax.swing.JTable();
         jLabel20 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         pnlUsers = new javax.swing.JPanel();
@@ -1349,21 +1380,21 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jScrollPane11.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable11.setBackground(new java.awt.Color(255, 255, 255));
-        jTable11.setModel(new javax.swing.table.DefaultTableModel(
+        tblPayment.setBackground(new java.awt.Color(255, 255, 255));
+        tblPayment.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Order ID", "Amount", "Date", "Type", "Reference No.", "Status"
+                "ID", "Order ID", "Amount", "Date", "Type", "Status"
             }
         ));
-        jScrollPane11.setViewportView(jTable11);
-        if (jTable11.getColumnModel().getColumnCount() > 0) {
-            jTable11.getColumnModel().getColumn(3).setResizable(false);
+        jScrollPane11.setViewportView(tblPayment);
+        if (tblPayment.getColumnModel().getColumnCount() > 0) {
+            tblPayment.getColumnModel().getColumn(3).setResizable(false);
         }
 
         jPanel13.add(jScrollPane11, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 500));
@@ -2617,7 +2648,6 @@ try {
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTabbedPane jTabbedPane5;
-    private javax.swing.JTable jTable11;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable6;
@@ -2652,6 +2682,7 @@ try {
     private javax.swing.JTable tblOrder;
     private javax.swing.JScrollPane tblPaneCustomer;
     private javax.swing.JScrollPane tblPaneProduct;
+    private javax.swing.JTable tblPayment;
     private javax.swing.JTable tblProducts;
     private javax.swing.JTable tblStaff;
     private javax.swing.JTable tblStaffs;
