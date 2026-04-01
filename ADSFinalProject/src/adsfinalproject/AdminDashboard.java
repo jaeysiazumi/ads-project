@@ -133,7 +133,21 @@ public class AdminDashboard extends javax.swing.JFrame {
         updateStatusFilterOptions();
         refreshUsersTable();
         refreshSuppliersTable();
-        loadStaffTable();
+        loadStaffTable("All");
+        cmbStatusFilter2.removeAllItems();
+        cmbStatusFilter2.addItem("All");
+        cmbStatusFilter2.addItem("Active");
+        cmbStatusFilter2.addItem("Inactive");
+        cmbStatusFilter2.addItem("On Duty");
+        
+        cmbStatusFilter2.addActionListener(e -> {
+
+        Object selectedItem = cmbStatusFilter2.getSelectedItem();
+        String statusFilter = (selectedItem != null) ? selectedItem.toString() : "All";
+
+        loadStaffTable(statusFilter);
+
+    });
         
         loadDashboardOrders();
         loadStatusFilter();
@@ -425,7 +439,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     } else if (selectedTab == 1) { // Staff
         cmbStatusFilterr.addItem("Active");
         cmbStatusFilterr.addItem("Inactive");
-        cmbStatusFilterr.addItem("In Duty");
+        cmbStatusFilterr.addItem("On Duty");
     }
 
     cmbStatusFilterr.setSelectedIndex(0);
@@ -757,23 +771,33 @@ public void loadPaymentsTable(String statusFilter, String searchText) {
         e.printStackTrace();
     }
 }
-public void loadStaffTable() {
+public void loadStaffTable(String statusFilter) {
+
     DefaultTableModel model = (DefaultTableModel) tblStaff.getModel();
     model.setRowCount(0);
 
-    String sql = "SELECT id, username, email, contact_no, status FROM users WHERE role = 'staff'";
+    String sql = "SELECT id, username, email, contact_no, status FROM users WHERE role='staff'";
+
+    if (!statusFilter.equals("All")) {
+        sql += " AND status=?";
+    }
 
     try (Connection conn = DBConnection.getConnection();
-         PreparedStatement pst = conn.prepareStatement(sql);
-         ResultSet rs = pst.executeQuery()) {
+         PreparedStatement pst = conn.prepareStatement(sql)) {
+
+        if (!statusFilter.equals("All")) {
+            pst.setString(1, statusFilter);
+        }
+
+        ResultSet rs = pst.executeQuery();
 
         while (rs.next()) {
             model.addRow(new Object[]{
-                rs.getInt("id"),              // staff_id
-                rs.getString("username"),    // staff_name
-                rs.getString("email"),       // staff_email
-                rs.getString("contact_no"),  // staff_contact_no
-                rs.getString("status")       // staff_status
+                rs.getInt("id"),
+                rs.getString("username"),
+                rs.getString("email"),
+                rs.getString("contact_no"),
+                rs.getString("status")
             });
         }
 
@@ -781,7 +805,6 @@ public void loadStaffTable() {
         JOptionPane.showMessageDialog(null, "Error loading staff table: " + e.getMessage());
     }
 }
-
         
 
 
@@ -913,7 +936,7 @@ public void loadStaffTable() {
         jTextField4 = new javax.swing.JTextField();
         jScrollPane8 = new javax.swing.JScrollPane();
         tblStaff = new javax.swing.JTable();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        cmbStatusFilter2 = new javax.swing.JComboBox<>();
         tabbedpane = new javax.swing.JTabbedPane();
         jPanel10 = new javax.swing.JPanel();
         jComboBox5 = new javax.swing.JComboBox<>();
@@ -1845,11 +1868,11 @@ public void loadStaffTable() {
 
         pnlUsers1.add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 500));
 
-        jComboBox4.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox4.setForeground(new java.awt.Color(51, 51, 51));
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Active", "On Duty", "Inactive" }));
-        jComboBox4.setBorder(null);
-        pnlUsers1.add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 110, 240, 30));
+        cmbStatusFilter2.setBackground(new java.awt.Color(255, 255, 255));
+        cmbStatusFilter2.setForeground(new java.awt.Color(51, 51, 51));
+        cmbStatusFilter2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Active", "On Duty", "Inactive" }));
+        cmbStatusFilter2.setBorder(null);
+        pnlUsers1.add(cmbStatusFilter2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 110, 240, 30));
 
         tabbedpane.setBackground(new java.awt.Color(255, 255, 255));
         tabbedpane.setTabPlacement(javax.swing.JTabbedPane.RIGHT);
@@ -3027,10 +3050,10 @@ try {
     private javax.swing.JComboBox<String> cmbStatus1;
     private javax.swing.JComboBox<String> cmbStatus2;
     private javax.swing.JComboBox<String> cmbStatusFilter;
+    private javax.swing.JComboBox<String> cmbStatusFilter2;
     private javax.swing.JComboBox<String> cmbStatusFilterr;
     private javax.swing.JComboBox<String> cmbSupplier;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JComboBox<String> jComboBox6;
     private com.toedter.calendar.JDateChooser jDateChooser1;
