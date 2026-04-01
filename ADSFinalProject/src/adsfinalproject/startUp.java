@@ -346,6 +346,7 @@ public class startUp extends javax.swing.JFrame {
             if (rs.next()) {
 
                 String role = rs.getString("role");
+                int staffId = rs.getInt("id");
 
                 JOptionPane.showMessageDialog(null, "Login successful!");
 
@@ -354,7 +355,7 @@ public class startUp extends javax.swing.JFrame {
                 if (role.equals("admin")) {
                     dashboard = new AdminDashboard();
                 } else if (role.equals("staff")) {
-                    dashboard = new EmployeeDashboard();
+                    dashboard = new EmployeeDashboard(staffId);
                 } else{
                     dashboard = new CustomerDashboard();
                 }

@@ -133,6 +133,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         updateStatusFilterOptions();
         refreshUsersTable();
         refreshSuppliersTable();
+        loadStaffTable();
         
         loadDashboardOrders();
         loadStatusFilter();
@@ -756,6 +757,31 @@ public void loadPaymentsTable(String statusFilter, String searchText) {
         e.printStackTrace();
     }
 }
+public void loadStaffTable() {
+    DefaultTableModel model = (DefaultTableModel) tblStaff.getModel();
+    model.setRowCount(0);
+
+    String sql = "SELECT id, username, email, contact_no, status FROM users WHERE role = 'staff'";
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement pst = conn.prepareStatement(sql);
+         ResultSet rs = pst.executeQuery()) {
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("id"),              // staff_id
+                rs.getString("username"),    // staff_name
+                rs.getString("email"),       // staff_email
+                rs.getString("contact_no"),  // staff_contact_no
+                rs.getString("status")       // staff_status
+            });
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error loading staff table: " + e.getMessage());
+    }
+}
+
         
 
 

@@ -20,20 +20,23 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     ImageIcon darkd, darku, darko, darkp, darkpa, active, onduty, inactive ;
     ImageIcon dash, user, ord, pr, pay;
     String status = "";
+    private int currentStaffId;
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(EmployeeDashboard.class.getName());
 
     /**
      * Creates new form EmployeeDashboard
      */
-    public EmployeeDashboard() {
+    public EmployeeDashboard(int staffId) {
         initComponents();
+        this.currentStaffId = staffId;
         loadUsers();
         loadOrders();
         loadEmployeeDashboard();
-        new javax.swing.Timer(5000, e -> {
+        new javax.swing.Timer(1000, e -> {
             loadEmployeeDashboard();
         }).start();
+        loadDashboardTable();
         loadProductsTable("", "All");
   
         setSize(1300, 800);
@@ -234,9 +237,11 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     }
     }
    public void loadDashboardTable() {
-    String sql = "SELECT o.order_id, o.customer_name, o.total_amount, p.payment_type, o.status, o.order_date " +
-             "FROM orders o " +
-             "LEFT JOIN tblpayment p ON o.order_id = p.order_id";
+    String sql = "SELECT o.order_id, o.customer_name, o.total_amount, " +
+                 "p.payment_type, o.status, o.order_date " +
+                 "FROM orders o " +
+                 "LEFT JOIN tblpayment p ON o.order_id = p.order_id " +
+                 "ORDER BY o.order_id DESC";
 
     try (Connection con = DBConnection.getConnection();
          PreparedStatement pst = con.prepareStatement(sql);
@@ -251,9 +256,8 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 rs.getInt("order_id"),
                 rs.getString("customer_name"),
                 rs.getDouble("total_amount"),
-                rs.getString("payment_type"),
                 rs.getString("status"),
-                rs.getString("order_date")
+                rs.getDate("order_date")
             });
         }
 
@@ -334,19 +338,40 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             String date = rs.getString("order_date");
 
             model.addRow(new Object[]{
-                orderID,
-                name,
-                total,
-                paymentType,
-                status,
-                date
+                rs.getInt("order_id"),
+                rs.getString("customer_name"),
+                rs.getDouble("total_amount"),
+                rs.getString("payment_type"),
+                rs.getString("status"),
+                rs.getDate("order_date")
+
             });
         }
 
     } catch (Exception e) {
         e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error loading dashboard: " + e.getMessage());
     }
 }
+    public void updateStaffStatus(String status) {
+    try {
+        Connection conn = DBConnection.getConnection();
+
+        String sql = "UPDATE users SET status=? WHERE id=?";
+        PreparedStatement pst = conn.prepareStatement(sql);
+
+        pst.setString(1, status);
+        pst.setInt(2, currentStaffId);
+
+        pst.executeUpdate();
+
+        JOptionPane.showMessageDialog(this, "Status set to " + status);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -997,6 +1022,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         btnActive.setText("");
         btnActive.setIcon(active);
         status = "Active";
+        updateStaffStatus("ACTIVE");
         
     }//GEN-LAST:event_btnActiveActionPerformed
 
@@ -1005,6 +1031,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         btnOnDuty.setText("");
         btnOnDuty.setIcon(onduty);
         status = "On Duty";
+        updateStaffStatus("ON DUTY");
     }//GEN-LAST:event_btnOnDutyActionPerformed
 
     private void btnInactiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInactiveActionPerformed
@@ -1012,6 +1039,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         btnInactive.setText("");
         btnInactive.setIcon(inactive);
         status = "Inactive";
+        updateStaffStatus("INACTIVE");
     }//GEN-LAST:event_btnInactiveActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -1107,7 +1135,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new EmployeeDashboard().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new EmployeeDashboard(1).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
