@@ -126,6 +126,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         loadStatusFilter();
         loadProductsTable("", "All");
         loadSuppliers("", "All");
+        loadUsersTable("", "", "All");
         loadSupplierIDs();
         txtProductID.setEditable(false);
         txtName.setEditable(false);
@@ -1686,6 +1687,11 @@ public void loadPaymentsTable(String statusFilter, String searchText) {
         btnCusDel.setBorder(null);
         btnCusDel.setBorderPainted(false);
         btnCusDel.setContentAreaFilled(false);
+        btnCusDel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCusDelActionPerformed(evt);
+            }
+        });
         jPanel5.add(btnCusDel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 740, 70, 30));
 
         btnCusEdit.setBackground(new java.awt.Color(255, 255, 255));
@@ -1693,6 +1699,11 @@ public void loadPaymentsTable(String statusFilter, String searchText) {
         btnCusEdit.setBorder(null);
         btnCusEdit.setBorderPainted(false);
         btnCusEdit.setContentAreaFilled(false);
+        btnCusEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCusEditActionPerformed(evt);
+            }
+        });
         jPanel5.add(btnCusEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 740, 70, 30));
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Usersimnida.png"))); // NOI18N
@@ -2752,6 +2763,78 @@ try {
         pnlOrder.setVisible(true);
         pnlverufy.setVisible(false);
     }//GEN-LAST:event_btnOrdBackActionPerformed
+
+    private void btnCusEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCusEditActionPerformed
+        // TODO add your handling code here:
+     int row = tblCustomer.getSelectedRow();
+
+    if (row == -1) {
+    JOptionPane.showMessageDialog(null, "Select a user first!");
+    return;
+}
+
+    UsersDialog dialog = new UsersDialog(this, true);
+
+    dialog.setUserData(
+    Integer.parseInt(tblCustomer.getValueAt(row, 0).toString()),
+    tblCustomer.getValueAt(row, 1).toString(),
+    tblCustomer.getValueAt(row, 2).toString(),
+    tblCustomer.getValueAt(row, 3).toString(),
+    tblCustomer.getValueAt(row, 4).toString()
+);
+
+    dialog.setLocationRelativeTo(this);
+    dialog.setVisible(true);
+
+    loadUsersTable("", "", "All"); 
+
+    }//GEN-LAST:event_btnCusEditActionPerformed
+
+    private void btnCusDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCusDelActionPerformed
+        // TODO add your handling code here:
+    int row = tblCustomer.getSelectedRow();
+
+    if (row == -1) {
+        JOptionPane.showMessageDialog(null, "Please select a user to delete!");
+        return;
+    }
+
+    int id = Integer.parseInt(tblCustomer.getValueAt(row, 0).toString());
+    String username = tblCustomer.getValueAt(row, 1).toString();
+
+    int confirm = JOptionPane.showConfirmDialog(
+        null,
+        "Delete user: " + username + "?",
+        "Confirm Delete",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirm != JOptionPane.YES_OPTION) {
+        return;
+}
+           String sql = "DELETE FROM users WHERE id=?";
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement pst = conn.prepareStatement(sql)) {
+
+        pst.setInt(1, id);
+
+        int deleted = pst.executeUpdate();
+
+        if (deleted > 0) {
+            JOptionPane.showMessageDialog(null, "User deleted successfully!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Delete failed!");
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Error deleting user: " + ex.getMessage());
+    }
+
+    loadUsersTable("", "", "All");
+
+    
+    }//GEN-LAST:event_btnCusDelActionPerformed
     
     /**
      * @param args the command line arguments
