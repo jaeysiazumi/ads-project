@@ -34,6 +34,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         initComponents(); 
         loadOrderStatusFilter(); 
         loadOrdersTable("All", "");
+        loadSupplierIDs();
         cmbStatus1.addActionListener(e -> {
 
         Object selectedItem = cmbStatus1.getSelectedItem();
@@ -54,6 +55,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         updateTotalSalesLabel();
         loadDashboardTable();
         loadOrdersTable("All", "");
+        loadProductsTable("", "All");
         
         btnOrders.addActionListener(e -> {
             loadOrdersTable("All", ""); 
@@ -70,16 +72,16 @@ public class AdminDashboard extends javax.swing.JFrame {
                 String newStatus = tblDashboard.getValueAt(row,4).toString();
 
                 try{
-                    Connection con = DBConnection.getConnection();
+                    Connection conn = DBConnection.getConnection();
 
                     String sql1 = "UPDATE orders SET status=? WHERE order_id=?";
-                    PreparedStatement pst1 = con.prepareStatement(sql1);
+                    PreparedStatement pst1 = conn.prepareStatement(sql1);
                     pst1.setString(1,newStatus);
                     pst1.setInt(2,orderID);
                     pst1.executeUpdate();
 
                     String sql2 = "UPDATE tblorder SET status=? WHERE order_id=?";
-                    PreparedStatement pst2 = con.prepareStatement(sql2);
+                    PreparedStatement pst2 = conn.prepareStatement(sql2);
                     pst2.setString(1,newStatus);
                     pst2.setInt(2,orderID);
                     pst2.executeUpdate();
@@ -97,6 +99,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         loadStatusFilter();
         loadProductsTable("", "All");
         loadSuppliers("", "All");
+        loadSupplierIDs();
         txtProductID.setEditable(false);
         txtName.setEditable(false);
         txtDescription.setEditable(false);
@@ -402,14 +405,14 @@ public class AdminDashboard extends javax.swing.JFrame {
     DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
     model.setRowCount(0);
 
-    String sql = "SELECT * FROM products WHERE (name LIKE ? OR category LIKE ? OR supplier LIKE ?)";
+    String sql = "SELECT * FROM products WHERE (name LIKE ? OR category LIKE ? OR supplier_id LIKE ?)";
     if (!statusFilter.equals("All")) {
         sql += " AND status = ?";
     }
     sql += " ORDER BY product_id DESC";
 
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement pst = conn.prepareStatement(sql)) {
+    try (Connection con = DBConnection.getConnection();
+         PreparedStatement pst = con.prepareStatement(sql)) {
 
         pst.setString(1, "%" + search + "%");
         pst.setString(2, "%" + search + "%");
@@ -427,7 +430,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                     rs.getString("category"),
                     rs.getInt("stock"),
                     rs.getDouble("price"),
-                    rs.getString("supplier"),
+                    rs.getString("supplier_id"),
                     rs.getString("status"),
                     rs.getDate("date_added"),
                     rs.getDate("expiration_date")
@@ -612,7 +615,27 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     loadSuppliers(searchText, statusFilter);
 }
+    
+    public void loadSupplierIDs(){
+       try {
+        Connection conn = DBConnection.getConnection();
 
+        String sql = "SELECT supplier_id FROM suppliers";
+        PreparedStatement pst = conn.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        cmbSupplier.removeAllItems();
+
+        while(rs.next()){
+           System.out.println("ID: " + rs.getInt("supplier_id")); // 🔥 DEBUG
+            cmbSupplier.addItem(rs.getString("supplier_id"));
+        }
+        
+    } catch (Exception e) {
+        e.printStackTrace(); 
+    }
+
+    }
 
         
 
@@ -766,6 +789,8 @@ public class AdminDashboard extends javax.swing.JFrame {
         txtAddStock = new javax.swing.JTextField();
         btnAddCancel = new javax.swing.JButton();
         btnSaveProduct = new javax.swing.JButton();
+        cmbSupplier = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         pnlRestock = new javax.swing.JPanel();
         txtExpirationDate = new javax.swing.JTextField();
@@ -1744,6 +1769,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         txtAddCategoryProduct.setBackground(new java.awt.Color(255, 255, 255));
         txtAddCategoryProduct.setForeground(new java.awt.Color(0, 0, 0));
         txtAddCategoryProduct.setBorder(null);
+        txtAddCategoryProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAddCategoryProductActionPerformed(evt);
+            }
+        });
         pnlAddPr.add(txtAddCategoryProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 220, 380, 30));
 
         txtAddDescrip.setBackground(new java.awt.Color(255, 255, 255));
@@ -1789,6 +1819,15 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
         });
         pnlAddPr.add(btnSaveProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 560, 80, 40));
+
+        cmbSupplier.setBackground(new java.awt.Color(204, 204, 204));
+        cmbSupplier.setForeground(new java.awt.Color(0, 0, 0));
+        pnlAddPr.add(cmbSupplier, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 510, 130, 30));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Supplier");
+        pnlAddPr.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 510, 80, 30));
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Add Product.png"))); // NOI18N
         pnlAddPr.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, -4, 510, 690));
@@ -1904,7 +1943,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 btnRestockActionPerformed(evt);
             }
         });
-        jPanel7.add(btnRestock, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 740, 80, 30));
+        jPanel7.add(btnRestock, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 740, 80, 30));
 
         btnAddProduct.setBackground(new java.awt.Color(255, 255, 255));
         btnAddProduct.setText("-");
@@ -2097,11 +2136,15 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void btnRestockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestockActionPerformed
 
+        pnlRestock.setVisible(true);
+        jPanel7.setVisible(false);
         int selectedRow = tblProducts.getSelectedRow();
 
     if (selectedRow == -1) {
         JOptionPane.showMessageDialog(this, "Please select a product first.");
         return;
+        
+        
     }
 
     txtProductID.setText(tblProducts.getValueAt(selectedRow, 0).toString());
@@ -2181,40 +2224,28 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void btnSaveRestockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveRestockActionPerformed
         // TODO add your handling code here:
+try {
 
-    try {
-        if (conn == null) {
-            JOptionPane.showMessageDialog(this, "Database not connected!");
-            return;
-        }
+    int productId = Integer.parseInt(txtProductID.getText().trim());
+    int addStock = Integer.parseInt(txtStock.getText().trim());
 
-        String ProductId = txtProductID.getText(); 
+    Connection conn = DBConnection.getConnection();
 
-        String selectSQL = "SELECT stock FROM items WHERE order_id = ?";
-        PreparedStatement pstSelect = conn.prepareStatement(selectSQL);
-        pstSelect.setString(1, ProductId);
-        ResultSet rs = pstSelect.executeQuery();
+    String sql = "UPDATE products SET stock = stock + 1 WHERE product_id = ?";
+    PreparedStatement pst = conn.prepareStatement(sql);
 
-        if (rs.next()) {
-            int currentStock = rs.getInt("stock");
-            int newStock = currentStock + 1; 
+    pst.setInt(1, productId);
 
-            String updateSQL = "UPDATE items SET stock = ? WHERE order_id = ?";
-            PreparedStatement pstUpdate = conn.prepareStatement(updateSQL);
-            pstUpdate.setInt(1, newStock);
-            pstUpdate.setString(2, ProductId);
-            pstUpdate.executeUpdate();
+    pst.executeUpdate();
 
-            txtStock.setText(String.valueOf(newStock));
-            JOptionPane.showMessageDialog(this, "Stock successfully added!");
-        } else {
-            JOptionPane.showMessageDialog(this, "Item not found!");
-        }
+    JOptionPane.showMessageDialog(null, "Stock updated successfully!");
 
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage());
-    }
+    loadProductsTable("", "All");
 
+} catch (Exception e) {
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(null, "Database not connected: " + e.getMessage());
+}
         
         
 
@@ -2378,78 +2409,86 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSearchSupplierKeyReleased
 
     private void btnSaveProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveProductActionPerformed
-        // TODO add your handling code here:
-       try {
-
-    // 🔴 VALIDATION FIRST
-    if(txtNameProduct.getText().trim().isEmpty() ||
-       txtAddCategoryProduct.getText().trim().isEmpty() ||
-       txtAddDescrip.getText().trim().isEmpty() ||
-       txtAddStock.getText().trim().isEmpty() ||
-       txtAddPrice.getText().trim().isEmpty() ||
-       txtSupplier.getText().trim().isEmpty()) {
-
-        JOptionPane.showMessageDialog(null, "Please complete all fields!");
-        return;
-    }
-
-    int stock;
-    double price;
-
+        // TODO add your handling code here:                                               
     try {
-        stock = Integer.parseInt(txtAddStock.getText().trim());
-        price = Double.parseDouble(txtAddPrice.getText().trim());
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(null, "Stock and Price must be valid numbers!");
-        return;
+
+        if(txtNameProduct.getText().trim().isEmpty() || 
+           txtAddCategoryProduct.getText().trim().isEmpty() || 
+           txtAddDescrip.getText().trim().isEmpty() || 
+           txtAddStock.getText().trim().isEmpty() || 
+           txtAddPrice.getText().trim().isEmpty() || 
+           cmbSupplier.getSelectedItem() == null) {
+
+            JOptionPane.showMessageDialog(null, "Please complete all fields!");
+            return;
+        }
+
+        int stock;
+        double price;
+
+        try {
+            stock = Integer.parseInt(txtAddStock.getText().trim());
+            price = Double.parseDouble(txtAddPrice.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Stock and Price must be valid numbers!");
+            return;
+        }
+
+        String name = txtNameProduct.getText().trim();
+        String category = txtAddCategoryProduct.getText().trim();
+        String description = txtAddDescrip.getText().trim();
+
+        int supplierId = Integer.parseInt(cmbSupplier.getSelectedItem().toString());
+
+        String selectedStatus = cmbStatus.getSelectedItem().toString();
+        String status;
+
+        if(selectedStatus.equals("Discontinued")) {
+            status = "Discontinued";
+        } else {
+            status = (stock > 0) ? "Available" : "Out of Stock";
+        }
+
+        String sql = "INSERT INTO products " +
+                     "(name, description, category, stock, price, supplier_id, status, date_added) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
+
+        Connection conn = DBConnection.getConnection(); // <-- IMPORTANT
+        PreparedStatement pst = conn.prepareStatement(sql);
+
+        pst.setString(1, name);
+        pst.setString(2, description);
+        pst.setString(3, category);
+        pst.setInt(4, stock);
+        pst.setDouble(5, price);
+        pst.setInt(6, supplierId);
+        pst.setString(7, status);
+
+        pst.executeUpdate();
+
+        JOptionPane.showMessageDialog(null, "Product Added Successfully!");
+
+        loadProductsTable("", "All");
+
+        txtNameProduct.setText("");
+        txtAddCategoryProduct.setText("");
+        txtAddDescrip.setText("");
+        txtAddStock.setText("");
+        txtAddPrice.setText("");
+
+        pst.close();
+        conn.close();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e.getMessage());
+        e.printStackTrace();
     }
 
-    String name = txtNameProduct.getText().trim();
-    String category = txtAddCategoryProduct.getText().trim();
-    String description = txtAddDescrip.getText().trim();
-    String supplier = txtSupplier.getText().trim();
-
-    String selectedStatus = cmbStatus.getSelectedItem().toString();
-    String status;
-
-    if(selectedStatus.equals("Discontinued")) {
-        status = "Discontinued";
-    } else {
-        status = (stock > 0) ? "Available" : "Out of Stock";
-    }
-
-    // 🔴 SQL INSERT
-    String sql = "INSERT INTO products " +
-                 "(name, description, category, stock, price, supplier, status, date_added) " +
-                 "VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
-
-    PreparedStatement pst = conn.prepareStatement(sql);
-
-    pst.setString(1, name);
-    pst.setString(2, description);
-    pst.setString(3, category);
-    pst.setInt(4, stock);
-    pst.setDouble(5, price);
-    pst.setString(6, supplier);
-
-    pst.executeUpdate();
-
-    JOptionPane.showMessageDialog(null, "Product Added Successfully!");
-
-    // 🔴 REFRESH TABLE AFTER SAVE
-    loadProductsTable("", "All");
-
-    // 🔴 CLEAR FIELDS
-    txtNameProduct.setText("");
-    txtAddCategoryProduct.setText("");
-    txtAddDescrip.setText("");
-    txtAddStock.setText("");
-    txtAddPrice.setText("");
-
-} catch (Exception e) {
-    JOptionPane.showMessageDialog(null, e);
-}
     }//GEN-LAST:event_btnSaveProductActionPerformed
+
+    private void txtAddCategoryProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAddCategoryProductActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAddCategoryProductActionPerformed
     
     /**
      * @param args the command line arguments
@@ -2526,6 +2565,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbStatus1;
     private javax.swing.JComboBox<String> cmbStatusFilter;
     private javax.swing.JComboBox<String> cmbStatusFilterr;
+    private javax.swing.JComboBox<String> cmbSupplier;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
@@ -2543,6 +2583,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
