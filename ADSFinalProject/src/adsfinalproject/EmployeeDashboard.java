@@ -30,7 +30,10 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         initComponents();
         loadUsers();
         loadOrders();
-        loadDashboardTable();
+        loadEmployeeDashboard();
+        new javax.swing.Timer(5000, e -> {
+            loadEmployeeDashboard();
+        }).start();
         loadProductsTable("", "All");
   
         setSize(1300, 800);
@@ -231,13 +234,15 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     }
     }
    public void loadDashboardTable() {
-    String sql = "SELECT order_id, customer_name, total_amount, payment_type, status, order_date FROM orders";
+    String sql = "SELECT o.order_id, o.customer_name, o.total_amount, p.payment_type, o.status, o.order_date " +
+             "FROM orders o " +
+             "LEFT JOIN tblpayment p ON o.order_id = p.order_id";
 
     try (Connection con = DBConnection.getConnection();
          PreparedStatement pst = con.prepareStatement(sql);
          ResultSet rs = pst.executeQuery()) {
 
-        DefaultTableModel model = (DefaultTableModel) tblStaffDashboard.getModel();
+        DefaultTableModel model = (DefaultTableModel) tblEmployeeDashboard.getModel();
         model.setRowCount(0);
 
         while (rs.next()) {
@@ -303,10 +308,45 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
 
     }
-    
-    
+    public void loadEmployeeDashboard() {
+    try {
+        Connection con = DBConnection.getConnection();
 
- 
+        String sql = "SELECT o.order_id, o.customer_name, o.total_amount, " +
+                     "p.payment_type, o.status, o.order_date " +
+                     "FROM orders o " +
+                     "LEFT JOIN tblpayment p ON o.order_id = p.order_id " +
+                     "ORDER BY o.order_id DESC";
+
+        PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) tblEmployeeDashboard.getModel();
+        model.setRowCount(0);
+
+        while (rs.next()) {
+
+            int orderID = rs.getInt("order_id");
+            String name = rs.getString("customer_name");   // maps to name column
+            double total = rs.getDouble("total_amount");   // maps to total column
+            String paymentType = rs.getString("payment_type");
+            String status = rs.getString("status");
+            String date = rs.getString("order_date");
+
+            model.addRow(new Object[]{
+                orderID,
+                name,
+                total,
+                paymentType,
+                status,
+                date
+            });
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -362,7 +402,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         lblPrep = new javax.swing.JLabel();
         lblOrdersToday = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblStaffDashboard = new javax.swing.JTable();
+        tblEmployeeDashboard = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         pnlOrder = new javax.swing.JPanel();
         cmbStatus = new javax.swing.JComboBox<>();
@@ -703,8 +743,8 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setBorder(null);
 
-        tblStaffDashboard.setBackground(new java.awt.Color(255, 255, 255));
-        tblStaffDashboard.setModel(new javax.swing.table.DefaultTableModel(
+        tblEmployeeDashboard.setBackground(new java.awt.Color(255, 255, 255));
+        tblEmployeeDashboard.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -715,7 +755,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 "Order ID", "Name", "Total", "Payment Type", "Status", "Date"
             }
         ));
-        jScrollPane1.setViewportView(tblStaffDashboard);
+        jScrollPane1.setViewportView(tblEmployeeDashboard);
 
         pnlDashboard.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 397, 930, 350));
 
@@ -1133,9 +1173,9 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel pnlOrder;
     private javax.swing.JPanel pnlPayment;
     private javax.swing.JPanel pnlProduct;
+    private javax.swing.JTable tblEmployeeDashboard;
     private javax.swing.JTable tblOrders;
     private javax.swing.JTable tblProducts;
-    private javax.swing.JTable tblStaffDashboard;
     private javax.swing.JTable tblSummary;
     private javax.swing.JTable tblSummary1;
     private javax.swing.JTable tblSummary2;
