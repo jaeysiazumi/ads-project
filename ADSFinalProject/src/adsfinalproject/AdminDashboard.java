@@ -2447,7 +2447,8 @@ public void loadStaffTable(String statusFilter) {
     }//GEN-LAST:event_txtNameeActionPerformed
 
     private void btnOrdVerifyPay1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdVerifyPay1ActionPerformed
-        // TODO add your handling code here:
+        pnlverufy.setVisible(true);
+        
     }//GEN-LAST:event_btnOrdVerifyPay1ActionPerformed
 
     private void btnOrdView1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdView1ActionPerformed
@@ -2456,6 +2457,7 @@ public void loadStaffTable(String statusFilter) {
 
     private void btnOrdViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdViewActionPerformed
         pnlView.setVisible(true);
+        
     }//GEN-LAST:event_btnOrdViewActionPerformed
 
     private void btnRestockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestockActionPerformed

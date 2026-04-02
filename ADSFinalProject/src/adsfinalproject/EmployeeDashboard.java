@@ -62,7 +62,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         
         jPanel4.add(pnlDashboard, "dashboard");
         jPanel4.add(pnlCustomer, "users");
-        jPanel4.add(pnlOrder, "orders");
+        jPanel4.add(pnlOrder, "orderpnl");
         jPanel4.add(pnlProduct, "product");
         jPanel4.add(pnlPayment, "payment");
         
@@ -92,7 +92,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             btnDashboard.setIcon(darkd);
         }else if (page.equals("users")){
             btnUsers.setIcon(darku);
-        }else if (page.equals("orders")){
+        }else if (page.equals("orderpnl")){
             btnOrders.setIcon(darko);
         }else if (page.equals("product")){
             btnProducts.setIcon(darkp);
@@ -932,7 +932,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
         jPanel3.add(pnlOrder);
 
-        jPanel4.add(jPanel3, "jpanel3");
+        jPanel4.add(jPanel3, "orderpnl");
 
         pnlProduct.setBackground(new java.awt.Color(255, 255, 255));
         pnlProduct.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1017,12 +1017,12 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProductsActionPerformed
 
     private void btnOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdersActionPerformed
-        setActive("jpanel3");
+        setActive("orderpnl");
         jPanel1.setVisible(true);
         pnlOrder.setVisible(true);
         pnlCreateOrder.setVisible(false);
         CardLayout cl = (CardLayout)(jPanel4.getLayout());
-        cl.show(jPanel4, "jpanel3");
+        cl.show(jPanel4, "orderpnl");
     }//GEN-LAST:event_btnOrdersActionPerformed
 
     private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
