@@ -2863,13 +2863,56 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
     pst.executeUpdate();
 
-    // ✅ GET order_id
     java.sql.ResultSet rs = pst.getGeneratedKeys();
     int orderID = 0;
 
     if (rs.next()) {
         orderID = rs.getInt(1);
     }
+    
+    DefaultTableModel model = (DefaultTableModel) tblCart.getModel();
+
+System.out.println("Rows: " + model.getRowCount());
+
+for (int i = 0; i < model.getRowCount(); i++) {
+
+    String productName = model.getValueAt(i, 0).toString();
+    double price = Double.parseDouble(model.getValueAt(i, 1).toString());
+    int qty = Integer.parseInt(model.getValueAt(i, 2).toString());
+
+    int productId = 0;
+
+    String getProduct = "SELECT product_id FROM products WHERE name = ?";
+    PreparedStatement pstGet = con.prepareStatement(getProduct);
+    pstGet.setString(1, productName);
+    ResultSet rsProd = pstGet.executeQuery();
+
+    if (rsProd.next()) {
+        productId = rsProd.getInt("product_id");
+    }
+
+    rsProd.close();
+    pstGet.close();
+
+    if (productId == 0) {
+        System.out.println("Product not found: " + productName);
+        continue;
+    }
+
+    String sqlItem = "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
+    PreparedStatement pstItem = con.prepareStatement(sqlItem);
+
+    pstItem.setInt(1, orderID);
+    pstItem.setInt(2, productId);
+    pstItem.setInt(3, qty);
+    pstItem.setDouble(4, price);
+
+    pstItem.executeUpdate();
+    pstItem.close();
+
+    System.out.println("Inserted: " + productName);
+}
+    
 
     // ✅ INSERT INTO tblorder
     String sql2 = "INSERT INTO tblorder (order_id, customer_name, total_amount, order_type, status, order_date) VALUES (?,?,?,?,?,?)";
