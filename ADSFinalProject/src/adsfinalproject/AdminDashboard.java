@@ -32,6 +32,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     
     public AdminDashboard() {
         initComponents(); 
+        btnAddSave2.addActionListener(e -> addStaff());
         loadPaymentsTable("All", "");
         tblPayment.revalidate();
         tblPayment.repaint();
@@ -841,6 +842,54 @@ public void loadStaffTable(String statusFilter) {
         JOptionPane.showMessageDialog(null, e.getMessage());
     }
 }
+    private void addStaff() {
+    String name = txtAddName2.getText().trim();
+    String contact = txtAddSupCP1.getText().trim();
+    String email = txtAddSupEm1.getText().trim();
+    
+    if (contact.isEmpty() || name.isEmpty() || email.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please fill up all fields!");
+        return;
+    }
+    
+    contact = contact.replaceAll("[^0-9]", "");
+
+    
+    if (contact.length() > 11) {
+        JOptionPane.showMessageDialog(this, "Contact number must not exceed 11 digits!");
+        return;
+    }
+
+    String sql = "INSERT INTO users (username, email, contact_no, password, role, status) VALUES (?, ?, ?, ?, 'staff', 'Active')";
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement pst = conn.prepareStatement(sql)) {
+
+        pst.setString(1, name);
+        pst.setString(2, email);
+        pst.setString(3, contact);
+        pst.setString(4, "123456");
+        
+        System.out.println("INSERTING:");
+        System.out.println("Name: " + name);
+        System.out.println("Email: " + email);
+        System.out.println("Contact: " + contact);
+
+        pst.executeUpdate();
+
+        JOptionPane.showMessageDialog(this, "Staff added successfully!");
+
+        loadStaffTable("All");
+
+        txtAddSupCP1.setText("");
+        txtAddName2.setText("");
+        txtAddSupEm1.setText("");
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error adding staff: " + e.getMessage());
+    }
+}
+
         
 
 
@@ -959,8 +1008,8 @@ public void loadStaffTable(String statusFilter) {
         jLabel9 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         pnlAddStaff = new javax.swing.JPanel();
-        txtAddSupCP1 = new javax.swing.JTextField();
         txtAddName2 = new javax.swing.JTextField();
+        txtAddSupCP1 = new javax.swing.JTextField();
         txtAddSupEm1 = new javax.swing.JTextField();
         btnAddCancel2 = new javax.swing.JButton();
         btnAddSave2 = new javax.swing.JButton();
@@ -1814,15 +1863,15 @@ public void loadStaffTable(String statusFilter) {
         pnlAddStaff.setPreferredSize(new java.awt.Dimension(510, 680));
         pnlAddStaff.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtAddSupCP1.setBackground(new java.awt.Color(255, 255, 255));
-        txtAddSupCP1.setForeground(new java.awt.Color(0, 0, 0));
-        txtAddSupCP1.setBorder(null);
-        pnlAddStaff.add(txtAddSupCP1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, 360, 30));
-
         txtAddName2.setBackground(new java.awt.Color(255, 255, 255));
         txtAddName2.setForeground(new java.awt.Color(0, 0, 0));
         txtAddName2.setBorder(null);
-        pnlAddStaff.add(txtAddName2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, 350, 30));
+        pnlAddStaff.add(txtAddName2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, 360, 30));
+
+        txtAddSupCP1.setBackground(new java.awt.Color(255, 255, 255));
+        txtAddSupCP1.setForeground(new java.awt.Color(0, 0, 0));
+        txtAddSupCP1.setBorder(null);
+        pnlAddStaff.add(txtAddSupCP1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, 350, 30));
 
         txtAddSupEm1.setBackground(new java.awt.Color(255, 255, 255));
         txtAddSupEm1.setForeground(new java.awt.Color(0, 0, 0));
