@@ -38,6 +38,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         loadOrderStatusFilter(); 
         loadOrdersTable("All", "");
         loadSupplierIDs();
+        loadCustomerReports();
          DefaultTableModel model = new DefaultTableModel(
         new Object[][]{},
         new String[]{"ID", "Name", "Description", "Category", "Stock", "Price", "Supplier", "Status", "Date Added", "Expiration"}
@@ -805,6 +806,41 @@ public void loadStaffTable(String statusFilter) {
         JOptionPane.showMessageDialog(null, "Error loading staff table: " + e.getMessage());
     }
 }
+    public void loadCustomerReports() {
+    DefaultTableModel model = (DefaultTableModel) tblCustomerReports.getModel();
+    model.setRowCount(0);
+
+    String sql = "SELECT " +
+    "u.username AS customer_name, " +
+    "COUNT(DISTINCT o.order_id) AS total_orders, " +
+    "SUM(oi.quantity) AS total_items, " +
+    "SUM(oi.quantity * oi.price) AS amount_spent, " +
+    "MAX(o.order_date) AS last_order_date " +
+    "FROM users u " +
+    "JOIN orders o ON u.id = o._id " +
+    "JOIN order_items oi ON o.order_id = oi.order_id " +
+    "WHERE u.role = 'customer' " +
+    "GROUP BY u.id, u.username";
+
+
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getString("customer_name"),
+                rs.getInt("total_orders"),
+                rs.getInt("total_items"),
+                rs.getDouble("amount_spent"),
+                rs.getDate("last_order_date")
+            });
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e.getMessage());
+    }
+}
         
 
 
@@ -835,7 +871,7 @@ public void loadStaffTable(String statusFilter) {
         tblPaneProduct = new javax.swing.JScrollPane();
         jTable6 = new javax.swing.JTable();
         tblPaneCustomer = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tblCustomerReports = new javax.swing.JTable();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
@@ -1129,8 +1165,8 @@ public void loadStaffTable(String statusFilter) {
 
         tblPaneCustomer.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable3.setBackground(new java.awt.Color(255, 255, 255));
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tblCustomerReports.setBackground(new java.awt.Color(255, 255, 255));
+        tblCustomerReports.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -1141,9 +1177,9 @@ public void loadStaffTable(String statusFilter) {
                 "Name", "Total Order", "Total Items Ordered", "Amount Spent", "Date"
             }
         ));
-        tblPaneCustomer.setViewportView(jTable3);
-        if (jTable3.getColumnModel().getColumnCount() > 0) {
-            jTable3.getColumnModel().getColumn(3).setHeaderValue("Amount Spent");
+        tblPaneCustomer.setViewportView(tblCustomerReports);
+        if (tblCustomerReports.getColumnModel().getColumnCount() > 0) {
+            tblCustomerReports.getColumnModel().getColumn(3).setHeaderValue("Amount Spent");
         }
 
         jPanel8.add(tblPaneCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 207, 930, 500));
@@ -3105,7 +3141,6 @@ try {
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTabbedPane jTabbedPane5;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable6;
     private javax.swing.JTable jTable9;
@@ -3149,6 +3184,7 @@ try {
     private javax.swing.JPanel pnlverufy;
     private javax.swing.JTabbedPane tabbedpane;
     private javax.swing.JTable tblCustomer;
+    private javax.swing.JTable tblCustomerReports;
     private javax.swing.JTable tblDashboard;
     private javax.swing.JTable tblOrder;
     private javax.swing.JScrollPane tblPaneCustomer;
