@@ -33,6 +33,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         loadUsers();
         loadOrders();
         loadEmployeeDashboard();
+        loadDashboardCounts();
         new javax.swing.Timer(1000, e -> {
             loadEmployeeDashboard();
         }).start();
@@ -102,6 +103,69 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             CardLayout cl = (CardLayout)(jPanel4.getLayout());
             cl.show(jPanel4, "dashboard");
      }
+
+ 
+    public void loadDashboardCounts() {
+    Connection con = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+
+    try {
+        con = DBConnection.getConnection();
+
+        String todayQuery = "SELECT COUNT(*) AS total FROM orders WHERE DATE(order_date) = CURDATE()";
+        pst = con.prepareStatement(todayQuery);
+        rs = pst.executeQuery();
+
+        if (rs.next()) {
+            lblOrdersToday.setText(rs.getString("total"));
+        }
+
+        rs.close();
+        pst.close();
+
+        String preparingQuery = "SELECT COUNT(*) AS total FROM orders WHERE status = 'PREPARING'";
+        pst = con.prepareStatement(preparingQuery);
+        rs = pst.executeQuery();
+
+        if (rs.next()) {
+            lblPrep.setText(rs.getString("total"));
+        }
+
+        rs.close();
+        pst.close();
+
+        String readyQuery = "SELECT COUNT(*) AS total FROM orders WHERE status = 'READY'";
+        pst = con.prepareStatement(readyQuery);
+        rs = pst.executeQuery();
+
+        if (rs.next()) {
+            lblReady.setText(rs.getString("total"));
+        }
+
+        rs.close();
+        pst.close();
+
+        String completedQuery = "SELECT COUNT(*) AS total FROM orders WHERE status = 'COMPLETED'";
+        pst = con.prepareStatement(completedQuery);
+        rs = pst.executeQuery();
+
+        if (rs.next()) {
+            lblCompleted.setText(rs.getString("total"));
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error loading dashboard counts: " + e.getMessage());
+    } finally {
+        try {
+            if (rs != null) rs.close();
+            if (pst != null) pst.close();
+            if (con != null) con.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    }
 
      public void loadUsers() {
     try {
@@ -1004,6 +1068,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private void btnPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentActionPerformed
         setActive("payment");
         jPanel1.setVisible(true);
+        pnlPayment.setVisible(false);
         CardLayout cl = (CardLayout)(jPanel4.getLayout());
         cl.show(jPanel4, "payment");
     }//GEN-LAST:event_btnPaymentActionPerformed
@@ -1011,6 +1076,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private void btnProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductsActionPerformed
         setActive("product");
         jPanel1.setVisible(true);
+        pnlProduct.setVisible(false);
         CardLayout cl = (CardLayout)(jPanel4.getLayout());
         cl.show(jPanel4, "product");
 
@@ -1019,7 +1085,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private void btnOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdersActionPerformed
         setActive("orderpnl");
         jPanel1.setVisible(true);
-        pnlOrder.setVisible(true);
+        pnlOrder.setVisible(false);
         pnlCreateOrder.setVisible(false);
         CardLayout cl = (CardLayout)(jPanel4.getLayout());
         cl.show(jPanel4, "orderpnl");
