@@ -429,12 +429,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEmployeeDashboard = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
-        pnlOrder = new javax.swing.JPanel();
-        cmbStatus = new javax.swing.JComboBox<>();
-        txtSearchOrders = new javax.swing.JTextField();
-        jScrollPane12 = new javax.swing.JScrollPane();
-        tblOrders = new javax.swing.JTable();
-        jLabel6 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         pnlCreateOrder = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblSummary1 = new javax.swing.JTable();
@@ -449,6 +444,13 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox<>();
         btnAddOrder = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        pnlOrder = new javax.swing.JPanel();
+        cmbStatus = new javax.swing.JComboBox<>();
+        txtSearchOrders = new javax.swing.JTextField();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        tblOrders = new javax.swing.JTable();
+        btnCreateOrd = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
         pnlProduct = new javax.swing.JPanel();
         cmbStatusProduct = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -789,49 +791,6 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
         jPanel4.add(pnlDashboard, "dashboard");
 
-        pnlOrder.setBackground(new java.awt.Color(255, 255, 255));
-        pnlOrder.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        cmbStatus.setBackground(new java.awt.Color(255, 255, 255));
-        cmbStatus.setForeground(new java.awt.Color(51, 51, 51));
-        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Pending", "Preparing", "Paid" }));
-        cmbStatus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbStatusActionPerformed(evt);
-            }
-        });
-        pnlOrder.add(cmbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 112, 190, 30));
-
-        txtSearchOrders.setBackground(new java.awt.Color(255, 255, 255));
-        txtSearchOrders.setBorder(null);
-        txtSearchOrders.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSearchOrdersKeyReleased(evt);
-            }
-        });
-        pnlOrder.add(txtSearchOrders, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 116, 380, 20));
-
-        jScrollPane12.setBackground(new java.awt.Color(255, 255, 255));
-
-        tblOrders.setBackground(new java.awt.Color(255, 255, 255));
-        tblOrders.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Name", "Date", "Total", "Order Type", "Status"
-            }
-        ));
-        jScrollPane12.setViewportView(tblOrders);
-
-        pnlOrder.add(jScrollPane12, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 500));
-
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/orders.png"))); // NOI18N
-        pnlOrder.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 0, -1, -1));
-
         pnlCreateOrder.setBackground(new java.awt.Color(255, 255, 255));
         pnlCreateOrder.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -916,9 +875,64 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Create Orders.png"))); // NOI18N
         pnlCreateOrder.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, -1, -1));
 
-        pnlOrder.add(pnlCreateOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        jPanel3.add(pnlCreateOrder);
 
-        jPanel4.add(pnlOrder, "orders");
+        pnlOrder.setBackground(new java.awt.Color(255, 255, 255));
+        pnlOrder.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        cmbStatus.setBackground(new java.awt.Color(255, 255, 255));
+        cmbStatus.setForeground(new java.awt.Color(51, 51, 51));
+        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status", "Pending", "Preparing", "Paid" }));
+        cmbStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbStatusActionPerformed(evt);
+            }
+        });
+        pnlOrder.add(cmbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 112, 190, 30));
+
+        txtSearchOrders.setBackground(new java.awt.Color(255, 255, 255));
+        txtSearchOrders.setBorder(null);
+        txtSearchOrders.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchOrdersKeyReleased(evt);
+            }
+        });
+        pnlOrder.add(txtSearchOrders, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 116, 380, 20));
+
+        jScrollPane12.setBackground(new java.awt.Color(255, 255, 255));
+
+        tblOrders.setBackground(new java.awt.Color(255, 255, 255));
+        tblOrders.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Name", "Date", "Total", "Order Type", "Status"
+            }
+        ));
+        jScrollPane12.setViewportView(tblOrders);
+
+        pnlOrder.add(jScrollPane12, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 500));
+
+        btnCreateOrd.setText("-");
+        btnCreateOrd.setBorderPainted(false);
+        btnCreateOrd.setContentAreaFilled(false);
+        btnCreateOrd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateOrdActionPerformed(evt);
+            }
+        });
+        pnlOrder.add(btnCreateOrd, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 743, 110, 30));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/orders.png"))); // NOI18N
+        pnlOrder.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 0, -1, -1));
+
+        jPanel3.add(pnlOrder);
+
+        jPanel4.add(jPanel3, "jpanel3");
 
         pnlProduct.setBackground(new java.awt.Color(255, 255, 255));
         pnlProduct.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1003,11 +1017,12 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProductsActionPerformed
 
     private void btnOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdersActionPerformed
-        setActive("order");
+        setActive("jpanel3");
         jPanel1.setVisible(true);
+        pnlOrder.setVisible(true);
         pnlCreateOrder.setVisible(false);
         CardLayout cl = (CardLayout)(jPanel4.getLayout());
-        cl.show(jPanel4, "orders");
+        cl.show(jPanel4, "jpanel3");
     }//GEN-LAST:event_btnOrdersActionPerformed
 
     private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
@@ -1113,6 +1128,11 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     );
     }//GEN-LAST:event_txtSearchProductKeyReleased
 
+    private void btnCreateOrdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateOrdActionPerformed
+        pnlCreateOrder.setVisible(true);
+        pnlOrder.setVisible(false);
+    }//GEN-LAST:event_btnCreateOrdActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1144,6 +1164,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnAddCustomer;
     private javax.swing.JButton btnAddOrder;
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnCreateOrd;
     private javax.swing.JButton btnDashboard;
     private javax.swing.JButton btnDel;
     private javax.swing.JButton btnInactive;
@@ -1176,6 +1197,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane12;
