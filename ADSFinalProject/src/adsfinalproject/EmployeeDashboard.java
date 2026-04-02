@@ -29,16 +29,45 @@ public class EmployeeDashboard extends javax.swing.JFrame {
      */
     public EmployeeDashboard(int staffId) {
         initComponents();
+        tblSummary2.getModel().addTableModelListener(e -> {
+
+            int row = e.getFirstRow();
+            int column = e.getColumn();
+
+            if(column == 1){ // quantity column
+
+                DefaultTableModel model = (DefaultTableModel) tblSummary2.getModel();
+
+                try{
+                    int qty = Integer.parseInt(model.getValueAt(row, 1).toString());
+                    double price = Double.parseDouble(model.getValueAt(row, 2).toString());
+
+                    double subtotal = qty * price;
+
+                    model.setValueAt(subtotal, row, 3);
+
+                }catch(Exception ex){
+                    JOptionPane.showMessageDialog(null,"Invalid Quantity");
+                }
+            }
+
+        });
         this.currentStaffId = staffId;
         loadUsers();
         loadOrders();
         loadEmployeeDashboard();
+        cmbProductList.addActionListener(e -> {
+            String selectedCategory = cmbProductList.getSelectedItem().toString();
+            loadSummary1ByCategory(selectedCategory);
+        });
         loadDashboardCounts();
         new javax.swing.Timer(1000, e -> {
             loadEmployeeDashboard();
         }).start();
         loadDashboardTable();
         loadProductsTable("", "All");
+        
+        loadSummary1FromProducts();
   
         setSize(1300, 800);
         setLocationRelativeTo(null);
@@ -435,7 +464,62 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         e.printStackTrace();
     }
 }
+    public void loadSummary1FromProducts() {
+    DefaultTableModel model = (DefaultTableModel) tblSummary1.getModel();
+    model.setRowCount(0); // clear existing rows
 
+    String sql = "SELECT name, description, price FROM products";
+
+    try (Connection con = DBConnection.getConnection();
+         PreparedStatement pst = con.prepareStatement(sql);
+         ResultSet rs = pst.executeQuery()) {
+
+        while (rs.next()) {
+            String name = rs.getString("name");
+            String description = rs.getString("description");
+            double price = rs.getDouble("price");
+
+            model.addRow(new Object[]{name, description, price});
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error loading summary: " + e.getMessage());
+    }
+}
+
+    public void loadSummary1ByCategory(String category) {
+    DefaultTableModel model = (DefaultTableModel) tblSummary1.getModel();
+    model.setRowCount(0); // clear existing rows
+
+    String sql;
+
+    if (category.equalsIgnoreCase("All")) {
+        sql = "SELECT name, description, price FROM products";
+    } else {
+        sql = "SELECT name, description, price FROM products WHERE category = ?";
+    }
+
+    try (Connection con = DBConnection.getConnection();
+         PreparedStatement pst = con.prepareStatement(sql)) {
+
+        if (!category.equalsIgnoreCase("All")) {
+            pst.setString(1, category);
+        }
+
+        ResultSet rs = pst.executeQuery();
+
+        while (rs.next()) {
+            String name = rs.getString("name");
+            String description = rs.getString("description");
+            double price = rs.getDouble("price");
+
+            model.addRow(new Object[]{name, description, price});
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error loading summary: " + e.getMessage());
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -505,7 +589,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         tblSummary2 = new javax.swing.JTable();
         btnPlaceOrder = new javax.swing.JButton();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cmbProductList = new javax.swing.JComboBox<>();
         btnAddOrder = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         pnlOrder = new javax.swing.JPanel();
@@ -928,13 +1012,18 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         btnPlaceOrder.setContentAreaFilled(false);
         pnlCreateOrder.add(btnPlaceOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(1155, 743, 130, 30));
 
-        jComboBox2.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox2.setForeground(new java.awt.Color(102, 102, 102));
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Category:", "Rice Meals", "Breakfast Meals", "Snacks", "Noodles", "Drinks" }));
-        pnlCreateOrder.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 290, 190, -1));
+        cmbProductList.setBackground(new java.awt.Color(255, 255, 255));
+        cmbProductList.setForeground(new java.awt.Color(102, 102, 102));
+        cmbProductList.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Category:", "Rice Meals", "Breakfast Meals", "Snacks", "Noodles", "Drinks" }));
+        pnlCreateOrder.add(cmbProductList, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 290, 190, -1));
 
         btnAddOrder.setText("Add Order");
-        pnlCreateOrder.add(btnAddOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 740, 100, -1));
+        btnAddOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddOrderActionPerformed(evt);
+            }
+        });
+        pnlCreateOrder.add(btnAddOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 740, 100, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Create Orders.png"))); // NOI18N
         pnlCreateOrder.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, -1, -1));
@@ -989,7 +1078,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 btnCreateOrdActionPerformed(evt);
             }
         });
-        pnlOrder.add(btnCreateOrd, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 743, 110, 30));
+        pnlOrder.add(btnCreateOrd, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 740, 110, 30));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/orders.png"))); // NOI18N
         pnlOrder.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 0, -1, -1));
@@ -1199,6 +1288,32 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         pnlOrder.setVisible(false);
     }//GEN-LAST:event_btnCreateOrdActionPerformed
 
+    private void btnAddOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddOrderActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = tblSummary1.getSelectedRow();
+
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Please select a product first!");
+                return;
+            }
+
+            DefaultTableModel model1 = (DefaultTableModel) tblSummary1.getModel();
+            DefaultTableModel model2 = (DefaultTableModel) tblSummary2.getModel();
+
+            String productName = model1.getValueAt(selectedRow, 0).toString();
+            double price = Double.parseDouble(model1.getValueAt(selectedRow, 2).toString());
+
+            int quantity = 1;
+            double subtotal = quantity * price;
+
+            model2.insertRow(0, new Object[]{
+                productName,
+                quantity,
+                price,
+                subtotal
+            });
+    }//GEN-LAST:event_btnAddOrderActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1242,9 +1357,9 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnProducts;
     private javax.swing.JButton btnSaveCustomer;
     private javax.swing.JButton btnUsers;
+    private javax.swing.JComboBox<String> cmbProductList;
     private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JComboBox<String> cmbStatusProduct;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
