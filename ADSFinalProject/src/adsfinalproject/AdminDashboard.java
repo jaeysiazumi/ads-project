@@ -41,6 +41,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         loadOrdersTable("All", "");
         loadSupplierIDs();
         loadCustomerReport();
+        loadProductReport();
          DefaultTableModel model = new DefaultTableModel(
         new Object[][]{},
         new String[]{"ID", "Name", "Description", "Category", "Stock", "Price", "Supplier", "Status", "Date Added", "Expiration"}
@@ -181,6 +182,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             updateStatusFilterOptions();
             refreshUsersTable();
             loadCustomerReport();
+            loadProductReport();
 
             }).start();
             setSize(1318, 847);
@@ -892,7 +894,46 @@ public void loadStaffTable(String statusFilter) {
     }
 }
 
-        
+        private void loadProductReport() {
+
+    try {
+        Connection con = DBConnection.getConnection();
+
+        String sql =
+        "SELECT p.name AS product_name, " +
+        "SUM(oi.quantity) AS quantity_sold, " +
+        "SUM(oi.quantity * oi.price) AS total_sales, " +
+        "DATE(o.order_date) AS sale_date " +
+        "FROM order_items oi " +
+        "JOIN products p ON oi.product_id = p.product_id " +
+        "JOIN orders o ON oi.order_id = o.order_id " +
+        "WHERE o.status='COMPLETED' " +
+        "GROUP BY p.name, DATE(o.order_date) " +
+        "ORDER BY sale_date DESC";
+
+        PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        DefaultTableModel model =
+        (DefaultTableModel) tblProductReport.getModel();
+
+        model.setRowCount(0);
+
+        while(rs.next()){
+
+            model.addRow(new Object[]{
+                rs.getString("product_name"),
+                rs.getInt("quantity_sold"),
+                rs.getDouble("total_sales"),
+                rs.getString("sale_date")
+            });
+
+        }
+
+    } catch(Exception e){
+        e.printStackTrace();
+    }
+}
 
 
      
@@ -920,7 +961,7 @@ public void loadStaffTable(String statusFilter) {
         jTabbedPane4 = new javax.swing.JTabbedPane();
         jPanel8 = new javax.swing.JPanel();
         tblPaneProduct = new javax.swing.JScrollPane();
-        jTable6 = new javax.swing.JTable();
+        tblProductReport = new javax.swing.JTable();
         tblPaneCustomer = new javax.swing.JScrollPane();
         tblCustomerReports = new javax.swing.JTable();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
@@ -1198,8 +1239,8 @@ public void loadStaffTable(String statusFilter) {
 
         tblPaneProduct.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable6.setBackground(new java.awt.Color(255, 255, 255));
-        jTable6.setModel(new javax.swing.table.DefaultTableModel(
+        tblProductReport.setBackground(new java.awt.Color(255, 255, 255));
+        tblProductReport.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -1210,7 +1251,7 @@ public void loadStaffTable(String statusFilter) {
                 "Name", "Quantity Sold", "Total Sales", "Date"
             }
         ));
-        tblPaneProduct.setViewportView(jTable6);
+        tblPaneProduct.setViewportView(tblProductReport);
 
         jPanel8.add(tblPaneProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 207, 930, 500));
 
@@ -3193,7 +3234,6 @@ try {
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTabbedPane jTabbedPane5;
     private javax.swing.JTable jTable4;
-    private javax.swing.JTable jTable6;
     private javax.swing.JTable jTable9;
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField4;
@@ -3241,6 +3281,7 @@ try {
     private javax.swing.JScrollPane tblPaneCustomer;
     private javax.swing.JScrollPane tblPaneProduct;
     private javax.swing.JTable tblPayment;
+    private javax.swing.JTable tblProductReport;
     private javax.swing.JTable tblProducts;
     private javax.swing.JTable tblStaff;
     private javax.swing.JTable tblStaffs;
