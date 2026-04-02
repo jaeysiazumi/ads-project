@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 import com.toedter.calendar.JDateChooser;
+import java.util.List;
 
 /**
  *
@@ -39,7 +40,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         loadOrderStatusFilter(); 
         loadOrdersTable("All", "");
         loadSupplierIDs();
-        loadCustomerReports();
+        loadCustomerReport();
          DefaultTableModel model = new DefaultTableModel(
         new Object[][]{},
         new String[]{"ID", "Name", "Description", "Category", "Stock", "Price", "Supplier", "Status", "Date Added", "Expiration"}
@@ -179,6 +180,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             updateTotalSalesLabel();
             updateStatusFilterOptions();
             refreshUsersTable();
+            loadCustomerReport();
 
             }).start();
             setSize(1318, 847);
@@ -807,41 +809,41 @@ public void loadStaffTable(String statusFilter) {
         JOptionPane.showMessageDialog(null, "Error loading staff table: " + e.getMessage());
     }
 }
-    public void loadCustomerReports() {
-    DefaultTableModel model = (DefaultTableModel) tblCustomerReports.getModel();
-    model.setRowCount(0);
+     private void loadCustomerReport() {
+    try {
+        Connection con = DBConnection.getConnection();
 
-    String sql = "SELECT " +
-    "u.username AS customer_name, " +
-    "COUNT(DISTINCT o.order_id) AS total_orders, " +
-    "SUM(oi.quantity) AS total_items, " +
-    "SUM(oi.quantity * oi.price) AS amount_spent, " +
-    "MAX(o.order_date) AS last_order_date " +
-    "FROM users u " +
-    "JOIN orders o ON u.id = o._id " +
-    "JOIN order_items oi ON o.order_id = oi.order_id " +
-    "WHERE u.role = 'customer' " +
-    "GROUP BY u.id, u.username";
+        String sql = "SELECT o.customer_name, oi.price, oi.quantity, " +
+                     "(oi.price * oi.quantity) AS total_amount, o.order_date " +
+                     "FROM tblorder o " +
+                     "LEFT JOIN order_items oi ON o.order_id = oi.order_id " +
+                     "ORDER BY o.order_date DESC";
 
+        PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
 
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql);
-         ResultSet rs = ps.executeQuery()) {
+        DefaultTableModel model = (DefaultTableModel) tblCustomerReports.getModel();
+        model.setRowCount(0); // clear table first
 
-        while (rs.next()) {
-            model.addRow(new Object[]{
-                rs.getString("customer_name"),
-                rs.getInt("total_orders"),
-                rs.getInt("total_items"),
-                rs.getDouble("amount_spent"),
-                rs.getDate("last_order_date")
-            });
+        while(rs.next()) {
+            String name = rs.getString("customer_name");
+            double price = rs.getDouble("price");
+            int qty = rs.getInt("quantity");
+            double total = rs.getDouble("total_amount");
+            String date = rs.getString("order_date");
+
+            model.addRow(new Object[]{name, price, qty, total, date});
         }
 
+        rs.close();
+        pst.close();
+        con.close();
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, e.getMessage());
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error loading customer report: " + e.getMessage());
     }
 }
+
     private void addStaff() {
     String name = txtAddName2.getText().trim();
     String contact = txtAddSupCP1.getText().trim();

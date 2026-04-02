@@ -447,8 +447,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private void insertPayment(String paymentType) {
     try {
         Connection conn = DBConnection.getConnection();
-
-        // Get latest order ID
+        
         String getOrder = "SELECT MAX(order_id) FROM tblorder";
         PreparedStatement pstOrder = conn.prepareStatement(getOrder);
         ResultSet rs = pstOrder.executeQuery();
@@ -456,7 +455,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
         int orderId = 0;
         if (rs.next()) orderId = rs.getInt(1);
 
-        double totalAmount = Double.parseDouble(lblTotal.getText());
+        String totalStr = lblTotal.getText().replace("₱","").trim();
+        double totalAmount = Double.parseDouble(totalStr);
 
         String status = paymentType.equals("CASH") ? "PENDING" : "PAID";
 
@@ -2837,19 +2837,20 @@ public class CustomerDashboard extends javax.swing.JFrame {
         }
         try {
     Connection con = DBConnection.getConnection();
-
-    // ✅ GET VALUES
+    
     String customerName = textUserName.getText().trim();
-    double totalAmount = Double.parseDouble(lblTotal.getText().trim());
+    
+    String totalStr = lblTotal.getText().replace("₱","").trim();
+    double totalAmount = Double.parseDouble(totalStr);
+    
     String status = "PENDING";
     String orderTypeVal = orderType;
 
     java.time.LocalDateTime now = java.time.LocalDateTime.now();
     String orderDate = now.toString();
 
-    String orderNumber = "ORD" + System.currentTimeMillis(); // ✅ IMPORTANT
-
-    // ✅ INSERT INTO orders
+    String orderNumber = "ORD" + System.currentTimeMillis(); 
+    
     String sql = "INSERT INTO orders (order_number, customer_name, total_amount, order_type, status, order_date) VALUES (?,?,?,?,?,?)";
 
     PreparedStatement pst = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
@@ -2876,13 +2877,19 @@ System.out.println("Rows: " + model.getRowCount());
 
 for (int i = 0; i < model.getRowCount(); i++) {
 
-    String productName = model.getValueAt(i, 0).toString();
-    double price = Double.parseDouble(model.getValueAt(i, 1).toString());
-    int qty = Integer.parseInt(model.getValueAt(i, 2).toString());
+    String productName = model.getValueAt(i, 0).toString().trim();
+    String priceStr = model.getValueAt(i, 1).toString().replace("₱","").trim();
+    double price = Double.parseDouble(priceStr);
+
+    int qty = Integer.parseInt(model.getValueAt(i, 2).toString().trim());
+    
+    System.out.println("Product: " + productName);
+    System.out.println("Price: " + price);
+    System.out.println("Qty: " + qty);
 
     int productId = 0;
 
-    String getProduct = "SELECT product_id FROM products WHERE name = ?";
+    String getProduct = "SELECT product_id FROM products WHERE TRIM(name) = TRIM(?)";
     PreparedStatement pstGet = con.prepareStatement(getProduct);
     pstGet.setString(1, productName);
     ResultSet rsProd = pstGet.executeQuery();
