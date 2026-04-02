@@ -1016,7 +1016,6 @@ public void loadStaffTable(String statusFilter) {
         btnOrdConf1 = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        btnOrdView = new javax.swing.JButton();
         btnOrdDel1 = new javax.swing.JButton();
         btnOrdEdit2 = new javax.swing.JButton();
         jTabbedPane5 = new javax.swing.JTabbedPane();
@@ -1038,6 +1037,7 @@ public void loadStaffTable(String statusFilter) {
         jScrollPane11 = new javax.swing.JScrollPane();
         tblPayment = new javax.swing.JTable();
         jLabel20 = new javax.swing.JLabel();
+        btnOrdView = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         pnlUsers = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
@@ -1636,18 +1636,6 @@ public void loadStaffTable(String statusFilter) {
 
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnOrdView.setBackground(new java.awt.Color(255, 255, 255));
-        btnOrdView.setText("-");
-        btnOrdView.setBorder(null);
-        btnOrdView.setBorderPainted(false);
-        btnOrdView.setContentAreaFilled(false);
-        btnOrdView.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOrdViewActionPerformed(evt);
-            }
-        });
-        jPanel4.add(btnOrdView, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 740, 130, 30));
-
         btnOrdDel1.setBackground(new java.awt.Color(255, 255, 255));
         btnOrdDel1.setText("-");
         btnOrdDel1.setBorder(null);
@@ -1679,7 +1667,7 @@ public void loadStaffTable(String statusFilter) {
                 btnOrdView1ActionPerformed(evt);
             }
         });
-        jPanel12.add(btnOrdView1, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 740, 130, 30));
+        jPanel12.add(btnOrdView1, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 740, 130, 30));
 
         btnOrdDel2.setBackground(new java.awt.Color(255, 255, 255));
         btnOrdDel2.setText("-");
@@ -1805,6 +1793,18 @@ public void loadStaffTable(String statusFilter) {
 
         jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Payment.png"))); // NOI18N
         jPanel13.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1330, -1));
+
+        btnOrdView.setBackground(new java.awt.Color(255, 255, 255));
+        btnOrdView.setText("-");
+        btnOrdView.setBorder(null);
+        btnOrdView.setBorderPainted(false);
+        btnOrdView.setContentAreaFilled(false);
+        btnOrdView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrdViewActionPerformed(evt);
+            }
+        });
+        jPanel13.add(btnOrdView, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 710, 130, 30));
 
         jTabbedPane5.addTab("P", jPanel13);
 
@@ -2575,16 +2575,16 @@ public void loadStaffTable(String statusFilter) {
     }//GEN-LAST:event_txtNameeActionPerformed
 
     private void btnOrdVerifyPay1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdVerifyPay1ActionPerformed
-        pnlverufy.setVisible(true);
-        
+
     }//GEN-LAST:event_btnOrdVerifyPay1ActionPerformed
 
     private void btnOrdView1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdView1ActionPerformed
         // TODO add your handling code here:
+        pnlView.setVisible(true);
     }//GEN-LAST:event_btnOrdView1ActionPerformed
 
     private void btnOrdViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdViewActionPerformed
-        pnlView.setVisible(true);
+        pnlverufy.setVisible(true);
         
     }//GEN-LAST:event_btnOrdViewActionPerformed
 
