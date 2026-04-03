@@ -17,6 +17,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.sql.CallableStatement;
 
 
 /**
@@ -2873,9 +2874,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
     
     DefaultTableModel model = (DefaultTableModel) tblCart.getModel();
 
-System.out.println("Rows: " + model.getRowCount());
-
-for (int i = 0; i < model.getRowCount(); i++) {
+    for (int i = 0; i < model.getRowCount(); i++) {
 
     String productName = model.getValueAt(i, 0).toString().trim();
     String priceStr = model.getValueAt(i, 1).toString().replace("₱","").trim();
@@ -2916,12 +2915,15 @@ for (int i = 0; i < model.getRowCount(); i++) {
 
     pstItem.executeUpdate();
     pstItem.close();
-
-    System.out.println("Inserted: " + productName);
-}
     
+    CallableStatement csStock = con.prepareCall("{CALL reduceStock(?,?)}");
 
-    // ✅ INSERT INTO tblorder
+    csStock.setInt(1, productId);
+    csStock.setInt(2, qty);
+
+    csStock.execute();
+    csStock.close();
+}
     String sql2 = "INSERT INTO tblorder (order_id, customer_name, total_amount, order_type, status, order_date) VALUES (?,?,?,?,?,?)";
 
     PreparedStatement pst2 = con.prepareStatement(sql2);
@@ -2934,10 +2936,7 @@ for (int i = 0; i < model.getRowCount(); i++) {
 
     pst2.executeUpdate();
 
-    // ✅ SAVE order number to label (VERY IMPORTANT)
     lblOrderNum.setText(orderNumber);
-
-    System.out.println("Order saved successfully in BOTH tables!");
 
 } catch (Exception e) {
     e.printStackTrace();
