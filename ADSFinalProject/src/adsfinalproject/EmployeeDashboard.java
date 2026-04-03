@@ -29,6 +29,17 @@ public class EmployeeDashboard extends javax.swing.JFrame {
      */
     public EmployeeDashboard(int staffId) {
         initComponents();
+        txtCashAmount.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                calculateChange();
+            }
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                calculateChange();
+            }
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                calculateChange();
+            }
+        });
         txtName.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             @Override
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
@@ -579,6 +590,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
         lblTotalAmount.setText(String.valueOf(total));
         lblTotalAmount2.setText(String.valueOf(total)); // ⭐ add this
+        calculateChange();
     }
     public void syncSummary() {
 
@@ -625,6 +637,19 @@ public void syncOrderPanel() {
     
     calculateTotalAmount();
 }
+public void calculateChange() {
+    try {
+        double cash = Double.parseDouble(txtCashAmount.getText());
+        double total = Double.parseDouble(lblTotalAmount.getText());
+
+        double change = cash - total;
+
+        lblCashChange.setText(String.valueOf(change));
+
+    } catch (Exception e) {
+        lblCashChange.setText("0");
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -658,8 +683,9 @@ public void syncOrderPanel() {
         btnAddCustomer = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         pnlPayment = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
+        lblCashChange = new javax.swing.JLabel();
         lblTotalAmount2 = new javax.swing.JLabel();
+        txtCashAmount = new javax.swing.JTextField();
         lblStaffName2 = new javax.swing.JLabel();
         lblOrdType2 = new javax.swing.JLabel();
         lblOrdID = new javax.swing.JLabel();
@@ -897,13 +923,24 @@ public void syncOrderPanel() {
         pnlPayment.setBackground(new java.awt.Color(255, 255, 255));
         pnlPayment.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel12.setText("-");
-        pnlPayment.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 660, 120, -1));
+        lblCashChange.setForeground(new java.awt.Color(0, 0, 0));
+        lblCashChange.setText("-");
+        pnlPayment.add(lblCashChange, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 660, 120, -1));
 
         lblTotalAmount2.setForeground(new java.awt.Color(0, 0, 0));
         lblTotalAmount2.setText("-");
         pnlPayment.add(lblTotalAmount2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 490, 120, -1));
+
+        txtCashAmount.setBackground(new java.awt.Color(255, 255, 255));
+        txtCashAmount.setForeground(new java.awt.Color(0, 0, 0));
+        txtCashAmount.setText("-");
+        txtCashAmount.setBorder(null);
+        txtCashAmount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCashAmountActionPerformed(evt);
+            }
+        });
+        pnlPayment.add(txtCashAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 622, 120, -1));
 
         lblStaffName2.setForeground(new java.awt.Color(0, 0, 0));
         lblStaffName2.setText("-");
@@ -1120,7 +1157,7 @@ public void syncOrderPanel() {
                 btnPlaceOrderActionPerformed(evt);
             }
         });
-        pnlCreateOrder.add(btnPlaceOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 740, 130, 30));
+        pnlCreateOrder.add(btnPlaceOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 720, 130, 30));
 
         cmbProductList.setBackground(new java.awt.Color(255, 255, 255));
         cmbProductList.setForeground(new java.awt.Color(102, 102, 102));
@@ -1188,7 +1225,7 @@ public void syncOrderPanel() {
                 btnCreateOrdActionPerformed(evt);
             }
         });
-        pnlOrder.add(btnCreateOrd, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 740, 110, 30));
+        pnlOrder.add(btnCreateOrd, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 720, 110, 30));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/orders.png"))); // NOI18N
         pnlOrder.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 0, -1, -1));
@@ -1445,6 +1482,10 @@ public void syncOrderPanel() {
 
     }//GEN-LAST:event_btnPlaceOrderActionPerformed
 
+    private void txtCashAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCashAmountActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCashAmountActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1491,7 +1532,6 @@ public void syncOrderPanel() {
     private javax.swing.JComboBox<String> cmbProductList;
     private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JComboBox<String> cmbStatusProduct;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1515,6 +1555,7 @@ public void syncOrderPanel() {
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
+    private javax.swing.JLabel lblCashChange;
     private javax.swing.JLabel lblCompleted;
     private javax.swing.JLabel lblOrdID;
     private javax.swing.JLabel lblOrdType;
@@ -1540,6 +1581,7 @@ public void syncOrderPanel() {
     private javax.swing.JTable tblSummary1;
     private javax.swing.JTable tblSummary2;
     private javax.swing.JTable tblUsers;
+    private javax.swing.JTextField txtCashAmount;
     private javax.swing.JTextField txtCustomerEmail;
     private javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtCustomerNo;
