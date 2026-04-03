@@ -42,6 +42,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         loadSupplierIDs();
         loadCustomerReport();
         loadProductReport();
+        loadInventoryTable();
          DefaultTableModel model = new DefaultTableModel(
         new Object[][]{},
         new String[]{"ID", "Name", "Description", "Category", "Stock", "Price", "Supplier", "Status", "Date Added", "Expiration"}
@@ -183,6 +184,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             refreshUsersTable();
             loadCustomerReport();
             loadProductReport();
+            loadInventoryTable();
 
             }).start();
             setSize(1318, 847);
@@ -934,6 +936,33 @@ public void loadStaffTable(String statusFilter) {
         e.printStackTrace();
     }
 }
+        private void loadInventoryTable() {
+    DefaultTableModel model = (DefaultTableModel) tblInventory.getModel();
+    model.setRowCount(0);
+
+    try {
+        Connection con = DBConnection.getConnection();
+
+        String sql = "SELECT name, stock, status FROM products";
+        PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getString("name"),
+                rs.getInt("stock"),
+                rs.getString("status")
+            });
+        }
+
+        rs.close();
+        pst.close();
+        con.close();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
 
 
      
@@ -969,7 +998,7 @@ public void loadStaffTable(String statusFilter) {
         jLabel11 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        tblInventory = new javax.swing.JTable();
         jLabel12 = new javax.swing.JLabel();
         pnlSuppliers = new javax.swing.JPanel();
         pnlAddSuppliers = new javax.swing.JPanel();
@@ -1299,8 +1328,8 @@ public void loadStaffTable(String statusFilter) {
 
         jScrollPane4.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable4.setBackground(new java.awt.Color(255, 255, 255));
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tblInventory.setBackground(new java.awt.Color(255, 255, 255));
+        tblInventory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -1311,7 +1340,7 @@ public void loadStaffTable(String statusFilter) {
                 "Product Name", "Stock Quantity", "Status"
             }
         ));
-        jScrollPane4.setViewportView(jTable4);
+        jScrollPane4.setViewportView(tblInventory);
 
         jPanel9.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 540));
 
@@ -3233,7 +3262,6 @@ try {
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTabbedPane jTabbedPane5;
-    private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable9;
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField4;
@@ -3277,6 +3305,7 @@ try {
     private javax.swing.JTable tblCustomer;
     private javax.swing.JTable tblCustomerReports;
     private javax.swing.JTable tblDashboard;
+    private javax.swing.JTable tblInventory;
     private javax.swing.JTable tblOrder;
     private javax.swing.JScrollPane tblPaneCustomer;
     private javax.swing.JScrollPane tblPaneProduct;
