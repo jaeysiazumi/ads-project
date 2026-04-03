@@ -29,12 +29,32 @@ public class EmployeeDashboard extends javax.swing.JFrame {
      */
     public EmployeeDashboard(int staffId) {
         initComponents();
+        txtName.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                txtName2.setText(txtName.getText());
+            }
+
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                txtName2.setText(txtName.getText());
+            }
+
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                txtName2.setText(txtName.getText());
+            }
+        });
+        
+        lblOrdID.setText(generateNextOrderID());    
+        lblOrdType2.setText(lblOrdType.getText());  
+        lblStaffName2.setText(lblStaffName.getText()); 
         tblSummary2.getModel().addTableModelListener(e -> {
 
             int row = e.getFirstRow();
             int column = e.getColumn();
 
-            if(column == 1){ // quantity column
+            if(column == 1){ 
 
                 DefaultTableModel model = (DefaultTableModel) tblSummary2.getModel();
 
@@ -46,13 +66,18 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
                     model.setValueAt(subtotal, row, 3);
 
+                    calculateTotalAmount();
+
+                    syncSummary(); // ⭐ sync to tblSummary
+
                 }catch(Exception ex){
                     JOptionPane.showMessageDialog(null,"Invalid Quantity");
                 }
             }
-
         });
         this.currentStaffId = staffId;
+        loadStaffName();
+        lblOrdType.setText("Walk-in");
         loadUsers();
         loadOrders();
         loadEmployeeDashboard();
@@ -61,13 +86,14 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             loadSummary1ByCategory(selectedCategory);
         });
         loadDashboardCounts();
-        new javax.swing.Timer(1000, e -> {
+        new javax.swing.Timer(5000, e -> {
             loadEmployeeDashboard();
         }).start();
         loadDashboardTable();
         loadProductsTable("", "All");
         
         loadSummary1FromProducts();
+        syncOrderPanel();
   
         setSize(1300, 800);
         setLocationRelativeTo(null);
@@ -520,6 +546,85 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Error loading summary: " + e.getMessage());
     }
 }
+    public void loadStaffName(){
+
+    try{
+        Connection con = DBConnection.getConnection();
+
+        String sql = "SELECT username FROM users WHERE id = ?";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1, currentStaffId);
+
+        ResultSet rs = pst.executeQuery();
+
+        if(rs.next()){
+            lblStaffName.setText(rs.getString("username"));
+        }
+
+    }catch(Exception e){
+        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+}
+    public void calculateTotalAmount() {
+        DefaultTableModel model = (DefaultTableModel) tblSummary2.getModel();
+
+        double total = 0;
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            Object value = model.getValueAt(i, 3); // column 3 = subtotal
+            if (value != null) {
+                total += Double.parseDouble(value.toString());
+            }
+        }
+
+        lblTotalAmount.setText(String.valueOf(total));
+        lblTotalAmount2.setText(String.valueOf(total)); // ⭐ add this
+    }
+    public void syncSummary() {
+
+    DefaultTableModel source = (DefaultTableModel) tblSummary2.getModel();
+    DefaultTableModel target = (DefaultTableModel) tblSummary.getModel();
+
+    target.setRowCount(0); // clear tblSummary
+
+    for (int i = 0; i < source.getRowCount(); i++) {
+
+        Object product = source.getValueAt(i, 0);
+        Object qty = source.getValueAt(i, 1);
+        Object price = source.getValueAt(i, 2);
+        Object subtotal = source.getValueAt(i, 3);
+
+        target.addRow(new Object[]{product, qty, price, subtotal});
+    }
+}
+    public String generateNextOrderID() {
+    String nextID = "0001"; // default first ID
+
+    try (Connection con = DBConnection.getConnection();
+         PreparedStatement pst = con.prepareStatement("SELECT MAX(order_id) AS maxID FROM orders");
+         ResultSet rs = pst.executeQuery()) {
+
+        if (rs.next()) {
+            int maxID = rs.getInt("maxID"); // will be 0 if no orders yet
+            int newID = maxID + 1;
+            nextID = String.format("%04d", newID); // pad with zeros
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error generating Order ID: " + e.getMessage());
+    }
+
+    return nextID;
+}
+
+public void syncOrderPanel() {
+    lblOrdID.setText(generateNextOrderID());
+    txtName2.setText(txtName.getText());
+    lblOrdType2.setText(lblOrdType.getText());
+    lblStaffName2.setText(lblStaffName.getText());
+    
+    calculateTotalAmount();
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -554,15 +659,15 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         pnlPayment = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lblTotalAmount2 = new javax.swing.JLabel();
+        lblStaffName2 = new javax.swing.JLabel();
+        lblOrdType2 = new javax.swing.JLabel();
+        lblOrdID = new javax.swing.JLabel();
         jTextField8 = new javax.swing.JTextField();
         jTextField7 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        txtName2 = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblSummary = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
@@ -581,10 +686,10 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         pnlCreateOrder = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblSummary1 = new javax.swing.JTable();
-        jLabel15 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
+        lblTotalAmount = new javax.swing.JLabel();
+        txtName = new javax.swing.JTextField();
+        lblOrdType = new javax.swing.JLabel();
+        lblStaffName = new javax.swing.JLabel();
         btnBack = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblSummary2 = new javax.swing.JTable();
@@ -796,21 +901,21 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabel12.setText("-");
         pnlPayment.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 660, 120, -1));
 
-        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel11.setText("-");
-        pnlPayment.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 490, 120, -1));
+        lblTotalAmount2.setForeground(new java.awt.Color(0, 0, 0));
+        lblTotalAmount2.setText("-");
+        pnlPayment.add(lblTotalAmount2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 490, 120, -1));
 
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel10.setText("-");
-        pnlPayment.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 110, 120, -1));
+        lblStaffName2.setForeground(new java.awt.Color(0, 0, 0));
+        lblStaffName2.setText("-");
+        pnlPayment.add(lblStaffName2, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 110, 120, -1));
 
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel9.setText("-");
-        pnlPayment.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, 120, -1));
+        lblOrdType2.setForeground(new java.awt.Color(0, 0, 0));
+        lblOrdType2.setText("-");
+        pnlPayment.add(lblOrdType2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, 120, -1));
 
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("-");
-        pnlPayment.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 70, 120, -1));
+        lblOrdID.setForeground(new java.awt.Color(0, 0, 0));
+        lblOrdID.setText("-");
+        pnlPayment.add(lblOrdID, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 70, 120, -1));
 
         jTextField8.setBackground(new java.awt.Color(255, 255, 255));
         jTextField8.setBorder(null);
@@ -828,9 +933,9 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jTextField5.setBorder(null);
         pnlPayment.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 630, 170, 20));
 
-        jTextField4.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField4.setBorder(null);
-        pnlPayment.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, 380, 20));
+        txtName2.setBackground(new java.awt.Color(255, 255, 255));
+        txtName2.setBorder(null);
+        pnlPayment.add(txtName2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, 380, 20));
 
         jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -960,21 +1065,21 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
         pnlCreateOrder.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 320, 270, 390));
 
-        jLabel15.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel15.setText("-");
-        pnlCreateOrder.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 680, 120, -1));
+        lblTotalAmount.setForeground(new java.awt.Color(0, 0, 0));
+        lblTotalAmount.setText("-");
+        pnlCreateOrder.add(lblTotalAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 680, 120, -1));
 
-        jTextField9.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField9.setBorder(null);
-        pnlCreateOrder.add(jTextField9, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, 380, 20));
+        txtName.setBackground(new java.awt.Color(255, 255, 255));
+        txtName.setBorder(null);
+        pnlCreateOrder.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, 380, 20));
 
-        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel13.setText("-");
-        pnlCreateOrder.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 150, 120, -1));
+        lblOrdType.setForeground(new java.awt.Color(0, 0, 0));
+        lblOrdType.setText("-");
+        pnlCreateOrder.add(lblOrdType, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 150, 120, -1));
 
-        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel14.setText("-");
-        pnlCreateOrder.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 110, 120, -1));
+        lblStaffName.setForeground(new java.awt.Color(0, 0, 0));
+        lblStaffName.setText("-");
+        pnlCreateOrder.add(lblStaffName, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 110, 120, -1));
 
         btnBack.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnBack.setText("X");
@@ -1010,7 +1115,12 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         btnPlaceOrder.setBorder(null);
         btnPlaceOrder.setBorderPainted(false);
         btnPlaceOrder.setContentAreaFilled(false);
-        pnlCreateOrder.add(btnPlaceOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(1155, 743, 130, 30));
+        btnPlaceOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlaceOrderActionPerformed(evt);
+            }
+        });
+        pnlCreateOrder.add(btnPlaceOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 740, 130, 30));
 
         cmbProductList.setBackground(new java.awt.Color(255, 255, 255));
         cmbProductList.setForeground(new java.awt.Color(102, 102, 102));
@@ -1023,7 +1133,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 btnAddOrderActionPerformed(evt);
             }
         });
-        pnlCreateOrder.add(btnAddOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 740, 100, -1));
+        pnlCreateOrder.add(btnAddOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 720, 100, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Create Orders.png"))); // NOI18N
         pnlCreateOrder.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, -1, -1));
@@ -1312,7 +1422,28 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 price,
                 subtotal
             });
+            calculateTotalAmount(); 
+            syncSummary();
     }//GEN-LAST:event_btnAddOrderActionPerformed
+
+    private void btnPlaceOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlaceOrderActionPerformed
+        // TODO add your handling code here:
+        if (txtName.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Customer name cannot be empty!");
+            return;
+        }
+
+        if (tblSummary2.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Order summary cannot be empty!");
+            return;
+        }
+
+        CardLayout cl = (CardLayout)(jPanel4.getLayout());
+        cl.show(jPanel4, "payment");
+        syncOrderPanel();
+
+
+    }//GEN-LAST:event_btnPlaceOrderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1360,13 +1491,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbProductList;
     private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JComboBox<String> cmbStatusProduct;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1375,7 +1500,6 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1387,16 +1511,21 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JLabel lblCompleted;
+    private javax.swing.JLabel lblOrdID;
+    private javax.swing.JLabel lblOrdType;
+    private javax.swing.JLabel lblOrdType2;
     private javax.swing.JLabel lblOrdersToday;
     private javax.swing.JLabel lblPrep;
     private javax.swing.JLabel lblReady;
+    private javax.swing.JLabel lblStaffName;
+    private javax.swing.JLabel lblStaffName2;
+    private javax.swing.JLabel lblTotalAmount;
+    private javax.swing.JLabel lblTotalAmount2;
     private javax.swing.JPanel pnlAddCustoemr;
     private javax.swing.JPanel pnlCreateOrder;
     private javax.swing.JPanel pnlCustomer;
@@ -1414,6 +1543,8 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField txtCustomerEmail;
     private javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtCustomerNo;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtName2;
     private javax.swing.JTextField txtSearchOrders;
     private javax.swing.JTextField txtSearchProduct;
     // End of variables declaration//GEN-END:variables
