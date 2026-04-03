@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 import com.toedter.calendar.JDateChooser;
-import java.util.List;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -268,7 +268,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         try {
             Connection con = DBConnection.getConnection();
             if (con == null) {
-                System.out.println("Connection failed!");
                 return;
             }
             
@@ -451,11 +450,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
 
     cmbStatusFilterr.setSelectedIndex(0);
-
 }
-    
-    
-    
     private void loadStatusFilter() {
     cmbStatusFilter.removeAllItems();
     cmbStatusFilter.addItem("Status");
@@ -522,8 +517,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 ResultSet rs = pst.executeQuery();
 
                 DefaultTableModel model = (DefaultTableModel) tblDashboard.getModel();
-                model.setRowCount(0); // clear table
-
+                model.setRowCount(0);
                 while (rs.next()) {
                     model.addRow(new Object[]{
                         rs.getInt("order_id"),
@@ -576,11 +570,11 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
         }
         public void loadOrdersTable(String statusFilter, String searchText) {
-    try {
+        try {
         Connection con = DBConnection.getConnection();
 
         String sql = "SELECT order_id, customer_name, order_date, total_amount, order_type, status "
-                   + "FROM tblorder WHERE customer_name LIKE ?";
+                   + "FROM orders WHERE customer_name LIKE ?";
 
         if (!statusFilter.equalsIgnoreCase("All")) {
             sql += " AND TRIM(UPPER(status)) = ?";
@@ -619,9 +613,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         private void loadOrderStatusFilter() {
         cmbStatus1.removeAllItems();
         cmbStatus1.addItem("All");
-        cmbStatus1.addItem("Pending");
-        cmbStatus1.addItem("Preparing");
-        cmbStatus1.addItem("Completed");
+        cmbStatus1.addItem("PENDING");
+        cmbStatus1.addItem("PREPARING");
+        cmbStatus1.addItem("COMPLETED");
         cmbStatus1.setSelectedIndex(0);
     }
 
@@ -699,7 +693,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
 
     }
-private void loadPayments() {
+    private void loadPayments() {
     try {
         Connection conn = DBConnection.getConnection();
         String sql = "SELECT * FROM tblpayment";
@@ -827,7 +821,7 @@ public void loadStaffTable(String statusFilter) {
         ResultSet rs = pst.executeQuery();
 
         DefaultTableModel model = (DefaultTableModel) tblCustomerReports.getModel();
-        model.setRowCount(0); // clear table first
+        model.setRowCount(0); 
 
         while(rs.next()) {
             String name = rs.getString("customer_name");
@@ -936,7 +930,8 @@ public void loadStaffTable(String statusFilter) {
         e.printStackTrace();
     }
 }
-        private void loadInventoryTable() {
+        
+    private void loadInventoryTable() {
     DefaultTableModel model = (DefaultTableModel) tblInventory.getModel();
     model.setRowCount(0);
 
@@ -962,7 +957,65 @@ public void loadStaffTable(String statusFilter) {
     } catch (Exception e) {
         e.printStackTrace();
     }
+        }
+        
+    public void setOrderDetails(int orderId){
+    try{
+        Connection con = DBConnection.getConnection();
+
+        String sql = "SELECT order_id, customer_name, total_amount, status, order_date FROM tblOrder WHERE order_id = ?";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1, orderId);
+        ResultSet rs = pst.executeQuery();
+
+        if(rs.next()){
+            lblOrderNumber.setText(String.valueOf(rs.getInt("order_id")));     
+            lblCustomName.setText(rs.getString("customer_name"));         
+            lblTotal.setText(String.valueOf(rs.getDouble("total_amount")));  
+            lblStatus.setText(rs.getString("status"));                     
+
+            java.sql.Timestamp timestamp = rs.getTimestamp("order_date");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+            lblDateTime.setText(sdf.format(timestamp));
+        }
+        
+        loadOrderItems(orderId);
+
+    } catch(Exception e){
+        e.printStackTrace();
 }
+
+    }
+
+    private void loadOrderItems(int orderId){
+    try{
+        Connection con = DBConnection.getConnection();
+        String sql = "SELECT p.name, oi.quantity, oi.price " +
+                     "FROM order_items oi " +
+                     "JOIN products p ON oi.product_id = p.product_id " +
+                     "WHERE oi.order_id = ?";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1, orderId);
+        ResultSet rs = pst.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) tblSummary.getModel();
+        model.setRowCount(0); 
+
+        while(rs.next()){
+            String name = rs.getString("name");
+            int qty = rs.getInt("quantity");
+            double price = rs.getDouble("price");
+            double subtotal = qty * price;
+
+            model.addRow(new Object[]{name, qty, price, subtotal});
+        }
+
+    } catch(Exception e){
+        e.printStackTrace();
+    }
+    }
+    
+    
 
 
      
@@ -1022,34 +1075,34 @@ public void loadStaffTable(String statusFilter) {
         pnlverufy = new javax.swing.JPanel();
         lblCardNum = new javax.swing.JLabel();
         lblRefNo = new javax.swing.JLabel();
-        lblPayMethod = new javax.swing.JLabel();
+        lblPaymentMethod = new javax.swing.JLabel();
         lblOrderType = new javax.swing.JLabel();
         lblContact = new javax.swing.JLabel();
-        lblName1 = new javax.swing.JLabel();
+        lblName = new javax.swing.JLabel();
         lblDateTime1 = new javax.swing.JLabel();
-        lblOrderNum1 = new javax.swing.JLabel();
+        lblOrderNo = new javax.swing.JLabel();
         btnOrdCanc = new javax.swing.JButton();
         btnOrdConf = new javax.swing.JButton();
-        lblTotal1 = new javax.swing.JLabel();
+        lblTotalPayment = new javax.swing.JLabel();
         btnOrdBack = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
         pnlView = new javax.swing.JPanel();
         lblDateTime = new javax.swing.JLabel();
-        lblName = new javax.swing.JLabel();
-        lblOrderNum = new javax.swing.JLabel();
+        lblCustomName = new javax.swing.JLabel();
+        lblOrderNumber = new javax.swing.JLabel();
         lblStatus = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblSummary = new javax.swing.JTable();
         btnOrdCanc1 = new javax.swing.JButton();
-        btnOrdConf1 = new javax.swing.JButton();
+        btnConfirm = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        btnOrdDel1 = new javax.swing.JButton();
-        btnOrdEdit2 = new javax.swing.JButton();
+        btnDeleteOrder = new javax.swing.JButton();
+        btnEditOrder = new javax.swing.JButton();
         jTabbedPane5 = new javax.swing.JTabbedPane();
         jPanel12 = new javax.swing.JPanel();
-        btnOrdView1 = new javax.swing.JButton();
+        btnOrderView = new javax.swing.JButton();
         btnOrdDel2 = new javax.swing.JButton();
         btnOrdEdit3 = new javax.swing.JButton();
         cmbStatus1 = new javax.swing.JComboBox<>();
@@ -1519,11 +1572,11 @@ public void loadStaffTable(String statusFilter) {
         lblRefNo.setText("-");
         pnlverufy.add(lblRefNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 260, 80, 40));
 
-        lblPayMethod.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
-        lblPayMethod.setForeground(new java.awt.Color(0, 0, 0));
-        lblPayMethod.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblPayMethod.setText("-");
-        pnlverufy.add(lblPayMethod, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, 80, 30));
+        lblPaymentMethod.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblPaymentMethod.setForeground(new java.awt.Color(0, 0, 0));
+        lblPaymentMethod.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblPaymentMethod.setText("-");
+        pnlverufy.add(lblPaymentMethod, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, 80, 30));
 
         lblOrderType.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
         lblOrderType.setForeground(new java.awt.Color(0, 0, 0));
@@ -1537,11 +1590,11 @@ public void loadStaffTable(String statusFilter) {
         lblContact.setText("-");
         pnlverufy.add(lblContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, 80, 30));
 
-        lblName1.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
-        lblName1.setForeground(new java.awt.Color(0, 0, 0));
-        lblName1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblName1.setText("-");
-        pnlverufy.add(lblName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, 80, 30));
+        lblName.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblName.setForeground(new java.awt.Color(0, 0, 0));
+        lblName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblName.setText("-");
+        pnlverufy.add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, 80, 30));
 
         lblDateTime1.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
         lblDateTime1.setForeground(new java.awt.Color(0, 0, 0));
@@ -1549,11 +1602,11 @@ public void loadStaffTable(String statusFilter) {
         lblDateTime1.setText("date & time");
         pnlverufy.add(lblDateTime1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 310, 10));
 
-        lblOrderNum1.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
-        lblOrderNum1.setForeground(new java.awt.Color(0, 0, 0));
-        lblOrderNum1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblOrderNum1.setText("-");
-        pnlverufy.add(lblOrderNum1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 90, 20));
+        lblOrderNo.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblOrderNo.setForeground(new java.awt.Color(0, 0, 0));
+        lblOrderNo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblOrderNo.setText("-");
+        pnlverufy.add(lblOrderNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 90, 20));
 
         btnOrdCanc.setText("-");
         btnOrdCanc.setBorder(null);
@@ -1572,11 +1625,11 @@ public void loadStaffTable(String statusFilter) {
         btnOrdConf.setContentAreaFilled(false);
         pnlverufy.add(btnOrdConf, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 440, 90, 30));
 
-        lblTotal1.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
-        lblTotal1.setForeground(new java.awt.Color(0, 0, 0));
-        lblTotal1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblTotal1.setText("-");
-        pnlverufy.add(lblTotal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, 100, 30));
+        lblTotalPayment.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblTotalPayment.setForeground(new java.awt.Color(0, 0, 0));
+        lblTotalPayment.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblTotalPayment.setText("-");
+        pnlverufy.add(lblTotalPayment, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, 100, 30));
 
         btnOrdBack.setText("X");
         btnOrdBack.addActionListener(new java.awt.event.ActionListener() {
@@ -1599,17 +1652,17 @@ public void loadStaffTable(String statusFilter) {
         lblDateTime.setText("date & time");
         pnlView.add(lblDateTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 310, 10));
 
-        lblName.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
-        lblName.setForeground(new java.awt.Color(0, 0, 0));
-        lblName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblName.setText("-");
-        pnlView.add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, 80, 30));
+        lblCustomName.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblCustomName.setForeground(new java.awt.Color(0, 0, 0));
+        lblCustomName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblCustomName.setText("-");
+        pnlView.add(lblCustomName, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, 80, 30));
 
-        lblOrderNum.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
-        lblOrderNum.setForeground(new java.awt.Color(0, 0, 0));
-        lblOrderNum.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblOrderNum.setText("-");
-        pnlView.add(lblOrderNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 90, 20));
+        lblOrderNumber.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
+        lblOrderNumber.setForeground(new java.awt.Color(0, 0, 0));
+        lblOrderNumber.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblOrderNumber.setText("-");
+        pnlView.add(lblOrderNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 90, 20));
 
         lblStatus.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
         lblStatus.setForeground(new java.awt.Color(0, 0, 0));
@@ -1652,11 +1705,16 @@ public void loadStaffTable(String statusFilter) {
         });
         pnlView.add(btnOrdCanc1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 440, 90, 30));
 
-        btnOrdConf1.setText("-");
-        btnOrdConf1.setBorder(null);
-        btnOrdConf1.setBorderPainted(false);
-        btnOrdConf1.setContentAreaFilled(false);
-        pnlView.add(btnOrdConf1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 440, 90, 30));
+        btnConfirm.setText("-");
+        btnConfirm.setBorder(null);
+        btnConfirm.setBorderPainted(false);
+        btnConfirm.setContentAreaFilled(false);
+        btnConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmActionPerformed(evt);
+            }
+        });
+        pnlView.add(btnConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 440, 90, 30));
 
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/VIEWORDER.png"))); // NOI18N
         pnlView.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 6, 380, 500));
@@ -1665,19 +1723,29 @@ public void loadStaffTable(String statusFilter) {
 
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnOrdDel1.setBackground(new java.awt.Color(255, 255, 255));
-        btnOrdDel1.setText("-");
-        btnOrdDel1.setBorder(null);
-        btnOrdDel1.setBorderPainted(false);
-        btnOrdDel1.setContentAreaFilled(false);
-        jPanel4.add(btnOrdDel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 740, 70, 30));
+        btnDeleteOrder.setBackground(new java.awt.Color(255, 255, 255));
+        btnDeleteOrder.setText("-");
+        btnDeleteOrder.setBorder(null);
+        btnDeleteOrder.setBorderPainted(false);
+        btnDeleteOrder.setContentAreaFilled(false);
+        btnDeleteOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteOrderActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnDeleteOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 740, 70, 30));
 
-        btnOrdEdit2.setBackground(new java.awt.Color(255, 255, 255));
-        btnOrdEdit2.setText("-");
-        btnOrdEdit2.setBorder(null);
-        btnOrdEdit2.setBorderPainted(false);
-        btnOrdEdit2.setContentAreaFilled(false);
-        jPanel4.add(btnOrdEdit2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 740, 70, 30));
+        btnEditOrder.setBackground(new java.awt.Color(255, 255, 255));
+        btnEditOrder.setText("-");
+        btnEditOrder.setBorder(null);
+        btnEditOrder.setBorderPainted(false);
+        btnEditOrder.setContentAreaFilled(false);
+        btnEditOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditOrderActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnEditOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 740, 70, 30));
 
         jTabbedPane5.setBackground(new java.awt.Color(255, 255, 255));
         jTabbedPane5.setTabPlacement(javax.swing.JTabbedPane.RIGHT);
@@ -1686,17 +1754,17 @@ public void loadStaffTable(String statusFilter) {
 
         jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnOrdView1.setBackground(new java.awt.Color(255, 255, 255));
-        btnOrdView1.setText("-");
-        btnOrdView1.setBorder(null);
-        btnOrdView1.setBorderPainted(false);
-        btnOrdView1.setContentAreaFilled(false);
-        btnOrdView1.addActionListener(new java.awt.event.ActionListener() {
+        btnOrderView.setBackground(new java.awt.Color(255, 255, 255));
+        btnOrderView.setText("-");
+        btnOrderView.setBorder(null);
+        btnOrderView.setBorderPainted(false);
+        btnOrderView.setContentAreaFilled(false);
+        btnOrderView.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOrdView1ActionPerformed(evt);
+                btnOrderViewActionPerformed(evt);
             }
         });
-        jPanel12.add(btnOrdView1, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 740, 130, 30));
+        jPanel12.add(btnOrderView, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 740, 130, 30));
 
         btnOrdDel2.setBackground(new java.awt.Color(255, 255, 255));
         btnOrdDel2.setText("-");
@@ -2607,10 +2675,22 @@ public void loadStaffTable(String statusFilter) {
 
     }//GEN-LAST:event_btnOrdVerifyPay1ActionPerformed
 
-    private void btnOrdView1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdView1ActionPerformed
+    private void btnOrderViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderViewActionPerformed
         // TODO add your handling code here:
+        int selectedRow = tblOrder.getSelectedRow();
+        if(selectedRow == -1){
+            JOptionPane.showMessageDialog(null, "Please select an order first!");
+            return;
+        }
+
+        int orderId = (int) tblOrder.getValueAt(selectedRow, 0);
+        setOrderDetails(orderId);
+
         pnlView.setVisible(true);
-    }//GEN-LAST:event_btnOrdView1ActionPerformed
+        pnlView.revalidate();
+        pnlView.repaint();
+  
+    }//GEN-LAST:event_btnOrderViewActionPerformed
 
     private void btnOrdViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdViewActionPerformed
         pnlverufy.setVisible(true);
@@ -3132,6 +3212,170 @@ try {
     JOptionPane.showMessageDialog(null, "Update failed: " + e.getMessage());
 }
     }//GEN-LAST:event_btnProductUpdateActionPerformed
+
+    private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
+        // TODO add your handling code here:
+
+    int orderId;
+
+    try {
+        orderId = Integer.parseInt(lblOrderNumber.getText().trim());
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Invalid Order ID!");
+        return;
+    }
+
+    int confirm = JOptionPane.showConfirmDialog(
+            null,
+            "Proceed to next status?",
+            "Confirm Order",
+            JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirm != JOptionPane.YES_OPTION) return;
+
+    try (Connection con = DBConnection.getConnection()) {
+
+        String getSql = "SELECT status FROM orders WHERE order_id=?";
+        PreparedStatement pstGet = con.prepareStatement(getSql);
+        pstGet.setInt(1, orderId);
+        ResultSet rs = pstGet.executeQuery();
+
+        if (!rs.next()) {
+            JOptionPane.showMessageDialog(null, "Order not found!");
+            return;
+        }
+
+       String currentStatus = rs.getString("status");
+    if (currentStatus != null) {
+    currentStatus = currentStatus.trim();
+    } else {
+    JOptionPane.showMessageDialog(null, "Status is NULL in database!");
+    return;
+}
+
+    String newStatus = "";
+
+    if (currentStatus.equalsIgnoreCase("PENDING")) {
+    newStatus = "PREPARING";
+
+    } else if (currentStatus.equalsIgnoreCase("Preparing")) {
+    newStatus = "COMPLETED";
+
+    } else if (currentStatus.equalsIgnoreCase("COMPLETED")) {
+    JOptionPane.showMessageDialog(null, "Already Completed!");
+    return;
+
+    } else {
+    JOptionPane.showMessageDialog(null, "Unknown status in DB: [" + currentStatus + "]");
+    return;
+}
+
+        String updateSql = "UPDATE orders SET status=? WHERE order_id=?";
+        PreparedStatement pstUpdate = con.prepareStatement(updateSql);
+        pstUpdate.setString(1, newStatus);
+        pstUpdate.setInt(2, orderId);
+
+        int updated = pstUpdate.executeUpdate();
+
+        if (updated > 0) {
+
+            JOptionPane.showMessageDialog(null,
+                    "Status updated to: " + newStatus);
+
+            loadOrdersTable(
+                cmbStatusFilter.getSelectedItem().toString(),
+                txtSearch.getText().trim()
+            );
+
+            loadDashboardTable();
+            loadOrdersTable("ALL", "");
+
+            pnlView.setVisible(false);
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e.getMessage());
+    
+}
+    }//GEN-LAST:event_btnConfirmActionPerformed
+
+    private void btnEditOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditOrderActionPerformed
+        // TODO add your handling code here:
+
+    int row = tblOrder.getSelectedRow();
+
+    if (row == -1) {
+        JOptionPane.showMessageDialog(null, "Select order first!");
+        return;
+    }
+
+    int orderId = (int) tblOrder.getValueAt(row, 0);
+
+    String newName = JOptionPane.showInputDialog("Enter new customer name:");
+
+    if (newName == null || newName.trim().isEmpty()) {
+        return;
+    }
+
+    try {
+        Connection con = DBConnection.getConnection();
+
+        String sql = "UPDATE tblorder SET customer_name=? WHERE order_id=?";
+        PreparedStatement pst = con.prepareStatement(sql);
+
+        pst.setString(1, newName);
+        pst.setInt(2, orderId);
+
+        pst.executeUpdate();
+
+        JOptionPane.showMessageDialog(null, "Order updated!");
+
+        loadOrdersTable("All", "");
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    }//GEN-LAST:event_btnEditOrderActionPerformed
+
+    private void btnDeleteOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteOrderActionPerformed
+        // TODO add your handling code here:
+    int row = tblOrder.getSelectedRow();
+
+    if (row == -1) {
+        JOptionPane.showMessageDialog(null, "Select order first!");
+        return;
+    }
+
+    int orderId = (int) tblOrder.getValueAt(row, 0);
+
+    int confirm = JOptionPane.showConfirmDialog(
+        null,
+        "Cancel this order?",
+        "Confirm",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirm != JOptionPane.YES_OPTION) return;
+
+    try {
+        Connection con = DBConnection.getConnection();
+
+        String sql = "UPDATE tblorder SET status='CANCELLED' WHERE order_id=?";
+        PreparedStatement pst = con.prepareStatement(sql);
+
+        pst.setInt(1, orderId);
+        pst.executeUpdate();
+
+        JOptionPane.showMessageDialog(null, "Order cancelled!");
+
+        loadOrdersTable("All", "");
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    }//GEN-LAST:event_btnDeleteOrderActionPerformed
     
     /**
      * @param args the command line arguments
@@ -3166,29 +3410,29 @@ try {
     private javax.swing.JButton btnAddSupplier;
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnConfirm;
     private javax.swing.JButton btnCusDel;
     private javax.swing.JButton btnCusDel1;
     private javax.swing.JButton btnCusEdit;
     private javax.swing.JButton btnCusEdit1;
     private javax.swing.JButton btnDashboard;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDeleteOrder;
     private javax.swing.JButton btnDeletee;
     private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnEditOrder;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnOrdBack;
     private javax.swing.JButton btnOrdCanc;
     private javax.swing.JButton btnOrdCanc1;
     private javax.swing.JButton btnOrdConf;
-    private javax.swing.JButton btnOrdConf1;
-    private javax.swing.JButton btnOrdDel1;
     private javax.swing.JButton btnOrdDel2;
     private javax.swing.JButton btnOrdDel3;
-    private javax.swing.JButton btnOrdEdit2;
     private javax.swing.JButton btnOrdEdit3;
     private javax.swing.JButton btnOrdEdit4;
     private javax.swing.JButton btnOrdVerifyPay1;
     private javax.swing.JButton btnOrdView;
-    private javax.swing.JButton btnOrdView1;
+    private javax.swing.JButton btnOrderView;
     private javax.swing.JButton btnOrders;
     private javax.swing.JButton btnProductUpdate;
     private javax.swing.JButton btnProducts;
@@ -3269,21 +3513,21 @@ try {
     private javax.swing.JTextField jTextField6;
     private javax.swing.JLabel lblCardNum;
     private javax.swing.JLabel lblContact;
+    private javax.swing.JLabel lblCustomName;
     private javax.swing.JLabel lblDateTime;
     private javax.swing.JLabel lblDateTime1;
     private javax.swing.JLabel lblLowStiock;
     private javax.swing.JLabel lblName;
-    private javax.swing.JLabel lblName1;
-    private javax.swing.JLabel lblOrderNum;
-    private javax.swing.JLabel lblOrderNum1;
+    private javax.swing.JLabel lblOrderNo;
+    private javax.swing.JLabel lblOrderNumber;
     private javax.swing.JLabel lblOrderType;
-    private javax.swing.JLabel lblPayMethod;
+    private javax.swing.JLabel lblPaymentMethod;
     private javax.swing.JLabel lblRefNo;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblTotal;
-    private javax.swing.JLabel lblTotal1;
     private javax.swing.JLabel lblTotalCustomer;
     private javax.swing.JLabel lblTotalOrd;
+    private javax.swing.JLabel lblTotalPayment;
     private javax.swing.JLabel lblTotalSales;
     private javax.swing.JLabel lblTransComp;
     private javax.swing.JLabel lblTransPend;
