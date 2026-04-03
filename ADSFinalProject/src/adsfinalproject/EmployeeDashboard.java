@@ -366,7 +366,8 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, e.getMessage());
     }
     }
-   public void loadDashboardTable() {
+      public void loadDashboardTable() {
+
     String sql = "SELECT o.order_id, o.customer_name, o.total_amount, " +
                  "p.payment_type, o.status, o.order_date " +
                  "FROM orders o " +
@@ -386,15 +387,17 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 rs.getInt("order_id"),
                 rs.getString("customer_name"),
                 rs.getDouble("total_amount"),
+                rs.getString("payment_type"),
                 rs.getString("status"),
-                rs.getDate("order_date")
+                rs.getTimestamp("order_date")
             });
         }
 
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, e.getMessage());
     }
-   }
+}
+
     private void loadProductsTable(String search, String statusFilter) {
 
     DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
@@ -442,47 +445,36 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
 
     }
-    public void loadEmployeeDashboard() {
-    try {
-        Connection con = DBConnection.getConnection();
+       public void loadEmployeeDashboard() {
+    String sql = "SELECT o.order_id, o.customer_name, o.total_amount, " +
+                 "p.payment_type, p.status, o.order_date " +
+                 "FROM orders o " +
+                 "LEFT JOIN tblpayment p ON o.order_id = p.order_id " +
+                 "ORDER BY o.order_id DESC";
 
-        String sql = "SELECT o.order_id, o.customer_name, o.total_amount, " +
-                     "p.payment_type, o.status, o.order_date " +
-                     "FROM orders o " +
-                     "LEFT JOIN tblpayment p ON o.order_id = p.order_id " +
-                     "ORDER BY o.order_id DESC";
-
-        PreparedStatement pst = con.prepareStatement(sql);
-        ResultSet rs = pst.executeQuery();
+    try (Connection con = DBConnection.getConnection();
+         PreparedStatement pst = con.prepareStatement(sql);
+         ResultSet rs = pst.executeQuery()) {
 
         DefaultTableModel model = (DefaultTableModel) tblEmployeeDashboard.getModel();
-        model.setRowCount(0);
+        model.setRowCount(0); // clear existing rows
 
         while (rs.next()) {
-
-            int orderID = rs.getInt("order_id");
-            String name = rs.getString("customer_name");   // maps to name column
-            double total = rs.getDouble("total_amount");   // maps to total column
-            String paymentType = rs.getString("payment_type");
-            String status = rs.getString("status");
-            String date = rs.getString("order_date");
-
             model.addRow(new Object[]{
-                rs.getInt("order_id"),
-                rs.getString("customer_name"),
-                rs.getDouble("total_amount"),
-                rs.getString("payment_type"),
-                rs.getString("status"),
-                rs.getDate("order_date")
-
+                rs.getInt("order_id"),              // order_id
+                rs.getString("customer_name"),      // customer_name
+                rs.getDouble("total_amount"),       // total_amount
+                rs.getString("payment_type"),       // payment_type (CASH / E-WALLET / CREDIT CARD)
+                rs.getString("status"),             // status (PREPARING / READY / COMPLETED)
+                rs.getTimestamp("order_date")       // order_date
             });
         }
 
     } catch (Exception e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error loading dashboard: " + e.getMessage());
+        JOptionPane.showMessageDialog(this, "Error loading Employee Dashboard: " + e.getMessage());
     }
 }
+
     public void updateStaffStatus(String status) {
     try {
         Connection conn = DBConnection.getConnection();
@@ -650,6 +642,127 @@ public void calculateChange() {
         lblCashChange.setText("0");
     }
 }
+public boolean validatePayment() {
+
+    String wallet = txtWalletType.getText().trim();
+    String ref = txtRefNum.getText().trim();
+    String card = txtCardName.getText().trim();
+    String digits = txtDigits.getText().trim();
+    String cash = txtCashAmount.getText().trim();
+
+    boolean hasCash = !cash.isEmpty();
+    boolean hasWallet = !wallet.isEmpty() || !ref.isEmpty();
+    boolean hasCard = !card.isEmpty() || !digits.isEmpty();
+
+    int methodCount = 0;
+    if (hasCash) methodCount++;
+    if (hasWallet) methodCount++;
+    if (hasCard) methodCount++;
+
+    if (methodCount > 1) {
+        JOptionPane.showMessageDialog(this, "Use only ONE payment method!");
+        return false;
+    }
+
+    if (hasCash) {
+
+        if (!wallet.isEmpty() || !ref.isEmpty() || !card.isEmpty() || !digits.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "For CASH payment, other fields must be empty!");
+            return false;
+        }
+
+        try {
+            double cashAmount = Double.parseDouble(cash);
+            double total = Double.parseDouble(lblTotalAmount.getText());
+
+            if (cashAmount < total) {
+                JOptionPane.showMessageDialog(this, "Cash amount is not enough!");
+                return false;
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Invalid cash amount!");
+            return false;
+        }
+
+        return true;
+    }
+
+    if (hasWallet) {
+
+        if (wallet.isEmpty() || ref.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Wallet Type and Reference Number are required!");
+            return false;
+        }
+
+        if (!cash.isEmpty() || !card.isEmpty() || !digits.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Remove other payment fields for Wallet payment!");
+            return false;
+        }
+
+        return true;
+    }
+
+    if (hasCard) {
+
+        if (card.isEmpty() || digits.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Card Name and Last 4 Digits are required!");
+            return false;
+        }
+
+        if (!digits.matches("\\d{4}")) {
+            JOptionPane.showMessageDialog(this, "Card digits must be EXACTLY 4 numbers!");
+            return false;
+        }
+
+        if (!cash.isEmpty() || !wallet.isEmpty() || !ref.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Remove other payment fields for Card payment!");
+            return false;
+        }
+
+        return true;
+    }
+
+    JOptionPane.showMessageDialog(this, "Please enter a payment method!");
+    return false;
+}
+public String getPaymentType() {
+
+    if (!txtCashAmount.getText().trim().isEmpty()) {
+        return "CASH";
+    }
+
+    if (!txtWalletType.getText().trim().isEmpty()) {
+        return "E-WALLET";
+    }
+
+    if (!txtCardName.getText().trim().isEmpty()) {
+        return "CREDIT CARD";
+    }
+
+    return "";
+}
+public String getNextOrderNumber() {
+    String nextOrderNumber = "ORD1"; // default if table empty
+    try (Connection con = DBConnection.getConnection();
+         PreparedStatement pst = con.prepareStatement("SELECT order_number FROM orders ORDER BY order_id DESC LIMIT 1");
+         ResultSet rs = pst.executeQuery()) {
+
+        if (rs.next()) {
+            String lastOrder = rs.getString("order_number"); // e.g., ORD1775039795625
+
+            // Extract numeric part
+            String numericPart = lastOrder.replaceAll("\\D", ""); // remove non-digits
+            long lastNum = Long.parseLong(numericPart);          // convert to number
+            long newNum = lastNum + 1;                           // increment
+            nextOrderNumber = "ORD" + newNum;                   // prepend ORD again
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error generating order number: " + e.getMessage());
+    }
+    return nextOrderNumber;
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -689,13 +802,14 @@ public void calculateChange() {
         lblStaffName2 = new javax.swing.JLabel();
         lblOrdType2 = new javax.swing.JLabel();
         lblOrdID = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        txtDigits = new javax.swing.JTextField();
+        txtCardName = new javax.swing.JTextField();
+        txtRefNum = new javax.swing.JTextField();
+        txtWalletType = new javax.swing.JTextField();
         txtName2 = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblSummary = new javax.swing.JTable();
+        btnMarkPaid = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         pnlDashboard = new javax.swing.JPanel();
         btnInactive = new javax.swing.JButton();
@@ -954,21 +1068,21 @@ public void calculateChange() {
         lblOrdID.setText("-");
         pnlPayment.add(lblOrdID, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 70, 120, -1));
 
-        jTextField8.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField8.setBorder(null);
-        pnlPayment.add(jTextField8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 660, 170, 30));
+        txtDigits.setBackground(new java.awt.Color(255, 255, 255));
+        txtDigits.setBorder(null);
+        pnlPayment.add(txtDigits, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 660, 170, 30));
 
-        jTextField7.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField7.setBorder(null);
-        pnlPayment.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 630, 170, 20));
+        txtCardName.setBackground(new java.awt.Color(255, 255, 255));
+        txtCardName.setBorder(null);
+        pnlPayment.add(txtCardName, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 630, 170, 20));
 
-        jTextField6.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField6.setBorder(null);
-        pnlPayment.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 660, 160, 30));
+        txtRefNum.setBackground(new java.awt.Color(255, 255, 255));
+        txtRefNum.setBorder(null);
+        pnlPayment.add(txtRefNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 660, 160, 30));
 
-        jTextField5.setBackground(new java.awt.Color(255, 255, 255));
-        jTextField5.setBorder(null);
-        pnlPayment.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 630, 170, 20));
+        txtWalletType.setBackground(new java.awt.Color(255, 255, 255));
+        txtWalletType.setBorder(null);
+        pnlPayment.add(txtWalletType, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 630, 170, 20));
 
         txtName2.setBackground(new java.awt.Color(255, 255, 255));
         txtName2.setBorder(null);
@@ -991,6 +1105,19 @@ public void calculateChange() {
         jScrollPane3.setViewportView(tblSummary);
 
         pnlPayment.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 240, 880, 220));
+
+        btnMarkPaid.setBackground(new java.awt.Color(255, 255, 255));
+        btnMarkPaid.setForeground(new java.awt.Color(255, 255, 255));
+        btnMarkPaid.setText("-");
+        btnMarkPaid.setBorder(null);
+        btnMarkPaid.setBorderPainted(false);
+        btnMarkPaid.setContentAreaFilled(false);
+        btnMarkPaid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMarkPaidActionPerformed(evt);
+            }
+        });
+        pnlPayment.add(btnMarkPaid, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 740, 120, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/PaymentWalkin.png"))); // NOI18N
         pnlPayment.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -1157,7 +1284,7 @@ public void calculateChange() {
                 btnPlaceOrderActionPerformed(evt);
             }
         });
-        pnlCreateOrder.add(btnPlaceOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 720, 130, 30));
+        pnlCreateOrder.add(btnPlaceOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 740, 130, 30));
 
         cmbProductList.setBackground(new java.awt.Color(255, 255, 255));
         cmbProductList.setForeground(new java.awt.Color(102, 102, 102));
@@ -1170,7 +1297,7 @@ public void calculateChange() {
                 btnAddOrderActionPerformed(evt);
             }
         });
-        pnlCreateOrder.add(btnAddOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 720, 100, -1));
+        pnlCreateOrder.add(btnAddOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 730, 100, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Create Orders.png"))); // NOI18N
         pnlCreateOrder.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, -1, -1));
@@ -1486,6 +1613,54 @@ public void calculateChange() {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCashAmountActionPerformed
 
+    private void btnMarkPaidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarkPaidActionPerformed
+        // TODO add your handling code here:
+        if(!validatePayment()) 
+        return;
+
+    try {
+        Connection con = DBConnection.getConnection();
+
+        String customerName = txtName.getText();
+        double totalAmount = Double.parseDouble(lblTotalAmount.getText());
+        String paymentType = getPaymentType(); // implement this to check which payment field is filled
+
+        String orderSQL = "INSERT INTO orders(order_number, customer_name, total_amount, order_type, status, order_date) VALUES (?,?,?,?,?,NOW())";
+        PreparedStatement pstOrder = con.prepareStatement(orderSQL, PreparedStatement.RETURN_GENERATED_KEYS);
+        pstOrder.setString(1, getNextOrderNumber());
+        pstOrder.setString(2, customerName);
+        pstOrder.setDouble(3, totalAmount);
+        pstOrder.setString(4, "Walk-in");
+        pstOrder.setString(5, "PREPARING");
+        pstOrder.executeUpdate();
+
+        ResultSet rs = pstOrder.getGeneratedKeys();
+        int orderID = 0;
+        if(rs.next()){
+            orderID = rs.getInt(1);
+        }
+
+        String paySQL = "INSERT INTO tblpayment(order_id, total_amount, payment_date, payment_type, status) VALUES (?,?,?,?,?)";
+        PreparedStatement pstPay = con.prepareStatement(paySQL);
+        pstPay.setInt(1, orderID);
+        pstPay.setDouble(2, totalAmount);
+        pstPay.setTimestamp(3, new java.sql.Timestamp(System.currentTimeMillis()));
+        pstPay.setString(4, paymentType);
+        pstPay.setString(5, "PAID");
+        pstPay.executeUpdate();
+
+        JOptionPane.showMessageDialog(this,"Payment Successful!");
+
+        // Refresh UI
+        loadEmployeeDashboard();
+        loadOrders();
+        loadDashboardCounts();
+
+    } catch(Exception e){
+        JOptionPane.showMessageDialog(this,e.getMessage());
+    }
+    }//GEN-LAST:event_btnMarkPaidActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1522,6 +1697,7 @@ public void calculateChange() {
     private javax.swing.JButton btnDel;
     private javax.swing.JButton btnInactive;
     private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnMarkPaid;
     private javax.swing.JButton btnOnDuty;
     private javax.swing.JButton btnOrders;
     private javax.swing.JButton btnPayment;
@@ -1551,10 +1727,6 @@ public void calculateChange() {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
     private javax.swing.JLabel lblCashChange;
     private javax.swing.JLabel lblCompleted;
     private javax.swing.JLabel lblOrdID;
@@ -1581,13 +1753,17 @@ public void calculateChange() {
     private javax.swing.JTable tblSummary1;
     private javax.swing.JTable tblSummary2;
     private javax.swing.JTable tblUsers;
+    private javax.swing.JTextField txtCardName;
     private javax.swing.JTextField txtCashAmount;
     private javax.swing.JTextField txtCustomerEmail;
     private javax.swing.JTextField txtCustomerName;
     private javax.swing.JTextField txtCustomerNo;
+    private javax.swing.JTextField txtDigits;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtName2;
+    private javax.swing.JTextField txtRefNum;
     private javax.swing.JTextField txtSearchOrders;
     private javax.swing.JTextField txtSearchProduct;
+    private javax.swing.JTextField txtWalletType;
     // End of variables declaration//GEN-END:variables
 }
