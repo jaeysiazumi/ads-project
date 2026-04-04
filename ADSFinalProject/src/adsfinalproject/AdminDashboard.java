@@ -33,6 +33,12 @@ public class AdminDashboard extends javax.swing.JFrame {
     
     public AdminDashboard() {
         initComponents(); 
+        txtSearchReport.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                String search = txtSearchReport.getText().trim();
+                searchReports(search);
+            }
+        });
             tblPayment.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 int row = tblPayment.getSelectedRow();
@@ -1140,6 +1146,79 @@ public class AdminDashboard extends javax.swing.JFrame {
         e.printStackTrace();
     }
 }
+    public void searchReports(String searchText) {
+
+    try {
+        Connection con = DBConnection.getConnection();
+
+        String sql =
+        "SELECT o.customer_name, oi.price, oi.quantity, " +
+        "(oi.price * oi.quantity) AS total_amount, o.order_date " +
+        "FROM tblorder o " +
+        "LEFT JOIN order_items oi ON o.order_id = oi.order_id " +
+        "WHERE o.customer_name LIKE ? " +
+        "ORDER BY o.order_date DESC";
+
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, "%" + searchText + "%");
+
+        ResultSet rs = pst.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) tblCustomerReports.getModel();
+        model.setRowCount(0);
+
+        while(rs.next()){
+            model.addRow(new Object[]{
+                rs.getString("customer_name"),
+                rs.getDouble("price"),
+                rs.getInt("quantity"),
+                rs.getDouble("total_amount"),
+                rs.getString("order_date")
+            });
+        }
+
+    } catch(Exception e){
+        e.printStackTrace();
+    }
+
+
+    try {
+        Connection con = DBConnection.getConnection();
+
+        String sql =
+        "SELECT p.name AS product_name, " +
+        "SUM(oi.quantity) AS quantity_sold, " +
+        "SUM(oi.quantity * oi.price) AS total_sales, " +
+        "DATE(o.order_date) AS sale_date " +
+        "FROM order_items oi " +
+        "JOIN products p ON oi.product_id = p.product_id " +
+        "JOIN orders o ON oi.order_id = o.order_id " +
+        "WHERE o.status='COMPLETED' AND p.name LIKE ? " +
+        "GROUP BY p.name, DATE(o.order_date) " +
+        "ORDER BY sale_date DESC";
+
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, "%" + searchText + "%");
+
+        ResultSet rs = pst.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) tblProductReport.getModel();
+        model.setRowCount(0);
+
+        while(rs.next()){
+            model.addRow(new Object[]{
+                rs.getString("product_name"),
+                rs.getInt("quantity_sold"),
+                rs.getDouble("total_sales"),
+                rs.getString("sale_date")
+            });
+        }
+
+    } catch(Exception e){
+        e.printStackTrace();
+    }
+
+}
 
      
     
@@ -1171,6 +1250,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         tblCustomerReports = new javax.swing.JTable();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jComboBox1 = new javax.swing.JComboBox<>();
+        txtSearchReport = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -1494,6 +1574,17 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
         });
         jPanel8.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 150, 140, -1));
+
+        txtSearchReport.setBackground(new java.awt.Color(255, 255, 255));
+        txtSearchReport.setForeground(new java.awt.Color(0, 0, 0));
+        txtSearchReport.setBorder(null);
+        txtSearchReport.setOpaque(true);
+        txtSearchReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchReportActionPerformed(evt);
+            }
+        });
+        jPanel8.add(txtSearchReport, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 115, 380, 20));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/rreports.png"))); // NOI18N
         jPanel8.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1277, -1));
@@ -3558,6 +3649,10 @@ public class AdminDashboard extends javax.swing.JFrame {
                 e.printStackTrace();
             }
     }//GEN-LAST:event_btnOrdConfActionPerformed
+
+    private void txtSearchReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchReportActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchReportActionPerformed
     
     /**
      * @param args the command line arguments
@@ -3764,6 +3859,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField txtProductID;
     private javax.swing.JTextField txtSearch;
     private javax.swing.JTextArea txtSearchOrder;
+    private javax.swing.JTextField txtSearchReport;
     private javax.swing.JTextField txtSearchSupplier;
     private javax.swing.JTextField txtSearchUsers;
     private javax.swing.JTextField txtStatus;
