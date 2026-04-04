@@ -392,6 +392,7 @@ public class startUp extends javax.swing.JFrame {
         String email = txtRegEmail.getText();
         String pass = txtRegPass.getText();
         
+        
         if (selectedRole.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please select account type!");
             return;
@@ -473,6 +474,16 @@ public class startUp extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Please fill all fields first!");
         return;
     }
+    if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+    JOptionPane.showMessageDialog(null, "Invalid email format!");
+    return;
+}
+
+    if (pass.length() < 5) {
+    JOptionPane.showMessageDialog(null,
+        "Password must be at least 5 characters!");
+    return;
+}
 
     pnlUserChoice.setVisible(true);
     pnlReg.setVisible(false);
