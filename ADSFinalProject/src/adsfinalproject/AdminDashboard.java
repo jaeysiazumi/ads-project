@@ -43,6 +43,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         loadCustomerReport();
         loadProductReport();
         loadInventoryTable();
+        loadLowStockCount();
          DefaultTableModel model = new DefaultTableModel(
         new Object[][]{},
         new String[]{"ID", "Name", "Description", "Category", "Stock", "Price", "Supplier", "Status", "Date Added", "Expiration"}
@@ -59,7 +60,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         Object selectedItem = cmbStatus1.getSelectedItem();
         if (selectedItem == null) {
-            return; // stop if nothing selected
+            return; 
         }
 
         String status = selectedItem.toString();
@@ -321,9 +322,27 @@ public class AdminDashboard extends javax.swing.JFrame {
             e.printStackTrace();
             lblTotalSales.setText("₱ 0.00");
         }
+        
+     }
+        private void loadLowStockCount() {
+    try {
+        Connection conn = DBConnection.getConnection();
+
+        String sql = "SELECT COUNT(*) AS low_stock_count FROM products WHERE stock <= 5";
+        PreparedStatement pst = conn.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            int count = rs.getInt("low_stock_count");
+            lblLowStock.setText(String.valueOf(count));
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+        
     }
     
-     
      public void loadDashboardTable() {
         String sql = "SELECT order_id, customer_name, total_amount, order_type, status, order_date FROM orders";
 
@@ -386,15 +405,10 @@ public class AdminDashboard extends javax.swing.JFrame {
             pst.setString(index++, statusFilter);
         }
 
-        System.out.println("SQL: " + sql);
-        System.out.println("Role: " + role);
-        System.out.println("Search: " + searchText);
-        System.out.println("Status: " + statusFilter);
 
         ResultSet rs = pst.executeQuery();
 
         while (rs.next()) {
-            System.out.println("Found user: " + rs.getString("username"));
 
             Object[] row = new Object[] {
                 rs.getInt("id"),
@@ -423,10 +437,6 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     int selectedTab = tabbedpane.getSelectedIndex();
 
-    System.out.println("Selected Tab: " + selectedTab);
-    System.out.println("Search Text: " + searchText);
-    System.out.println("Status Filter: " + statusFilter);
-
     if (selectedTab == 0) {
         loadUsersTable("customer", searchText, statusFilter);
     } else if (selectedTab == 1) {
@@ -440,10 +450,10 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     int selectedTab = tabbedpane.getSelectedIndex();
 
-    if (selectedTab == 0) { // Customer
+    if (selectedTab == 0) { 
         cmbStatusFilterr.addItem("Active");
         cmbStatusFilterr.addItem("Inactive");
-    } else if (selectedTab == 1) { // Staff
+    } else if (selectedTab == 1) { 
         cmbStatusFilterr.addItem("Active");
         cmbStatusFilterr.addItem("Inactive");
         cmbStatusFilterr.addItem("On Duty");
@@ -558,7 +568,6 @@ public class AdminDashboard extends javax.swing.JFrame {
 
                 if (rs.next()) {
                     int totalCompleted = rs.getInt("totalCompleted");
-                    System.out.println("Completed orders: " + totalCompleted); 
                     lblTransComp.setText(String.valueOf(totalCompleted));
                 } else {
                     lblTransComp.setText("0");
@@ -684,7 +693,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         cmbSupplier.removeAllItems();
 
         while(rs.next()){
-           System.out.println("ID: " + rs.getInt("supplier_id")); // 🔥 DEBUG
             cmbSupplier.addItem(rs.getString("supplier_id"));
         }
         
@@ -723,7 +731,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         e.printStackTrace();
     }
 }
-public void loadPaymentsTable(String statusFilter, String searchText) {
+    public void loadPaymentsTable(String statusFilter, String searchText) {
     try {
         Connection conn = DBConnection.getConnection();
 
@@ -773,7 +781,7 @@ public void loadPaymentsTable(String statusFilter, String searchText) {
         e.printStackTrace();
     }
 }
-public void loadStaffTable(String statusFilter) {
+    public void loadStaffTable(String statusFilter) {
 
     DefaultTableModel model = (DefaultTableModel) tblStaff.getModel();
     model.setRowCount(0);
@@ -870,10 +878,6 @@ public void loadStaffTable(String statusFilter) {
         pst.setString(3, contact);
         pst.setString(4, "123456");
         
-        System.out.println("INSERTING:");
-        System.out.println("Name: " + name);
-        System.out.println("Email: " + email);
-        System.out.println("Contact: " + contact);
 
         pst.executeUpdate();
 
@@ -1098,13 +1102,11 @@ public void loadStaffTable(String statusFilter) {
         btnConfirm = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        btnDeleteOrder = new javax.swing.JButton();
-        btnEditOrder = new javax.swing.JButton();
         jTabbedPane5 = new javax.swing.JTabbedPane();
         jPanel12 = new javax.swing.JPanel();
         btnOrderView = new javax.swing.JButton();
         btnOrdDel2 = new javax.swing.JButton();
-        btnOrdEdit3 = new javax.swing.JButton();
+        btnEditOrder = new javax.swing.JButton();
         cmbStatus1 = new javax.swing.JComboBox<>();
         txtSearchOrder = new javax.swing.JTextArea();
         jScrollPane12 = new javax.swing.JScrollPane();
@@ -1121,6 +1123,8 @@ public void loadStaffTable(String statusFilter) {
         jLabel20 = new javax.swing.JLabel();
         btnOrdView = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        btnto = new javax.swing.JButton();
+        btnDeleteOrder = new javax.swing.JButton();
         pnlUsers = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
@@ -1167,7 +1171,7 @@ public void loadStaffTable(String statusFilter) {
         jLabel18 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         pnlDashboard = new javax.swing.JPanel();
-        lblLowStiock = new javax.swing.JLabel();
+        lblLowStock = new javax.swing.JLabel();
         lblTotalCustomer = new javax.swing.JLabel();
         lblTotalSales = new javax.swing.JLabel();
         lblTransPend = new javax.swing.JLabel();
@@ -1723,30 +1727,6 @@ public void loadStaffTable(String statusFilter) {
 
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnDeleteOrder.setBackground(new java.awt.Color(255, 255, 255));
-        btnDeleteOrder.setText("-");
-        btnDeleteOrder.setBorder(null);
-        btnDeleteOrder.setBorderPainted(false);
-        btnDeleteOrder.setContentAreaFilled(false);
-        btnDeleteOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteOrderActionPerformed(evt);
-            }
-        });
-        jPanel4.add(btnDeleteOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 740, 70, 30));
-
-        btnEditOrder.setBackground(new java.awt.Color(255, 255, 255));
-        btnEditOrder.setText("-");
-        btnEditOrder.setBorder(null);
-        btnEditOrder.setBorderPainted(false);
-        btnEditOrder.setContentAreaFilled(false);
-        btnEditOrder.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditOrderActionPerformed(evt);
-            }
-        });
-        jPanel4.add(btnEditOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 740, 70, 30));
-
         jTabbedPane5.setBackground(new java.awt.Color(255, 255, 255));
         jTabbedPane5.setTabPlacement(javax.swing.JTabbedPane.RIGHT);
         jTabbedPane5.setToolTipText("");
@@ -1771,14 +1751,24 @@ public void loadStaffTable(String statusFilter) {
         btnOrdDel2.setBorder(null);
         btnOrdDel2.setBorderPainted(false);
         btnOrdDel2.setContentAreaFilled(false);
-        jPanel12.add(btnOrdDel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 740, 70, 30));
+        btnOrdDel2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrdDel2ActionPerformed(evt);
+            }
+        });
+        jPanel12.add(btnOrdDel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 730, 80, 40));
 
-        btnOrdEdit3.setBackground(new java.awt.Color(255, 255, 255));
-        btnOrdEdit3.setText("-");
-        btnOrdEdit3.setBorder(null);
-        btnOrdEdit3.setBorderPainted(false);
-        btnOrdEdit3.setContentAreaFilled(false);
-        jPanel12.add(btnOrdEdit3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 740, 70, 30));
+        btnEditOrder.setBackground(new java.awt.Color(255, 255, 255));
+        btnEditOrder.setText("-");
+        btnEditOrder.setBorder(null);
+        btnEditOrder.setBorderPainted(false);
+        btnEditOrder.setContentAreaFilled(false);
+        btnEditOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditOrderActionPerformed(evt);
+            }
+        });
+        jPanel12.add(btnEditOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 730, 80, 40));
 
         cmbStatus1.setBackground(new java.awt.Color(255, 255, 255));
         cmbStatus1.setForeground(new java.awt.Color(51, 51, 51));
@@ -1831,11 +1821,6 @@ public void loadStaffTable(String statusFilter) {
         btnOrdVerifyPay1.setBorder(null);
         btnOrdVerifyPay1.setBorderPainted(false);
         btnOrdVerifyPay1.setContentAreaFilled(false);
-        btnOrdVerifyPay1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOrdVerifyPay1ActionPerformed(evt);
-            }
-        });
         jPanel13.add(btnOrdVerifyPay1, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 740, 130, 30));
 
         btnOrdDel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -1896,11 +1881,6 @@ public void loadStaffTable(String statusFilter) {
         btnOrdView.setBorder(null);
         btnOrdView.setBorderPainted(false);
         btnOrdView.setContentAreaFilled(false);
-        btnOrdView.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOrdViewActionPerformed(evt);
-            }
-        });
         jPanel13.add(btnOrdView, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 710, 130, 30));
 
         jTabbedPane5.addTab("P", jPanel13);
@@ -1911,6 +1891,20 @@ public void loadStaffTable(String statusFilter) {
         jPanel4.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1277, -1));
 
         pnlOrder.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        btnto.setBackground(new java.awt.Color(255, 255, 255));
+        btnto.setText("-");
+        btnto.setBorder(null);
+        btnto.setBorderPainted(false);
+        btnto.setContentAreaFilled(false);
+        pnlOrder.add(btnto, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 800, 80, 40));
+
+        btnDeleteOrder.setBackground(new java.awt.Color(255, 255, 255));
+        btnDeleteOrder.setText("-");
+        btnDeleteOrder.setBorder(null);
+        btnDeleteOrder.setBorderPainted(false);
+        btnDeleteOrder.setContentAreaFilled(false);
+        pnlOrder.add(btnDeleteOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 810, 80, 40));
 
         jPanel2.add(pnlOrder, "order");
 
@@ -2049,6 +2043,11 @@ public void loadStaffTable(String statusFilter) {
         btnStaffEdit.setBorder(null);
         btnStaffEdit.setBorderPainted(false);
         btnStaffEdit.setContentAreaFilled(false);
+        btnStaffEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStaffEditActionPerformed(evt);
+            }
+        });
         pnlUsers1.add(btnStaffEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 740, 70, 30));
 
         btnStaffDel.setBackground(new java.awt.Color(255, 255, 255));
@@ -2056,9 +2055,14 @@ public void loadStaffTable(String statusFilter) {
         btnStaffDel.setBorder(null);
         btnStaffDel.setBorderPainted(false);
         btnStaffDel.setContentAreaFilled(false);
+        btnStaffDel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStaffDelActionPerformed(evt);
+            }
+        });
         pnlUsers1.add(btnStaffDel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 740, 70, 30));
 
-        btnStaffAdd.setBackground(new java.awt.Color(255, 255, 255));
+        btnStaffAdd.setBackground(new java.awt.Color(0, 0, 0));
         btnStaffAdd.setText("-");
         btnStaffAdd.setBorder(null);
         btnStaffAdd.setBorderPainted(false);
@@ -2237,11 +2241,11 @@ public void loadStaffTable(String statusFilter) {
         pnlDashboard.setBackground(new java.awt.Color(255, 255, 255));
         pnlDashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblLowStiock.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblLowStiock.setForeground(new java.awt.Color(255, 255, 255));
-        lblLowStiock.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblLowStiock.setText("-");
-        pnlDashboard.add(lblLowStiock, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 140, 70, -1));
+        lblLowStock.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblLowStock.setForeground(new java.awt.Color(255, 255, 255));
+        lblLowStock.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLowStock.setText("-");
+        pnlDashboard.add(lblLowStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 140, 70, -1));
 
         lblTotalCustomer.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblTotalCustomer.setForeground(new java.awt.Color(255, 255, 255));
@@ -2671,10 +2675,6 @@ public void loadStaffTable(String statusFilter) {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNameeActionPerformed
 
-    private void btnOrdVerifyPay1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdVerifyPay1ActionPerformed
-
-    }//GEN-LAST:event_btnOrdVerifyPay1ActionPerformed
-
     private void btnOrderViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderViewActionPerformed
         // TODO add your handling code here:
         int selectedRow = tblOrder.getSelectedRow();
@@ -2691,11 +2691,6 @@ public void loadStaffTable(String statusFilter) {
         pnlView.repaint();
   
     }//GEN-LAST:event_btnOrderViewActionPerformed
-
-    private void btnOrdViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdViewActionPerformed
-        pnlverufy.setVisible(true);
-        
-    }//GEN-LAST:event_btnOrdViewActionPerformed
 
     private void btnRestockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestockActionPerformed
 
@@ -2723,9 +2718,6 @@ public void loadStaffTable(String statusFilter) {
     txtExpirationDate.setText(tblProducts.getValueAt(selectedRow, 9).toString());
 
     txtAddStock.setText("");
-
-    //restockPanel.setVisible(true);
-    // productsPanel.setVisible(false);
 
         pnlRestock.setVisible(true);
         jPanel7.setVisible(false);
@@ -3300,48 +3292,9 @@ try {
 }
     }//GEN-LAST:event_btnConfirmActionPerformed
 
-    private void btnEditOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditOrderActionPerformed
+    private void btnOrdDel2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdDel2ActionPerformed
         // TODO add your handling code here:
-
-    int row = tblOrder.getSelectedRow();
-
-    if (row == -1) {
-        JOptionPane.showMessageDialog(null, "Select order first!");
-        return;
-    }
-
-    int orderId = (int) tblOrder.getValueAt(row, 0);
-
-    String newName = JOptionPane.showInputDialog("Enter new customer name:");
-
-    if (newName == null || newName.trim().isEmpty()) {
-        return;
-    }
-
-    try {
-        Connection con = DBConnection.getConnection();
-
-        String sql = "UPDATE tblorder SET customer_name=? WHERE order_id=?";
-        PreparedStatement pst = con.prepareStatement(sql);
-
-        pst.setString(1, newName);
-        pst.setInt(2, orderId);
-
-        pst.executeUpdate();
-
-        JOptionPane.showMessageDialog(null, "Order updated!");
-
-        loadOrdersTable("All", "");
-
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-
-    }//GEN-LAST:event_btnEditOrderActionPerformed
-
-    private void btnDeleteOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteOrderActionPerformed
-        // TODO add your handling code here:
-    int row = tblOrder.getSelectedRow();
+         int row = tblOrder.getSelectedRow();
 
     if (row == -1) {
         JOptionPane.showMessageDialog(null, "Select order first!");
@@ -3375,7 +3328,126 @@ try {
     } catch (Exception e) {
         e.printStackTrace();
     }
-    }//GEN-LAST:event_btnDeleteOrderActionPerformed
+    }//GEN-LAST:event_btnOrdDel2ActionPerformed
+
+    private void btnEditOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditOrderActionPerformed
+        // TODO add your handling code here:
+        int row = tblOrder.getSelectedRow();
+
+    if (row == -1) {
+        JOptionPane.showMessageDialog(null, "Select order first!");
+        return;
+    }
+
+    int orderId = (int) tblOrder.getValueAt(row, 0);
+
+    String newName = JOptionPane.showInputDialog("Enter new customer name:");
+
+    if (newName == null || newName.trim().isEmpty()) {
+        return;
+    }
+
+    try {
+        Connection con = DBConnection.getConnection();
+
+        String sql = "UPDATE tblorder SET customer_name=? WHERE order_id=?";
+        PreparedStatement pst = con.prepareStatement(sql);
+
+        pst.setString(1, newName);
+        pst.setInt(2, orderId);
+
+        pst.executeUpdate();
+
+        JOptionPane.showMessageDialog(null, "Order updated!");
+
+        loadOrdersTable("All", "");
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    }//GEN-LAST:event_btnEditOrderActionPerformed
+
+    private void btnStaffEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStaffEditActionPerformed
+        // TODO add your handling code here:
+        int row = tblStaff.getSelectedRow();
+
+    if (row == -1) {
+    JOptionPane.showMessageDialog(null, "Select staff first!");
+    return;
+}
+
+    int id = Integer.parseInt(tblStaff.getValueAt(row, 0).toString());
+
+    String currentName = tblStaff.getValueAt(row, 1).toString();
+    String currentEmail = tblStaff.getValueAt(row, 2).toString();
+    String currentContact = tblStaff.getValueAt(row, 3).toString();
+
+    String newName = JOptionPane.showInputDialog("Enter name:", currentName);
+    if (newName == null) return;
+
+    String newEmail = JOptionPane.showInputDialog("Enter email:", currentEmail);
+    if (newEmail == null) return;
+
+    String newContact = JOptionPane.showInputDialog("Enter contact:", currentContact);
+    if (newContact == null) return;
+
+    try {
+    Connection con = DBConnection.getConnection();
+
+    String sql = "UPDATE users SET username=?, email=?, contact_no=? WHERE id=?";
+    PreparedStatement pst = con.prepareStatement(sql);
+
+    pst.setString(1, newName);
+    pst.setString(2, newEmail);
+    pst.setString(3, newContact);
+    pst.setInt(4, id);
+
+    pst.executeUpdate();
+
+    JOptionPane.showMessageDialog(null, "Staff updated!");
+
+    loadStaffTable("");
+    
+} catch (Exception e) {
+    e.printStackTrace();
+}
+    }//GEN-LAST:event_btnStaffEditActionPerformed
+
+    private void btnStaffDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStaffDelActionPerformed
+        // TODO add your handling code here:
+    int selectedRow = tblStaff.getSelectedRow();
+
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Select a staff first!");
+        return;
+    }
+
+    int id = Integer.parseInt(tblStaff.getValueAt(selectedRow, 0).toString());
+
+    int confirm = JOptionPane.showConfirmDialog(this,
+            "Delete this staff?",
+            "Confirm",
+            JOptionPane.YES_NO_OPTION);
+
+    if (confirm == JOptionPane.YES_OPTION) {
+        try {
+            Connection conn = DBConnection.getConnection();
+
+            String sql = "DELETE FROM users WHERE id = ?";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setInt(1, id);
+
+            pst.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "Deleted successfully!");
+
+            loadStaffTable(""); // reload JTable
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    }//GEN-LAST:event_btnStaffDelActionPerformed
     
     /**
      * @param args the command line arguments
@@ -3428,7 +3500,6 @@ try {
     private javax.swing.JButton btnOrdConf;
     private javax.swing.JButton btnOrdDel2;
     private javax.swing.JButton btnOrdDel3;
-    private javax.swing.JButton btnOrdEdit3;
     private javax.swing.JButton btnOrdEdit4;
     private javax.swing.JButton btnOrdVerifyPay1;
     private javax.swing.JButton btnOrdView;
@@ -3449,6 +3520,7 @@ try {
     private javax.swing.JButton btnStaffEdit1;
     private javax.swing.JButton btnSupplier;
     private javax.swing.JButton btnUsers;
+    private javax.swing.JButton btnto;
     private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JComboBox<String> cmbStatus1;
     private javax.swing.JComboBox<String> cmbStatus2;
@@ -3516,7 +3588,7 @@ try {
     private javax.swing.JLabel lblCustomName;
     private javax.swing.JLabel lblDateTime;
     private javax.swing.JLabel lblDateTime1;
-    private javax.swing.JLabel lblLowStiock;
+    private javax.swing.JLabel lblLowStock;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblOrderNo;
     private javax.swing.JLabel lblOrderNumber;
