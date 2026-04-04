@@ -851,26 +851,23 @@ public class AdminDashboard extends javax.swing.JFrame {
     try {
         Connection con = DBConnection.getConnection();
 
-        String sql = "SELECT o.customer_name, oi.price, oi.quantity, " +
-                     "(oi.price * oi.quantity) AS total_amount, o.order_date " +
-                     "FROM tblorder o " +
-                     "LEFT JOIN order_items oi ON o.order_id = oi.order_id " +
-                     "ORDER BY o.order_date DESC";
+        String sql = "SELECT * FROM customer_report_view";
 
         PreparedStatement pst = con.prepareStatement(sql);
         ResultSet rs = pst.executeQuery();
 
         DefaultTableModel model = (DefaultTableModel) tblCustomerReports.getModel();
-        model.setRowCount(0); 
+        model.setRowCount(0);
 
-        while(rs.next()) {
+        while (rs.next()) {
+
             String name = rs.getString("customer_name");
-            double price = rs.getDouble("price");
-            int qty = rs.getInt("quantity");
+            int orders = rs.getInt("total_orders");
+            int items = rs.getInt("total_items");
             double total = rs.getDouble("total_amount");
-            String date = rs.getString("order_date");
+            String date = rs.getString("last_order_date");
 
-            model.addRow(new Object[]{name, price, qty, total, date});
+            model.addRow(new Object[]{name, orders, items, total, date});
         }
 
         rs.close();
