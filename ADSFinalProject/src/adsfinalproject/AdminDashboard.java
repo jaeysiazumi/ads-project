@@ -1280,7 +1280,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         lblRefNo = new javax.swing.JLabel();
         lblPaymentMethod = new javax.swing.JLabel();
         lblOrderType = new javax.swing.JLabel();
-        lblContact = new javax.swing.JLabel();
         lblVerifyName = new javax.swing.JLabel();
         lblDateTime1 = new javax.swing.JLabel();
         lblOrderNo = new javax.swing.JLabel();
@@ -1796,31 +1795,25 @@ public class AdminDashboard extends javax.swing.JFrame {
         lblOrderType.setForeground(new java.awt.Color(0, 0, 0));
         lblOrderType.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblOrderType.setText("-");
-        pnlverufy.add(lblOrderType, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, 80, 30));
-
-        lblContact.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
-        lblContact.setForeground(new java.awt.Color(0, 0, 0));
-        lblContact.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblContact.setText("-");
-        pnlverufy.add(lblContact, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, 80, 30));
+        pnlverufy.add(lblOrderType, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, 80, 20));
 
         lblVerifyName.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
         lblVerifyName.setForeground(new java.awt.Color(0, 0, 0));
         lblVerifyName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblVerifyName.setText("-");
-        pnlverufy.add(lblVerifyName, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, 80, 30));
+        pnlverufy.add(lblVerifyName, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 160, 80, 20));
 
         lblDateTime1.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
         lblDateTime1.setForeground(new java.awt.Color(0, 0, 0));
         lblDateTime1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblDateTime1.setText("date & time");
-        pnlverufy.add(lblDateTime1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 310, 10));
+        pnlverufy.add(lblDateTime1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 310, 20));
 
         lblOrderNo.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
         lblOrderNo.setForeground(new java.awt.Color(0, 0, 0));
         lblOrderNo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblOrderNo.setText("-");
-        pnlverufy.add(lblOrderNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 90, 20));
+        pnlverufy.add(lblOrderNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 90, 20));
 
         btnOrdCanc.setText("-");
         btnOrdCanc.setBorder(null);
@@ -1858,7 +1851,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
         pnlverufy.add(btnOrdBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, -1, -1));
 
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/VIEWPAY.png"))); // NOI18N
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Group 8763.png"))); // NOI18N
         pnlverufy.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 6, 380, 500));
 
         pnlOrder.add(pnlverufy, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 130, 390, 510));
@@ -3789,7 +3782,6 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JLabel lblCardNumber;
-    private javax.swing.JLabel lblContact;
     private javax.swing.JLabel lblCustomName;
     private javax.swing.JLabel lblDateTime;
     private javax.swing.JLabel lblDateTime1;
