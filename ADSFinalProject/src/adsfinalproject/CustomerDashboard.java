@@ -433,9 +433,6 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         int rowsUpdated = pst.executeUpdate();
 
-        System.out.println("Username passed: " + username);
-        System.out.println("Rows updated: " + rowsUpdated);
-
         pst.close();
         conn.close();
 
@@ -2882,10 +2879,6 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
     int qty = Integer.parseInt(model.getValueAt(i, 2).toString().trim());
     
-    System.out.println("Product: " + productName);
-    System.out.println("Price: " + price);
-    System.out.println("Qty: " + qty);
-
     int productId = 0;
 
     String getProduct = "SELECT product_id FROM products WHERE TRIM(name) = TRIM(?)";
