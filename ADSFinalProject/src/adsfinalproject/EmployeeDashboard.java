@@ -457,16 +457,16 @@ public class EmployeeDashboard extends javax.swing.JFrame {
          ResultSet rs = pst.executeQuery()) {
 
         DefaultTableModel model = (DefaultTableModel) tblEmployeeDashboard.getModel();
-        model.setRowCount(0); // clear existing rows
+        model.setRowCount(0); 
 
         while (rs.next()) {
             model.addRow(new Object[]{
-                rs.getInt("order_id"),              // order_id
-                rs.getString("customer_name"),      // customer_name
-                rs.getDouble("total_amount"),       // total_amount
-                rs.getString("payment_type"),       // payment_type (CASH / E-WALLET / CREDIT CARD)
-                rs.getString("status"),             // status (PREPARING / READY / COMPLETED)
-                rs.getTimestamp("order_date")       // order_date
+                rs.getInt("order_id"),              
+                rs.getString("customer_name"),     
+                rs.getDouble("total_amount"),       
+                rs.getString("payment_type"),       
+                rs.getString("status"),             
+                rs.getTimestamp("order_date")     
             });
         }
 
@@ -574,14 +574,14 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         double total = 0;
 
         for (int i = 0; i < model.getRowCount(); i++) {
-            Object value = model.getValueAt(i, 3); // column 3 = subtotal
+            Object value = model.getValueAt(i, 3); 
             if (value != null) {
                 total += Double.parseDouble(value.toString());
             }
         }
 
         lblTotalAmount.setText(String.valueOf(total));
-        lblTotalAmount2.setText(String.valueOf(total)); // ⭐ add this
+        lblTotalAmount2.setText(String.valueOf(total));
         calculateChange();
     }
     public void syncSummary() {
@@ -589,7 +589,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     DefaultTableModel source = (DefaultTableModel) tblSummary2.getModel();
     DefaultTableModel target = (DefaultTableModel) tblSummary.getModel();
 
-    target.setRowCount(0); // clear tblSummary
+    target.setRowCount(0); 
 
     for (int i = 0; i < source.getRowCount(); i++) {
 
@@ -602,16 +602,16 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     }
 }
     public String generateNextOrderID() {
-    String nextID = "0001"; // default first ID
+    String nextID = "0001"; 
 
     try (Connection con = DBConnection.getConnection();
          PreparedStatement pst = con.prepareStatement("SELECT MAX(order_id) AS maxID FROM orders");
          ResultSet rs = pst.executeQuery()) {
 
         if (rs.next()) {
-            int maxID = rs.getInt("maxID"); // will be 0 if no orders yet
+            int maxID = rs.getInt("maxID"); 
             int newID = maxID + 1;
-            nextID = String.format("%04d", newID); // pad with zeros
+            nextID = String.format("%04d", newID); 
         }
 
     } catch (Exception e) {
@@ -621,7 +621,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     return nextID;
 }
 
-public void syncOrderPanel() {
+    public void syncOrderPanel() {
     lblOrdID.setText(generateNextOrderID());
     txtName2.setText(txtName.getText());
     lblOrdType2.setText(lblOrdType.getText());
@@ -726,7 +726,7 @@ public boolean validatePayment() {
     JOptionPane.showMessageDialog(this, "Please enter a payment method!");
     return false;
 }
-public String getPaymentType() {
+    public String getPaymentType() {
 
     if (!txtCashAmount.getText().trim().isEmpty()) {
         return "CASH";
@@ -743,19 +743,18 @@ public String getPaymentType() {
     return "";
 }
 public String getNextOrderNumber() {
-    String nextOrderNumber = "ORD1"; // default if table empty
+    String nextOrderNumber = "ORD1"; 
     try (Connection con = DBConnection.getConnection();
          PreparedStatement pst = con.prepareStatement("SELECT order_number FROM orders ORDER BY order_id DESC LIMIT 1");
          ResultSet rs = pst.executeQuery()) {
 
         if (rs.next()) {
-            String lastOrder = rs.getString("order_number"); // e.g., ORD1775039795625
+            String lastOrder = rs.getString("order_number"); 
 
-            // Extract numeric part
-            String numericPart = lastOrder.replaceAll("\\D", ""); // remove non-digits
-            long lastNum = Long.parseLong(numericPart);          // convert to number
-            long newNum = lastNum + 1;                           // increment
-            nextOrderNumber = "ORD" + newNum;                   // prepend ORD again
+            String numericPart = lastOrder.replaceAll("\\D", ""); 
+            long lastNum = Long.parseLong(numericPart);          
+            long newNum = lastNum + 1;                           
+            nextOrderNumber = "ORD" + newNum;                  
         }
 
     } catch (Exception e) {
@@ -1014,6 +1013,11 @@ public String getNextOrderNumber() {
         btnDel.setBorder(null);
         btnDel.setBorderPainted(false);
         btnDel.setContentAreaFilled(false);
+        btnDel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDelActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnDel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 740, 90, 30));
 
         btnAddCustomer.setText("-");
@@ -1660,6 +1664,42 @@ public String getNextOrderNumber() {
         JOptionPane.showMessageDialog(this,e.getMessage());
     }
     }//GEN-LAST:event_btnMarkPaidActionPerformed
+
+    private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
+        // TODO add your handling code here:
+    int selectedRow = tblUsers.getSelectedRow();
+
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Select a user first!");
+        return;
+    }
+
+    int userId = Integer.parseInt(tblUsers.getValueAt(selectedRow, 0).toString());
+
+    int confirm = JOptionPane.showConfirmDialog(this,
+            "Are you sure you want to delete this user?",
+            "Confirm Delete",
+            JOptionPane.YES_NO_OPTION);
+
+    if (confirm == JOptionPane.YES_OPTION) {
+        try {
+            Connection conn = DBConnection.getConnection();
+
+            String sql = "DELETE FROM users WHERE id = ?";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setInt(1, userId);
+
+            pst.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "User deleted successfully!");
+
+            loadUsers();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }
+    }//GEN-LAST:event_btnDelActionPerformed
 
     /**
      * @param args the command line arguments
