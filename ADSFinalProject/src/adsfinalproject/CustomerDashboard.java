@@ -455,17 +455,28 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         String totalStr = lblTotal.getText().replace("₱","").trim();
         double totalAmount = Double.parseDouble(totalStr);
+        
+        String referenceNo = txtRefNum.getText();
+        String cardNumber = txtCardNumberVerify.getText().trim();
 
         String status = paymentType.equals("CASH") ? "PENDING" : "PAID";
 
-        String sql = "INSERT INTO tblpayment (order_id, total_amount, payment_date, payment_type, status) "
-                   + "VALUES (?, ?, NOW(), ?, ?)";
+        String sql = "INSERT INTO tblpayment (order_id, total_amount, payment_date, payment_type, reference_no, card_number, status) "
+                   + "VALUES (?, ?, NOW(), ?, ?, ?, ?)";
 
         PreparedStatement pst = conn.prepareStatement(sql);
         pst.setInt(1, orderId);
         pst.setDouble(2, totalAmount);
         pst.setString(3, paymentType);
-        pst.setString(4, status);
+        pst.setString(4, referenceNo);
+        
+    if (paymentType.equals("CREDIT CARD") && !cardNumber.isEmpty()) {
+    pst.setString(5, cardNumber);
+}   else {
+    pst.setNull(5, java.sql.Types.VARCHAR);
+}
+        pst.setString(5, cardNumber);
+        pst.setString(6, status);
 
         pst.executeUpdate();
 
@@ -478,9 +489,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
         e.printStackTrace();
         JOptionPane.showMessageDialog(this, "Payment Error: " + e.getMessage());
     }
-}
 
-        
+        }
 
 
     /**
@@ -514,7 +524,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         lblOrderStat2 = new javax.swing.JLabel();
         lblDateTime2 = new javax.swing.JLabel();
         textAmount = new javax.swing.JTextField();
-        textRefNum = new javax.swing.JTextField();
+        txtRefNum = new javax.swing.JTextField();
         textAccName = new javax.swing.JTextField();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblSummary2 = new javax.swing.JTable();
@@ -530,9 +540,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         lblOrderStat1 = new javax.swing.JLabel();
         lblDateTime1 = new javax.swing.JLabel();
         textAmount2 = new javax.swing.JTextField();
-        textCCV = new javax.swing.JTextField();
+        txtCCV = new javax.swing.JTextField();
         textExDate = new javax.swing.JTextField();
-        textCardNum = new javax.swing.JTextField();
+        txtCardNumberVerify = new javax.swing.JTextField();
         textCardName = new javax.swing.JTextField();
         btnCcPay = new javax.swing.JButton();
         jLabel47 = new javax.swing.JLabel();
@@ -901,14 +911,14 @@ public class CustomerDashboard extends javax.swing.JFrame {
         });
         jPanel11.add(textAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 550, 130, 30));
 
-        textRefNum.setBackground(new java.awt.Color(255, 255, 255));
-        textRefNum.setForeground(new java.awt.Color(0, 0, 0));
-        textRefNum.addActionListener(new java.awt.event.ActionListener() {
+        txtRefNum.setBackground(new java.awt.Color(255, 255, 255));
+        txtRefNum.setForeground(new java.awt.Color(0, 0, 0));
+        txtRefNum.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textRefNumActionPerformed(evt);
+                txtRefNumActionPerformed(evt);
             }
         });
-        jPanel11.add(textRefNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 470, 390, 30));
+        jPanel11.add(txtRefNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 470, 390, 30));
 
         textAccName.setBackground(new java.awt.Color(255, 255, 255));
         textAccName.setForeground(new java.awt.Color(0, 0, 0));
@@ -1017,14 +1027,14 @@ public class CustomerDashboard extends javax.swing.JFrame {
         });
         jPanel10.add(textAmount2, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 640, 130, 30));
 
-        textCCV.setBackground(new java.awt.Color(255, 255, 255));
-        textCCV.setForeground(new java.awt.Color(0, 0, 0));
-        textCCV.addActionListener(new java.awt.event.ActionListener() {
+        txtCCV.setBackground(new java.awt.Color(255, 255, 255));
+        txtCCV.setForeground(new java.awt.Color(0, 0, 0));
+        txtCCV.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textCCVActionPerformed(evt);
+                txtCCVActionPerformed(evt);
             }
         });
-        jPanel10.add(textCCV, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 570, 130, 30));
+        jPanel10.add(txtCCV, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 570, 130, 30));
 
         textExDate.setBackground(new java.awt.Color(255, 255, 255));
         textExDate.setForeground(new java.awt.Color(0, 0, 0));
@@ -1035,14 +1045,14 @@ public class CustomerDashboard extends javax.swing.JFrame {
         });
         jPanel10.add(textExDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 568, 130, 30));
 
-        textCardNum.setBackground(new java.awt.Color(255, 255, 255));
-        textCardNum.setForeground(new java.awt.Color(0, 0, 0));
-        textCardNum.addActionListener(new java.awt.event.ActionListener() {
+        txtCardNumberVerify.setBackground(new java.awt.Color(255, 255, 255));
+        txtCardNumberVerify.setForeground(new java.awt.Color(0, 0, 0));
+        txtCardNumberVerify.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textCardNumActionPerformed(evt);
+                txtCardNumberVerifyActionPerformed(evt);
             }
         });
-        jPanel10.add(textCardNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 500, 390, 30));
+        jPanel10.add(txtCardNumberVerify, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 500, 390, 30));
 
         textCardName.setBackground(new java.awt.Color(255, 255, 255));
         textCardName.setForeground(new java.awt.Color(0, 0, 0));
@@ -2709,17 +2719,17 @@ public class CustomerDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_textCardNameActionPerformed
 
-    private void textCardNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCardNumActionPerformed
+    private void txtCardNumberVerifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCardNumberVerifyActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_textCardNumActionPerformed
+    }//GEN-LAST:event_txtCardNumberVerifyActionPerformed
 
     private void textExDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textExDateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textExDateActionPerformed
 
-    private void textCCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCCVActionPerformed
+    private void txtCCVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCCVActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_textCCVActionPerformed
+    }//GEN-LAST:event_txtCCVActionPerformed
 
     private void textAmount2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textAmount2ActionPerformed
         // TODO add your handling code here:
@@ -2731,9 +2741,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
         calculateChange();
     }//GEN-LAST:event_textAmountActionPerformed
 
-    private void textRefNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textRefNumActionPerformed
+    private void txtRefNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRefNumActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_textRefNumActionPerformed
+    }//GEN-LAST:event_txtRefNumActionPerformed
 
     private void textAccNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textAccNameActionPerformed
         // TODO add your handling code here:
@@ -2968,7 +2978,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
     private void btneWalletPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneWalletPayActionPerformed
         String accName = textAccName.getText().trim();
-        String refNum = textRefNum.getText().trim();
+        String refNum = txtRefNum.getText().trim();
         String amount = textAmount.getText().trim();
 
         if (accName.isEmpty() || refNum.isEmpty() || amount.isEmpty()) {
@@ -3008,9 +3018,9 @@ public class CustomerDashboard extends javax.swing.JFrame {
     }
     private void btnCcPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCcPayActionPerformed
         String name = textCardName.getText().trim();
-        String cardNum = textCardNum.getText().trim();
+        String cardNum = txtCardNumberVerify.getText().trim();
         String exDate = textExDate.getText().trim();
-        String ccv = textCCV.getText().trim();
+        String ccv = txtCCV.getText().trim();
         String amount = textAmount2.getText().trim();
 
         if (name.isEmpty() || cardNum.isEmpty() || exDate.isEmpty() || ccv.isEmpty() || amount.isEmpty()) {
@@ -3655,12 +3665,12 @@ public class CustomerDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField textAddress;
     private javax.swing.JTextField textAmount;
     private javax.swing.JTextField textAmount2;
-    private javax.swing.JTextField textCCV;
     private javax.swing.JTextField textCardName;
-    private javax.swing.JTextField textCardNum;
     private javax.swing.JTextField textExDate;
-    private javax.swing.JTextField textRefNum;
     private javax.swing.JTextField textUserName;
+    private javax.swing.JTextField txtCCV;
+    private javax.swing.JTextField txtCardNumberVerify;
     private javax.swing.JTextField txtContactNo;
+    private javax.swing.JTextField txtRefNum;
     // End of variables declaration//GEN-END:variables
 }
