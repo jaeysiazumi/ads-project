@@ -2896,7 +2896,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
     if (productId == 0) {
         System.out.println("Product not found: " + productName);
         continue;
-    }
+    
+}
 
     String sqlItem = "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
     PreparedStatement pstItem = con.prepareStatement(sqlItem);
@@ -2916,6 +2917,13 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
     csStock.execute();
     csStock.close();
+    
+    String updateStatus = "UPDATE products SET status = CASE WHEN stock <= 0 THEN 'OUT OF STOCK' ELSE 'AVAILABLE' END WHERE product_id = ?";
+    PreparedStatement pstStatus = con.prepareStatement(updateStatus);
+    pstStatus.setInt(1, productId);
+    pstStatus.executeUpdate();
+    pstStatus.close();
+    
 }
     String sql2 = "INSERT INTO tblorder (order_id, customer_name, total_amount, order_type, status, order_date) VALUES (?,?,?,?,?,?)";
 
