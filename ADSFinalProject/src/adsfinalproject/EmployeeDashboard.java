@@ -79,7 +79,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
                     calculateTotalAmount();
 
-                    syncSummary(); // ⭐ sync to tblSummary
+                    syncSummary();
 
                 }catch(Exception ex){
                     JOptionPane.showMessageDialog(null,"Invalid Quantity");
@@ -495,7 +495,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 }
     public void loadSummary1FromProducts() {
     DefaultTableModel model = (DefaultTableModel) tblSummary1.getModel();
-    model.setRowCount(0); // clear existing rows
+    model.setRowCount(0);
 
     String sql = "SELECT name, description, price FROM products";
 
@@ -518,7 +518,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
     public void loadSummary1ByCategory(String category) {
     DefaultTableModel model = (DefaultTableModel) tblSummary1.getModel();
-    model.setRowCount(0); // clear existing rows
+    model.setRowCount(0); 
 
     String sql;
 
@@ -1627,7 +1627,7 @@ public String getNextOrderNumber() {
 
         String customerName = txtName.getText();
         double totalAmount = Double.parseDouble(lblTotalAmount.getText());
-        String paymentType = getPaymentType(); // implement this to check which payment field is filled
+        String paymentType = getPaymentType(); 
 
         String orderSQL = "INSERT INTO orders(order_number, customer_name, total_amount, order_type, status, order_date) VALUES (?,?,?,?,?,NOW())";
         PreparedStatement pstOrder = con.prepareStatement(orderSQL, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -1655,7 +1655,6 @@ public String getNextOrderNumber() {
 
         JOptionPane.showMessageDialog(this,"Payment Successful!");
 
-        // Refresh UI
         loadEmployeeDashboard();
         loadOrders();
         loadDashboardCounts();
