@@ -1772,6 +1772,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnOrdConf.setBorder(null);
         btnOrdConf.setBorderPainted(false);
         btnOrdConf.setContentAreaFilled(false);
+        btnOrdConf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrdConfActionPerformed(evt);
+            }
+        });
         pnlverufy.add(btnOrdConf, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 440, 90, 30));
 
         lblTotalPayment.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
@@ -2809,7 +2814,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddCancelActionPerformed
 
     private void btnOrdCancActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdCancActionPerformed
-
+        pnlverufy.setVisible(false);
+        pnlOrder.setVisible(true);
     }//GEN-LAST:event_btnOrdCancActionPerformed
 
     private void btnOrdCanc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdCanc1ActionPerformed
@@ -3605,6 +3611,75 @@ try {
             pnlverufy.revalidate();
             pnlverufy.repaint();
     }//GEN-LAST:event_btnOrdVerifyPay1ActionPerformed
+
+    private void btnOrdConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdConfActionPerformed
+        // TODO add your handling code here:
+        int row = tblPayment.getSelectedRow();
+
+    if(row == -1){
+        JOptionPane.showMessageDialog(this,"Please select a payment first.");
+        return;
+    }
+
+    int orderId = Integer.parseInt(tblPayment.getValueAt(row,1).toString());
+
+    try{
+        Connection con = DBConnection.getConnection();
+
+        String currentStatus = "";
+
+        String sql = "SELECT status FROM tblpayment WHERE order_id=?";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1,orderId);
+        ResultSet rs = pst.executeQuery();
+
+        if(rs.next()){
+            currentStatus = rs.getString("status").toUpperCase().trim();
+        }
+
+        String newStatus = "";
+
+        if(currentStatus.equals("PAID")){
+            newStatus = "PREPARING";
+        }
+        else if(currentStatus.equals("PREPARING")){
+            newStatus = "COMPLETED";
+        }
+        else if(currentStatus.equals("COMPLETED")){
+            JOptionPane.showMessageDialog(this,"Order already completed.");
+            return;
+        }
+
+        String updatePayment = "UPDATE tblpayment SET status=? WHERE order_id=?";
+        PreparedStatement pst1 = con.prepareStatement(updatePayment);
+        pst1.setString(1,newStatus);
+        pst1.setInt(2,orderId);
+        pst1.executeUpdate();
+
+        String updateOrders = "UPDATE orders SET status=? WHERE order_id=?";
+        PreparedStatement pst2 = con.prepareStatement(updateOrders);
+        pst2.setString(1,newStatus);
+        pst2.setInt(2,orderId);
+        pst2.executeUpdate();
+
+        String updateTblOrder = "UPDATE tblorder SET status=? WHERE order_id=?";
+        PreparedStatement pst3 = con.prepareStatement(updateTblOrder);
+        pst3.setString(1,newStatus);
+        pst3.setInt(2,orderId);
+        pst3.executeUpdate();
+
+        JOptionPane.showMessageDialog(this,"Status updated to "+newStatus);
+
+        loadPaymentsTable("All","");
+        loadOrdersTable("All","");
+        
+        CardLayout cl = (CardLayout)(jPanel2.getLayout());
+        cl.show(jPanel2, "order");
+
+    }catch(Exception e){
+        e.printStackTrace();
+    }
+    }//GEN-LAST:event_btnOrdConfActionPerformed
     
     /**
      * @param args the command line arguments
