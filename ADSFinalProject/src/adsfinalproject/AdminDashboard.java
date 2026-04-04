@@ -33,6 +33,38 @@ public class AdminDashboard extends javax.swing.JFrame {
     
     public AdminDashboard() {
         initComponents(); 
+            tblPayment.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = tblPayment.getSelectedRow();
+
+                if (row >= 0) {
+                    int orderID = Integer.parseInt(tblPayment.getValueAt(row, 1).toString());
+
+                    loadPaymentDetails(orderID);
+                    setOrderDetails(orderID);
+                    setPaymentMethod(orderID);
+                    setTotalPayment(orderID);
+
+                    try (Connection con = DBConnection.getConnection()) {
+                        String sql = "SELECT order_type FROM orders WHERE order_id = ?";
+                        PreparedStatement pst = con.prepareStatement(sql);
+                        pst.setInt(1, orderID);
+                        ResultSet rs = pst.executeQuery();
+
+                        if (rs.next()) {
+                            String orderType = rs.getString("order_type");
+                            lblOrderType.setText(orderType);
+                        }
+
+                        rs.close();
+                        pst.close();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
         btnAddSave2.addActionListener(e -> addStaff());
         loadPaymentsTable("All", "");
         tblPayment.revalidate();
@@ -1019,7 +1051,120 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
     }
     
-    
+    public void loadPaymentDate(int orderId){
+
+    try{
+        Connection con = DBConnection.getConnection();
+
+        String sql =
+        "SELECT order_date FROM tblorder WHERE order_id=?";
+
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1, orderId);
+
+        ResultSet rs = pst.executeQuery();
+
+        if(rs.next()){
+
+            java.sql.Timestamp timestamp =
+            rs.getTimestamp("order_date");
+
+            SimpleDateFormat sdf =
+            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            lblDateTime1.setText(
+                sdf.format(timestamp)
+            );
+        }
+
+    }catch(Exception e){
+        e.printStackTrace();
+    }
+}
+    public void loadPaymentDetails(int orderId){
+
+    try{
+        Connection con = DBConnection.getConnection();
+
+        String sql =
+        "SELECT order_id, customer_name, order_date FROM tblorder WHERE order_id=?";
+
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1, orderId);
+
+        ResultSet rs = pst.executeQuery();
+
+        if(rs.next()){
+
+            lblOrderNo.setText(
+                String.valueOf(rs.getInt("order_id"))
+            );
+
+            lblName.setText(
+                rs.getString("customer_name")
+            );
+
+            java.sql.Timestamp timestamp =
+            rs.getTimestamp("order_date");
+
+            SimpleDateFormat sdf =
+            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            lblDateTime1.setText(
+                sdf.format(timestamp)
+            );
+        }
+
+    }catch(Exception e){
+        e.printStackTrace();
+    }
+}
+    public void setPaymentMethod(int orderId) {
+    try (Connection con = DBConnection.getConnection()) {
+        String sql = "SELECT payment_type FROM tblpayment WHERE order_id = ?";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1, orderId);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String paymentType = rs.getString("payment_type");
+            lblPaymentMethod.setText(paymentType);
+        } else {
+            lblPaymentMethod.setText("N/A"); 
+        }
+
+        rs.close();
+        pst.close();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        lblPaymentMethod.setText("Error");
+    }
+}
+    private void setTotalPayment(int orderId) {
+    String sql = "SELECT total_amount FROM tblPayment WHERE order_id = ?";
+
+    try (Connection con = DBConnection.getConnection();
+         PreparedStatement pst = con.prepareStatement(sql)) {
+
+        pst.setInt(1, orderId);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            double total = rs.getDouble("total_amount");
+            lblTotalPayment.setText(String.format("%.2f", total));
+        } else {
+            lblTotalPayment.setText("0.00"); 
+        }
+
+        rs.close();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        lblTotalPayment.setText("₱ 0.00");
+    }
+} 
+
 
 
      
@@ -1744,7 +1889,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 btnOrderViewActionPerformed(evt);
             }
         });
-        jPanel12.add(btnOrderView, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 740, 130, 30));
+        jPanel12.add(btnOrderView, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 720, 130, 30));
 
         btnOrdDel2.setBackground(new java.awt.Color(255, 255, 255));
         btnOrdDel2.setText("-");
@@ -1821,7 +1966,12 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnOrdVerifyPay1.setBorder(null);
         btnOrdVerifyPay1.setBorderPainted(false);
         btnOrdVerifyPay1.setContentAreaFilled(false);
-        jPanel13.add(btnOrdVerifyPay1, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 740, 130, 30));
+        btnOrdVerifyPay1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrdVerifyPay1ActionPerformed(evt);
+            }
+        });
+        jPanel13.add(btnOrdVerifyPay1, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 720, 130, 30));
 
         btnOrdDel3.setBackground(new java.awt.Color(255, 255, 255));
         btnOrdDel3.setText("-");
@@ -3448,6 +3598,13 @@ try {
         }
     }
     }//GEN-LAST:event_btnStaffDelActionPerformed
+
+    private void btnOrdVerifyPay1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdVerifyPay1ActionPerformed
+        // TODO add your handling code here:
+            pnlverufy.setVisible(true);
+            pnlverufy.revalidate();
+            pnlverufy.repaint();
+    }//GEN-LAST:event_btnOrdVerifyPay1ActionPerformed
     
     /**
      * @param args the command line arguments
