@@ -1164,8 +1164,56 @@ public class AdminDashboard extends javax.swing.JFrame {
         lblTotalPayment.setText("₱ 0.00");
     }
 } 
+private void confirmOrder() {
 
+    int row = tblOrder.getSelectedRow();
 
+    if (row < 0) {
+        JOptionPane.showMessageDialog(this, "Please select an order first.");
+        return;
+    }
+
+    int orderID = Integer.parseInt(tblOrder.getValueAt(row, 0).toString());
+    String currentStatus = tblOrder.getValueAt(row, 5).toString(); // status column
+
+    if (currentStatus.equalsIgnoreCase("COMPLETED")) {
+        JOptionPane.showMessageDialog(this, "This order is already COMPLETED.");
+        return;
+    }
+
+    if (currentStatus.equalsIgnoreCase("PREPARING")) {
+        JOptionPane.showMessageDialog(this, "This order is already PREPARING.");
+        return;
+    }
+
+    try {
+        Connection con = DBConnection.getConnection();
+
+        String sql1 = "UPDATE orders SET status='PREPARING' WHERE order_id=?";
+        PreparedStatement pst1 = con.prepareStatement(sql1);
+        pst1.setInt(1, orderID);
+        pst1.executeUpdate();
+
+        String sql2 = "UPDATE tblorder SET status='PREPARING' WHERE order_id=?";
+        PreparedStatement pst2 = con.prepareStatement(sql2);
+        pst2.setInt(1, orderID);
+        pst2.executeUpdate();
+
+        String sql3 = "UPDATE tblpayment SET status='PREPARING' WHERE order_id=?";
+        PreparedStatement pst3 = con.prepareStatement(sql3);
+        pst3.setInt(1, orderID);
+        pst3.executeUpdate();
+
+        JOptionPane.showMessageDialog(this, "Order status updated to PREPARING.");
+
+        loadOrdersTable("All", "");
+        loadPaymentsTable("All", "");
+        loadDashboardTable();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
 
      
     
@@ -2936,29 +2984,29 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void btnSaveRestockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveRestockActionPerformed
         // TODO add your handling code here:
-try {
+        try {
 
-    int productId = Integer.parseInt(txtProductID.getText().trim());
-    int addStock = Integer.parseInt(txtStockIn.getText().trim());
+            int productId = Integer.parseInt(txtProductID.getText().trim());
+            int addStock = Integer.parseInt(txtStockIn.getText().trim());
 
-    Connection conn = DBConnection.getConnection();
+            Connection conn = DBConnection.getConnection();
 
-    String sql = "UPDATE products SET stock = stock + ? WHERE product_id = ?";
-    PreparedStatement pst = conn.prepareStatement(sql);
+            String sql = "UPDATE products SET stock = stock + ? WHERE product_id = ?";
+            PreparedStatement pst = conn.prepareStatement(sql);
 
-    pst.setInt(1, addStock);
-    pst.setInt(2, productId);
+            pst.setInt(1, addStock);
+            pst.setInt(2, productId);
 
-    pst.executeUpdate();
+            pst.executeUpdate();
 
-    JOptionPane.showMessageDialog(null, "Stock updated successfully!");
+            JOptionPane.showMessageDialog(null, "Stock updated successfully!");
 
-    loadProductsTable("", "All");
+            loadProductsTable("", "All");
 
-} catch (Exception e) {
-    e.printStackTrace();
-    JOptionPane.showMessageDialog(null, "Database not connected: " + e.getMessage());
-}
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Database not connected: " + e.getMessage());
+        }
         
         
 
@@ -3363,89 +3411,7 @@ try {
 
     private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
         // TODO add your handling code here:
-
-    int orderId;
-
-    try {
-        orderId = Integer.parseInt(lblOrderNumber.getText().trim());
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Invalid Order ID!");
-        return;
-    }
-
-    int confirm = JOptionPane.showConfirmDialog(
-            null,
-            "Proceed to next status?",
-            "Confirm Order",
-            JOptionPane.YES_NO_OPTION
-    );
-
-    if (confirm != JOptionPane.YES_OPTION) return;
-
-    try (Connection con = DBConnection.getConnection()) {
-
-        String getSql = "SELECT status FROM orders WHERE order_id=?";
-        PreparedStatement pstGet = con.prepareStatement(getSql);
-        pstGet.setInt(1, orderId);
-        ResultSet rs = pstGet.executeQuery();
-
-        if (!rs.next()) {
-            JOptionPane.showMessageDialog(null, "Order not found!");
-            return;
-        }
-
-       String currentStatus = rs.getString("status");
-    if (currentStatus != null) {
-    currentStatus = currentStatus.trim();
-    } else {
-    JOptionPane.showMessageDialog(null, "Status is NULL in database!");
-    return;
-}
-
-    String newStatus = "";
-
-    if (currentStatus.equalsIgnoreCase("PENDING")) {
-    newStatus = "PREPARING";
-
-    } else if (currentStatus.equalsIgnoreCase("Preparing")) {
-    newStatus = "COMPLETED";
-
-    } else if (currentStatus.equalsIgnoreCase("COMPLETED")) {
-    JOptionPane.showMessageDialog(null, "Already Completed!");
-    return;
-
-    } else {
-    JOptionPane.showMessageDialog(null, "Unknown status in DB: [" + currentStatus + "]");
-    return;
-}
-
-        String updateSql = "UPDATE orders SET status=? WHERE order_id=?";
-        PreparedStatement pstUpdate = con.prepareStatement(updateSql);
-        pstUpdate.setString(1, newStatus);
-        pstUpdate.setInt(2, orderId);
-
-        int updated = pstUpdate.executeUpdate();
-
-        if (updated > 0) {
-
-            JOptionPane.showMessageDialog(null,
-                    "Status updated to: " + newStatus);
-
-            loadOrdersTable(
-                cmbStatusFilter.getSelectedItem().toString(),
-                txtSearch.getText().trim()
-            );
-
-            loadDashboardTable();
-            loadOrdersTable("ALL", "");
-
-            pnlView.setVisible(false);
-        }
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, e.getMessage());
-    
-}
+        confirmOrder();
     }//GEN-LAST:event_btnConfirmActionPerformed
 
     private void btnOrdDel2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdDel2ActionPerformed
@@ -3597,7 +3563,7 @@ try {
 
             JOptionPane.showMessageDialog(this, "Deleted successfully!");
 
-            loadStaffTable(""); // reload JTable
+            loadStaffTable("");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -3615,70 +3581,38 @@ try {
     private void btnOrdConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdConfActionPerformed
         // TODO add your handling code here:
         int row = tblPayment.getSelectedRow();
+            if (row < 0) {
+                JOptionPane.showMessageDialog(this, "Please select a payment first.");
+                return;
+            }
 
-    if(row == -1){
-        JOptionPane.showMessageDialog(this,"Please select a payment first.");
-        return;
-    }
+            int orderID = Integer.parseInt(tblPayment.getValueAt(row, 1).toString());
+            String currentStatus = tblPayment.getValueAt(row, 5).toString().toUpperCase();
 
-    int orderId = Integer.parseInt(tblPayment.getValueAt(row,1).toString());
+            if (!currentStatus.equals("PREPARING")) {
+                JOptionPane.showMessageDialog(this, "Status can only be updated if it is PREPARING.");
+                return;
+            }
 
-    try{
-        Connection con = DBConnection.getConnection();
+            try (Connection con = DBConnection.getConnection()) {
 
-        String currentStatus = "";
+                String[] tables = {"orders", "tblorder", "tblpayment"};
+                for (String table : tables) {
+                    String sql = "UPDATE " + table + " SET status='COMPLETED' WHERE order_id=?";
+                    try (PreparedStatement pst = con.prepareStatement(sql)) {
+                        pst.setInt(1, orderID);
+                        pst.executeUpdate();
+                    }
+                }
 
-        String sql = "SELECT status FROM tblpayment WHERE order_id=?";
-        PreparedStatement pst = con.prepareStatement(sql);
-        pst.setInt(1,orderId);
-        ResultSet rs = pst.executeQuery();
+                JOptionPane.showMessageDialog(this, "Status updated to COMPLETED.");
+                loadPaymentsTable("All", "");
+                loadOrdersTable("All", "");
+                loadDashboardTable();
 
-        if(rs.next()){
-            currentStatus = rs.getString("status").toUpperCase().trim();
-        }
-
-        String newStatus = "";
-
-        if(currentStatus.equals("PAID")){
-            newStatus = "PREPARING";
-        }
-        else if(currentStatus.equals("PREPARING")){
-            newStatus = "COMPLETED";
-        }
-        else if(currentStatus.equals("COMPLETED")){
-            JOptionPane.showMessageDialog(this,"Order already completed.");
-            return;
-        }
-
-        String updatePayment = "UPDATE tblpayment SET status=? WHERE order_id=?";
-        PreparedStatement pst1 = con.prepareStatement(updatePayment);
-        pst1.setString(1,newStatus);
-        pst1.setInt(2,orderId);
-        pst1.executeUpdate();
-
-        String updateOrders = "UPDATE orders SET status=? WHERE order_id=?";
-        PreparedStatement pst2 = con.prepareStatement(updateOrders);
-        pst2.setString(1,newStatus);
-        pst2.setInt(2,orderId);
-        pst2.executeUpdate();
-
-        String updateTblOrder = "UPDATE tblorder SET status=? WHERE order_id=?";
-        PreparedStatement pst3 = con.prepareStatement(updateTblOrder);
-        pst3.setString(1,newStatus);
-        pst3.setInt(2,orderId);
-        pst3.executeUpdate();
-
-        JOptionPane.showMessageDialog(this,"Status updated to "+newStatus);
-
-        loadPaymentsTable("All","");
-        loadOrdersTable("All","");
-        
-        CardLayout cl = (CardLayout)(jPanel2.getLayout());
-        cl.show(jPanel2, "order");
-
-    }catch(Exception e){
-        e.printStackTrace();
-    }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }//GEN-LAST:event_btnOrdConfActionPerformed
     
     /**
