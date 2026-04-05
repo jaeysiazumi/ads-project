@@ -446,7 +446,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
     try {
         Connection conn = DBConnection.getConnection();
         
-        String getOrder = "SELECT MAX(order_id) FROM tblorder";
+        String getOrder = "SELECT MAX(order_id) FROM orders";
         PreparedStatement pstOrder = conn.prepareStatement(getOrder);
         ResultSet rs = pstOrder.executeQuery();
 
@@ -2935,18 +2935,6 @@ public class CustomerDashboard extends javax.swing.JFrame {
     pstStatus.close();
     
 }
-    String sql2 = "INSERT INTO tblorder (order_id, customer_name, total_amount, order_type, status, order_date) VALUES (?,?,?,?,?,?)";
-
-    PreparedStatement pst2 = con.prepareStatement(sql2);
-    pst2.setInt(1, orderID);
-    pst2.setString(2, customerName);
-    pst2.setDouble(3, totalAmount);
-    pst2.setString(4, orderTypeVal);
-    pst2.setString(5, status);
-    pst2.setString(6, orderDate);
-
-    pst2.executeUpdate();
-
     lblOrderNum.setText(orderNumber);
 
 } catch (Exception e) {
@@ -3004,10 +2992,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
         pst.setString(1, lblOrderNum.getText());
         pst.executeUpdate();
         
-        String sql2 = "UPDATE tblorder SET status='PAID' WHERE order_id = (SELECT order_id FROM orders WHERE order_number=?)";
-        PreparedStatement pst2 = con.prepareStatement(sql2);
-        pst2.setString(1, lblOrderNum.getText());
-        pst2.executeUpdate();
+ 
 
     } catch (Exception e) {
         e.printStackTrace();
@@ -3045,17 +3030,12 @@ public class CustomerDashboard extends javax.swing.JFrame {
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setString(1, lblOrderNum.getText());
         pst.executeUpdate();
+         lblOrderStat1.setText("PREPARING");
+            JOptionPane.showMessageDialog(this, "Payment Successful!");
         
-        String sql2 = "UPDATE tblorder SET status='PAID' WHERE order_id = (SELECT order_id FROM orders WHERE order_number=?)";
-        PreparedStatement pst2 = con.prepareStatement(sql2);
-        pst2.setString(1, lblOrderNum.getText());
-        pst2.executeUpdate();
-
     } catch (Exception e) {
         e.printStackTrace();
-    }
-            lblOrderStat1.setText("PREPARING");
-            JOptionPane.showMessageDialog(this, "Payment Successful!");
+    } 
     }//GEN-LAST:event_btnCcPayActionPerformed
     }
     private void textAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textAddressActionPerformed
