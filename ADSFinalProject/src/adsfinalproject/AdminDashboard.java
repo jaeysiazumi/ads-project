@@ -149,17 +149,11 @@ public class AdminDashboard extends javax.swing.JFrame {
                     pst1.setInt(2,orderID);
                     pst1.executeUpdate();
 
-                    String sql2 = "UPDATE tblorder SET status=? WHERE order_id=?";
+                    String sql2= "UPDATE tblpayment SET status=? WHERE order_id=?";
                     PreparedStatement pst2 = conn.prepareStatement(sql2);
-                    pst2.setString(1,newStatus);
+                    pst2.setString(1, newStatus.toUpperCase());
                     pst2.setInt(2,orderID);
                     pst2.executeUpdate();
-
-                    String sql3 = "UPDATE tblpayment SET status=? WHERE order_id=?";
-                    PreparedStatement pst3 = conn.prepareStatement(sql3);
-                    pst3.setString(1, newStatus.toUpperCase());
-                    pst3.setInt(2,orderID);
-                    pst3.executeUpdate();
 
                     loadPaymentsTable("All", "");
 
@@ -996,7 +990,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     try{
         Connection con = DBConnection.getConnection();
 
-        String sql = "SELECT order_id, customer_name, total_amount, status, order_date FROM tblOrder WHERE order_id = ?";
+        String sql = "SELECT order_id, customer_name, total_amount, status, order_date FROM orders WHERE order_id = ?";
         PreparedStatement pst = con.prepareStatement(sql);
         pst.setInt(1, orderId);
         ResultSet rs = pst.executeQuery();
@@ -1061,7 +1055,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                  "p.payment_type, " +
                  "p.reference_no, " +
                  "p.card_number " +
-                 "FROM tblorder o " +
+                 "FROM orders o " +
                  "LEFT JOIN tblpayment p ON o.order_id = p.order_id " +
                  "WHERE o.order_id = ?";
     try {
@@ -1123,15 +1117,10 @@ public class AdminDashboard extends javax.swing.JFrame {
         pst1.setInt(1, orderID);
         pst1.executeUpdate();
 
-        String sql2 = "UPDATE tblorder SET status='PREPARING' WHERE order_id=?";
+        String sql2 = "UPDATE tblpayment SET status='PREPARING' WHERE order_id=?";
         PreparedStatement pst2 = con.prepareStatement(sql2);
         pst2.setInt(1, orderID);
         pst2.executeUpdate();
-
-        String sql3 = "UPDATE tblpayment SET status='PREPARING' WHERE order_id=?";
-        PreparedStatement pst3 = con.prepareStatement(sql3);
-        pst3.setInt(1, orderID);
-        pst3.executeUpdate();
 
         JOptionPane.showMessageDialog(this, "Order status updated to PREPARING.");
 
@@ -1151,7 +1140,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         String sql =
         "SELECT o.customer_name, oi.price, oi.quantity, " +
         "(oi.price * oi.quantity) AS total_amount, o.order_date " +
-        "FROM tblorder o " +
+        "FROM orders o " +
         "LEFT JOIN order_items oi ON o.order_id = oi.order_id " +
         "WHERE o.customer_name LIKE ? " +
         "ORDER BY o.order_date DESC";
@@ -3105,10 +3094,10 @@ public class AdminDashboard extends javax.swing.JFrame {
         tblSuppliers.getValueAt(row, 3).toString(),
         tblSuppliers.getValueAt(row, 4).toString(),
         tblSuppliers.getValueAt(row, 5).toString()
+            
     );
 
     dialog.setVisible(true);
-
     refreshSuppliersTable();
 
         
@@ -3444,7 +3433,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     try {
         Connection con = DBConnection.getConnection();
 
-        String sql = "UPDATE tblorder SET status='CANCELLED' WHERE order_id=?";
+        String sql = "UPDATE orders SET status='CANCELLED' WHERE order_id=?";
         PreparedStatement pst = con.prepareStatement(sql);
 
         pst.setInt(1, orderId);
@@ -3479,7 +3468,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     try {
         Connection con = DBConnection.getConnection();
 
-        String sql = "UPDATE tblorder SET customer_name=? WHERE order_id=?";
+        String sql = "UPDATE orders SET customer_name=? WHERE order_id=?";
         PreparedStatement pst = con.prepareStatement(sql);
 
         pst.setString(1, newName);
@@ -3621,7 +3610,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
             try (Connection con = DBConnection.getConnection()) {
 
-                String[] tables = {"orders", "tblorder", "tblpayment"};
+                String[] tables = {"orders", "tblpayment"};
                 for (String table : tables) {
                     String sql = "UPDATE " + table + " SET status='COMPLETED' WHERE order_id=?";
                     try (PreparedStatement pst = con.prepareStatement(sql)) {
