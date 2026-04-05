@@ -2839,7 +2839,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
 try {
     con = DBConnection.getConnection();
-    con.setAutoCommit(false); // START TRANSACTION
+    con.setAutoCommit(false); 
 
     String customerName = textUserName.getText().trim();
     String totalStr = lblTotal.getText().replace("₱","").trim();
