@@ -2894,7 +2894,6 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void btnRestockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestockActionPerformed
 
-        
         pnlRestock.setVisible(true);
         int selectedRow = tblProducts.getSelectedRow();
 
