@@ -2784,83 +2784,114 @@ public class CustomerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPlaceOrderActionPerformed
 
     private void btnProceedPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProceedPaymentActionPerformed
-        lblOrderStat1.setText("PENDING");
-        lblOrderStat2.setText("PENDING");
+       lblOrderStat1.setText("PENDING");
+       lblOrderStat2.setText("PENDING");
 
-        String name = textUserName.getText().trim();
-        System.out.println("Customer Name: " + textUserName);
-        String contact = txtContactNo.getText().trim();
-        String address = textAddress.getText().trim();
-        if (name.isEmpty() || contact.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please fill in Name and Contact!");
-            return;
-        }
-        if (!name.matches("[a-zA-Z ]+")) {
-            JOptionPane.showMessageDialog(this, "Name must contain letters only!");
-            return;
-        }
-        if (!contact.matches("\\d+")) {
-            JOptionPane.showMessageDialog(this, "Contact must contain numbers only!");
-            return;
-        }
+    String name = textUserName.getText().trim();
+    String contact = txtContactNo.getText().trim();
+    String address = textAddress.getText().trim();
 
-        if (orderType.equals("Delivery") && address.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please fill in Address for delivery!");
-            return;
-        }
+    if (name.isEmpty() || contact.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Please fill in Name and Contact!");
+    return;
+}
 
-        if (selectedPayment == null || selectedPayment.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please select a payment method first!");
-            return;
-        }
-        
-        saveCustomerInfo(name, contact);
+    if (!name.matches("[a-zA-Z ]+")) {
+    JOptionPane.showMessageDialog(this, "Name must contain letters only!");
+    return;
+}
 
-        if (selectedPayment.equals("cash")) {
-            int confirm = JOptionPane.showConfirmDialog(
-                this,
-                "Confirm cash payment?",
-                "Cash Payment",
-                JOptionPane.YES_NO_OPTION
-            );
+    if (!contact.matches("\\d+")) {
+    JOptionPane.showMessageDialog(this, "Contact must contain numbers only!");
+    return;
+}
 
-            if (confirm == JOptionPane.YES_OPTION) {
-                insertPayment("CASH");
-                lblOrderStat.setText("PREPARING");
+    if (orderType.equals("Delivery") && address.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Please fill in Address for delivery!");
+    return;
+}
 
-                if (orderType.equals("Delivery")) {
-                    JOptionPane.showMessageDialog(this, "Thank you for ordering!");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Please pay at the counter.");
-                }
+    if (selectedPayment == null || selectedPayment.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Please select a payment method first!");
+    return;
+}
 
-                CardLayout cl = (CardLayout)(jPanel1.getLayout());
-                cl.show(jPanel1, "orders");
-            }
+    saveCustomerInfo(name, contact);
 
-        } 
-        else {
-            CardLayout cl = (CardLayout)(jPanel1.getLayout());
-            cl.show(jPanel1, "pay");
-        }
-        try {
-    Connection con = DBConnection.getConnection();
-    
+    if (selectedPayment.equals("cash")) {
+    int confirm = JOptionPane.showConfirmDialog(
+        this,
+        "Confirm cash payment?",
+        "Cash Payment",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirm != JOptionPane.YES_OPTION) {
+        return;
+    }
+} else {
+    CardLayout cl = (CardLayout)(jPanel1.getLayout());
+    cl.show(jPanel1, "pay");
+    return;
+}
+
+    Connection con = null;
+
+try {
+    con = DBConnection.getConnection();
+    con.setAutoCommit(false); // START TRANSACTION
+
     String customerName = textUserName.getText().trim();
-    
     String totalStr = lblTotal.getText().replace("₱","").trim();
     double totalAmount = Double.parseDouble(totalStr);
-    
+
     String status = "PENDING";
     String orderTypeVal = orderType;
 
     java.time.LocalDateTime now = java.time.LocalDateTime.now();
     String orderDate = now.toString();
 
-    String orderNumber = "ORD" + System.currentTimeMillis(); 
+    String orderNumber = "ORD" + System.currentTimeMillis();
+
+    DefaultTableModel model = (DefaultTableModel) tblCart.getModel();
+
+    for (int i = 0; i < model.getRowCount(); i++) {
+        String productName = model.getValueAt(i, 0).toString().trim();
+        int qty = Integer.parseInt(model.getValueAt(i, 2).toString().trim());
+
+        String stockCheckSql = "SELECT product_id, stock, name FROM products WHERE TRIM(name) = TRIM(?)";
+        PreparedStatement pstCheck = con.prepareStatement(stockCheckSql);
+        pstCheck.setString(1, productName);
+        ResultSet rsCheck = pstCheck.executeQuery();
+
+        if (rsCheck.next()) {
+            int stock = rsCheck.getInt("stock");
+            String prodName = rsCheck.getString("name");
+
+            if (stock < qty) {
+                JOptionPane.showMessageDialog(this,
+                    "Insufficient stock for: " + prodName +
+                    "\nAvailable stock: " + stock +
+                    "\nRequested quantity: " + qty
+                );
+                rsCheck.close();
+                pstCheck.close();
+                con.rollback();
+                return;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Product not found: " + productName);
+            rsCheck.close();
+            pstCheck.close();
+            con.rollback();
+            return;
+        }
+
+        rsCheck.close();
+        pstCheck.close();
+    }
     
     String sql = "INSERT INTO orders (order_number, customer_name, total_amount, order_type, status, order_date) VALUES (?,?,?,?,?,?)";
-
     PreparedStatement pst = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
 
     pst.setString(1, orderNumber);
@@ -2872,73 +2903,110 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
     pst.executeUpdate();
 
-    java.sql.ResultSet rs = pst.getGeneratedKeys();
+    ResultSet rs = pst.getGeneratedKeys();
     int orderID = 0;
 
     if (rs.next()) {
         orderID = rs.getInt(1);
     }
-    
-    DefaultTableModel model = (DefaultTableModel) tblCart.getModel();
+
+    rs.close();
+    pst.close();
 
     for (int i = 0; i < model.getRowCount(); i++) {
 
-    String productName = model.getValueAt(i, 0).toString().trim();
-    String priceStr = model.getValueAt(i, 1).toString().replace("₱","").trim();
-    double price = Double.parseDouble(priceStr);
+        String productName = model.getValueAt(i, 0).toString().trim();
+        String priceStr = model.getValueAt(i, 1).toString().replace("₱","").trim();
+        double price = Double.parseDouble(priceStr);
+        int qty = Integer.parseInt(model.getValueAt(i, 2).toString().trim());
 
-    int qty = Integer.parseInt(model.getValueAt(i, 2).toString().trim());
-    
-    int productId = 0;
+        int productId = 0;
 
-    String getProduct = "SELECT product_id FROM products WHERE TRIM(name) = TRIM(?)";
-    PreparedStatement pstGet = con.prepareStatement(getProduct);
-    pstGet.setString(1, productName);
-    ResultSet rsProd = pstGet.executeQuery();
+        String getProduct = "SELECT product_id FROM products WHERE TRIM(name) = TRIM(?)";
+        PreparedStatement pstGet = con.prepareStatement(getProduct);
+        pstGet.setString(1, productName);
+        ResultSet rsProd = pstGet.executeQuery();
 
-    if (rsProd.next()) {
-        productId = rsProd.getInt("product_id");
+        if (rsProd.next()) {
+            productId = rsProd.getInt("product_id");
+        }
+
+        rsProd.close();
+        pstGet.close();
+
+        if (productId == 0) {
+            JOptionPane.showMessageDialog(this, "Product not found: " + productName);
+            con.rollback();
+            return;
+        }
+
+        String sqlItem = "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
+        PreparedStatement pstItem = con.prepareStatement(sqlItem);
+
+        pstItem.setInt(1, orderID);
+        pstItem.setInt(2, productId);
+        pstItem.setInt(3, qty);
+        pstItem.setDouble(4, price);
+
+        pstItem.executeUpdate();
+        pstItem.close();
+
+        CallableStatement csStock = con.prepareCall("{CALL reduceStock(?,?)}");
+        csStock.setInt(1, productId);
+        csStock.setInt(2, qty);
+        csStock.execute();
+        csStock.close();
     }
 
-    rsProd.close();
-    pstGet.close();
+    con.commit();
 
-    if (productId == 0) {
-        System.out.println("Product not found: " + productName);
-        continue;
-    
-}
-
-    String sqlItem = "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
-    PreparedStatement pstItem = con.prepareStatement(sqlItem);
-
-    pstItem.setInt(1, orderID);
-    pstItem.setInt(2, productId);
-    pstItem.setInt(3, qty);
-    pstItem.setDouble(4, price);
-
-    pstItem.executeUpdate();
-    pstItem.close();
-    
-    CallableStatement csStock = con.prepareCall("{CALL reduceStock(?,?)}");
-
-    csStock.setInt(1, productId);
-    csStock.setInt(2, qty);
-
-    csStock.execute();
-    csStock.close();
-    
-    String updateStatus = "UPDATE products SET status = CASE WHEN stock <= 0 THEN 'OUT OF STOCK' ELSE 'AVAILABLE' END WHERE product_id = ?";
-    PreparedStatement pstStatus = con.prepareStatement(updateStatus);
-    pstStatus.setInt(1, productId);
-    pstStatus.executeUpdate();
-    pstStatus.close();
-    
-}
+    insertPayment("CASH");
+    lblOrderStat.setText("PREPARING");
     lblOrderNum.setText(orderNumber);
 
-} catch (Exception e) {
+    if (orderType.equals("Delivery")) {
+        JOptionPane.showMessageDialog(this, "Thank you for ordering!");
+    } else {
+        JOptionPane.showMessageDialog(this, "Please pay at the counter.");
+    }
+
+    CardLayout cl = (CardLayout)(jPanel1.getLayout());
+    cl.show(jPanel1, "orders");
+
+    } catch (SQLException e) {
+    try {
+        if (con != null) con.rollback();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+
+    if (e.getMessage().contains("Insufficient stock")) {
+        JOptionPane.showMessageDialog(this, "Insufficient stock for one of the products.");
+    } else {
+        JOptionPane.showMessageDialog(this, "Database Error: " + e.getMessage());
+    }
+
     e.printStackTrace();
+
+    } catch (Exception e) {
+    try {
+        if (con != null) con.rollback();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+
+    } finally {
+    try {
+        if (con != null) {
+            con.setAutoCommit(true);
+            con.close();
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
 }
     }
             public void saveCustomerInfo(String username, String contactNo) {
