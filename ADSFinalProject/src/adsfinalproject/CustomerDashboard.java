@@ -446,7 +446,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
     try {
         Connection conn = DBConnection.getConnection();
         
-        String getOrder = "SELECT MAX(order_id) FROM orders";
+        String getOrder = "SELECT MAX(order_id) FROM orders"; //Ginamit yung select para kumuha ng data sa database. Dito kinukuha yung latest order_id para malaman kung anong order yung lalagayan ng payment
         PreparedStatement pstOrder = conn.prepareStatement(getOrder);
         ResultSet rs = pstOrder.executeQuery();
 
