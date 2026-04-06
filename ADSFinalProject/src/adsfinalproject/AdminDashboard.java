@@ -490,9 +490,9 @@ public class AdminDashboard extends javax.swing.JFrame {
     private void loadStatusFilter() {
     cmbStatusFilter.removeAllItems();
     cmbStatusFilter.addItem("Status");
-    cmbStatusFilter.addItem("Available");
-    cmbStatusFilter.addItem("Out of Stock");
-    cmbStatusFilter.addItem("Discontinued");
+    cmbStatusFilter.addItem("AVAILABLE");
+    cmbStatusFilter.addItem("OUT OF STOCK");
+    cmbStatusFilter.addItem("DISCONTINUED");
 
 }
     private void loadProductsTable(String search, String statusFilter) {
@@ -3222,7 +3222,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     if(selectedStatus.equals("Discontinued")) {
         status = "Discontinued";
     } else {
-        status = (stock > 0) ? "Available" : "Out of Stock";
+        status = (stock > 0) ? "AVAILABLE" : "Out of Stock";
     }
     
     if (jDateChooserExpiration.getDate() == null) {
@@ -3367,7 +3367,6 @@ public class AdminDashboard extends javax.swing.JFrame {
     private void btnProductUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductUpdateActionPerformed
         // TODO add your handling code here:
         try {
-
     int row = tblProducts.getSelectedRow();
 
     if (row == -1) {
@@ -3378,45 +3377,32 @@ public class AdminDashboard extends javax.swing.JFrame {
     DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
 
     int productId = Integer.parseInt(model.getValueAt(row, 0).toString());
-    String name = model.getValueAt(row, 1).toString();
-    String description = model.getValueAt(row, 2).toString();
-    String category = model.getValueAt(row, 3).toString();
-    int stock = Integer.parseInt(model.getValueAt(row, 4).toString());
-    double price = Double.parseDouble(model.getValueAt(row, 5).toString());
-    int supplierId = Integer.parseInt(model.getValueAt(row, 6).toString());
-    String status = model.getValueAt(row, 7).toString();
+    String name = model.getValueAt(row, 1).toString().trim();
 
-    java.sql.Date expirationDate = null;
-    Object expObj = model.getValueAt(row, 9);
-
-    if (expObj != null) {
-        if (expObj instanceof java.util.Date) {
-            expirationDate = new java.sql.Date(((java.util.Date) expObj).getTime());
-        } else {
-            expirationDate = java.sql.Date.valueOf(expObj.toString());
-        }
+    if (name.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Product name cannot be empty!");
+        return;
     }
 
     Connection con = DBConnection.getConnection();
 
-    String sql = "UPDATE products SET name=?, description=?, category=?, stock=?, price=?, supplier_id=?, status=?, expiration_date=? WHERE product_id=?";
+    String sql = "UPDATE products SET name=? WHERE product_id=?";
     PreparedStatement pst = con.prepareStatement(sql);
 
     pst.setString(1, name);
-    pst.setString(2, description);
-    pst.setString(3, category);
-    pst.setInt(4, stock);
-    pst.setDouble(5, price);
-    pst.setInt(6, supplierId);
-    pst.setString(7, status);
-    pst.setDate(8, expirationDate);
-    pst.setInt(9, productId);
+    pst.setInt(2, productId);
 
-    pst.executeUpdate();
+    int updated = pst.executeUpdate();
 
-    JOptionPane.showMessageDialog(null, "Product updated successfully!");
+    if (updated > 0) {
+        model.setValueAt(name, row, 1); 
+        JOptionPane.showMessageDialog(null, "Product name updated successfully!");
+    } else {
+        JOptionPane.showMessageDialog(null, "Update failed! Product not found.");
+    }
 
-    loadProductsTable("", "All");
+    pst.close();
+    con.close();
 
 } catch (Exception e) {
     e.printStackTrace();
