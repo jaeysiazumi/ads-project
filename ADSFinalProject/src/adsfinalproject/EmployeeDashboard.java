@@ -29,6 +29,9 @@ public class EmployeeDashboard extends javax.swing.JFrame {
      */
     public EmployeeDashboard(int staffId) {
         initComponents();
+        tblEmployeeDashboard.getModel().addTableModelListener(e -> {
+            updateReadyCount();
+        });
         txtCashAmount.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
                 calculateChange();
@@ -97,9 +100,6 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             loadSummary1ByCategory(selectedCategory);
         });
         loadDashboardCounts();
-        new javax.swing.Timer(5000, e -> {
-            loadEmployeeDashboard();
-        }).start();
         loadDashboardTable();
         loadProductsTable("", "All");
         
@@ -469,10 +469,28 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 rs.getTimestamp("order_date")     
             });
         }
-
+        updateReadyCount();
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error loading Employee Dashboard: " + e.getMessage());
     }
+       }
+
+    public void updateReadyCount() {
+
+    DefaultTableModel model = (DefaultTableModel) tblEmployeeDashboard.getModel();
+    int readyCount = 0;
+
+    for (int i = 0; i < model.getRowCount(); i++) {
+
+        Object statusValue = model.getValueAt(i, 4); // column 4 = status
+
+        if (statusValue != null && statusValue.toString().equalsIgnoreCase("READY")) {
+            readyCount++;
+        }
+    }
+
+    lblReady.setText(String.valueOf(readyCount));
+    
 }
 
     public void updateStaffStatus(String status) {
@@ -762,6 +780,9 @@ public String getNextOrderNumber() {
     }
     return nextOrderNumber;
 }
+
+
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
