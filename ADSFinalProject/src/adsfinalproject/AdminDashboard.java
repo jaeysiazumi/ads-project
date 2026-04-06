@@ -2981,27 +2981,47 @@ public class AdminDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
 
-            int productId = Integer.parseInt(txtProductID.getText().trim());
-            int addStock = Integer.parseInt(txtStockIn.getText().trim());
+    int productId = Integer.parseInt(txtProductID.getText().trim());
+    int addStock = Integer.parseInt(txtStockIn.getText().trim());
 
-            Connection conn = DBConnection.getConnection();
+    if (addStock <= 0) {
+        JOptionPane.showMessageDialog(null, "Please enter a valid stock quantity!");
+        return;
+    }
 
-            String sql = "UPDATE products SET stock = stock + ? WHERE product_id = ?";
-            PreparedStatement pst = conn.prepareStatement(sql);
+    Connection conn = DBConnection.getConnection();
 
-            pst.setInt(1, addStock);
-            pst.setInt(2, productId);
+    String sql = "UPDATE products " +
+                 "SET stock = stock + ?, " +
+                 "status = CASE WHEN (stock + ?) <= 0 THEN 'OUT OF STOCK' ELSE 'AVAILABLE' END " +
+                 "WHERE product_id = ?";
 
-            pst.executeUpdate();
+    PreparedStatement pst = conn.prepareStatement(sql);
 
-            JOptionPane.showMessageDialog(null, "Stock updated successfully!");
+    pst.setInt(1, addStock);
+    pst.setInt(2, addStock);
+    pst.setInt(3, productId);
 
-            loadProductsTable("", "All");
+    int rows = pst.executeUpdate();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Database not connected: " + e.getMessage());
-        }
+    if (rows > 0) {
+        JOptionPane.showMessageDialog(null, "Stock updated successfully!");
+    } else {
+        JOptionPane.showMessageDialog(null, "Product not found!");
+    }
+
+    pst.close();
+    conn.close();
+
+    txtProductID.setText("");
+    txtStockIn.setText("");
+
+    loadProductsTable("", "All");
+
+} catch (Exception e) {
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(null, "Database not connected: " + e.getMessage());
+}
         
         
 
