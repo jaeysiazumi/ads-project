@@ -30,7 +30,27 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     public EmployeeDashboard(int staffId) {
         initComponents();
         tblEmployeeDashboard.getModel().addTableModelListener(e -> {
-            updateReadyCount();
+            if (e.getType() == javax.swing.event.TableModelEvent.UPDATE) {
+                int row = e.getFirstRow();
+                int column = e.getColumn();
+
+                if (column == 4) { 
+                    DefaultTableModel model = (DefaultTableModel) tblEmployeeDashboard.getModel();
+
+                    try {
+                        int orderId = Integer.parseInt(model.getValueAt(row, 0).toString()); 
+                        String newStatus = model.getValueAt(row, 4).toString().trim(); 
+
+                        updateOrderStatus(orderId, newStatus);
+                        updateStatusCounts(); 
+                        loadOrders(); 
+                        loadDashboardCounts(); 
+
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(this, "Error updating status: " + ex.getMessage());
+                    }
+                }
+            }
         });
         txtCashAmount.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
@@ -446,51 +466,63 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
     }
        public void loadEmployeeDashboard() {
-    String sql = "SELECT o.order_id, o.customer_name, o.total_amount, " +
-                 "p.payment_type, p.status, o.order_date " +
-                 "FROM orders o " +
-                 "LEFT JOIN tblpayment p ON o.order_id = p.order_id " +
-                 "ORDER BY o.order_id DESC";
+            String sql = "SELECT o.order_id, o.customer_name, o.total_amount, " +
+                     "p.payment_type, o.status, o.order_date " +
+                     "FROM orders o " +
+                     "LEFT JOIN tblpayment p ON o.order_id = p.order_id " +
+                     "ORDER BY o.order_id DESC";
 
-    try (Connection con = DBConnection.getConnection();
-         PreparedStatement pst = con.prepareStatement(sql);
-         ResultSet rs = pst.executeQuery()) {
+            try (Connection con = DBConnection.getConnection();
+                 PreparedStatement pst = con.prepareStatement(sql);
+                 ResultSet rs = pst.executeQuery()) {
 
-        DefaultTableModel model = (DefaultTableModel) tblEmployeeDashboard.getModel();
-        model.setRowCount(0); 
+                DefaultTableModel model = (DefaultTableModel) tblEmployeeDashboard.getModel();
+                model.setRowCount(0); 
 
-        while (rs.next()) {
-            model.addRow(new Object[]{
-                rs.getInt("order_id"),              
-                rs.getString("customer_name"),     
-                rs.getDouble("total_amount"),       
-                rs.getString("payment_type"),       
-                rs.getString("status"),             
-                rs.getTimestamp("order_date")     
-            });
-        }
-        updateReadyCount();
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error loading Employee Dashboard: " + e.getMessage());
-    }
-       }
+                while (rs.next()) {
+                    model.addRow(new Object[]{
+                        rs.getInt("order_id"),              
+                        rs.getString("customer_name"),     
+                        rs.getDouble("total_amount"),       
+                        rs.getString("payment_type"),       
+                        rs.getString("status"),             
+                        rs.getTimestamp("order_date")     
+                    });
+                }
+                updateStatusCounts();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error loading Employee Dashboard: " + e.getMessage());
+            }
+               }
 
-    public void updateReadyCount() {
+    public void updateStatusCounts() {
 
     DefaultTableModel model = (DefaultTableModel) tblEmployeeDashboard.getModel();
+
+    int prepCount = 0;
     int readyCount = 0;
+    int completedCount = 0;
 
     for (int i = 0; i < model.getRowCount(); i++) {
 
-        Object statusValue = model.getValueAt(i, 4); // column 4 = status
+        Object statusValue = model.getValueAt(i, 4); 
 
-        if (statusValue != null && statusValue.toString().equalsIgnoreCase("READY")) {
-            readyCount++;
+        if (statusValue != null) {
+            String status = statusValue.toString().trim().toUpperCase();
+
+            if (status.equals("PREPARING") || status.equals("PREPARATION")) {
+                prepCount++;
+            } else if (status.equals("READY")) {
+                readyCount++;
+            } else if (status.equals("COMPLETED")) {
+                completedCount++;
+            }
         }
     }
 
+    lblPrep.setText(String.valueOf(prepCount));
     lblReady.setText(String.valueOf(readyCount));
-    
+    lblCompleted.setText(String.valueOf(completedCount));
 }
 
     public void updateStaffStatus(String status) {
@@ -780,6 +812,27 @@ public String getNextOrderNumber() {
     }
     return nextOrderNumber;
 }
+    public void updateOrderStatus(int orderId, String newStatus) {
+        try (Connection con = DBConnection.getConnection()) {
+
+            String sql = "UPDATE orders SET status = ? WHERE order_id = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+
+            pst.setString(1, newStatus);
+            pst.setInt(2, orderId);
+
+            int updated = pst.executeUpdate();
+
+            if (updated > 0) {
+                System.out.println("Order " + orderId + " updated to " + newStatus);
+            } else {
+                JOptionPane.showMessageDialog(this, "No order found with ID: " + orderId);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Database update error: " + e.getMessage());
+        }
+    }
 
 
 
