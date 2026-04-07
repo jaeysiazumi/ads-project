@@ -1763,13 +1763,13 @@ public class AdminDashboard extends javax.swing.JFrame {
         lblCardNumber.setForeground(new java.awt.Color(0, 0, 0));
         lblCardNumber.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblCardNumber.setText("-");
-        pnlverufy.add(lblCardNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, 80, 30));
+        pnlverufy.add(lblCardNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, 140, 30));
 
         lblRefNo.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
         lblRefNo.setForeground(new java.awt.Color(0, 0, 0));
         lblRefNo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblRefNo.setText("-");
-        pnlverufy.add(lblRefNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 260, 80, 40));
+        pnlverufy.add(lblRefNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 260, 140, 40));
 
         lblPaymentMethod.setFont(new java.awt.Font("SimSun-ExtB", 1, 12)); // NOI18N
         lblPaymentMethod.setForeground(new java.awt.Color(0, 0, 0));
