@@ -2456,7 +2456,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         lblTotalSales.setForeground(new java.awt.Color(255, 255, 255));
         lblTotalSales.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTotalSales.setText("-");
-        pnlDashboard.add(lblTotalSales, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 140, 100, -1));
+        pnlDashboard.add(lblTotalSales, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 140, 140, -1));
 
         lblTransPend.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         lblTransPend.setForeground(new java.awt.Color(0, 0, 0));
