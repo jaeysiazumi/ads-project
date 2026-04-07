@@ -1233,6 +1233,8 @@ public String getNextOrderNumber() {
 
         jPanel4.add(pnlDashboard, "dashboard");
 
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         pnlCreateOrder.setBackground(new java.awt.Color(255, 255, 255));
         pnlCreateOrder.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -1270,11 +1272,11 @@ public String getNextOrderNumber() {
         lblStaffName.setText("-");
         pnlCreateOrder.add(lblStaffName, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 110, 120, -1));
 
+        btnBack.setBackground(new java.awt.Color(255, 255, 255));
         btnBack.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnBack.setText("X");
         btnBack.setBorder(null);
         btnBack.setBorderPainted(false);
-        btnBack.setContentAreaFilled(false);
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackActionPerformed(evt);
@@ -1327,7 +1329,7 @@ public String getNextOrderNumber() {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Create Orders.png"))); // NOI18N
         pnlCreateOrder.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, -1, -1));
 
-        jPanel3.add(pnlCreateOrder);
+        jPanel3.add(pnlCreateOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pnlOrder.setBackground(new java.awt.Color(255, 255, 255));
         pnlOrder.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1382,7 +1384,7 @@ public String getNextOrderNumber() {
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/orders.png"))); // NOI18N
         pnlOrder.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 0, -1, -1));
 
-        jPanel3.add(pnlOrder);
+        jPanel3.add(pnlOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 0));
 
         jPanel4.add(jPanel3, "orderpnl");
 
@@ -1513,7 +1515,9 @@ public String getNextOrderNumber() {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         pnlCreateOrder.setVisible(false);
+        jPanel3.setVisible(true);
         pnlOrder.setVisible(true);
+        jPanel1.setVisible(true);
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void txtCustomerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustomerNameActionPerformed
