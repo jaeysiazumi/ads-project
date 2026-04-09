@@ -13,7 +13,12 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
 import com.toedter.calendar.JDateChooser;
+import java.awt.Graphics2D;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.text.SimpleDateFormat;
+import javax.swing.JButton;
 
 /**
  *
@@ -37,6 +42,8 @@ public class AdminDashboard extends javax.swing.JFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 String search = txtSearchReport.getText().trim();
                 searchReports(search);
+                  JButton btnPrint = new JButton("Print Receipt");
+                     pnlverufy.add(btnPrint);
             }
         });
             tblPayment.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1203,7 +1210,39 @@ public class AdminDashboard extends javax.swing.JFrame {
     } catch(Exception e){
         e.printStackTrace();
     }
+    }
+    
+    private void printReceipt() {
+    PrinterJob job = PrinterJob.getPrinterJob();
 
+    job.setJobName("Receipt Print");
+
+    job.setPrintable((graphics, pageFormat, pageIndex) -> {
+        if (pageIndex > 0) {
+            return Printable.NO_SUCH_PAGE;
+        }
+
+        Graphics2D g2 = (Graphics2D) graphics;
+        g2.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+
+        double scaleX = pageFormat.getImageableWidth() / pnlverufy.getWidth();
+        double scaleY = pageFormat.getImageableHeight() / pnlverufy.getHeight();
+        double scale = Math.min(scaleX, scaleY);
+
+        g2.scale(scale, scale);
+        pnlverufy.printAll(g2);
+
+        return Printable.PAGE_EXISTS;
+    });
+
+    boolean ok = job.printDialog();
+    if (ok) {
+        try {
+            job.print();
+        } catch (PrinterException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
 
      
@@ -1269,10 +1308,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         lblVerifyName = new javax.swing.JLabel();
         lblDateTime1 = new javax.swing.JLabel();
         lblOrderNo = new javax.swing.JLabel();
-        btnOrdCanc = new javax.swing.JButton();
+        btnCancelledOrder = new javax.swing.JButton();
         btnOrdConf = new javax.swing.JButton();
         lblTotalPayment = new javax.swing.JLabel();
         btnOrdBack = new javax.swing.JButton();
+        btnPrint = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
         pnlView = new javax.swing.JPanel();
         lblDateTime = new javax.swing.JLabel();
@@ -1801,16 +1841,16 @@ public class AdminDashboard extends javax.swing.JFrame {
         lblOrderNo.setText("-");
         pnlverufy.add(lblOrderNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 90, 20));
 
-        btnOrdCanc.setText("-");
-        btnOrdCanc.setBorder(null);
-        btnOrdCanc.setBorderPainted(false);
-        btnOrdCanc.setContentAreaFilled(false);
-        btnOrdCanc.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelledOrder.setText("-");
+        btnCancelledOrder.setBorder(null);
+        btnCancelledOrder.setBorderPainted(false);
+        btnCancelledOrder.setContentAreaFilled(false);
+        btnCancelledOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOrdCancActionPerformed(evt);
+                btnCancelledOrderActionPerformed(evt);
             }
         });
-        pnlverufy.add(btnOrdCanc, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 440, 90, 30));
+        pnlverufy.add(btnCancelledOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 440, 90, 30));
 
         btnOrdConf.setText("-");
         btnOrdConf.setBorder(null);
@@ -1836,6 +1876,18 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
         });
         pnlverufy.add(btnOrdBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, -1, -1));
+
+        btnPrint.setBackground(new java.awt.Color(204, 204, 204));
+        btnPrint.setFont(new java.awt.Font("SimSun-ExtG", 1, 14)); // NOI18N
+        btnPrint.setForeground(new java.awt.Color(0, 0, 0));
+        btnPrint.setText("Save reciept");
+        btnPrint.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrintActionPerformed(evt);
+            }
+        });
+        pnlverufy.add(btnPrint, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 350, 100, 30));
 
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Group 8763.png"))); // NOI18N
         pnlverufy.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 6, 380, 500));
@@ -2857,11 +2909,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         pnlProduct.setVisible(true);
     }//GEN-LAST:event_btnAddCancelActionPerformed
 
-    private void btnOrdCancActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdCancActionPerformed
-        pnlverufy.setVisible(false);
-        pnlOrder.setVisible(true);
-    }//GEN-LAST:event_btnOrdCancActionPerformed
-
+    private void btnCancelledOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelledOrderActionPerformed
+      
+    }//GEN-LAST:event_btnCancelledOrderActionPerformed
+    
+    
     private void btnOrdCanc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdCanc1ActionPerformed
         pnlView.setVisible(false);
         pnlOrder.setVisible(true);
@@ -3637,6 +3689,11 @@ public class AdminDashboard extends javax.swing.JFrame {
     private void txtSearchReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchReportActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchReportActionPerformed
+
+    private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
+        // TODO add your handling code here:
+         printReceipt();
+    }//GEN-LAST:event_btnPrintActionPerformed
     
     /**
      * @param args the command line arguments
@@ -3671,6 +3728,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnAddSupplier;
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnCancelledOrder;
     private javax.swing.JButton btnConfirm;
     private javax.swing.JButton btnCusDel;
     private javax.swing.JButton btnCusDel1;
@@ -3684,7 +3742,6 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnEditOrder;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnOrdBack;
-    private javax.swing.JButton btnOrdCanc;
     private javax.swing.JButton btnOrdCanc1;
     private javax.swing.JButton btnOrdConf;
     private javax.swing.JButton btnOrdDel2;
@@ -3694,6 +3751,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnOrdView;
     private javax.swing.JButton btnOrderView;
     private javax.swing.JButton btnOrders;
+    private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnProductUpdate;
     private javax.swing.JButton btnProducts;
     private javax.swing.JButton btnReports;
