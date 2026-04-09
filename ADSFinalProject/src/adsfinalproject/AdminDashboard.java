@@ -38,6 +38,10 @@ public class AdminDashboard extends javax.swing.JFrame {
     
     public AdminDashboard() {
         initComponents(); 
+        dcReportsDate.getDateEditor().addPropertyChangeListener("date", evt -> {
+            filterProductReportByDate();
+            filterCustomerReportByDate();
+        });
         txtSearchReport.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 String search = txtSearchReport.getText().trim();
@@ -124,8 +128,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         loadPaymentsTable(status, search);
     });
 
-        dateChooser = new JDateChooser();
-        pnlReports.add(dateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 150, 30));
         updateTotalOrdersLabel();
         updateTotalCustomers(); 
         updateTotalSalesLabel();
@@ -217,7 +219,13 @@ public class AdminDashboard extends javax.swing.JFrame {
             updateStatusFilterOptions();
             refreshUsersTable();
             loadCustomerReport();
-            loadProductReport();
+            if(dcReportsDate.getDate() != null){
+                filterProductReportByDate();
+                filterCustomerReportByDate();
+            }else{
+                loadProductReport();
+                loadCustomerReport();
+            }
             loadInventoryTable();
 
             }).start();
@@ -1244,6 +1252,109 @@ public class AdminDashboard extends javax.swing.JFrame {
         }
     }
 }
+    private void filterProductReportByDate() {
+
+    java.util.Date selectedDate = dcReportsDate.getDate();
+
+    if (selectedDate == null) {
+        loadProductReport(); 
+        return;
+    }
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    String date = sdf.format(selectedDate);
+
+    try {
+        Connection con = DBConnection.getConnection();
+
+        String sql =
+        "SELECT p.name AS product_name, " +
+        "SUM(oi.quantity) AS quantity_sold, " +
+        "SUM(oi.quantity * oi.price) AS total_sales, " +
+        "DATE(o.order_date) AS sale_date " +
+        "FROM order_items oi " +
+        "JOIN products p ON oi.product_id = p.product_id " +
+        "JOIN orders o ON oi.order_id = o.order_id " +
+        "WHERE o.status='COMPLETED' AND DATE(o.order_date) = ? " +
+        "GROUP BY p.name, DATE(o.order_date)";
+
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, date);
+
+        ResultSet rs = pst.executeQuery();
+
+        DefaultTableModel model =
+        (DefaultTableModel) tblProductReport.getModel();
+
+        model.setRowCount(0);
+
+        while(rs.next()){
+            model.addRow(new Object[]{
+                rs.getString("product_name"),
+                rs.getInt("quantity_sold"),
+                rs.getDouble("total_sales"),
+                rs.getString("sale_date")
+            });
+        }
+
+    } catch(Exception e){
+        e.printStackTrace();
+    }
+}
+    private void filterCustomerReportByDate() {
+
+    java.util.Date selectedDate = dcReportsDate.getDate();
+
+    if (selectedDate == null) {
+        loadCustomerReport(); 
+        return;
+    }
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    String date = sdf.format(selectedDate);
+
+    try {
+
+        Connection con = DBConnection.getConnection();
+
+        String sql =
+        "SELECT o.customer_name, " +
+        "COUNT(DISTINCT o.order_id) AS total_orders, " +
+        "SUM(oi.quantity) AS total_items, " +
+        "SUM(oi.quantity * oi.price) AS total_amount, " +
+        "DATE(o.order_date) AS last_order_date " +
+        "FROM orders o " +
+        "JOIN order_items oi ON o.order_id = oi.order_id " +
+        "WHERE o.status='COMPLETED' AND DATE(o.order_date)=? " +
+        "GROUP BY o.customer_name, DATE(o.order_date) " +
+        "ORDER BY last_order_date DESC";
+
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, date);
+
+        ResultSet rs = pst.executeQuery();
+
+        DefaultTableModel model =
+        (DefaultTableModel) tblCustomerReports.getModel();
+
+        model.setRowCount(0);
+
+        while(rs.next()){
+
+            model.addRow(new Object[]{
+                rs.getString("customer_name"),
+                rs.getInt("total_orders"),
+                rs.getInt("total_items"),
+                rs.getDouble("total_amount"),
+                rs.getString("last_order_date")
+            });
+
+        }
+
+    } catch(Exception e){
+        e.printStackTrace();
+    }
+}
 
      
     
@@ -1273,7 +1384,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         tblProductReport = new javax.swing.JTable();
         tblPaneCustomer = new javax.swing.JScrollPane();
         tblCustomerReports = new javax.swing.JTable();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        dcReportsDate = new com.toedter.calendar.JDateChooser();
         jComboBox1 = new javax.swing.JComboBox<>();
         txtSearchReport = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
@@ -1586,10 +1697,10 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jPanel8.add(tblPaneCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 207, 930, 500));
 
-        jDateChooser1.setBackground(new java.awt.Color(255, 255, 255));
-        jDateChooser1.setDateFormatString("dd/MM/yyyy");
-        jDateChooser1.setMaxSelectableDate(new java.util.Date(253370739717000L));
-        jPanel8.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 130, 180, 30));
+        dcReportsDate.setBackground(new java.awt.Color(255, 255, 255));
+        dcReportsDate.setDateFormatString("dd/MM/yyyy");
+        dcReportsDate.setMaxSelectableDate(new java.util.Date(253370739717000L));
+        jPanel8.add(dcReportsDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 130, 180, 30));
 
         jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Customer", "Product" }));
@@ -3775,10 +3886,10 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbStatusFilter2;
     private javax.swing.JComboBox<String> cmbStatusFilterr;
     private javax.swing.JComboBox<String> cmbSupplier;
+    private com.toedter.calendar.JDateChooser dcReportsDate;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JComboBox<String> jComboBox6;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooserExpiration;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
