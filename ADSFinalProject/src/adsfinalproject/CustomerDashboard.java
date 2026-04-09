@@ -4,10 +4,10 @@
  */
 package adsfinalproject;
 
-import adsfinalproject.DBConnection;
-import adsfinalproject.startUp;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.CallableStatement;
+import javax.swing.border.Border;
 
 
 /**
@@ -42,6 +43,38 @@ public class CustomerDashboard extends javax.swing.JFrame {
      */
     public CustomerDashboard() {
                 initComponents();
+                Border defaultBorder = txtContactNo.getBorder();
+
+    txtContactNo.addKeyListener(new KeyAdapter() {
+    @Override
+    public void keyReleased(KeyEvent e) {
+        String input = txtContactNo.getText().replaceAll("[^0-9]", "");
+
+        if (input.length() > 11) {
+            input = input.substring(0, 11);
+        }
+
+        StringBuilder formatted = new StringBuilder();
+
+        for (int i = 0; i < input.length(); i++) {
+            formatted.append(input.charAt(i));
+
+            if (i == 3 || i == 6) {
+                formatted.append(" ");
+            }
+        }
+
+        txtContactNo.setText(formatted.toString());
+
+        txtContactNo.setCaretPosition(txtContactNo.getText().length());
+
+        if (input.matches("09\\d{9}")) {
+            txtContactNo.setBorder(defaultBorder); 
+        } else {
+            txtContactNo.setBorder(BorderFactory.createLineBorder(Color.RED, 2)); 
+        }
+    }
+});
                 textAmount.addKeyListener(new java.awt.event.KeyAdapter() {
                 public void keyReleased(java.awt.event.KeyEvent evt) {
                     calculateChange();
@@ -2884,7 +2917,7 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
     String name = textUserName.getText().trim();
     System.out.println("Customer Name: " + name);
-    String contact = txtContactNo.getText().trim();
+    String contact = txtContactNo.getText().replaceAll("\\s", "");
     String address = textAddress.getText().trim();
 
     if (name.isEmpty() || contact.isEmpty()) {
@@ -2897,9 +2930,10 @@ public class CustomerDashboard extends javax.swing.JFrame {
         return;
     }
 
-    if (!contact.matches("\\d+")) {
-        JOptionPane.showMessageDialog(this, "Contact must contain numbers only!");
-        return;
+    if (!contact.matches("\\d{11}")) {
+       JOptionPane.showMessageDialog(this, "Contact number must be exactly 11 digits!");
+       return;
+
     }
 
     if (orderType.equals("Delivery") && address.isEmpty()) {
