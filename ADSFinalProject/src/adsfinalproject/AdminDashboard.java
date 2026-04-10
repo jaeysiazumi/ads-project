@@ -38,6 +38,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     
     public AdminDashboard() {
         initComponents(); 
+        btnCancelledOrder.addActionListener(e -> cancelSelectedOrder());
         dcReportsDate.getDateEditor().addPropertyChangeListener("date", evt -> {
             filterProductReportByDate();
             filterCustomerReportByDate();
@@ -141,10 +142,10 @@ public class AdminDashboard extends javax.swing.JFrame {
     
         tblDashboard.getModel().addTableModelListener(e -> {
 
-            int row = e.getFirstRow();
-            int column = e.getColumn();
+        int row = e.getFirstRow();
+        int column = e.getColumn();
 
-            if (column == 4 && row >= 0) { 
+            if (column == 4 && row >= 0 && e.getType() == javax.swing.event.TableModelEvent.UPDATE) {
 
                 int orderID = Integer.parseInt(tblDashboard.getValueAt(row,0).toString());
                 String newStatus = tblDashboard.getValueAt(row,4).toString();
@@ -163,8 +164,6 @@ public class AdminDashboard extends javax.swing.JFrame {
                     pst2.setString(1, newStatus.toUpperCase());
                     pst2.setInt(2,orderID);
                     pst2.executeUpdate();
-
-                    loadPaymentsTable("All", "");
 
                 }catch(Exception ex){
                     ex.printStackTrace();
@@ -666,6 +665,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         cmbStatus1.addItem("PENDING");
         cmbStatus1.addItem("PREPARING");
         cmbStatus1.addItem("COMPLETED");
+        cmbStatus1.addItem("CANCELED");
         cmbStatus1.setSelectedIndex(0);
     }
 
@@ -1104,49 +1104,131 @@ public class AdminDashboard extends javax.swing.JFrame {
     
     private void confirmOrder() {
 
-    int row = tblOrder.getSelectedRow();
+        int orderID = Integer.parseInt(lblOrderNumber.getText());
+        String currentStatus = lblStatus.getText();
 
-    if (row < 0) {
-        JOptionPane.showMessageDialog(this, "Please select an order first.");
-        return;
-    }
+            if (currentStatus.equalsIgnoreCase("CANCELED")) {
+                JOptionPane.showMessageDialog(this,
+                "This order was already CANCELED and cannot proceed to payment.");
+                return;
+            }
 
-    int orderID = Integer.parseInt(tblOrder.getValueAt(row, 0).toString());
-    String currentStatus = tblOrder.getValueAt(row, 5).toString(); 
+            if (currentStatus.equalsIgnoreCase("COMPLETED")) {
+                JOptionPane.showMessageDialog(this,
+                "This order is already COMPLETED.");
+                return;
+            }
 
-    if (currentStatus.equalsIgnoreCase("COMPLETED")) {
-        JOptionPane.showMessageDialog(this, "This order is already COMPLETED.");
-        return;
-    }
+            if (currentStatus.equalsIgnoreCase("PREPARING")) {
+                JOptionPane.showMessageDialog(this,
+                "This order is already PREPARING.");
+                return;
+            }
 
-    if (currentStatus.equalsIgnoreCase("PREPARING")) {
-        JOptionPane.showMessageDialog(this, "This order is already PREPARING.");
-        return;
-    }
+            int confirm = JOptionPane.showConfirmDialog(
+                    this,
+                    "Change status to PREPARING?",
+                    "Confirm Order",
+                    JOptionPane.YES_NO_OPTION
+            );
 
-    try {
-        Connection con = DBConnection.getConnection();
+            if (confirm != JOptionPane.YES_OPTION) {
+                return;
+            }
 
-        String sql1 = "UPDATE orders SET status='PREPARING' WHERE order_id=?";
-        PreparedStatement pst1 = con.prepareStatement(sql1);
-        pst1.setInt(1, orderID);
-        pst1.executeUpdate();
+            try {
 
-        String sql2 = "UPDATE tblpayment SET status='PREPARING' WHERE order_id=?";
-        PreparedStatement pst2 = con.prepareStatement(sql2);
-        pst2.setInt(1, orderID);
-        pst2.executeUpdate();
+                Connection con = DBConnection.getConnection();
 
-        JOptionPane.showMessageDialog(this, "Order status updated to PREPARING.");
+                String sql1 = "UPDATE orders SET status='PREPARING' WHERE order_id=?";
+                PreparedStatement pst1 = con.prepareStatement(sql1);
+                pst1.setInt(1, orderID);
+                pst1.executeUpdate();
 
-        loadOrdersTable("All", "");
-        loadPaymentsTable("All", "");
-        loadDashboardTable();
+                String sql2 = "UPDATE tblpayment SET status='PREPARING' WHERE order_id=?";
+                PreparedStatement pst2 = con.prepareStatement(sql2);
+                pst2.setInt(1, orderID);
+                pst2.executeUpdate();
 
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-}
+                JOptionPane.showMessageDialog(this, "Order status updated to PREPARING.");
+
+                loadOrdersTable("All", "");
+                loadPaymentsTable("All", "");
+                loadDashboardTable();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    private void confirmVerifyOrder() {
+
+        int selectedRow = tblPayment.getSelectedRow();
+
+            if (selectedRow < 0) {
+                JOptionPane.showMessageDialog(this, "Please select a payment/order to confirm.");
+                return;
+            }
+
+            int orderID = Integer.parseInt(tblPayment.getValueAt(selectedRow, 1).toString());
+            String currentStatus = tblPayment.getValueAt(selectedRow, 5).toString().toUpperCase();
+
+            switch (currentStatus) {
+
+                case "CANCELED":
+                    JOptionPane.showMessageDialog(this, "This order is already CANCELED.");
+                    return;
+
+                case "COMPLETED":
+                    JOptionPane.showMessageDialog(this, "This order is already COMPLETED.");
+                    return;
+
+                case "PENDING":
+                    JOptionPane.showMessageDialog(this, "This order is not yet PAID/PREPARING.");
+                    return;
+
+                case "PREPARING":
+
+            int confirm = JOptionPane.showConfirmDialog(
+                    this,
+                    "Mark this order as COMPLETED?",
+                    "Confirm Order Completion",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirm == JOptionPane.YES_OPTION) {
+
+                try (Connection con = DBConnection.getConnection()) {
+
+                    String sql1 = "UPDATE tblpayment SET status='COMPLETED' WHERE order_id=?";
+                    PreparedStatement pst1 = con.prepareStatement(sql1);
+                    pst1.setInt(1, orderID);
+                    pst1.executeUpdate();
+
+                    String sql2 = "UPDATE orders SET status='COMPLETED' WHERE order_id=?";
+                    PreparedStatement pst2 = con.prepareStatement(sql2);
+                    pst2.setInt(1, orderID);
+                    pst2.executeUpdate();
+
+                    JOptionPane.showMessageDialog(this, "Order is now COMPLETED.");
+
+                    loadPaymentsTable("All", "");
+                    loadOrdersTable("All", "");
+                    loadDashboardTable();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                return;
+            }
+
+            break;
+
+                default:
+                    JOptionPane.showMessageDialog(this, "Unknown order status.");
+            }
+        }
     public void searchReports(String searchText) {
 
     try {
@@ -1356,6 +1438,62 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
 }
 
+    private void cancelSelectedOrder() {
+        int selectedRow = tblPayment.getSelectedRow();
+
+            if (selectedRow < 0) {
+                JOptionPane.showMessageDialog(this, "Please select an order to cancel.");
+                return;
+            }
+
+            int orderID = Integer.parseInt(tblPayment.getValueAt(selectedRow, 1).toString());
+            String currentStatus = tblPayment.getValueAt(selectedRow, 5).toString().toUpperCase();
+
+            switch (currentStatus) {
+                case "CANCELED":
+                    JOptionPane.showMessageDialog(this, "This order is already CANCELED and cannot be changed.");
+                    return;
+                case "COMPLETED":
+                case "PAID":
+                    JOptionPane.showMessageDialog(this, "This order is already " + currentStatus + " and cannot be canceled.");
+                    return;
+                case "PENDING":
+                case "PREPARING":
+                    int confirm = JOptionPane.showConfirmDialog(this,
+                            "Are you sure you want to CANCEL this order?",
+                            "Confirm Cancellation",
+                            JOptionPane.YES_NO_OPTION);
+
+                    if (confirm != JOptionPane.YES_OPTION) {
+                        return;
+                    }
+
+                    try (Connection con = DBConnection.getConnection()) {
+                        String sqlUpdatePayment = "UPDATE tblpayment SET status='CANCELED' WHERE order_id=?";
+                        PreparedStatement pstPayment = con.prepareStatement(sqlUpdatePayment);
+                        pstPayment.setInt(1, orderID);
+                        pstPayment.executeUpdate();
+
+                        String sqlUpdateOrder = "UPDATE orders SET status='CANCELED' WHERE order_id=?";
+                        PreparedStatement pstOrder = con.prepareStatement(sqlUpdateOrder);
+                        pstOrder.setInt(1, orderID);
+                        pstOrder.executeUpdate();
+
+                        JOptionPane.showMessageDialog(this, "Order has been canceled successfully.");
+
+                        loadPaymentsTable("All", "");
+                        loadOrdersTable("All", "");
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(this, "Error canceling order: " + ex.getMessage());
+                    }
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(this, "Unknown status: " + currentStatus);
+            }
+        }
+
      
     
     /**
@@ -1435,6 +1573,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         tblSummary = new javax.swing.JTable();
         btnOrdCanc1 = new javax.swing.JButton();
         btnConfirm = new javax.swing.JButton();
+        btnOrdBack1 = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jTabbedPane5 = new javax.swing.JTabbedPane();
@@ -2076,6 +2215,14 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
         });
         pnlView.add(btnConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 440, 90, 30));
+
+        btnOrdBack1.setText("X");
+        btnOrdBack1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrdBack1ActionPerformed(evt);
+            }
+        });
+        pnlView.add(btnOrdBack1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, -1, -1));
 
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/VIEWORDER.png"))); // NOI18N
         pnlView.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 6, 380, 500));
@@ -3021,13 +3168,71 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddCancelActionPerformed
 
     private void btnCancelledOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelledOrderActionPerformed
-      
+
+
     }//GEN-LAST:event_btnCancelledOrderActionPerformed
     
     
     private void btnOrdCanc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdCanc1ActionPerformed
         pnlView.setVisible(false);
         pnlOrder.setVisible(true);
+
+    int row = tblOrder.getSelectedRow();
+
+    if (row < 0) {
+        JOptionPane.showMessageDialog(this, "Please select an order first.");
+        return;
+    }
+
+    int orderID = Integer.parseInt(tblOrder.getValueAt(row, 0).toString());
+    String currentStatus = tblOrder.getValueAt(row, 5).toString();
+
+    if (currentStatus.equalsIgnoreCase("CANCELED")) {
+        JOptionPane.showMessageDialog(this,
+        "This order is already CANCELED.");
+        return;
+    }
+
+    if (currentStatus.equalsIgnoreCase("COMPLETED")) {
+        JOptionPane.showMessageDialog(this,
+        "Completed orders cannot be canceled.");
+        return;
+    }
+
+    int confirm = JOptionPane.showConfirmDialog(
+            this,
+            "Are you sure you want to cancel this order?",
+            "Confirm Cancel",
+            JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirm != JOptionPane.YES_OPTION) {
+        return;
+    }
+
+    try {
+
+        Connection con = DBConnection.getConnection();
+
+        String sql1 = "UPDATE orders SET status='CANCELED' WHERE order_id=?";
+        PreparedStatement pst1 = con.prepareStatement(sql1);
+        pst1.setInt(1, orderID);
+        pst1.executeUpdate();
+
+        String sql2 = "UPDATE tblpayment SET status='CANCELED' WHERE order_id=?";
+        PreparedStatement pst2 = con.prepareStatement(sql2);
+        pst2.setInt(1, orderID);
+        pst2.executeUpdate();
+
+        JOptionPane.showMessageDialog(this, "Order successfully canceled.");
+
+        loadOrdersTable("All", "");
+        loadPaymentsTable("All", "");
+        loadDashboardTable();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
     }//GEN-LAST:event_btnOrdCanc1ActionPerformed
 
     private void btnStaffAdd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStaffAdd1ActionPerformed
@@ -3762,39 +3967,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void btnOrdConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdConfActionPerformed
         // TODO add your handling code here:
-        int row = tblPayment.getSelectedRow();
-            if (row < 0) {
-                JOptionPane.showMessageDialog(this, "Please select a payment first.");
-                return;
-            }
-
-            int orderID = Integer.parseInt(tblPayment.getValueAt(row, 1).toString());
-            String currentStatus = tblPayment.getValueAt(row, 5).toString().toUpperCase();
-
-            if (!currentStatus.equals("PREPARING")) {
-                JOptionPane.showMessageDialog(this, "Status can only be updated if it is PREPARING.");
-                return;
-            }
-
-            try (Connection con = DBConnection.getConnection()) {
-
-                String[] tables = {"orders", "tblpayment"};
-                for (String table : tables) {
-                    String sql = "UPDATE " + table + " SET status='COMPLETED' WHERE order_id=?";
-                    try (PreparedStatement pst = con.prepareStatement(sql)) {
-                        pst.setInt(1, orderID);
-                        pst.executeUpdate();
-                    }
-                }
-
-                JOptionPane.showMessageDialog(this, "Status updated to COMPLETED.");
-                loadPaymentsTable("All", "");
-                loadOrdersTable("All", "");
-                loadDashboardTable();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        confirmVerifyOrder();
     }//GEN-LAST:event_btnOrdConfActionPerformed
 
     private void txtSearchReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchReportActionPerformed
@@ -3805,6 +3978,12 @@ public class AdminDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
          printReceipt();
     }//GEN-LAST:event_btnPrintActionPerformed
+
+    private void btnOrdBack1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdBack1ActionPerformed
+        // TODO add your handling code here:
+        pnlOrder.setVisible(true);
+        pnlView.setVisible(false);
+    }//GEN-LAST:event_btnOrdBack1ActionPerformed
     
     /**
      * @param args the command line arguments
@@ -3853,6 +4032,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnEditOrder;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnOrdBack;
+    private javax.swing.JButton btnOrdBack1;
     private javax.swing.JButton btnOrdCanc1;
     private javax.swing.JButton btnOrdConf;
     private javax.swing.JButton btnOrdDel2;
