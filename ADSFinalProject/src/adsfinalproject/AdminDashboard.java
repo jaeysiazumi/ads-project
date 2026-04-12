@@ -38,6 +38,16 @@ public class AdminDashboard extends javax.swing.JFrame {
     
     public AdminDashboard() {
         initComponents(); 
+        cmbInventory.addActionListener(e -> {
+
+            Object selectedItem = cmbInventory.getSelectedItem();
+            if(selectedItem == null) return;
+
+            String status = selectedItem.toString();
+
+            loadInventoryTable(status);
+
+        });
         btnCancelledOrder.addActionListener(e -> cancelSelectedOrder());
         dcReportsDate.getDateEditor().addPropertyChangeListener("date", evt -> {
             filterProductReportByDate();
@@ -86,7 +96,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         loadSupplierIDs();
         loadCustomerReport();
         loadProductReport();
-        loadInventoryTable();
+        loadInventoryTable("All");
         loadLowStockCount();
          DefaultTableModel model = new DefaultTableModel(
         new Object[][]{},
@@ -225,7 +235,6 @@ public class AdminDashboard extends javax.swing.JFrame {
                 loadProductReport();
                 loadCustomerReport();
             }
-            loadInventoryTable();
 
             }).start();
             setSize(1318, 847);
@@ -973,33 +982,45 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
 }
         
-    private void loadInventoryTable() {
-    DefaultTableModel model = (DefaultTableModel) tblInventory.getModel();
-    model.setRowCount(0);
+    private void loadInventoryTable(String statusFilter) {
 
-    try {
-        Connection con = DBConnection.getConnection();
+        DefaultTableModel model = (DefaultTableModel) tblInventory.getModel();
+        model.setRowCount(0);
 
-        String sql = "SELECT name, stock, status FROM products";
-        PreparedStatement pst = con.prepareStatement(sql);
-        ResultSet rs = pst.executeQuery();
+        try {
 
-        while (rs.next()) {
-            model.addRow(new Object[]{
-                rs.getString("name"),
-                rs.getInt("stock"),
-                rs.getString("status")
-            });
+            Connection con = DBConnection.getConnection();
+
+            String sql = "SELECT name, stock, status FROM products";
+
+            if(!statusFilter.equalsIgnoreCase("All")){
+                sql += " WHERE status = ?";
+            }
+
+            PreparedStatement pst = con.prepareStatement(sql);
+
+            if(!statusFilter.equalsIgnoreCase("All")){
+                pst.setString(1, statusFilter);
+            }
+
+            ResultSet rs = pst.executeQuery();
+
+            while(rs.next()){
+                model.addRow(new Object[]{
+                    rs.getString("name"),
+                    rs.getInt("stock"),
+                    rs.getString("status")
+                });
+            }
+
+            rs.close();
+            pst.close();
+            con.close();
+
+        } catch(Exception e){
+            e.printStackTrace();
         }
-
-        rs.close();
-        pst.close();
-        con.close();
-
-    } catch (Exception e) {
-        e.printStackTrace();
     }
-        }
         
     public void setOrderDetails(int orderId){
     try{
@@ -1529,6 +1550,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         jPanel9 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblInventory = new javax.swing.JTable();
+        cmbInventory = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         pnlSuppliers = new javax.swing.JPanel();
         pnlAddSuppliers = new javax.swing.JPanel();
@@ -1885,6 +1907,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         jScrollPane4.setViewportView(tblInventory);
 
         jPanel9.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 540));
+
+        cmbInventory.setBackground(new java.awt.Color(255, 255, 255));
+        cmbInventory.setForeground(new java.awt.Color(0, 0, 0));
+        cmbInventory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Available", "Out of Stock", "Discontinue" }));
+        jPanel9.add(cmbInventory, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 113, 180, -1));
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/InventoryReports.png"))); // NOI18N
         jPanel9.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, -1));
@@ -4059,6 +4086,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnSupplier;
     private javax.swing.JButton btnUsers;
     private javax.swing.JButton btnto;
+    private javax.swing.JComboBox<String> cmbInventory;
     private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JComboBox<String> cmbStatus1;
     private javax.swing.JComboBox<String> cmbStatus2;
