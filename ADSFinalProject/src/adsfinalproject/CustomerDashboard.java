@@ -35,6 +35,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
     int selectedRowIndex = -1;
     double cartTotal = 0;
     String status = "";
+    private String currentUsername;
+    private String currentContact;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CustomerDashboard.class.getName());
 
@@ -616,6 +618,37 @@ public class CustomerDashboard extends javax.swing.JFrame {
     }
 
     return orderID;
+}
+    
+    public void setUserData(String username, String contact) {
+    this.currentUsername = username;
+    this.currentContact = contact;
+
+    txtContactNo.setText(contact);
+
+    loadLastCustomerName();
+}
+    
+    private void loadLastCustomerName() {
+    try {
+        Connection con = DBConnection.getConnection();
+
+        String sql = "SELECT customer_name FROM orders WHERE customer_name = ? ORDER BY order_id DESC LIMIT 1";
+        PreparedStatement pst = con.prepareStatement(sql);
+
+        pst.setString(1, currentUsername);
+
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            textUserName.setText(rs.getString("customer_name"));
+        } else {
+            textUserName.setText(currentUsername);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
 }
     
         
@@ -2950,8 +2983,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Your cart is empty!");
         return;
     }
-
-    saveCustomerContactNo(name, contact);
+    
+    saveCustomerContactNo(currentUsername, contact);
 
     if (selectedPayment.equalsIgnoreCase("cash")) {
         int confirm = JOptionPane.showConfirmDialog(
