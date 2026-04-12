@@ -3035,6 +3035,11 @@ public class CustomerDashboard extends javax.swing.JFrame {
         return;
     }
 
+    if (!refNum.matches("\\d{13}")) {
+        JOptionPane.showMessageDialog(this, "Reference number must be exactly 13 digits!");
+        return;
+}
+
     int confirm = JOptionPane.showConfirmDialog(
         this,
         "Confirm E-Wallet payment?",
@@ -3078,6 +3083,21 @@ public class CustomerDashboard extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Please fill all Credit Card details!");
         return;
     }
+    
+    if (!cardNum.matches("\\d{16}")) {
+        JOptionPane.showMessageDialog(this, "Card number must be exactly 16 digits!");
+        return;
+}
+
+    if (!ccv.matches("\\d{3}")) {
+        JOptionPane.showMessageDialog(this, "CCV must be exactly 3 digits!");
+        return;
+}
+
+    if (!exDate.matches("(0[1-9]|1[0-2])/\\d{2}")) {
+        JOptionPane.showMessageDialog(this, "Expiry date must be in MM/YY format!");
+        return;
+}
 
     int confirm = JOptionPane.showConfirmDialog(
         this,
