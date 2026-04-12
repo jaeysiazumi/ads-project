@@ -357,7 +357,13 @@ public class startUp extends javax.swing.JFrame {
                 } else if (role.equals("staff")) {
                     dashboard = new EmployeeDashboard(staffId);
                 } else{
-                    dashboard = new CustomerDashboard();
+                    String username = rs.getString("username");
+                    String contact = rs.getString("contact_no");
+
+                    CustomerDashboard cd = new CustomerDashboard();
+                    cd.setUserData(username, contact);
+
+                    dashboard = cd;
                 }
 
                 dashboard.setVisible(true);
