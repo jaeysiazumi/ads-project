@@ -18,6 +18,8 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JButton;
 
 /**
@@ -30,6 +32,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     ImageIcon dash, user, ord, pr, sup, rep ;
     private Connection conn;
     JDateChooser dateChooser;
+    Map<String, Integer> supplierMap = new HashMap<>();
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AdminDashboard.class.getName());
 
     /**
@@ -732,25 +735,30 @@ public class AdminDashboard extends javax.swing.JFrame {
     loadSuppliers(searchText, statusFilter);
 }
     
-    public void loadSupplierIDs(){
-       try {
-        Connection conn = DBConnection.getConnection();
+   public void loadSupplierIDs(){
+   try {
+    Connection conn = DBConnection.getConnection();
 
-        String sql = "SELECT supplier_id FROM suppliers";
-        PreparedStatement pst = conn.prepareStatement(sql);
-        ResultSet rs = pst.executeQuery();
+    String sql = "SELECT supplier_id, name FROM suppliers";
+    PreparedStatement pst = conn.prepareStatement(sql);
+    ResultSet rs = pst.executeQuery();
 
-        cmbSupplier.removeAllItems();
+    cmbSupplier.removeAllItems();
+    supplierMap.clear();
 
-        while(rs.next()){
-            cmbSupplier.addItem(rs.getString("supplier_id"));
-        }
-        
-    } catch (Exception e) {
-        e.printStackTrace(); 
+    while(rs.next()){
+        String name = rs.getString("name");
+        int id = rs.getInt("supplier_id");
+
+        cmbSupplier.addItem(name);     
+        supplierMap.put(name, id);     
     }
-
+    
+} catch (Exception e) {
+    e.printStackTrace(); 
+}
     }
+   
     private void loadPayments() {
     try {
         Connection conn = DBConnection.getConnection();
@@ -3609,7 +3617,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     String category = txtAddCategoryProduct.getText().trim();
     String description = txtAddDescrip.getText().trim();
 
-    int supplierId = Integer.parseInt(cmbSupplier.getSelectedItem().toString());
+   String selectedName = cmbSupplier.getSelectedItem().toString();
+   int supplierId = supplierMap.get(selectedName);
 
     String selectedStatus = cmbStatus.getSelectedItem().toString();
     String status;
