@@ -532,21 +532,21 @@ public class CustomerDashboard extends javax.swing.JFrame {
         String totalStr = lblTotal.getText().replace("₱", "").trim();
         double totalAmount = Double.parseDouble(totalStr);
 
-        String status = selectedPayment.equalsIgnoreCase("cash") ? "PENDING" : "PAID";
+        String payment = selectedPayment == null ? "" : selectedPayment.trim();
+        String status = "cash".equalsIgnoreCase(payment) ? "PENDING" : "PAID";
+
         String orderTypeVal = orderType;
 
         java.sql.Timestamp orderDate = new java.sql.Timestamp(System.currentTimeMillis());
-        String orderNumber = "ORD" + System.currentTimeMillis();
 
-        String sql = "INSERT INTO orders (order_number, customer_name, total_amount, order_type, status, order_date) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO orders (customer_name, total_amount, order_type, status, order_date) VALUES (?,?,?,?,?)";
 
         PreparedStatement pst = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
-        pst.setString(1, orderNumber);
-        pst.setString(2, customerName);
-        pst.setDouble(3, totalAmount);
-        pst.setString(4, orderTypeVal);
-        pst.setString(5, status);
-        pst.setTimestamp(6, orderDate);
+        pst.setString(1, customerName);
+        pst.setDouble(2, totalAmount);
+        pst.setString(3, orderTypeVal);
+        pst.setString(4, status);
+        pst.setTimestamp(5, orderDate);
 
         pst.executeUpdate();
 
@@ -555,9 +555,22 @@ public class CustomerDashboard extends javax.swing.JFrame {
             orderID = rs.getInt(1);
         }
 
+        rs.close();
+        pst.close();
+
+        String orderNumber = "ORD-" + String.format("%03d", orderID);
+
+        String updateOrderNo = "UPDATE orders SET order_number = ? WHERE order_id = ?";
+        PreparedStatement pstUpdate = con.prepareStatement(updateOrderNo);
+        pstUpdate.setString(1, orderNumber);
+        pstUpdate.setInt(2, orderID);
+        pstUpdate.executeUpdate();
+        pstUpdate.close();
+
         DefaultTableModel model = (DefaultTableModel) tblCart.getModel();
 
         for (int i = 0; i < model.getRowCount(); i++) {
+
             String productName = model.getValueAt(i, 0).toString().trim();
             String priceStr = model.getValueAt(i, 1).toString().replace("₱", "").trim();
             double price = Double.parseDouble(priceStr);
@@ -608,8 +621,6 @@ public class CustomerDashboard extends javax.swing.JFrame {
         lblOrderNum1.setText(orderNumber);
         lblOrderNum2.setText(orderNumber);
 
-        pst.close();
-        rs.close();
         con.close();
 
     } catch (Exception e) {
