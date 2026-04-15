@@ -38,7 +38,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                     DefaultTableModel model = (DefaultTableModel) tblEmployeeDashboard.getModel();
 
                     try {
-                        int orderId = Integer.parseInt(model.getValueAt(row, 0).toString()); 
+                        int orderId = Integer.parseInt(model.getValueAt(row, 6).toString()); 
                         String newStatus = model.getValueAt(row, 4).toString().trim(); 
 
                         updateOrderStatus(orderId, newStatus);
@@ -388,11 +388,11 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     }
       public void loadDashboardTable() {
 
-    String sql = "SELECT o.order_id, o.customer_name, o.total_amount, " +
-                 "p.payment_type, o.status, o.order_date " +
-                 "FROM orders o " +
-                 "LEFT JOIN tblpayment p ON o.order_id = p.order_id " +
-                 "ORDER BY o.order_id DESC";
+    String sql = "SELECT o.order_id, o.order_number, o.customer_name, o.total_amount, " +
+             "p.payment_type, o.status, o.order_date " +
+             "FROM orders o " +
+             "LEFT JOIN tblpayment p ON o.order_id = p.order_id " +
+             "ORDER BY o.order_id DESC";
 
     try (Connection con = DBConnection.getConnection();
          PreparedStatement pst = con.prepareStatement(sql);
@@ -404,12 +404,13 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         while (rs.next()) {
 
             model.addRow(new Object[]{
-                rs.getInt("order_id"),
+                rs.getString("order_number"),  
                 rs.getString("customer_name"),
                 rs.getDouble("total_amount"),
                 rs.getString("payment_type"),
                 rs.getString("status"),
-                rs.getTimestamp("order_date")
+                rs.getTimestamp("order_date"),
+                rs.getInt("order_id")   
             });
         }
 
@@ -466,11 +467,11 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
     }
        public void loadEmployeeDashboard() {
-            String sql = "SELECT o.order_id, o.customer_name, o.total_amount, " +
-                     "p.payment_type, o.status, o.order_date " +
-                     "FROM orders o " +
-                     "LEFT JOIN tblpayment p ON o.order_id = p.order_id " +
-                     "ORDER BY o.order_id DESC";
+            String sql = "SELECT o.order_id, o.order_number, o.customer_name, o.total_amount, " +
+                "p.payment_type, o.status, o.order_date " +
+                "FROM orders o " +
+                "LEFT JOIN tblpayment p ON o.order_id = p.order_id " +
+                "ORDER BY o.order_id DESC";
 
             try (Connection con = DBConnection.getConnection();
                  PreparedStatement pst = con.prepareStatement(sql);
@@ -481,14 +482,18 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
                 while (rs.next()) {
                     model.addRow(new Object[]{
-                        rs.getInt("order_id"),              
-                        rs.getString("customer_name"),     
-                        rs.getDouble("total_amount"),       
-                        rs.getString("payment_type"),       
-                        rs.getString("status"),             
-                        rs.getTimestamp("order_date")     
+                        rs.getString("order_number"),  
+                        rs.getString("customer_name"),
+                        rs.getDouble("total_amount"),
+                        rs.getString("payment_type"),
+                        rs.getString("status"),
+                        rs.getTimestamp("order_date"),
+                        rs.getInt("order_id")   
                     });
                 }
+                tblEmployeeDashboard.getColumnModel().getColumn(6).setMinWidth(0);
+                tblEmployeeDashboard.getColumnModel().getColumn(6).setMaxWidth(0);
+                tblEmployeeDashboard.getColumnModel().getColumn(6).setWidth(0);
                 updateStatusCounts();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error loading Employee Dashboard: " + e.getMessage());
@@ -1268,13 +1273,13 @@ public String getNextOrderNumber() {
         tblEmployeeDashboard.setBackground(new java.awt.Color(255, 255, 255));
         tblEmployeeDashboard.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Order ID", "Name", "Total", "Payment Type", "Status", "Date"
+                "Order Number", "Name", "Total", "Payment Type", "Status", "Date", "Order ID"
             }
         ));
         jScrollPane1.setViewportView(tblEmployeeDashboard);
