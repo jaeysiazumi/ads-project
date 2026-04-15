@@ -492,7 +492,8 @@ public class CustomerDashboard extends javax.swing.JFrame {
         String sql = "INSERT INTO tblpayment (order_id, total_amount, payment_date, payment_type, reference_no, card_number, status) "
                    + "VALUES (?, ?, NOW(), ?, ?, ?, ?)";
 
-        PreparedStatement pst = conn.prepareStatement(sql);
+        PreparedStatement pst = conn.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+
         pst.setInt(1, orderId);
         pst.setDouble(2, totalAmount);
         pst.setString(3, paymentType);
@@ -513,6 +514,22 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         pst.executeUpdate();
 
+        // 🔥 GET AUTO ID
+        ResultSet rs = pst.getGeneratedKeys();
+        if (rs.next()) {
+            int paymentId = rs.getInt(1);
+
+            String paymentNumber = "PAY-" + paymentId;
+
+            String updateSql = "UPDATE tblpayment SET payment_number=? WHERE payment_id=?";
+            PreparedStatement pst2 = conn.prepareStatement(updateSql);
+            pst2.setString(1, paymentNumber);
+            pst2.setInt(2, paymentId);
+            pst2.executeUpdate();
+            pst2.close();
+        }
+
+        rs.close();
         pst.close();
         conn.close();
 
