@@ -1599,8 +1599,9 @@
                                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                                 </Property>
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                                  <Table columnCount="6" rowCount="4">
+                                  <Table columnCount="7" rowCount="4">
                                     <Column editable="true" title="ID" type="java.lang.Object"/>
+                                    <Column editable="true" title="Order Number" type="java.lang.Object"/>
                                     <Column editable="true" title="Customer" type="java.lang.Object"/>
                                     <Column editable="true" title="Date" type="java.lang.Object"/>
                                     <Column editable="true" title="Total" type="java.lang.Object"/>
@@ -1610,6 +1611,11 @@
                                 </Property>
                                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                                   <TableColumnModel selectionModel="0">
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
                                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                       <Title/>
                                       <Editor/>
@@ -1803,9 +1809,11 @@
                                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                                 </Property>
                                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                                  <Table columnCount="6" rowCount="4">
-                                    <Column editable="true" title="ID" type="java.lang.Object"/>
-                                    <Column editable="true" title="Order ID" type="java.lang.Object"/>
+                                  <Table columnCount="8" rowCount="4">
+                                    <Column editable="true" title="payment id" type="java.lang.Object"/>
+                                    <Column editable="true" title="order id" type="java.lang.Object"/>
+                                    <Column editable="true" title="Payment number" type="java.lang.Object"/>
+                                    <Column editable="true" title="Order number" type="java.lang.Object"/>
                                     <Column editable="true" title="Amount" type="java.lang.Object"/>
                                     <Column editable="true" title="Date" type="java.lang.Object"/>
                                     <Column editable="true" title="Type" type="java.lang.Object"/>
@@ -1814,6 +1822,16 @@
                                 </Property>
                                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                                   <TableColumnModel selectionModel="0">
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
+                                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                      <Title/>
+                                      <Editor/>
+                                      <Renderer/>
+                                    </Column>
                                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                       <Title/>
                                       <Editor/>

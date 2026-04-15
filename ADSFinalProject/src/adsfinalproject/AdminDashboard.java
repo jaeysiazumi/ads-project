@@ -630,11 +630,12 @@ public class AdminDashboard extends javax.swing.JFrame {
                 lblTransComp.setText("0");
             }
         }
-        public void loadOrdersTable(String statusFilter, String searchText) {
-        try {
+        
+     public void loadOrdersTable(String statusFilter, String searchText) {
+    try {
         Connection con = DBConnection.getConnection();
 
-        String sql = "SELECT order_id, customer_name, order_date, total_amount, order_type, status "
+        String sql = "SELECT order_id, order_number, customer_name, order_date, total_amount, order_type, status "
                    + "FROM orders WHERE customer_name LIKE ?";
 
         if (!statusFilter.equalsIgnoreCase("All")) {
@@ -658,14 +659,20 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         while (rs.next()) {
             model.addRow(new Object[]{
-                rs.getInt("order_id"),
+                rs.getInt("order_id"),              // 🔥 hidden
+                rs.getString("order_number"),       // 🔥 ORD-001
                 rs.getString("customer_name"),
                 rs.getDate("order_date"),
-                rs.getDouble("total_amount"),
+                "₱" + String.format("%.2f", rs.getDouble("total_amount")),
                 rs.getString("order_type"),
                 rs.getString("status")
             });
         }
+
+        // 🔥 HIDE ID COLUMN
+        tblOrder.getColumnModel().getColumn(0).setMinWidth(0);
+        tblOrder.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblOrder.getColumnModel().getColumn(0).setWidth(0);
 
     } catch (Exception e) {
         e.printStackTrace();
@@ -793,24 +800,29 @@ public class AdminDashboard extends javax.swing.JFrame {
     try {
         Connection conn = DBConnection.getConnection();
 
-        String sql = "SELECT * FROM tblpayment WHERE 1=1";
-        
+        String sql =
+                        "SELECT p.payment_id, p.order_id, p.payment_number, o.order_number, " +
+                        "p.total_amount, p.payment_type, p.status, p.payment_date " +
+"FROM tblpayment p " +
+"JOIN orders o ON p.order_id = o.order_id " +
+"WHERE 1=1";
+
         if (!searchText.isEmpty()) {
-            sql += " AND payment_id = ?";
-        }
-        
-        if (!statusFilter.equalsIgnoreCase("All")) {
-            sql += " AND TRIM(UPPER(status)) = ?";
+            sql += " AND p.payment_number LIKE ?";
         }
 
-        sql += " ORDER BY payment_id DESC";
+        if (!statusFilter.equalsIgnoreCase("All")) {
+            sql += " AND TRIM(UPPER(p.status)) = ?";
+        }
+
+        sql += " ORDER BY p.payment_id DESC";
 
         PreparedStatement pst = conn.prepareStatement(sql);
 
         int index = 1;
 
         if (!searchText.isEmpty()) {
-            pst.setInt(index++, Integer.parseInt(searchText));
+            pst.setString(index++, "%" + searchText + "%");
         }
 
         if (!statusFilter.equalsIgnoreCase("All")) {
@@ -824,17 +836,23 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         while (rs.next()) {
             model.addRow(new Object[]{
-                rs.getInt("payment_id"),
-                rs.getInt("order_id"),
-                rs.getDouble("total_amount"),
-                rs.getTimestamp("payment_date"),
-                rs.getString("payment_type"),
-                rs.getString("status")
+                  rs.getInt("payment_id"),      // 0 hidden
+                  rs.getInt("order_id"),        // 1 hidden 🔥 IMPORTANT
+                  rs.getString("payment_number"), // 2
+                  rs.getString("order_number"),   // 3
+                  "₱" + String.format("%.2f", rs.getDouble("total_amount")),
+                  rs.getString("payment_date"),
+                  rs.getString("payment_type"),
+                  rs.getString("status")
             });
         }
+        
+        tblPayment.getColumnModel().getColumn(0).setMinWidth(0);
+        tblPayment.getColumnModel().getColumn(0).setMaxWidth(0);
 
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(null, "Please enter a valid Payment ID (numbers only).");
+        tblPayment.getColumnModel().getColumn(1).setMinWidth(0);
+        tblPayment.getColumnModel().getColumn(1).setMaxWidth(0);
+
     } catch (Exception e) {
         e.printStackTrace();
     }
@@ -1197,9 +1215,9 @@ public class AdminDashboard extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Please select a payment/order to confirm.");
                 return;
             }
-
+            
             int orderID = Integer.parseInt(tblPayment.getValueAt(selectedRow, 1).toString());
-            String currentStatus = tblPayment.getValueAt(selectedRow, 5).toString().toUpperCase();
+            String currentStatus = tblPayment.getValueAt(selectedRow, 7).toString().trim().toUpperCase();
 
             switch (currentStatus) {
 
@@ -2332,18 +2350,18 @@ public class AdminDashboard extends javax.swing.JFrame {
         tblOrder.setBackground(new java.awt.Color(255, 255, 255));
         tblOrder.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Customer", "Date", "Total", "Order Type", "Status"
+                "ID", "Order Number", "Customer", "Date", "Total", "Order Type", "Status"
             }
         ));
         jScrollPane12.setViewportView(tblOrder);
         if (tblOrder.getColumnModel().getColumnCount() > 0) {
-            tblOrder.getColumnModel().getColumn(4).setResizable(false);
+            tblOrder.getColumnModel().getColumn(5).setResizable(false);
         }
 
         jPanel12.add(jScrollPane12, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 500));
@@ -2401,18 +2419,18 @@ public class AdminDashboard extends javax.swing.JFrame {
         tblPayment.setBackground(new java.awt.Color(255, 255, 255));
         tblPayment.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Order ID", "Amount", "Date", "Type", "Status"
+                "payment id", "order id", "Payment number", "Order number", "Amount", "Date", "Type", "Status"
             }
         ));
         jScrollPane11.setViewportView(tblPayment);
         if (tblPayment.getColumnModel().getColumnCount() > 0) {
-            tblPayment.getColumnModel().getColumn(3).setResizable(false);
+            tblPayment.getColumnModel().getColumn(5).setResizable(false);
         }
 
         jPanel13.add(jScrollPane11, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 500));
@@ -3987,7 +4005,9 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
 
     try {
-       int orderId = Integer.parseInt(tblPayment.getValueAt(selectedRow, 1).toString());
+       
+        int paymentId = (int) tblPayment.getModel().getValueAt(selectedRow, 0);
+        int orderId = (int) tblPayment.getModel().getValueAt(selectedRow, 1);
 
         setPaymentDetails(orderId);
 
