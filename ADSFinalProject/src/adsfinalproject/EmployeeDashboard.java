@@ -261,7 +261,8 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
         Connection conn = DBConnection.getConnection();
 
-        String sql = "SELECT * FROM users WHERE role = ?";
+        String sql = "SELECT users_number, username, email, contact_no, status FROM users WHERE role = ?";
+
         PreparedStatement pst = conn.prepareStatement(sql);
         pst.setString(1, "customer");
 
@@ -270,7 +271,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         while (rs.next()) {
 
             model.addRow(new Object[]{
-                rs.getInt("id"),
+                rs.getString("users_number"), 
                 rs.getString("username"),
                 rs.getString("email"),
                 rs.getString("contact_no"),
@@ -463,7 +464,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
         while (rs.next()) {
             model.addRow(new Object[]{
-                rs.getInt("product_id"),
+                rs.getString("product_number"),
                 rs.getString("name"),
                 rs.getString("description"),
                 rs.getString("category"),
