@@ -514,7 +514,6 @@ public class CustomerDashboard extends javax.swing.JFrame {
 
         pst.executeUpdate();
 
-        // 🔥 GET AUTO ID
         ResultSet rs = pst.getGeneratedKeys();
         if (rs.next()) {
             int paymentId = rs.getInt(1);
