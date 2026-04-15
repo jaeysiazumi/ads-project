@@ -74,21 +74,38 @@ public class startUp extends javax.swing.JFrame {
             btnLogAdmin.setIcon(add);
     }
     }
-    private String getNextUserNumber() {
-    String nextNumber = "USR-001";
+    private String getNextUserNumber(String role) {
+    String prefix;
 
-    try {
-        Connection con = DBConnection.getConnection();
-        String sql = "SELECT users_number FROM users ORDER BY id DESC LIMIT 1";
+    switch (role.toLowerCase()) {
+        case "staff":
+            prefix = "STF-";
+            break;
+        case "admin":
+            prefix = "ADM-";
+            break;
+        default:
+            prefix = "CUS-";
+            break;
+    }
+
+    String nextNumber = prefix + "001";
+
+    try (Connection con = DBConnection.getConnection()) {
+
+        String sql = "SELECT users_number FROM users WHERE users_number LIKE ? ORDER BY id DESC LIMIT 1";
         PreparedStatement pst = con.prepareStatement(sql);
+
+        pst.setString(1, prefix + "%");
+
         ResultSet rs = pst.executeQuery();
 
         if (rs.next()) {
             String lastNumber = rs.getString("users_number");
 
-            if (lastNumber != null && lastNumber.startsWith("USR-")) {
-                int num = Integer.parseInt(lastNumber.replace("USR-", ""));
-                nextNumber = String.format("USR-%03d", num + 1);
+            if (lastNumber != null && lastNumber.startsWith(prefix)) {
+                int num = Integer.parseInt(lastNumber.replace(prefix, ""));
+                nextNumber = String.format(prefix + "%03d", num + 1);
             }
         }
 
@@ -446,7 +463,7 @@ public class startUp extends javax.swing.JFrame {
         }
         
 
-        String usersNumber = getNextUserNumber();
+        String usersNumber = getNextUserNumber(selectedRole);
         
         PreparedStatement pst = con.prepareStatement(
         "INSERT INTO users(users_number, username, email, password, role) VALUES (?, ?, ?, ?, ?)"
