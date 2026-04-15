@@ -880,7 +880,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         while (rs.next()) {
             model.addRow(new Object[]{
-                rs.getInt("id"),
+                formatStaffId(rs.getInt("id")),
                 rs.getString("username"),
                 rs.getString("email"),
                 rs.getString("contact_no"),
@@ -1543,6 +1543,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         }
     private String formatUserId(int id) {
     return String.format("USR-%03d", id);
+}
+    private String formatStaffId(int id) {
+    return String.format("STAFF-%03d", id);
 }
 
      
@@ -3964,7 +3967,8 @@ try {
     return;
 }
 
-    int id = Integer.parseInt(tblStaff.getValueAt(row, 0).toString());
+    String rawId = tblStaff.getValueAt(row, 0).toString();
+    int id = Integer.parseInt(rawId.replaceAll("\\D", ""));
 
     String currentName = tblStaff.getValueAt(row, 1).toString();
     String currentEmail = tblStaff.getValueAt(row, 2).toString();
@@ -4010,8 +4014,8 @@ try {
         return;
     }
 
-    int id = Integer.parseInt(tblStaff.getValueAt(selectedRow, 0).toString());
-
+    String rawId = tblStaff.getValueAt(selectedRow, 0).toString();
+    int id = Integer.parseInt(rawId.replaceAll("\\D", ""));
     int confirm = JOptionPane.showConfirmDialog(this,
             "Delete this staff?",
             "Confirm",
