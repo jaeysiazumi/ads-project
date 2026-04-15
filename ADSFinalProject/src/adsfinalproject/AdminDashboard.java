@@ -103,7 +103,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         loadLowStockCount();
          DefaultTableModel model = new DefaultTableModel(
         new Object[][]{},
-        new String[]{"ID", "Name", "Description", "Category", "Stock", "Price", "Supplier", "Status", "Date Added", "Expiration"}
+        new String[]{"ID", "Product Number", "Name", "Description", "Category", "Stock", "Price", "Supplier", "Status", "Date Added", "Expiration"}
     ) {
         @Override
         public boolean isCellEditable(int row, int column) {
@@ -530,10 +530,13 @@ public class AdminDashboard extends javax.swing.JFrame {
     DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
     model.setRowCount(0);
 
-    String sql = "SELECT * FROM products WHERE (name LIKE ? OR category LIKE ? OR supplier_id LIKE ?)";
+    String sql = "SELECT product_id, product_number, name, description, category, stock, price, supplier_id, status, date_added, expiration_date " +
+                 "FROM products WHERE (name LIKE ? OR category LIKE ? OR supplier_id LIKE ?)";
+
     if (!statusFilter.equals("All")) {
         sql += " AND status = ?";
     }
+
     sql += " ORDER BY product_id DESC";
 
     try (Connection con = DBConnection.getConnection();
@@ -542,26 +545,32 @@ public class AdminDashboard extends javax.swing.JFrame {
         pst.setString(1, "%" + search + "%");
         pst.setString(2, "%" + search + "%");
         pst.setString(3, "%" + search + "%");
+
         if (!statusFilter.equals("All")) {
             pst.setString(4, statusFilter);
         }
 
-        try (ResultSet rs = pst.executeQuery()) {
-            while (rs.next()) {
-                model.addRow(new Object[]{
-                    rs.getInt("product_id"),
-                    rs.getString("name"),
-                    rs.getString("description"),
-                    rs.getString("category"),
-                    rs.getInt("stock"),
-                    rs.getDouble("price"),
-                    rs.getString("supplier_id"),
-                    rs.getString("status"),
-                    rs.getDate("date_added"),
-                    rs.getDate("expiration_date")
-                });
-            }
+        ResultSet rs = pst.executeQuery();
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("product_id"),          
+                rs.getString("product_number"),  
+                rs.getString("name"),
+                rs.getString("description"),
+                rs.getString("category"),
+                rs.getInt("stock"),
+                rs.getDouble("price"),
+                rs.getString("supplier_id"),
+                rs.getString("status"),
+                rs.getDate("date_added"),
+                rs.getDate("expiration_date")
+            });
         }
+
+        tblProducts.getColumnModel().getColumn(0).setMinWidth(0);
+        tblProducts.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblProducts.getColumnModel().getColumn(0).setWidth(0);
 
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error loading products: " + e.getMessage());
@@ -669,22 +678,26 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
 
         
-     public void loadSuppliers(String searchText, String statusFilter) {
+    public void loadSuppliers(String searchText, String statusFilter) {
     try {
         Connection con = DBConnection.getConnection();
 
-        String sql = "SELECT * FROM suppliers WHERE name LIKE ?";
+        String sql = "SELECT supplier_id, supplier_number, name, contact_person, contact_no, email, status, created_at " +
+                     "FROM suppliers WHERE name LIKE ?";
 
-        if (!statusFilter.equals("All")) {
+        if (!statusFilter.equalsIgnoreCase("All")) {
             sql += " AND status = ?";
         }
 
+        sql += " ORDER BY supplier_id DESC";
+
         PreparedStatement pst = con.prepareStatement(sql);
 
-        pst.setString(1, "%" + searchText + "%");
+        int index = 1;
+        pst.setString(index++, "%" + searchText + "%");
 
-        if (!statusFilter.equals("All")) {
-            pst.setString(2, statusFilter);
+        if (!statusFilter.equalsIgnoreCase("All")) {
+            pst.setString(index++, statusFilter);
         }
 
         ResultSet rs = pst.executeQuery();
@@ -694,15 +707,23 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         while (rs.next()) {
             model.addRow(new Object[]{
-                rs.getInt("supplier_id"),
-                rs.getString("name"),
-                rs.getString("contact_person"),
-                rs.getString("contact_no"),
-                rs.getString("email"),
-                rs.getString("status"),
-                rs.getString("created_at")
+                rs.getInt("supplier_id"),          
+                rs.getString("supplier_number"),   
+                rs.getString("name"),             
+                rs.getString("contact_person"),    
+                rs.getString("contact_no"),      
+                rs.getString("email"),             
+                rs.getString("status"),         
+                rs.getString("created_at")         
             });
         }
+
+        tblSuppliers.getColumnModel().getColumn(0).setMinWidth(0);
+        tblSuppliers.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblSuppliers.getColumnModel().getColumn(0).setWidth(0);
+
+        pst.close();
+        rs.close();
 
     } catch (Exception e) {
         e.printStackTrace();
@@ -816,10 +837,10 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         while (rs.next()) {
             model.addRow(new Object[]{
-                  rs.getInt("payment_id"),      // 0 hidden
-                  rs.getInt("order_id"),        // 1 hidden 🔥 IMPORTANT
-                  rs.getString("payment_number"), // 2
-                  rs.getString("order_number"),   // 3
+                  rs.getInt("payment_id"),      
+                  rs.getInt("order_id"),       
+                  rs.getString("payment_number"), 
+                  rs.getString("order_number"),   
                   "₱" + String.format("%.2f", rs.getDouble("total_amount")),
                   rs.getString("payment_date"),
                   rs.getString("payment_type"),
@@ -1998,18 +2019,18 @@ public class AdminDashboard extends javax.swing.JFrame {
         tblSuppliers.setBackground(new java.awt.Color(255, 255, 255));
         tblSuppliers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Name", "Contact Person", "Contact No.", "Email", "Status", "Date Added"
+                "ID", "Supplier Number", "Name", "Contact Person", "Contact No.", "Email", "Status", "Date Added"
             }
         ));
         jScrollPane5.setViewportView(tblSuppliers);
         if (tblSuppliers.getColumnModel().getColumnCount() > 0) {
-            tblSuppliers.getColumnModel().getColumn(4).setResizable(false);
+            tblSuppliers.getColumnModel().getColumn(5).setResizable(false);
         }
 
         pnlUsers2.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(312, 167, 930, 500));
@@ -3086,7 +3107,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Product ID", "Name", "Description", "Category", "Stock", "Price", "Supplier", "Status", "Date Add", "Expiration"
+                "Product ID", "Product Number", "Name", "Description", "Category", "Stock", "Price", "Supplier", "Status", "Date Add"
             }
         ));
         jScrollPane1.setViewportView(tblProducts);
@@ -3463,31 +3484,60 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
     private void btnAddSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSupplierActionPerformed
         // TODO add your handling code here:
-    String name = txtNamee.getText();
-    String contactPerson = txtContactPerson.getText();
-    String contactNo = txtContactNo.getText();
-    String email = txtEmail.getText();
+    
+        String name = txtNamee.getText().trim();
+        String contactPerson = txtContactPerson.getText().trim();
+        String contactNo = txtContactNo.getText().trim();
+        String email = txtEmail.getText().trim();
+        
+        if (name.isEmpty() || contactPerson.isEmpty() || contactNo.isEmpty() || email.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please complete all fields!");
+        return;
+}
+    
+        if (!contactNo.matches("\\d{11}")) {
+        JOptionPane.showMessageDialog(this, "Contact number must be exactly 11 digits!");
+        return;
+}
+        if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[A-Za-z]{2,6}$")) {
+        JOptionPane.showMessageDialog(this, "Invalid email format!");
+        return;
+}
 
-    try {
-        Connection con = DBConnection.getConnection();
-        String sql = "INSERT INTO suppliers (name, contact_person, contact_no, email) VALUES (?, ?, ?, ?)";
-        PreparedStatement pst = con.prepareStatement(sql);
+try {
+    Connection con = DBConnection.getConnection();
 
-        pst.setString(1, name);
-        pst.setString(2, contactPerson);
-        pst.setString(3, contactNo);
-        pst.setString(4, email);
+    String countSql = "SELECT COUNT(*) FROM suppliers";
+    PreparedStatement pstCount = con.prepareStatement(countSql);
+    ResultSet rs = pstCount.executeQuery();
 
-        pst.executeUpdate();
-
-        loadSuppliers("", "All");
-        JOptionPane.showMessageDialog(this, "Supplier Added!");
-
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, e.getMessage());
+    int next = 1;
+    if (rs.next()) {
+        next = rs.getInt(1) + 1;
     }
-     
+
+    String supplierNumber = String.format("SUP-%02d", next);
+
+    String sql = "INSERT INTO suppliers (supplier_number, name, contact_person, contact_no, email, status) " +
+                 "VALUES (?, ?, ?, ?, ?, 'Active')";
+
+    PreparedStatement pst = con.prepareStatement(sql);
+
+    pst.setString(1, supplierNumber);
+    pst.setString(2, name);
+    pst.setString(3, contactPerson);
+    pst.setString(4, contactNo);
+    pst.setString(5, email);
+
+    pst.executeUpdate();
+
+    loadSuppliers("", "All");
+
+    JOptionPane.showMessageDialog(this, "Supplier Added Succesfully!");
+
+} catch (Exception e) {
+    e.printStackTrace();
+}
     }//GEN-LAST:event_btnAddSupplierActionPerformed
 
     private void cmbStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbStatusActionPerformed
@@ -3587,14 +3637,14 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void btnSaveProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveProductActionPerformed
         // TODO add your handling code here:                                               
-    try {
+   try {
 
-    if(txtNameProduct.getText().trim().isEmpty() || 
-       txtAddCategoryProduct.getText().trim().isEmpty() || 
-       txtAddDescrip.getText().trim().isEmpty() || 
-       txtAddStock.getText().trim().isEmpty() || 
-       txtAddPrice.getText().trim().isEmpty() || 
-       cmbSupplier.getSelectedItem() == null) {
+    if (txtNameProduct.getText().trim().isEmpty() ||
+        txtAddCategoryProduct.getText().trim().isEmpty() ||
+        txtAddDescrip.getText().trim().isEmpty() ||
+        txtAddStock.getText().trim().isEmpty() ||
+        txtAddPrice.getText().trim().isEmpty() ||
+        cmbSupplier.getSelectedItem() == null) {
 
         JOptionPane.showMessageDialog(null, "Please complete all fields!");
         return;
@@ -3611,46 +3661,51 @@ public class AdminDashboard extends javax.swing.JFrame {
         return;
     }
 
-    String name = txtNameProduct.getText().trim();
-    String category = txtAddCategoryProduct.getText().trim();
-    String description = txtAddDescrip.getText().trim();
-
-   String selectedName = cmbSupplier.getSelectedItem().toString();
-   int supplierId = supplierMap.get(selectedName);
-
-    String selectedStatus = cmbStatus.getSelectedItem().toString();
-    String status;
-
-    if(selectedStatus.equals("Discontinued")) {
-        status = "Discontinued";
-    } else {
-        status = (stock > 0) ? "AVAILABLE" : "Out of Stock";
-    }
-    
     if (jDateChooserExpiration.getDate() == null) {
         JOptionPane.showMessageDialog(null, "Please select expiration date!");
         return;
     }
 
-    java.util.Date utilDate = jDateChooserExpiration.getDate();
-    java.sql.Date expirationDate = new java.sql.Date(utilDate.getTime());
+    String name = txtNameProduct.getText().trim();
+    String category = txtAddCategoryProduct.getText().trim();
+    String description = txtAddDescrip.getText().trim();
+
+    String selectedName = cmbSupplier.getSelectedItem().toString();
+    int supplierId = supplierMap.get(selectedName);
+
+    String status = (stock > 0) ? "AVAILABLE" : "OUT OF STOCK";
+
+    java.sql.Date expirationDate =
+            new java.sql.Date(jDateChooserExpiration.getDate().getTime());
+
+    Connection con = DBConnection.getConnection();
+
+    String countSql = "SELECT COUNT(*) FROM products";
+    PreparedStatement pstCount = con.prepareStatement(countSql);
+    ResultSet rs = pstCount.executeQuery();
+
+    int next = 1;
+    if (rs.next()) {
+        next = rs.getInt(1) + 1;
+    }
+
+    String productNumber = String.format("PRO-%03d", next);
 
     String sql = "INSERT INTO products " +
-                 "(name, description, category, stock, price, supplier_id, status, date_added, expiration_date) " +
-                 "VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?)";
+            "(product_number, name, description, category, stock, price, supplier_id, status, date_added, expiration_date) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)";
 
-    Connection conn = DBConnection.getConnection(); 
-    PreparedStatement pst = conn.prepareStatement(sql);
+    PreparedStatement pst = con.prepareStatement(sql);
 
-    pst.setString(1, name);
-    pst.setString(2, description);
-    pst.setString(3, category);
-    pst.setInt(4, stock);
-    pst.setDouble(5, price);
-    pst.setInt(6, supplierId);
-    pst.setString(7, status);
-
-    pst.setDate(8, expirationDate);
+    pst.setString(1, productNumber);
+    pst.setString(2, name);
+    pst.setString(3, description);
+    pst.setString(4, category);
+    pst.setInt(5, stock);
+    pst.setDouble(6, price);
+    pst.setInt(7, supplierId);
+    pst.setString(8, status);
+    pst.setDate(9, expirationDate);
 
     pst.executeUpdate();
 
@@ -3665,11 +3720,11 @@ public class AdminDashboard extends javax.swing.JFrame {
     txtAddPrice.setText("");
 
     pst.close();
-    conn.close();
+    con.close();
 
 } catch (Exception e) {
-    JOptionPane.showMessageDialog(null, e.getMessage());
     e.printStackTrace();
+    JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
 }
 
     }//GEN-LAST:event_btnSaveProductActionPerformed
@@ -3771,44 +3826,45 @@ public class AdminDashboard extends javax.swing.JFrame {
         try {
     int row = tblProducts.getSelectedRow();
 
-    if (row == -1) {
-        JOptionPane.showMessageDialog(null, "Please select a row to update!");
+    if (row == -1) { 
+        JOptionPane.showMessageDialog(null, "Please select a row to update!"); 
         return;
-    }
+    } 
 
-    DefaultTableModel model = (DefaultTableModel) tblProducts.getModel();
+    DefaultTableModel model = (DefaultTableModel) tblProducts.getModel(); 
 
-    int productId = Integer.parseInt(model.getValueAt(row, 0).toString());
-    String name = model.getValueAt(row, 1).toString().trim();
+    int productId = Integer.parseInt(model.getValueAt(row, 0).toString()); 
+    
+    String name = model.getValueAt(row, 2).toString().trim();
 
     if (name.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Product name cannot be empty!");
+        JOptionPane.showMessageDialog(null, "Product name cannot be empty!"); 
         return;
     }
 
-    Connection con = DBConnection.getConnection();
+    Connection con = DBConnection.getConnection(); 
 
-    String sql = "UPDATE products SET name=? WHERE product_id=?";
-    PreparedStatement pst = con.prepareStatement(sql);
+    String sql = "UPDATE products SET name=? WHERE product_id=?"; 
+    PreparedStatement pst = con.prepareStatement(sql); 
 
-    pst.setString(1, name);
-    pst.setInt(2, productId);
+    pst.setString(1, name); 
+    pst.setInt(2, productId); 
 
-    int updated = pst.executeUpdate();
+    int updated = pst.executeUpdate(); 
 
-    if (updated > 0) {
-        model.setValueAt(name, row, 1); 
+    if (updated > 0) { 
+        model.setValueAt(name, row, 2);
         JOptionPane.showMessageDialog(null, "Product name updated successfully!");
-    } else {
-        JOptionPane.showMessageDialog(null, "Update failed! Product not found.");
-    }
+    } else { 
+        JOptionPane.showMessageDialog(null, "Update failed! Product not found."); 
+    } 
 
-    pst.close();
-    con.close();
+    pst.close(); 
+    con.close(); 
 
-} catch (Exception e) {
-    e.printStackTrace();
-    JOptionPane.showMessageDialog(null, "Update failed: " + e.getMessage());
+} catch (Exception e) { 
+    e.printStackTrace(); 
+    JOptionPane.showMessageDialog(null, "Update failed: " + e.getMessage()); 
 }
     }//GEN-LAST:event_btnProductUpdateActionPerformed
 
