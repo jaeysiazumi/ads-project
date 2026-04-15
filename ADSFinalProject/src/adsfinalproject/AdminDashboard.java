@@ -201,8 +201,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         loadStaffTable(statusFilter);
 
     });
-        
-        loadDashboardOrders();
+       
         loadStatusFilter();
         loadProductsTable("", "All");
         loadSuppliers("", "All");
@@ -396,7 +395,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
     
      public void loadDashboardTable() {
-        String sql = "SELECT order_id, customer_name, total_amount, order_type, status, order_date FROM orders";
+        String sql =
+                       "SELECT order_id, order_number, customer_name, total_amount, order_type, status, order_date FROM orders";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement pst = con.prepareStatement(sql);
@@ -408,6 +408,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             while (rs.next()) {
                 model.addRow(new Object[]{
                     rs.getInt("order_id"),
+                    rs.getString("order_number"),
                     rs.getString("customer_name"),
                     rs.getDouble("total_amount"),
                     rs.getString("order_type"),
@@ -415,6 +416,10 @@ public class AdminDashboard extends javax.swing.JFrame {
                     rs.getString("order_date")
                 });
             }
+            
+            tblDashboard.getColumnModel().getColumn(0).setMinWidth(0);
+            tblDashboard.getColumnModel().getColumn(0).setMaxWidth(0);
+            tblDashboard.getColumnModel().getColumn(0).setWidth(0);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error loading dashboard table: " + e.getMessage());
@@ -569,31 +574,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     String statusFilter = (selectedItem != null) ? selectedItem.toString() : "All";
 
     loadProductsTable(searchText, statusFilter);
-}
-        private void loadDashboardOrders() {
-            try {
-                Connection conn = DBConnection.getConnection();
 
-                String sql = "SELECT order_id, customer_name, total_amount, order_type, status, order_date FROM orders";
-                PreparedStatement pst = conn.prepareStatement(sql);
-                ResultSet rs = pst.executeQuery();
-
-                DefaultTableModel model = (DefaultTableModel) tblDashboard.getModel();
-                model.setRowCount(0);
-                while (rs.next()) {
-                    model.addRow(new Object[]{
-                        rs.getInt("order_id"),
-                        rs.getString("customer_name"),
-                        rs.getDouble("total_amount"),
-                        rs.getString("order_type"),
-                        rs.getString("status"),
-                        rs.getString("order_date")
-                    });
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
                 }
         public void updatePendingTransactions() {
             String sql = "SELECT COUNT(*) AS totalPending FROM orders WHERE status='PENDING' OR status='PAID'";
@@ -659,8 +640,8 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         while (rs.next()) {
             model.addRow(new Object[]{
-                rs.getInt("order_id"),              // 🔥 hidden
-                rs.getString("order_number"),       // 🔥 ORD-001
+                rs.getInt("order_id"),              
+                rs.getString("order_number"),       
                 rs.getString("customer_name"),
                 rs.getDate("order_date"),
                 "₱" + String.format("%.2f", rs.getDouble("total_amount")),
@@ -669,7 +650,6 @@ public class AdminDashboard extends javax.swing.JFrame {
             });
         }
 
-        // 🔥 HIDE ID COLUMN
         tblOrder.getColumnModel().getColumn(0).setMinWidth(0);
         tblOrder.getColumnModel().getColumn(0).setMaxWidth(0);
         tblOrder.getColumnModel().getColumn(0).setWidth(0);
@@ -800,12 +780,12 @@ public class AdminDashboard extends javax.swing.JFrame {
     try {
         Connection conn = DBConnection.getConnection();
 
-        String sql =
-                        "SELECT p.payment_id, p.order_id, p.payment_number, o.order_number, " +
+        
+        String sql =   "SELECT p.payment_id, p.order_id, p.payment_number, o.order_number, " +
                         "p.total_amount, p.payment_type, p.status, p.payment_date " +
-"FROM tblpayment p " +
-"JOIN orders o ON p.order_id = o.order_id " +
-"WHERE 1=1";
+                        "FROM tblpayment p " +
+                        "JOIN orders o ON p.order_id = o.order_id " +
+                        "WHERE 1=1";
 
         if (!searchText.isEmpty()) {
             sql += " AND p.payment_number LIKE ?";
@@ -2845,13 +2825,13 @@ public class AdminDashboard extends javax.swing.JFrame {
         tblDashboard.setBackground(new java.awt.Color(255, 255, 255));
         tblDashboard.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Order ID", "Customer", "Total", "Order Type", "Status", "Date"
+                "Order ID", "Order Number", "Customer", "Total", "Order Type", "Status", "Date"
             }
         ));
         jScrollPane2.setViewportView(tblDashboard);
@@ -3137,7 +3117,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
        setActive("dashboard");
-       loadDashboardOrders();
+       loadDashboardTable();
         CardLayout cl = (CardLayout)(jPanel2.getLayout());
             cl.show(jPanel2, "dashboard");
     }//GEN-LAST:event_btnDashboardActionPerformed
