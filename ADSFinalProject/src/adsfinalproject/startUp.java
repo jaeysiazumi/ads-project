@@ -74,6 +74,30 @@ public class startUp extends javax.swing.JFrame {
             btnLogAdmin.setIcon(add);
     }
     }
+    private String getNextUserNumber() {
+    String nextNumber = "USR-001";
+
+    try {
+        Connection con = DBConnection.getConnection();
+        String sql = "SELECT users_number FROM users ORDER BY id DESC LIMIT 1";
+        PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String lastNumber = rs.getString("users_number");
+
+            if (lastNumber != null && lastNumber.startsWith("USR-")) {
+                int num = Integer.parseInt(lastNumber.replace("USR-", ""));
+                nextNumber = String.format("USR-%03d", num + 1);
+            }
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return nextNumber;
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -421,14 +445,17 @@ public class startUp extends javax.swing.JFrame {
             return;
         }
         
-        PreparedStatement pst = con.prepareStatement(
-            "INSERT INTO users(username, email, password, role) VALUES (?, ?, ?, ?)"
-        );
 
-        pst.setString(1, username);
-        pst.setString(2, email);
-        pst.setString(3, pass);
-        pst.setString(4, selectedRole); 
+        String usersNumber = getNextUserNumber();
+        
+        PreparedStatement pst = con.prepareStatement(
+        "INSERT INTO users(users_number, username, email, password, role) VALUES (?, ?, ?, ?, ?)"
+    );
+        pst.setString(1, usersNumber);
+        pst.setString(2, username);
+        pst.setString(3, email);
+        pst.setString(4, pass);
+        pst.setString(5, selectedRole);
 
         int result = pst.executeUpdate();
 

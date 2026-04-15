@@ -430,7 +430,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     DefaultTableModel model = (DefaultTableModel) tblCustomer.getModel();
     model.setRowCount(0);
 
-    String sql = "SELECT id, username, email, contact_no, status, role FROM users WHERE 1=1";
+    String sql = "SELECT id, users_number, username, email, contact_no, status, role FROM users WHERE 1=1";
 
     if (role != null && !role.isEmpty()) {
         sql += " AND role = ?";
@@ -468,7 +468,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         while (rs.next()) {
 
             Object[] row = new Object[] {
-                formatUserId(rs.getInt("id")),
+                rs.getString("users_number"),
                 rs.getString("username"),
                 rs.getString("email"),
                 rs.getString("contact_no"),
@@ -942,15 +942,18 @@ public class AdminDashboard extends javax.swing.JFrame {
         return;
     }
 
-    String sql = "INSERT INTO users (username, email, contact_no, password, role, status) VALUES (?, ?, ?, ?, 'staff', 'Active')";
+    String sql = "INSERT INTO users (users_number, username, email, contact_no, password, role, status) VALUES (?, ?, ?, ?, ?, 'staff', 'Active')";
 
     try (Connection conn = DBConnection.getConnection();
          PreparedStatement pst = conn.prepareStatement(sql)) {
 
-        pst.setString(1, name);
-        pst.setString(2, email);
-        pst.setString(3, contact);
-        pst.setString(4, "123456");
+        String usersNumber = getNextUserNumber();
+
+        pst.setString(1, usersNumber);
+        pst.setString(2, name);
+        pst.setString(3, email);
+        pst.setString(4, contact);
+        pst.setString(5, "123456");
         
 
         pst.executeUpdate();
@@ -1541,11 +1544,32 @@ public class AdminDashboard extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Unknown status: " + currentStatus);
             }
         }
-    private String formatUserId(int id) {
-    return String.format("USR-%03d", id);
-}
     private String formatStaffId(int id) {
     return String.format("STAFF-%03d", id);
+}
+    private String getNextUserNumber() {
+    String nextNumber = "USR-001";
+
+    try (Connection con = DBConnection.getConnection()) {
+
+        String sql = "SELECT users_number FROM users ORDER BY id DESC LIMIT 1";
+        PreparedStatement pst = con.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String lastNumber = rs.getString("users_number");
+
+            if (lastNumber != null && lastNumber.startsWith("USR-")) {
+                int num = Integer.parseInt(lastNumber.replace("USR-", ""));
+                nextNumber = String.format("USR-%03d", num + 1);
+            }
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return nextNumber;
 }
 
      
