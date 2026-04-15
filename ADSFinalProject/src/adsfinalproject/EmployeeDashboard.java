@@ -291,100 +291,116 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     }
 
         public void loadOrders() {
-    try {
-        Connection con = DBConnection.getConnection();
+            try {
+                Connection con = DBConnection.getConnection();
 
-        String sql = "SELECT * FROM orders";
-        PreparedStatement pst = con.prepareStatement(sql);
-        ResultSet rs = pst.executeQuery();
+                String sql = "SELECT order_id, order_number, customer_name, order_date, total_amount, order_type, status FROM orders";
+                PreparedStatement pst = con.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
 
-        DefaultTableModel model = (DefaultTableModel) tblOrders.getModel();
-        model.setRowCount(0);
+                DefaultTableModel model = (DefaultTableModel) tblOrders.getModel();
+                model.setRowCount(0);
 
-        while (rs.next()) {
-            model.addRow(new Object[]{
-                rs.getInt("order_id"),
-                rs.getString("customer_name"),
-                rs.getDate("order_date"),
-                rs.getDouble("total_amount"),
-                rs.getString("order_type"),
-                rs.getString("status")
-            });
-        }
+                while (rs.next()) {
+                    model.addRow(new Object[]{
+                        rs.getString("order_number"),   
+                        rs.getString("customer_name"),
+                        rs.getDate("order_date"),
+                        rs.getDouble("total_amount"),
+                        rs.getString("order_type"),
+                        rs.getString("status"),
+                        rs.getInt("order_id")           
+                    });
+                }
 
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, e.getMessage());
-    }
+                tblOrders.getColumnModel().getColumn(6).setMinWidth(0);
+                tblOrders.getColumnModel().getColumn(6).setMaxWidth(0);
+                tblOrders.getColumnModel().getColumn(6).setWidth(0);
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
         }
         
     public void searchOrders(String keyword) {
-    try {
-        Connection con = DBConnection.getConnection();
+            try {
+                Connection con = DBConnection.getConnection();
 
-        String sql = "SELECT * FROM orders WHERE customer_name LIKE ? OR order_id LIKE ?";
-        PreparedStatement pst = con.prepareStatement(sql);
+                String sql = "SELECT order_id, order_number, customer_name, order_date, total_amount, order_type, status " +
+                             "FROM orders WHERE customer_name LIKE ? OR order_number LIKE ?";
+                PreparedStatement pst = con.prepareStatement(sql);
 
-        pst.setString(1, "%" + keyword + "%");
-        pst.setString(2, "%" + keyword + "%");
+                pst.setString(1, "%" + keyword + "%");
+                pst.setString(2, "%" + keyword + "%");
 
-        ResultSet rs = pst.executeQuery();
+                ResultSet rs = pst.executeQuery();
 
-        DefaultTableModel model = (DefaultTableModel) tblOrders.getModel();
-        model.setRowCount(0);
+                DefaultTableModel model = (DefaultTableModel) tblOrders.getModel();
+                model.setRowCount(0);
 
-        while (rs.next()) {
-            model.addRow(new Object[]{
-                rs.getInt("order_id"),
-                rs.getString("customer_name"),
-                rs.getDate("order_date"),
-                rs.getDouble("total_amount"),
-                rs.getString("order_type"),
-                rs.getString("status")
-            });
+                while (rs.next()) {
+                    model.addRow(new Object[]{
+                        rs.getString("order_number"),
+                        rs.getString("customer_name"),
+                        rs.getDate("order_date"),
+                        rs.getDouble("total_amount"),
+                        rs.getString("order_type"),
+                        rs.getString("status"),
+                        rs.getInt("order_id")
+                    });
+                }
+
+                tblOrders.getColumnModel().getColumn(6).setMinWidth(0);
+                tblOrders.getColumnModel().getColumn(6).setMaxWidth(0);
+                tblOrders.getColumnModel().getColumn(6).setWidth(0);
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
         }
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, e.getMessage());
-    }
-    }
     
     public void filterByStatus(String status) {
-    try {
-        Connection con = DBConnection.getConnection();
+        try {
+            Connection con = DBConnection.getConnection();
 
-        String sql;
+            String sql;
 
-        if (status.equals("Default")) {
-            sql = "SELECT * FROM orders";
-        } else {
-            sql = "SELECT * FROM orders WHERE status = ?";
+            if (status.equals("Default")) {
+                sql = "SELECT order_id, order_number, customer_name, order_date, total_amount, order_type, status FROM orders";
+            } else {
+                sql = "SELECT order_id, order_number, customer_name, order_date, total_amount, order_type, status FROM orders WHERE status = ?";
+            }
+
+            PreparedStatement pst = con.prepareStatement(sql);
+
+            if (!status.equals("Default")) {
+                pst.setString(1, status);
+            }
+
+            ResultSet rs = pst.executeQuery();
+
+            DefaultTableModel model = (DefaultTableModel) tblOrders.getModel();
+            model.setRowCount(0);
+
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getString("order_number"),
+                    rs.getString("customer_name"),
+                    rs.getDate("order_date"),
+                    rs.getDouble("total_amount"),
+                    rs.getString("order_type"),
+                    rs.getString("status"),
+                    rs.getInt("order_id")
+                });
+            }
+
+            tblOrders.getColumnModel().getColumn(6).setMinWidth(0);
+            tblOrders.getColumnModel().getColumn(6).setMaxWidth(0);
+            tblOrders.getColumnModel().getColumn(6).setWidth(0);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
-
-        PreparedStatement pst = con.prepareStatement(sql);
-
-        if (!status.equals("Default")) {
-            pst.setString(1, status);
-        }
-
-        ResultSet rs = pst.executeQuery();
-
-        DefaultTableModel model = (DefaultTableModel) tblOrders.getModel();
-        model.setRowCount(0);
-
-        while (rs.next()) {
-            model.addRow(new Object[]{
-                rs.getInt("order_id"),
-                rs.getString("customer_name"),
-                rs.getDate("order_date"),
-                rs.getDouble("total_amount"),
-                rs.getString("order_type"),
-                rs.getString("status")
-            });
-        }
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, e.getMessage());
-    }
     }
       public void loadDashboardTable() {
 
@@ -1416,13 +1432,13 @@ public String getNextOrderNumber() {
         tblOrders.setBackground(new java.awt.Color(255, 255, 255));
         tblOrders.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Name", "Date", "Total", "Order Type", "Status"
+                "Order Number", "Name", "Date", "Total", "Order Type", "Status", "Order ID"
             }
         ));
         jScrollPane12.setViewportView(tblOrders);
