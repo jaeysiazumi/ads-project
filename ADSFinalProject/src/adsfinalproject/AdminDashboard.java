@@ -468,7 +468,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         while (rs.next()) {
 
             Object[] row = new Object[] {
-                rs.getInt("id"),
+                formatUserId(rs.getInt("id")),
                 rs.getString("username"),
                 rs.getString("email"),
                 rs.getString("contact_no"),
@@ -1541,6 +1541,9 @@ public class AdminDashboard extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Unknown status: " + currentStatus);
             }
         }
+    private String formatUserId(int id) {
+    return String.format("USR-%03d", id);
+}
 
      
     
@@ -2535,7 +2538,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 btnCusDelActionPerformed(evt);
             }
         });
-        jPanel5.add(btnCusDel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 740, 70, 30));
+        jPanel5.add(btnCusDel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 730, 70, 30));
 
         btnCusEdit.setBackground(new java.awt.Color(255, 255, 255));
         btnCusEdit.setText("-");
@@ -2547,7 +2550,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 btnCusEditActionPerformed(evt);
             }
         });
-        jPanel5.add(btnCusEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 740, 70, 30));
+        jPanel5.add(btnCusEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 730, 70, 30));
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/Usersimnida.png"))); // NOI18N
         jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1277, -1));
@@ -3753,25 +3756,28 @@ try {
         // TODO add your handling code here:
      int row = tblCustomer.getSelectedRow();
 
-    if (row == -1) {
-    JOptionPane.showMessageDialog(null, "Select a user first!");
-    return;
-}
+        if (row == -1) {
+            JOptionPane.showMessageDialog(null, "Select a user first!");
+            return;
+        }
 
-    UsersDialog dialog = new UsersDialog(this, true);
+        String rawId = tblCustomer.getValueAt(row, 0).toString();
+        int userId = Integer.parseInt(rawId.replace("USR-", ""));
 
-    dialog.setUserData(
-    Integer.parseInt(tblCustomer.getValueAt(row, 0).toString()),
-    tblCustomer.getValueAt(row, 1).toString(),
-    tblCustomer.getValueAt(row, 2).toString(),
-    tblCustomer.getValueAt(row, 3).toString(),
-    tblCustomer.getValueAt(row, 4).toString()
-);
+        UsersDialog dialog = new UsersDialog(this, true);
 
-    dialog.setLocationRelativeTo(this);
-    dialog.setVisible(true);
+        dialog.setUserData(
+            userId,
+            tblCustomer.getValueAt(row, 1).toString(),
+            tblCustomer.getValueAt(row, 2).toString(),
+            tblCustomer.getValueAt(row, 3).toString(),
+            tblCustomer.getValueAt(row, 4).toString()
+        );
 
-    loadUsersTable("", "", "All"); 
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+
+        loadUsersTable("", "", "All");
 
     }//GEN-LAST:event_btnCusEditActionPerformed
 
@@ -3784,7 +3790,8 @@ try {
         return;
     }
 
-    int id = Integer.parseInt(tblCustomer.getValueAt(row, 0).toString());
+    String rawId = tblCustomer.getValueAt(row, 0).toString();
+    int id = Integer.parseInt(rawId.replace("USR-", ""));
     String username = tblCustomer.getValueAt(row, 1).toString();
 
     int confirm = JOptionPane.showConfirmDialog(
