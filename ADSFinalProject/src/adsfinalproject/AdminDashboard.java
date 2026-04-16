@@ -19,6 +19,7 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JButton;
@@ -1590,6 +1591,70 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     return nextNumber;
 }
+    
+    public void loadProductReportByDate(Date date) {
+    try {
+        Connection con = DBConnection.getConnection();
+
+        String sql = 
+        "SELECT p.name, SUM(oi.quantity), SUM(oi.quantity * oi.price), DATE(o.order_date) " +
+        "FROM order_items oi " +
+        "JOIN products p ON oi.product_id = p.product_id " +
+        "JOIN orders o ON oi.order_id = o.order_id " +
+        "WHERE o.status='COMPLETED' AND DATE(o.order_date) = ? " +
+        "GROUP BY p.name, DATE(o.order_date)";
+
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setDate(1, new java.sql.Date(date.getTime()));
+
+        ResultSet rs = pst.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) tblProductReport.getModel();
+        model.setRowCount(0);
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getString(1),
+                rs.getInt(2),
+                rs.getDouble(3),
+                rs.getString(4)
+            });
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    }
+    
+    public void loadCustomerReportByDate(Date date) {
+    try {
+        Connection con = DBConnection.getConnection();
+
+        String sql = "SELECT * FROM customer_report_view WHERE DATE(last_order_date) = ?";
+        PreparedStatement pst = con.prepareStatement(sql);
+
+        pst.setDate(1, new java.sql.Date(date.getTime()));
+
+        ResultSet rs = pst.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) tblCustomerReports.getModel();
+        model.setRowCount(0);
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getString("customer_name"),
+                rs.getInt("total_orders"),
+                rs.getInt("total_items"),
+                rs.getDouble("total_amount"),
+                rs.getString("last_order_date")
+            });
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    }
+
 
      
     
@@ -1621,6 +1686,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         tblCustomerReports = new javax.swing.JTable();
         dcReportsDate = new com.toedter.calendar.JDateChooser();
         jComboBox1 = new javax.swing.JComboBox<>();
+        btnPrintReports = new javax.swing.JButton();
         txtSearchReport = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
@@ -1948,6 +2014,17 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
         });
         jPanel8.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 150, 140, -1));
+
+        btnPrintReports.setBackground(new java.awt.Color(255, 255, 255));
+        btnPrintReports.setForeground(new java.awt.Color(0, 0, 0));
+        btnPrintReports.setText("Print");
+        btnPrintReports.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnPrintReports.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrintReportsActionPerformed(evt);
+            }
+        });
+        jPanel8.add(btnPrintReports, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 100, 160, -1));
 
         txtSearchReport.setBackground(new java.awt.Color(255, 255, 255));
         txtSearchReport.setForeground(new java.awt.Color(0, 0, 0));
@@ -4164,6 +4241,36 @@ try {
             e.printStackTrace();
         }
     }//GEN-LAST:event_btnPrintPaymentsActionPerformed
+
+    private void btnPrintReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintReportsActionPerformed
+        // TODO add your handling code here:
+         
+    Date selectedDate = dcReportsDate.getDate();
+
+    if (selectedDate == null) {
+        JOptionPane.showMessageDialog(this, "Please select a date first!");
+        return;
+    }
+
+    loadCustomerReportByDate(selectedDate);
+    loadProductReportByDate(selectedDate);
+
+    try {
+      
+        MessageFormat header1 = new MessageFormat("CUSTOMER REPORT - " + selectedDate);
+        MessageFormat footer1 = new MessageFormat("Page {0}");
+
+        tblCustomerReports.print(JTable.PrintMode.FIT_WIDTH, header1, footer1);
+
+        MessageFormat header2 = new MessageFormat("PRODUCT REPORT - " + selectedDate);
+        MessageFormat footer2 = new MessageFormat("Page {0}");
+
+        tblProductReport.print(JTable.PrintMode.FIT_WIDTH, header2, footer2);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    }//GEN-LAST:event_btnPrintReportsActionPerformed
     
     /**
      * @param args the command line arguments
@@ -4224,6 +4331,7 @@ try {
     private javax.swing.JButton btnOrders;
     private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnPrintPayments;
+    private javax.swing.JButton btnPrintReports;
     private javax.swing.JButton btnProductUpdate;
     private javax.swing.JButton btnProducts;
     private javax.swing.JButton btnReports;
