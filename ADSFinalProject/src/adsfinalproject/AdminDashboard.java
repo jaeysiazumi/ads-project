@@ -17,10 +17,12 @@ import java.awt.Graphics2D;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JButton;
+import javax.swing.JTable;
 
 /**
  *
@@ -1686,6 +1688,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnOrdVerifyPay1 = new javax.swing.JButton();
         btnOrdDel3 = new javax.swing.JButton();
         btnOrdEdit4 = new javax.swing.JButton();
+        btnPrintPayments = new javax.swing.JButton();
         cmbStatus2 = new javax.swing.JComboBox<>();
         txtPaymentSearch = new javax.swing.JTextField();
         jScrollPane11 = new javax.swing.JScrollPane();
@@ -2446,6 +2449,18 @@ public class AdminDashboard extends javax.swing.JFrame {
         btnOrdEdit4.setBorderPainted(false);
         btnOrdEdit4.setContentAreaFilled(false);
         jPanel13.add(btnOrdEdit4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 740, 70, 30));
+
+        btnPrintPayments.setBackground(new java.awt.Color(204, 204, 204));
+        btnPrintPayments.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnPrintPayments.setForeground(new java.awt.Color(0, 0, 0));
+        btnPrintPayments.setText("Print");
+        btnPrintPayments.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnPrintPayments.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrintPaymentsActionPerformed(evt);
+            }
+        });
+        jPanel13.add(btnPrintPayments, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 740, 130, 30));
 
         cmbStatus2.setBackground(new java.awt.Color(255, 255, 255));
         cmbStatus2.setForeground(new java.awt.Color(51, 51, 51));
@@ -4128,6 +4143,27 @@ try {
         pnlOrder.setVisible(true);
         pnlView.setVisible(false);
     }//GEN-LAST:event_btnOrdBack1ActionPerformed
+
+    private void btnPrintPaymentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintPaymentsActionPerformed
+        // TODO add your handling code here:
+        try{
+            MessageFormat header = new MessageFormat("PAYMENT TABLE");
+            MessageFormat footer = new MessageFormat("Page {0}");
+            
+            boolean complete = tblPayment.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+            
+            if (complete) {
+                JOptionPane.showMessageDialog(this, "Printed succesfully!");
+
+                
+            }else{
+                JOptionPane.showMessageDialog(this, "Printing cancelled");
+            }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnPrintPaymentsActionPerformed
     
     /**
      * @param args the command line arguments
@@ -4187,6 +4223,7 @@ try {
     private javax.swing.JButton btnOrderView;
     private javax.swing.JButton btnOrders;
     private javax.swing.JButton btnPrint;
+    private javax.swing.JButton btnPrintPayments;
     private javax.swing.JButton btnProductUpdate;
     private javax.swing.JButton btnProducts;
     private javax.swing.JButton btnReports;
